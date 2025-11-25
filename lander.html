@@ -36,10 +36,12 @@
 
         /* Custom Sliders for GNC Tuner */
         input[type=range] { 
-            -webkit-appearance: none; 
+            appearance: none;           /* Standard */
+            -webkit-appearance: none;   /* WebKit fallback */
             width: 100%; 
             background: transparent; 
         }
+
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; 
             height: 12px; 
@@ -50,6 +52,7 @@
             margin-top: -5px; 
             border: 1px solid #000;
         }
+
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%; 
             height: 2px; 
@@ -73,130 +76,136 @@
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
-                <i class="fas fa-arrow-left"></i>
-                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
-            </a>
-        </div>
-    </nav>
+<nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-arrow-left"></i>
+            <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+        </a>
 
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
-            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-                <img src="images/gnc.png" alt="GNC Logo" class="h-full w-full object-contain p-2" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-rocket text-4xl text-white\'></i>'">
-            </div>
-            <div>
-                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">GNC Control Playground</h1>
-                <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Interactive Simulation</p>
-            </div>
+        <!-- Personal Project badge -->
+        <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
+            <span class="hidden md:inline">Personal Project</span>
+            <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
         </div>
+    </div>
+</nav>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+        <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+            <img src="images/gnc.png" alt="GNC Logo" class="h-full w-full object-contain p-2" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-rocket text-4xl text-white\'></i>'">
+        </div>
+        <div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">GNC Control Playground</h1>
+            <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Interactive Simulation</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+        
+        <div class="lg:col-span-1 space-y-8">
             
-            <div class="lg:col-span-1 space-y-8">
-                
-                <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">System Architecture</h3>
-                    <p class="text-gray-300 leading-relaxed text-sm font-light">
-                        A real-time physics engine simulating a 1D vertical landing scenario. The system uses a standard PID controller to modulate thrust vectoring against gravity (9.81 m/s²) and stochastic wind disturbances.
-                    </p>
-                </div>
-
-                <div class="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm">
-                    
-                    <div class="mb-8">
-                        <h4 class="text-[10px] text-gray-500 mb-3 uppercase tracking-widest font-bold">1. Behavior Profile</h4>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="setPreset('optimal')" id="btn-optimal" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest bg-blue-600 text-white border-blue-500">Optimal</button>
-                            <button onclick="setPreset('under')" id="btn-under" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest">Oscillatory</button>
-                            <button onclick="setPreset('over')" id="btn-over" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest">Sluggish</button>
-                            <button onclick="setPreset('unstable')" id="btn-unstable" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-red-400 hover:text-red-200 text-[10px] uppercase tracking-widest">Unstable</button>
-                        </div>
-                    </div>
-
-                    <div class="space-y-5 border-t border-white/10 pt-6 mb-8">
-                        <div class="flex justify-between items-center">
-                            <h4 class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">2. PID Gains</h4>
-                            <span class="text-[9px] text-blue-500">100HZ LOOP</span>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-[10px] mb-1">
-                                <span class="text-gray-300">Kp (Proportional)</span>
-                                <span id="val-kp" class="text-white font-mono">2.0</span>
-                            </div>
-                            <input type="range" id="slider-kp" min="0" max="8" step="0.1" value="2.0">
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-[10px] mb-1">
-                                <span class="text-gray-300">Kd (Derivative)</span>
-                                <span id="val-kd" class="text-white font-mono">1.5</span>
-                            </div>
-                            <input type="range" id="slider-kd" min="0" max="5" step="0.1" value="1.5">
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-[10px] mb-1">
-                                <span class="text-gray-300">Ki (Integral)</span>
-                                <span id="val-ki" class="text-white font-mono">0.0</span>
-                            </div>
-                            <input type="range" id="slider-ki" min="0" max="1" step="0.01" value="0.0">
-                        </div>
-                    </div>
-
-                    <button onmousedown="applyWind()" onmouseup="stopWind()" 
-                        class="w-full py-3 border border-white/20 bg-white/5 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 active:bg-white/20 transition-all">
-                        <i class="fas fa-wind"></i> Inject Wind Gust
-                    </button>
-                </div>
-
-                <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Core Tech</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Control Theory</span>
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">JS Physics</span>
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Real-time Plotting</span>
-                    </div>
-                </div>
-
+            <div>
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">System Architecture</h3>
+                <p class="text-gray-300 leading-relaxed text-sm font-light">
+                    A real-time physics engine simulating a 1D vertical landing scenario. The system uses a standard PID controller to modulate thrust vectoring against gravity (9.81 m/s²) and stochastic wind disturbances.
+                </p>
             </div>
 
-            <div class="lg:col-span-2 flex flex-col gap-4">
+            <div class="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm">
                 
-                <div class="w-full bg-black border border-white/10 relative h-[500px] overflow-hidden">
-                    <div class="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-[#0a0a0a] absolute top-0 w-full z-10">
-                        <div class="flex gap-2 items-center">
-                            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Live Telemetry</h3>
+                <div class="mb-8">
+                    <h4 class="text-[10px] text-gray-500 mb-3 uppercase tracking-widest font-bold">1. Behavior Profile</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setPreset('optimal')" id="btn-optimal" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest bg-blue-600 text-white border-blue-500">Optimal</button>
+                        <button onclick="setPreset('under')" id="btn-under" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest">Oscillatory</button>
+                        <button onclick="setPreset('over')" id="btn-over" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest">Sluggish</button>
+                        <button onclick="setPreset('unstable')" id="btn-unstable" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-red-400 hover:text-red-200 text-[10px] uppercase tracking-widest">Unstable</button>
+                    </div>
+                </div>
+
+                <div class="space-y-5 border-t border-white/10 pt-6 mb-8">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">2. PID Gains</h4>
+                        <span class="text-[9px] text-blue-500">100HZ LOOP</span>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-[10px] mb-1">
+                            <span class="text-gray-300">Kp (Proportional)</span>
+                            <span id="val-kp" class="text-white font-mono">2.0</span>
                         </div>
-                        <div class="font-mono text-[10px] text-gray-500">T-TIME: <span id="sim-time" class="text-white">0.00s</span></div>
+                        <input type="range" id="slider-kp" min="0" max="8" step="0.1" value="2.0">
                     </div>
-
-                    <canvas id="simCanvas" class="w-full h-full block mt-8"></canvas>
-                    <div class="absolute inset-0 crt-overlay pointer-events-none mt-8"></div>
-
-                    <div class="absolute top-12 left-4 font-mono text-xs text-white/80 space-y-1 pointer-events-none">
-                        <div>ALTITUDE: <span id="hud-alt" class="font-bold">00.0 m</span></div>
-                        <div>VELOCITY: <span id="hud-vel" class="font-bold">00.0 m/s</span></div>
-                        <div>G-FORCE: <span id="hud-g" class="font-bold text-blue-400">1.0 G</span></div>
+                    <div>
+                        <div class="flex justify-between text-[10px] mb-1">
+                            <span class="text-gray-300">Kd (Derivative)</span>
+                            <span id="val-kd" class="text-white font-mono">1.5</span>
+                        </div>
+                        <input type="range" id="slider-kd" min="0" max="5" step="0.1" value="1.5">
                     </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4 h-40">
-                    <div class="bg-[#0a0a0a] border border-white/10 relative p-2">
-                        <div class="absolute top-2 left-2 text-[9px] text-gray-500 uppercase font-bold z-10">Altitude Response</div>
-                        <div id="plot-alt" class="w-full h-full"></div>
-                    </div>
-                    <div class="bg-[#0a0a0a] border border-white/10 relative p-2">
-                        <div class="absolute top-2 left-2 text-[9px] text-gray-500 uppercase font-bold z-10">Thrust Effort</div>
-                        <div id="plot-thrust" class="w-full h-full"></div>
+                    <div>
+                        <div class="flex justify-between text-[10px] mb-1">
+                            <span class="text-gray-300">Ki (Integral)</span>
+                            <span id="val-ki" class="text-white font-mono">0.0</span>
+                        </div>
+                        <input type="range" id="slider-ki" min="0" max="1" step="0.01" value="0.0">
                     </div>
                 </div>
 
+                <button onmousedown="applyWind()" onmouseup="stopWind()" 
+                    class="w-full py-3 border border-white/20 bg-white/5 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 active:bg-white/20 transition-all">
+                    <i class="fas fa-wind"></i> Inject Wind Gust
+                </button>
             </div>
+
+            <div>
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Core Tech</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Control Theory</span>
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">JS Physics</span>
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Real-time Plotting</span>
+                </div>
+            </div>
+
         </div>
-    </main>
+
+        <div class="lg:col-span-2 flex flex-col gap-4">
+            
+            <div class="w-full bg-black border border-white/10 relative h-[500px] overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-[#0a0a0a] absolute top-0 w-full z-10">
+                    <div class="flex gap-2 items-center">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Live Telemetry</h3>
+                    </div>
+                    <div class="font-mono text-[10px] text-gray-500">T-TIME: <span id="sim-time" class="text-white">0.00s</span></div>
+                </div>
+
+                <canvas id="simCanvas" class="w-full h-full block mt-8"></canvas>
+                <div class="absolute inset-0 crt-overlay pointer-events-none mt-8"></div>
+
+                <div class="absolute top-12 left-4 font-mono text-xs text-white/80 space-y-1 pointer-events-none">
+                    <div>ALTITUDE: <span id="hud-alt" class="font-bold">00.0 m</span></div>
+                    <div>VELOCITY: <span id="hud-vel" class="font-bold">00.0 m/s</span></div>
+                    <div>G-FORCE: <span id="hud-g" class="font-bold text-blue-400">1.0 G</span></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 h-40">
+                <div class="bg-[#0a0a0a] border border-white/10 relative p-2">
+                    <div class="absolute top-2 left-2 text-[9px] text-gray-500 uppercase font-bold z-10">Altitude Response</div>
+                    <div id="plot-alt" class="w-full h-full"></div>
+                </div>
+                <div class="bg-[#0a0a0a] border border-white/10 relative p-2">
+                    <div class="absolute top-2 left-2 text-[9px] text-gray-500 uppercase font-bold z-10">Thrust Effort</div>
+                    <div id="plot-thrust" class="w-full h-full"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
 
 <script>
     function goBackToHub() {
@@ -389,17 +398,15 @@
         requestAnimationFrame(loop);
     }
 
-const plotLayout = {
-    paper_bgcolor: 'transparent',
-    plot_bgcolor: 'transparent',
-    font: { color: '#64748b', family: 'JetBrains Mono', size: 9 },
-    // increase top margin so the 40k label moves down
-    margin: { t: 30, r: 5, b: 20, l: 30 },
-    xaxis: { showgrid: false, showticklabels: false },
-    yaxis: { gridcolor: '#1e293b' },
-    showlegend: false
-};
-
+    const plotLayout = {
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { color: '#64748b', family: 'JetBrains Mono', size: 9 },
+        margin: { t: 30, r: 5, b: 20, l: 30 },
+        xaxis: { showgrid: false, showticklabels: false },
+        yaxis: { gridcolor: '#1e293b' },
+        showlegend: false
+    };
 
     function updatePlots() {
         Plotly.react('plot-alt', [
