@@ -1329,19 +1329,20 @@ setInterval(() => {
             document.getElementById('metar-data').textContent = metarData[metarIndex];
         }, 4000);
 
-        // --- 3. KEYBOARD CONTROLS ---
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal('project-modal');
-                closeModal('hub-modal');
-            }
-            if (e.shiftKey && e.key.toLowerCase() === 'r') {
-                window.open('Enrique_Garcia_Resume.pdf', '_blank');
-            }
-            if (e.shiftKey && e.key.toLowerCase() === 'f') {
-                document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+   // --- 3. KEYBOARD CONTROLS ---
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeModal('project-modal');
+        closeModal('hub-modal');
+    }
+    if (e.shiftKey && e.key.toLowerCase() === 'r') {
+        window.open('resume.html', '_blank');
+    }
+    if (e.shiftKey && e.key.toLowerCase() === 'f') {
+        document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
+    }
+});
+
 
         // --- 4. SMART COPY ---
         function copyEmail() {
