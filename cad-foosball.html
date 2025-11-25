@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulation Foosball Table | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        .bg-grid-pattern {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+        }
+
+        .tech-highlight { color: #fb923c; font-weight: 600; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+
+            <!-- UPDATED RETURN LINK -->
+            <a href="#"
+   onclick="goBackToHub()"
+   class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+    <i class="fas fa-arrow-left"></i>
+    <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+</a>
+
+
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+    <img 
+        src="images/foosball.png" 
+        alt="CAD Foosball Table Icon" 
+        class="h-full w-full object-contain p-2" 
+        onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';"
+    >
+</div>
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Regulation Foosball Table</h1>
+                <p class="text-orange-400 font-mono text-sm uppercase tracking-widest">Coursework (Team Project)</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+            <div class="lg:col-span-2">
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Design Methodology</h3>
+
+                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                    <p>
+                        Our team aimed to create a table blending modern aesthetics with user-friendly assembly. We adopted a <strong>modular design approach</strong>, breaking the table into sub-systems (frame, legs, rods) to simplify installation. My specific contributions focused on the <strong>player rod sub-assemblies</strong> and the <strong>final system integration</strong>:
+                    </p>
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-orange-500/30 pl-4">
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Sub-System Design:</strong>
+                            Modeled the player rods, end caps, and washers, ensuring correct tolerances for bearings and bushings to guarantee smooth gameplay rotation.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Assembly Management:</strong>
+                            Led the final assembly process in SolidWorks, resolving mating constraints between the beech wood frame, aluminum legs, and steel rods.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Material Selection:</strong>
+                            Specified a bill of materials including <strong>Aluminum Casting</strong>, <strong>Solid Beech Wood</strong>, and <strong>Vinyl</strong> finishing.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">DFM & Standardization:</strong>
+                            Utilized standard McMaster-Carr hardware to ensure repairability and ease of manufacturing.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6 mb-12">
+                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Assembly Architecture</h3>
+                        <i class="fas fa-sitemap text-gray-600"></i>
+                    </div>
+
+                    <div class="flex flex-col gap-6 font-mono text-xs">
+                        <div class="relative p-4 border border-orange-500/20 bg-orange-900/5 rounded-sm">
+                            <h4 class="text-orange-400 mb-4 text-center uppercase tracking-wider">CAD Tree Structure</h4>
+
+                            <div class="w-full p-2 text-center border border-white/40 bg-[#0f0f10] font-bold text-white mb-4">
+                                MAIN_ASSEMBLY.SLDASM
+                            </div>
+
+                            <div class="flex justify-between relative">
+                                <div class="absolute top-[-16px] left-1/2 -translate-x-1/2 w-px h-4 bg-gray-600"></div>
+                                <div class="absolute top-0 left-[15%] right-[15%] h-px bg-gray-600"></div>
+                                <div class="absolute top-0 left-[15%] w-px h-4 bg-gray-600"></div>
+                                <div class="absolute top-0 left-1/2 w-px h-4 bg-gray-600"></div>
+                                <div class="absolute top-0 right-[15%] w-px h-4 bg-gray-600"></div>
+
+                                <div class="w-[30%] p-2 text-center border border-white/20 bg-[#0f0f10] text-[9px]">
+                                    <span class="text-orange-300">FRAME</span>
+                                    <div class="text-gray-600">BEECH WOOD</div>
+                                </div>
+                                <div class="w-[30%] p-2 text-center border border-white/20 bg-[#0f0f10] text-[9px]">
+                                    <span class="text-orange-300">RODS (x8)</span>
+                                    <div class="text-gray-600">STEEL / PLAYERS</div>
+                                </div>
+                                <div class="w-[30%] p-2 text-center border border-white/20 bg-[#0f0f10] text-[9px]">
+                                    <span class="text-orange-300">LEGS (x4)</span>
+                                    <div class="text-gray-600">ALUMINUM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 border-t border-white/10 pt-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xs font-bold text-white font-mono uppercase tracking-widest">Documentation Preview</h3>
+                        <a href="docs/Foosball_Table_Report.pdf" target="_blank" class="text-orange-400 text-xs font-mono uppercase hover:text-white transition-colors border border-orange-400/20 px-3 py-1 hover:bg-orange-400/10">Download PDF <i class="fas fa-download ml-2"></i></a>
+                    </div>
+                    <iframe src="docs/Foosball_Table_Report.pdf" class="w-full h-[600px] bg-[#1a1a1a] border border-white/10"></iframe>
+                </div>
+            </div>
+
+            <div class="space-y-10">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">SolidWorks</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">DFM</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Assembly</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">BOM Management</span>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-orange-500/5 border border-orange-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-orange-400">Outcome</h4>
+                    <p class="text-sm text-orange-100/80 leading-relaxed">
+                        Delivered a comprehensive CAD package with 100+ parts, utilizing a modular design strategy to ensure zero interferences and streamlined assembly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+ <script>
+  function goBackToHub() {
+    // If user actually came from your main index page, just go back in history
+    if (document.referrer && document.referrer.includes('index.html')) {
+      window.history.back();
+    } else {
+      // Fallback: go to full homepage (with VTOL/DBF/etc visible)
+      window.location.href = 'index.html#collections';
+    }
+  }
+</script>
+
+
+</body>
+</html>

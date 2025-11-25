@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebTunnel CFD | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+        }
+
+        .tech-highlight { color: #38bdf8; font-weight: 600; } /* sky-400 */
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <!-- UPDATED RETURN LINK -->
+            <a href="#"
+   onclick="goBackToHub()"
+   class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+    <i class="fas fa-arrow-left"></i>
+    <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+</a>
+
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                <img src="images/cfd.png" alt="CFD Logo" class="h-full w-full object-contain p-2" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-wind text-4xl text-white\'></i>'">
+            </div>
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">WebTunnel CFD</h1>
+                <p class="text-sky-400 font-mono text-sm uppercase tracking-widest">Independent Developer</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            
+            <div class="lg:col-span-2">
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Computational Architecture</h3>
+                
+                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                    <p>
+                        WebTunnel is a browser-based physics engine that solves the incompressible Navier-Stokes equations in real-time. It balances mathematical precision with computational efficiency through four core pillars:
+                    </p>
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-sky-500/30 pl-4">
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Governing Equations (Physics):</strong> 
+                            Implemented the full Eulerian fluid dynamics model, solving for mass conservation and momentum to simulate realistic fluid behavior without plugins.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Numerical Solvers (Math):</strong> 
+                            Utilized <span class="tech-highlight">Semi-Lagrangian advection</span> for unconditionally stable transport and <span class="tech-highlight">Gauss-Seidel relaxation</span> to resolve pressure projection and diffusion steps.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Memory Optimization (CS):</strong> 
+                            Optimized for JavaScript execution by flattening 2D grid data into <span class="tech-highlight">1D Typed Arrays (Float32)</span>, ensuring CPU cache locality and zero garbage collection overhead.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Visualization (Rendering):</strong> 
+                            Built a custom rendering pipeline to map velocity vector fields and density gradients to the HTML5 Canvas in real-time.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6 mb-12">
+                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Solver Loop Architecture</h3>
+                        <i class="fas fa-sync text-gray-600"></i>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
+                        <div>
+                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">>> Simulation Kernel</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
+                                    <span>[GRID] Resolution</span>
+                                    <span class="text-sky-400">128 x 128</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
+                                    <span>[DT] Time Step</span>
+                                    <span class="text-sky-400">Fixed (16ms)</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
+                                    <span>[ITER] G-S Steps</span>
+                                    <span class="text-sky-400">20</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-purple-400">
+                                    <span>[MEM] Heap Alloc</span>
+                                    <span class="text-purple-400">Float32Array</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative p-4 border border-sky-500/20 bg-sky-900/5 rounded-sm flex flex-col gap-2">
+                            <h4 class="text-sky-400 mb-2 text-center uppercase tracking-wider">Physics Step (dt)</h4>
+                            
+                            <div class="w-full p-2 border border-white/20 bg-[#0f0f10] text-center">
+                                <span class="text-sky-300 font-bold">1. ADVECT</span><br>
+                                <span class="text-[9px] text-gray-500">SEMI-LAGRANGIAN BACKTRACE</span>
+                            </div>
+                            
+                            <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
+
+                            <div class="w-full p-2 border border-white/20 bg-[#0f0f10] text-center">
+                                <span class="text-sky-300 font-bold">2. DIFFUSE</span><br>
+                                <span class="text-[9px] text-gray-500">VISCOUS FORCES (G-S SOLVER)</span>
+                            </div>
+
+                            <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
+
+                            <div class="w-full p-2 border border-white/40 bg-[#0f0f10] text-center relative shadow-[0_0_10px_rgba(56,189,248,0.1)]">
+                                <span class="text-white font-bold">3. PROJECT</span><br>
+                                <span class="text-[9px] text-gray-400">MASS CONSERVATION (DIVERGENCE FREE)</span>
+                            </div>
+
+                            <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
+
+                            <div class="w-full p-2 border border-purple-500/30 bg-[#0f0f10] text-center">
+                                <span class="text-purple-400 font-bold">4. RENDER</span><br>
+                                <span class="text-[9px] text-gray-500">DENSITY MAPPING</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-white/10 p-1 mb-12">
+                    <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Interactive Demo</h3>
+                        <div class="flex gap-2">
+                            <i class="fas fa-play text-emerald-400"></i>
+                            <span class="text-[10px] text-gray-500 font-mono">RUNNING</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-black flex justify-center overflow-hidden relative">
+                        <iframe src="projects/windtunnel.html" class="w-full h-[500px] border-none" scrolling="no" loading="lazy"></iframe>
+                    </div>
+                    <div class="text-[10px] font-mono text-gray-600 text-center py-2 border-t border-white/5">
+                        INPUT: CLICK & DRAG TO INJECT MOMENTUM
+                    </div>
+                </div>
+                
+                <div class="mt-12 border-t border-white/10 pt-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xs font-bold text-white font-mono uppercase tracking-widest">Documentation Preview</h3>
+                        <a href="docs/WebTunnel_Solver_Report.pdf" target="_blank" class="text-blue-400 text-xs font-mono uppercase hover:text-white transition-colors border border-blue-400/20 px-3 py-1 hover:bg-blue-400/10">Download PDF <i class="fas fa-download ml-2"></i></a>
+                    </div>
+                    <iframe src="docs/WebTunnel_Solver_Report.pdf" class="w-full h-[600px] bg-[#1a1a1a] border border-white/10"></iframe>
+                </div>
+            </div>
+
+            <div class="space-y-10">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">JavaScript</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Navier-Stokes</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Linear Algebra</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">WebGL / Canvas</span>
+                    </div>
+                </div>
+                <div class="p-8 bg-sky-500/5 border border-sky-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-sky-400">Outcome</h4>
+                    <p class="text-sm text-sky-100/80 leading-relaxed">Built a zero-dependency CFD engine running at 60FPS in-browser, demonstrating deep understanding of fluid physics and algorithmic optimization.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+  <script>
+  function goBackToHub() {
+    // If user actually came from your main index page, just go back in history
+    if (document.referrer && document.referrer.includes('index.html')) {
+      window.history.back();
+    } else {
+      // Fallback: go to full homepage (with VTOL/DBF/etc visible)
+      window.location.href = 'index.html#collections';
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WashU VTOL | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #e2e8f0; 
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .tech-highlight { color: #60a5fa; font-weight: 600; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <!-- NAV -->
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" onclick="goBackToHome()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">RETURN</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                <img src="images/washu_vtol.jpg" alt="WashU VTOL Logo" class="h-full w-full object-cover" 
+                     onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-plane-up text-4xl text-white\'></i>'">
+            </div>
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">WashU VTOL</h1>
+                <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Lead Avionics Engineer</p>
+                <div class="mt-4 text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">
+                    Sept 2025 - Present
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            <div class="lg:col-span-2">
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Mission & Engineering Methodology</h3>
+                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                    <p>
+                        As a founding member and Avionics Lead, I am responsible for the end-to-end development 
+                        of the electrical and control systems for a hybrid-electric VTOL aircraft. My approach 
+                        centers on four key engineering pillars:
+                    </p>
+
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-blue-500/30 pl-4">
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Architecture & Systems Thinking:</strong> 
+                            Defined the complete avionics topology, specifying interfaces between 
+                            Pixhawk 6C, onboard compute, and power subsystems to ensure 
+                            <span class="tech-highlight">redundancy and fault tolerance</span>.
+                        </li>
+
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Flight Control (GNC):</strong> 
+                            Configured PX4 firmware mixing for VTOL and fixed-wing modes. Performed 
+                            <span class="tech-highlight">PID gain tuning</span> and implemented fail-safe 
+                            logic for autonomous recovery.
+                        </li>
+
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Hardware Implementation:</strong> 
+                            Designed wiring harnesses, sensor mounts, and electrical isolation strategies 
+                            to mitigate <span class="tech-highlight">high-current EMI</span> affecting avionics.
+                        </li>
+
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Testing & Validation:</strong> 
+                            Built a V-model testing pipeline using 
+                            <span class="tech-highlight">Hardware-in-the-Loop (HIL)</span>, PX4 logs, and 
+                            bench-level component diagnostics.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
+                            Avionics Topology & Readiness
+                        </h3>
+                        <i class="fas fa-network-wired text-gray-600"></i>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
+                        <div>
+                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">>> Mission Readiness Protocol</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                    <span>[SYS_ARCH] Topology Definition</span>
+                                    <span class="text-emerald-500">COMPLETE</span>
+                                </div>
+
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                    <span>[HW_INT] Power Distribution</span>
+                                    <span class="text-emerald-500">INTEGRATED</span>
+                                </div>
+
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-blue-400 animate-pulse">
+                                    <span>[GNC_VAL] HIL Simulation</span>
+                                    <span class="text-blue-400">IN PROGRESS</span>
+                                </div>
+
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-gray-700 opacity-50">
+                                    <span>[FLT_TEST] Transition Flights</span>
+                                    <span>PENDING</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative p-4 border border-blue-500/20 bg-blue-900/5 rounded-sm">
+                            <h4 class="text-blue-400 mb-6 text-center uppercase tracking-wider">Core Data Bus</h4>
+                            <div class="flex flex-col items-center gap-4 relative z-10">
+                                <div class="w-32 py-2 text-center border border-white/40 bg-[#0f0f10] rounded">
+                                    RTK GPS & COMPASS
+                                </div>
+
+                                <div class="h-4 w-0.5 bg-blue-500/50"></div>
+
+                                <div class="w-40 py-3 text-center border-2 border-blue-400 font-bold bg-[#0f0f10] rounded relative shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                                    PIXHAWK 6C (FMU)
+                                    <div class="absolute -left-16 top-1/2 -translate-y-1/2 w-14 h-0.5 bg-blue-500/30"></div>
+                                    <div class="absolute -right-16 top-1/2 -translate-y-1/2 w-14 h-0.5 bg-blue-500/30"></div>
+                                </div>
+
+                                <div class="absolute left-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">
+                                    POWER MODULE
+                                </div>
+
+                                <div class="absolute right-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">
+                                    TELEMETRY RADIO
+                                </div>
+
+                                <div class="h-4 w-0.5 bg-blue-500/50"></div>
+
+                                <div class="w-48 py-2 text-center border border-white/40 bg-[#0f0f10] rounded flex justify-around">
+                                    <span>ESC 1-4 (VTOL)</span>
+                                    <span>|</span>
+                                    <span>SERVOS (FW)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDEBAR -->
+            <div class="space-y-10">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Pixhawk 6C</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">PX4 Autopilot</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">HIL Simulation</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Sensor Fusion</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">EMI Mitigation</span>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-blue-500/5 border border-blue-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">
+                        Key Outcome
+                    </h4>
+                    <p class="text-sm text-blue-100/80 leading-relaxed">
+                        Architected and validated a robust, fault-tolerant avionics suite for hybrid flight, bridging 
+                        high-level GNC algorithms with physical hardware implementation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-white/10 bg-black">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+            SYSTEM ID: WASHU-VTOL-AVIONICS // END OF FILE
+        </div>
+    </footer>
+
+    <!-- RETURN LOGIC (SEAMLESS) -->
+    <script>
+    function goBackToHome() {
+        if (document.referrer && document.referrer.includes('index.html')) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+    </script>
+
+</body>
+</html>

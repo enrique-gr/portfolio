@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNC Control Playground | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #e2e8f0; 
+        }
+        .font-mono { 
+            font-family: 'JetBrains Mono', monospace; 
+        }
+        
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+        }
+
+        .tech-highlight { 
+            color: #38bdf8; 
+            font-weight: 600; 
+        }
+
+        /* Custom Sliders for GNC Tuner */
+        input[type=range] { 
+            -webkit-appearance: none; 
+            width: 100%; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            height: 12px; 
+            width: 12px; 
+            border-radius: 0;
+            background: #fff; 
+            cursor: pointer; 
+            margin-top: -5px; 
+            border: 1px solid #000;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; 
+            height: 2px; 
+            cursor: pointer; 
+            background: #333;
+        }
+
+        /* CRT Overlay for Simulation Window */
+        .crt-overlay {
+            background: 
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                <img src="images/gnc.png" alt="GNC Logo" class="h-full w-full object-contain p-2" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-rocket text-4xl text-white\'></i>'">
+            </div>
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">GNC Control Playground</h1>
+                <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Interactive Simulation</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            
+            <div class="lg:col-span-1 space-y-8">
+                
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">System Architecture</h3>
+                    <p class="text-gray-300 leading-relaxed text-sm font-light">
+                        A real-time physics engine simulating a 1D vertical landing scenario. The system uses a standard PID controller to modulate thrust vectoring against gravity (9.81 m/s²) and stochastic wind disturbances.
+                    </p>
+                </div>
+
+                <div class="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm">
+                    
+                    <div class="mb-8">
+                        <h4 class="text-[10px] text-gray-500 mb-3 uppercase tracking-widest font-bold">1. Behavior Profile</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="setPreset('optimal')" id="btn-optimal" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest bg-blue-600 text-white border-blue-500">Optimal</button>
+                            <button onclick="setPreset('under')" id="btn-under" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest">Oscillatory</button>
+                            <button onclick="setPreset('over')" id="btn-over" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white text-[10px] uppercase tracking-widest">Sluggish</button>
+                            <button onclick="setPreset('unstable')" id="btn-unstable" class="px-3 py-2 border border-white/10 hover:bg-white/10 text-red-400 hover:text-red-200 text-[10px] uppercase tracking-widest">Unstable</button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5 border-t border-white/10 pt-6 mb-8">
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">2. PID Gains</h4>
+                            <span class="text-[9px] text-blue-500">100HZ LOOP</span>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-[10px] mb-1">
+                                <span class="text-gray-300">Kp (Proportional)</span>
+                                <span id="val-kp" class="text-white font-mono">2.0</span>
+                            </div>
+                            <input type="range" id="slider-kp" min="0" max="8" step="0.1" value="2.0">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[10px] mb-1">
+                                <span class="text-gray-300">Kd (Derivative)</span>
+                                <span id="val-kd" class="text-white font-mono">1.5</span>
+                            </div>
+                            <input type="range" id="slider-kd" min="0" max="5" step="0.1" value="1.5">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[10px] mb-1">
+                                <span class="text-gray-300">Ki (Integral)</span>
+                                <span id="val-ki" class="text-white font-mono">0.0</span>
+                            </div>
+                            <input type="range" id="slider-ki" min="0" max="1" step="0.01" value="0.0">
+                        </div>
+                    </div>
+
+                    <button onmousedown="applyWind()" onmouseup="stopWind()" 
+                        class="w-full py-3 border border-white/20 bg-white/5 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 active:bg-white/20 transition-all">
+                        <i class="fas fa-wind"></i> Inject Wind Gust
+                    </button>
+                </div>
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Core Tech</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Control Theory</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">JS Physics</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Real-time Plotting</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-2 flex flex-col gap-4">
+                
+                <div class="w-full bg-black border border-white/10 relative h-[500px] overflow-hidden">
+                    <div class="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-[#0a0a0a] absolute top-0 w-full z-10">
+                        <div class="flex gap-2 items-center">
+                            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Live Telemetry</h3>
+                        </div>
+                        <div class="font-mono text-[10px] text-gray-500">T-TIME: <span id="sim-time" class="text-white">0.00s</span></div>
+                    </div>
+
+                    <canvas id="simCanvas" class="w-full h-full block mt-8"></canvas>
+                    <div class="absolute inset-0 crt-overlay pointer-events-none mt-8"></div>
+
+                    <div class="absolute top-12 left-4 font-mono text-xs text-white/80 space-y-1 pointer-events-none">
+                        <div>ALTITUDE: <span id="hud-alt" class="font-bold">00.0 m</span></div>
+                        <div>VELOCITY: <span id="hud-vel" class="font-bold">00.0 m/s</span></div>
+                        <div>G-FORCE: <span id="hud-g" class="font-bold text-blue-400">1.0 G</span></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 h-40">
+                    <div class="bg-[#0a0a0a] border border-white/10 relative p-2">
+                        <div class="absolute top-2 left-2 text-[9px] text-gray-500 uppercase font-bold z-10">Altitude Response</div>
+                        <div id="plot-alt" class="w-full h-full"></div>
+                    </div>
+                    <div class="bg-[#0a0a0a] border border-white/10 relative p-2">
+                        <div class="absolute top-2 left-2 text-[9px] text-gray-500 uppercase font-bold z-10">Thrust Effort</div>
+                        <div id="plot-thrust" class="w-full h-full"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+<script>
+    function goBackToHub() {
+        if (document.referrer && document.referrer.includes('index.html')) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html#collections';
+        }
+    }
+
+    // --- SIMULATION LOGIC ---
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    const state = {
+        y: 20,       // Start at 20m
+        v: 0,
+        target: 10,  // Hover target
+        mass: 1000,  // kg
+        g: -9.81,
+        thrust: 0,
+        wind: 0
+    };
+
+    let pid = { kp: 2.0, ki: 0.0, kd: 1.5, integral: 0, prevError: 0 };
+    let time = 0;
+    const dt = 1/60;
+    let historyT = [], historyY = [], historyTarget = [], historyThrust = [];
+    const maxHistory = 200;
+
+    // --- PRESETS ---
+    const presets = {
+        optimal: { kp: 3.5, ki: 0.1, kd: 2.5 },
+        under:   { kp: 6.0, ki: 0.0, kd: 0.5 },
+        over:    { kp: 0.8, ki: 0.0, kd: 3.0 },
+        unstable:{ kp: 8.5, ki: 0.0, kd: 0.0 }
+    };
+
+    function setPreset(name) {
+        const p = presets[name];
+        pid.kp = p.kp; 
+        pid.ki = p.ki; 
+        pid.kd = p.kd;
+        
+        document.getElementById('slider-kp').value = p.kp;
+        document.getElementById('slider-ki').value = p.ki;
+        document.getElementById('slider-kd').value = p.kd;
+        updateLabels();
+
+        // Reset physics on preset change
+        state.y = 20; 
+        state.v = 0; 
+        pid.integral = 0; 
+        pid.prevError = 0;
+        historyT = []; 
+        historyY = []; 
+        historyTarget = []; 
+        historyThrust = [];
+    }
+
+    function updateLabels() {
+        document.getElementById('val-kp').innerText = pid.kp.toFixed(1);
+        document.getElementById('val-ki').innerText = pid.ki.toFixed(2);
+        document.getElementById('val-kd').innerText = pid.kd.toFixed(1);
+    }
+
+    // Listeners
+    document.getElementById('slider-kp').addEventListener('input', (e) => { 
+        pid.kp = parseFloat(e.target.value); 
+        updateLabels(); 
+    });
+    document.getElementById('slider-ki').addEventListener('input', (e) => { 
+        pid.ki = parseFloat(e.target.value); 
+        updateLabels(); 
+    });
+    document.getElementById('slider-kd').addEventListener('input', (e) => { 
+        pid.kd = parseFloat(e.target.value); 
+        updateLabels(); 
+    });
+
+    function applyWind() { 
+        state.wind = -15000; 
+    }
+    function stopWind() { 
+        state.wind = 0; 
+    }
+
+    // Physics Loop
+    function updatePhysics() {
+        const error = state.target - state.y;
+        pid.integral += error * dt;
+        pid.integral = Math.max(-50, Math.min(50, pid.integral)); 
+        const derivative = (error - pid.prevError) / dt;
+        
+        let accelCmd = (pid.kp * error) + (pid.ki * pid.integral) + (pid.kd * derivative);
+        let thrustNeeded = (accelCmd + 9.81) * state.mass;
+        thrustNeeded += state.wind; 
+
+        const maxThrust = state.mass * 9.81 * 3; 
+        state.thrust = Math.max(0, Math.min(maxThrust, thrustNeeded));
+
+        const totalForce = state.thrust + (state.mass * state.g) + state.wind;
+        const accel = totalForce / state.mass;
+        
+        state.v += accel * dt;
+        state.y += state.v * dt;
+
+        if (state.y < 0) {
+            state.y = 0;
+            state.v = -state.v * 0.2;
+            if (Math.abs(state.v) < 0.5) state.v = 0;
+        }
+
+        pid.prevError = error;
+        time += dt;
+
+        if (historyT.length > maxHistory) {
+            historyT.shift(); 
+            historyY.shift(); 
+            historyTarget.shift(); 
+            historyThrust.shift();
+        }
+        historyT.push(time);
+        historyY.push(state.y);
+        historyTarget.push(state.target);
+        historyThrust.push(state.thrust);
+    }
+
+    // Visualization
+    function resize() {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const scale = 15;
+        const groundY = canvas.height - 20;
+        const rocketY = groundY - (state.y * scale);
+        const targetY = groundY - (state.target * scale);
+
+        // Target Line
+        ctx.beginPath(); 
+        ctx.moveTo(0, targetY); 
+        ctx.lineTo(canvas.width, targetY);
+        ctx.strokeStyle = '#10b981'; 
+        ctx.setLineDash([5, 5]); 
+        ctx.stroke(); 
+        ctx.setLineDash([]);
+
+        // Rocket
+        const w = 30; 
+        const h = 50;
+        ctx.fillStyle = '#ccc';
+        ctx.fillRect(canvas.width / 2 - w / 2, rocketY - h, w, h);
+        
+        // Flame
+        if (state.thrust > 100) {
+            const flameLen = (state.thrust / 30000) * 60 + (Math.random() * 10);
+            ctx.fillStyle = '#facc15';
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2 - 8, rocketY);
+            ctx.lineTo(canvas.width / 2 + 8, rocketY);
+            ctx.lineTo(canvas.width / 2, rocketY + flameLen);
+            ctx.fill();
+        }
+
+        // Wind Warning
+        if (state.wind < 0) {
+            ctx.fillStyle = '#ef4444';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText("⚠ WIND GUST", canvas.width / 2 + 30, rocketY - 20);
+        }
+
+        // Ground
+        ctx.fillStyle = '#333';
+        ctx.fillRect(0, groundY, canvas.width, 20);
+    }
+
+    // UI Loop
+    function loop() {
+        updatePhysics();
+        draw();
+        document.getElementById('hud-alt').innerText = state.y.toFixed(1) + " m";
+        document.getElementById('hud-vel').innerText = state.v.toFixed(1) + " m/s";
+        document.getElementById('hud-g').innerText = ((state.thrust + state.wind) / state.mass / 9.81).toFixed(2) + " G";
+        document.getElementById('sim-time').innerText = time.toFixed(2) + " s";
+        requestAnimationFrame(loop);
+    }
+
+const plotLayout = {
+    paper_bgcolor: 'transparent',
+    plot_bgcolor: 'transparent',
+    font: { color: '#64748b', family: 'JetBrains Mono', size: 9 },
+    // increase top margin so the 40k label moves down
+    margin: { t: 30, r: 5, b: 20, l: 30 },
+    xaxis: { showgrid: false, showticklabels: false },
+    yaxis: { gridcolor: '#1e293b' },
+    showlegend: false
+};
+
+
+    function updatePlots() {
+        Plotly.react('plot-alt', [
+            { 
+                x: historyT, 
+                y: historyY, 
+                type: 'scatter', 
+                mode: 'lines', 
+                line: { color: '#ffffff', width: 2 } 
+            },
+            { 
+                x: historyT, 
+                y: historyTarget, 
+                type: 'scatter', 
+                mode: 'lines', 
+                line: { color: '#10b981', width: 1, dash: 'dot' } 
+            }
+        ], { 
+            ...plotLayout, 
+            yaxis: { 
+                ...plotLayout.yaxis, 
+                range: [-5, 30] 
+            } 
+        }, { displayModeBar: false });
+
+        Plotly.react('plot-thrust', [
+            { 
+                x: historyT, 
+                y: historyThrust, 
+                type: 'scatter', 
+                mode: 'lines', 
+                line: { color: '#3b82f6', width: 1 }, 
+                fill: 'tozeroy' 
+            }
+        ], { 
+            ...plotLayout, 
+            yaxis: { 
+                ...plotLayout.yaxis, 
+                range: [0, 40000] 
+            } 
+        }, { displayModeBar: false });
+    }
+
+    setInterval(updatePlots, 100);
+    loop();
+</script>
+</body>
+</html>

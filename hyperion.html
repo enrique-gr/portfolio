@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyperion 6-DOF | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+        }
+
+        .tech-highlight { color: #c084fc; font-weight: 600; } /* purple-400 */
+        .cpp-highlight { color: #60a5fa; font-weight: 600; } /* blue-400 */
+
+        /* Code Syntax Highlighting */
+        .code-kwd { color: #c678dd; } 
+        .code-type { color: #e5c07b; } 
+        .code-func { color: #61afef; } 
+        .code-comment { color: #5c6370; font-style: italic; } 
+        .code-op { color: #56b6c2; } 
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+            </a>
+            
+            <a href="https://github.com/enrique-gr/hyperion-engine" target="_blank" class="flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-white transition-colors border border-white/10 px-3 py-1.5 rounded-sm hover:bg-white/10">
+                <i class="fab fa-github"></i>
+                <span>SOURCE_CODE</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        
+        <!-- HEADER -->
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+           <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+    <img 
+        src="images/hyperionE.png" 
+        alt="Hyperion Project Icon" 
+        class="h-full w-full object-contain p-2" 
+        onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';"
+    >
+</div>
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Hyperion 6-DOF Engine</h1>
+                <p class="text-purple-400 font-mono text-sm uppercase tracking-widest">Flight Software Infrastructure</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            
+            <!-- LEFT COLUMN (Main Content) -->
+            <div class="lg:col-span-2">
+                
+                <!-- SYSTEM OVERVIEW -->
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">System Overview</h3>
+                
+                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                    <p>
+                        Hyperion is a ground-up <strong>C++20 physics engine</strong> designed for Hardware-in-the-Loop (HIL) validation of flight software. Unlike game engines, it prioritizes <strong>deterministic timing</strong> and thread safety to simulate orbital mechanics and rigid body dynamics.
+                    </p>
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-purple-500/30 pl-4">
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Multithreaded Architecture:</strong> 
+                            Decouples high-frequency physics (10kHz) from low-frequency telemetry (50Hz) using <span class="cpp-highlight">std::thread</span> and <span class="cpp-highlight">std::mutex</span> locking strategies.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Custom Integrator:</strong> 
+                            Implements a 4th-Order Runge-Kutta (RK4) solver from scratch to handle orbital precision without the overhead of external math libraries.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">UDP Telemetry:</strong> 
+                            Serializes the state vector into binary packets and broadcasts via BSD sockets, mimicking real spacecraft-to-ground communication.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- THREAD ARCHITECTURE DIAGRAM -->
+                <div class="bg-black border border-white/10 p-6 mb-12">
+                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Concurrency Topology</h3>
+                        <i class="fas fa-microchip text-gray-600"></i>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs items-center">
+                        
+                        <!-- THREAD 1 -->
+                        <div class="p-4 border border-purple-500/30 bg-purple-900/10 text-center rounded-sm h-32 flex flex-col justify-center">
+                            <div class="font-bold text-purple-400 mb-2">PHYSICS THREAD</div>
+                            <div class="text-[10px] text-gray-400">10 kHz Loop</div>
+                            <div class="mt-2 text-white">RK4 Integration</div>
+                        </div>
+
+                        <!-- SHARED MEMORY -->
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-px h-8 bg-gray-700"></div>
+                            <div class="p-3 border-2 border-white/20 bg-black text-center w-full relative shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+                                <div class="absolute -top-2 left-1/2 -translate-x-1/2 bg-black px-2 text-[8px] text-gray-500 uppercase">Critical Section</div>
+                                <div class="font-bold text-white">SHARED STATE</div>
+                                <div class="text-[9px] text-emerald-400 mt-1"><i class="fas fa-lock mr-1"></i>std::mutex</div>
+                            </div>
+                            <div class="w-px h-8 bg-gray-700"></div>
+                        </div>
+
+                        <!-- THREAD 2 -->
+                        <div class="p-4 border border-blue-500/30 bg-blue-900/10 text-center rounded-sm h-32 flex flex-col justify-center">
+                            <div class="font-bold text-blue-400 mb-2">COMMS THREAD</div>
+                            <div class="text-[10px] text-gray-400">50 Hz Loop</div>
+                            <div class="mt-2 text-white">UDP Broadcast</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- C++ IMPLEMENTATION (Physics & Logic) -->
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Core Implementation (C++20)</h3>
+                
+                <div class="space-y-6 mb-12">
+                    
+                    <!-- Code Block: Physics Logic -->
+                    <div class="bg-[#151515] border border-white/10 rounded-sm overflow-hidden">
+                        <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                            <span class="text-[10px] font-mono text-gray-400">src/physics.cpp</span>
+                            <span class="text-[10px] font-mono text-emerald-400">Orbital Mechanics (J2 Model)</span>
+                        </div>
+                        <pre class="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-gray-300"><span class="code-type">Vec3</span> <span class="code-func">compute_acceleration</span>(<span class="code-kwd">const</span> <span class="code-type">State</span>& state) {
+    <span class="code-comment">// 1. Basic Monopole Gravity: F = -mu/r^3 * r_vec</span>
+    <span class="code-type">double</span> r_sq = state.pos.dot(state.pos);
+    <span class="code-type">double</span> mu_r3 = MU_EARTH / (r_sq * std::sqrt(r_sq));
+    
+    <span class="code-comment">// 2. J2 Perturbation (Earth Oblateness)</span>
+    <span class="code-type">double</span> z2 = state.pos.z * state.pos.z;
+    <span class="code-type">double</span> j2_factor = 1.5 * J2 * MU_EARTH * (R_EARTH * R_EARTH) / (r_sq * r_sq);
+    
+    <span class="code-type">Vec3</span> g_j2 = {
+        j2_factor * (state.pos.x / r_mag * (5 * z2 / r_sq - 1)),
+        j2_factor * (state.pos.y / r_mag * (5 * z2 / r_sq - 1)),
+        j2_factor * (state.pos.z / r_mag * (5 * z2 / r_sq - 3))
+    };
+
+    <span class="code-kwd">return</span> g_monopole + g_j2;
+}</pre>
+                    </div>
+
+                    <!-- Code Block: Thread Safety -->
+                    <div class="bg-[#151515] border border-white/10 rounded-sm overflow-hidden">
+                        <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                            <span class="text-[10px] font-mono text-gray-400">src/main.cpp</span>
+                            <span class="text-[10px] font-mono text-purple-400">Thread Synchronization</span>
+                        </div>
+                        <pre class="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-gray-300"><span class="code-type">void</span> <span class="code-func">physics_loop</span>() {
+    <span class="code-type">double</span> dt = 0.0001; <span class="code-comment">// 100us Time Step</span>
+    
+    <span class="code-kwd">while</span> (running) {
+        <span class="code-comment">// 1. Compute Dynamics (Heavy Math)</span>
+        <span class="code-type">Vec3</span> forces = <span class="code-func">compute_forces</span>(local_state);
+        <span class="code-func">rk4_integrate</span>(local_state, forces, dt);
+
+        <span class="code-comment">// 2. CRITICAL SECTION: Update Shared State</span>
+        {
+            <span class="code-type">std::lock_guard</span>&lt;<span class="code-type">std::mutex</span>&gt; <span class="code-func">lock</span>(state_mutex);
+            shared_state = local_state;
+        }
+
+        <span class="code-comment">// 3. Precision Timing (Spinlock)</span>
+        <span class="code-func">spin_wait_until</span>(next_tick);
+    }
+}</pre>
+                    </div>
+
+                </div>
+
+                <!-- VALIDATION & RESULTS (NEW) -->
+                <div class="bg-black border border-white/10 p-1 mb-12">
+                    <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Performance Validation</h3>
+                        <div class="flex gap-2">
+                            <i class="fas fa-check-circle text-emerald-400"></i>
+                            <span class="text-[10px] text-gray-500 font-mono">COMPILED: MSVC x64</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-[#151515] space-y-4">
+                        <!-- Terminal Output Simulation -->
+                        <div class="w-full bg-black border border-white/10 p-3 font-mono text-[10px] leading-relaxed text-gray-400 h-48 overflow-hidden relative">
+                            <div class="absolute top-0 right-0 p-2 opacity-50"><i class="fas fa-terminal"></i></div>
+                            <p class="text-white">=== HYPERION 6-DOF SIMULATION ENGINE ===</p>
+                            <p>[PHYSICS] Thread initializing @ 10000 Hz</p>
+                            <p>[COMMS] UDP Stream target: 127.0.0.1:8080</p>
+                            <p>T+0.00s | ALT: 400.00 km | V: 7660.00 m/s</p>
+                            <p>T+1.00s | ALT: 400.01 km | V: 7659.98 m/s</p>
+                            <p>T+2.00s | ALT: 400.03 km | V: 7659.95 m/s</p>
+                            <p>T+3.00s | ALT: 400.06 km | V: 7659.91 m/s</p>
+                            <p>T+4.00s | ALT: 400.10 km | V: 7659.85 m/s</p>
+                            <p>T+5.00s | ALT: 400.15 km | V: 7659.78 m/s</p>
+                            <p><span class="text-blue-500">>> Telemetry Stream Active...</span></p>
+                        </div>
+
+                        <!-- Metrics -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white/5 p-3 border-l-2 border-purple-500">
+                                <div class="text-[9px] text-gray-500 uppercase">Update Rate</div>
+                                <div class="text-white font-bold font-mono">10,000 Hz</div>
+                            </div>
+                            <div class="bg-white/5 p-3 border-l-2 border-blue-500">
+                                <div class="text-[9px] text-gray-500 uppercase">State Vector</div>
+                                <div class="text-white font-bold font-mono">13-DOF (Pos/Vel/Att/Omega)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN (SIDEBAR) -->
+            <div class="space-y-10">
+                <!-- TECH STACK -->
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">C++ 20</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">CMake</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">POSIX Threads</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">UDP Sockets</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">J2 Gravity Model</span>
+                    </div>
+                </div>
+
+                <!-- OUTCOME BOX -->
+                <div class="p-8 bg-purple-500/5 border border-purple-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-purple-400">Engineering Impact</h4>
+                    <p class="text-sm text-purple-100/80 leading-relaxed mb-4">
+                        Demonstrated ability to architect high-performance, thread-safe simulation infrastructure required for validating flight control software without expensive hardware.
+                    </p>
+                    <div class="mt-6">
+                        <a href="https://github.com/enrique-gr/hyperion-engine" target="_blank" class="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-500 text-white py-3 text-xs font-bold uppercase tracking-widest transition-colors rounded-sm">
+                            <i class="fab fa-github text-sm"></i> View Source
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+  <script>
+  function goBackToHub() {
+    if (document.referrer && document.referrer.includes('index.html')) {
+      window.history.back();
+    } else {
+      window.location.href = 'index.html#collections';
+    }
+  }
+</script>
+
+</body>
+</html>

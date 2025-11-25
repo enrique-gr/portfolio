@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Nav EKF | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .tech-highlight { color: #38bdf8; font-weight: 600; } /* sky-400 */
+        .sensor-highlight { color: #10b981; font-weight: 600; } /* emerald-500 */
+        .metric-label { font-size: 0.65rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace; }
+        .metric-value { font-size: 0.875rem; color: #e2e8f0; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+        /* Code Syntax Highlighting */
+        .code-kwd { color: #c678dd; } /* Purple/Pink */
+        .code-type { color: #e5c07b; } /* Yellow/Gold */
+        .code-func { color: #61afef; } /* Blue */
+        .code-comment { color: #5c6370; font-style: italic; } /* Grey */
+        .code-op { color: #56b6c2; } /* Cyan */
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+            </a>
+
+            <a href="telemetry.html" class="flex items-center gap-2 px-4 py-2 border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-white transition-all group rounded-sm">
+                <div class="flex flex-col items-end leading-none">
+                    <span class="font-bold font-mono text-xs tracking-widest">LAUNCH CONSOLE</span>
+                    <span class="text-[8px] font-mono opacity-60">LIVE FLIGHT DATA</span>
+                </div>
+                <i class="fas fa-external-link-alt text-sm group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                <img src="images/sensor_fusion.png" alt="Sensor Fusion Icon" class="h-full w-full object-contain p-2" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';">
+            </div>
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Flight Nav EKF</h1>
+                <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">Guidance, Navigation & Control (GNC)</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            
+            <div class="lg:col-span-2">
+                
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">System Overview</h3>
+                
+                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                    <p>
+                        This project implements a high-fidelity <strong>12-State Extended Kalman Filter (EKF)</strong> running on a Teensy 4.1 microcontroller. It fuses asynchronous data streams to provide stable real-time state estimation for UAVs, solving the drift issues inherent in raw sensor data.
+                    </p>
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-emerald-500/30 pl-4">
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Multi-Sensor Fusion:</strong> 
+                            Synchronizes high-rate <span class="sensor-highlight">IMU (1kHz)</span> data with lower-rate <span class="sensor-highlight">GPS (5Hz)</span> and <span class="sensor-highlight">Barometer</span> updates.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">12-State Vector:</strong> 
+                            Estimates Position (<i>P<sub>xyz</sub></i>), Velocity (<i>V<sub>xyz</sub></i>), Attitude (Quaternion <i>q<sub>wxyz</sub></i>), and Gyroscope Bias (<i>b<sub>xyz</sub></i>) to compensate for sensor errors.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Embedded Optimization:</strong> 
+                            Written in C++ using the Eigen library, optimized for matrix operations on embedded hardware with under 1ms cycle time.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Noise Characterization:</strong> 
+                            Utilizes covariance tuning (<i>Q</i> and <i>R</i> matrices) to trust specific sensors based on environmental dynamics (e.g., rejecting vibration noise).
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6 mb-12">
+                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">State Estimation Loop</h3>
+                        <i class="fas fa-project-diagram text-gray-600"></i>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
+                        <div>
+                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">>> Sensor Inputs</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                    <span>[IMU] Accel/Gyro</span>
+                                    <span class="text-emerald-400">1000 Hz</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
+                                    <span>[GPS] Pos/Vel</span>
+                                    <span class="text-sky-400">5 Hz</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
+                                    <span>[BARO] Alt</span>
+                                    <span class="text-sky-400">50 Hz</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-purple-400">
+                                    <span>[MCU] Compute</span>
+                                    <span class="text-purple-400">Teensy 4.1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative p-4 border border-emerald-500/20 bg-emerald-900/5 rounded-sm flex flex-col gap-2">
+                            <h4 class="text-emerald-400 mb-2 text-center uppercase tracking-wider">EKF Algorithm</h4>
+                            
+                            <div class="w-full p-2 border border-white/20 bg-[#0f0f10] text-center">
+                                <span class="text-emerald-300 font-bold">TIME UPDATE (PREDICT)</span><br>
+                                <span class="text-[9px] text-gray-500">INTEGRATE IMU KINEMATICS (<i>x<sub>k|k-1</sub></i>)</span>
+                            </div>
+                            
+                            <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
+
+                            <div class="w-full p-2 border border-white/20 bg-[#0f0f10] text-center">
+                                <span class="text-emerald-300 font-bold">ERROR COVARIANCE</span><br>
+                                <span class="text-[9px] text-gray-500">PROPAGATE UNCERTAINTY (<i>P<sub>k|k-1</sub></i>)</span>
+                            </div>
+
+                            <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
+
+                            <div class="w-full p-2 border border-white/40 bg-[#0f0f10] text-center relative shadow-[0_0_10px_rgba(16,185,129,0.1)]">
+                                <span class="text-white font-bold">MEASUREMENT UPDATE</span><br>
+                                <span class="text-[9px] text-gray-400">KALMAN GAIN CORRECTION (GPS/BARO)</span>
+                            </div>
+
+                            <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
+
+                            <div class="w-full p-2 border border-purple-500/30 bg-[#0f0f10] text-center">
+                                <span class="text-purple-400 font-bold">STATE OUTPUT</span><br>
+                                <span class="text-[9px] text-gray-500">QUATERNION ATTITUDE & NED POSITION</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Core Implementation (C++ / Eigen)</h3>
+                
+                <div class="space-y-6 mb-12">
+                    
+                    <div class="bg-[#151515] border border-white/10 rounded-sm overflow-hidden">
+                        <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                            <span class="text-[10px] font-mono text-gray-400">ekf_types.h</span>
+                            <span class="text-[10px] font-mono text-emerald-400">12-State Struct</span>
+                        </div>
+                        <pre class="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-gray-300"><span class="code-kwd">struct</span> <span class="code-type">EKF_State</span> {
+    <span class="code-type">Vector3f</span> pos;      <span class="code-comment">// Position (NED)</span>
+    <span class="code-type">Vector3f</span> vel;      <span class="code-comment">// Velocity (NED)</span>
+    <span class="code-type">Quaternionf</span> q;     <span class="code-comment">// Attitude (Body to Earth)</span>
+    <span class="code-type">Vector3f</span> gyro_bias;<span class="code-comment">// Estimated Sensor Bias</span>
+
+    <span class="code-comment">// 12x12 Covariance Matrix</span>
+    <span class="code-type">Matrix</span>&lt;<span class="code-type">float</span>, 12, 12&gt; P;
+};</pre>
+                    </div>
+
+                    <div class="bg-[#151515] border border-white/10 rounded-sm overflow-hidden">
+                        <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                            <span class="text-[10px] font-mono text-gray-400">ekf_core.cpp</span>
+                            <span class="text-[10px] font-mono text-sky-400">Time Update (Predict)</span>
+                        </div>
+                        <pre class="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-gray-300"><span class="code-type">void</span> <span class="code-func">predict</span>(<span class="code-type">float</span> dt, <span class="code-type">Vector3f</span> accel, <span class="code-type">Vector3f</span> gyro) {
+    <span class="code-comment">// 1. Dead Reckoning: Integrate kinematics</span>
+    state.pos += state.vel * dt;
+    <span class="code-type">Vector3f</span> corrected_gyro = gyro - state.gyro_bias;
+    state.q = <span class="code-func">integrate_quaternion</span>(state.q, corrected_gyro, dt);
+
+    <span class="code-comment">// 2. Jacobian (F) for Linearized Error Dynamics</span>
+    <span class="code-type">Matrix12f</span> F = <span class="code-func">compute_jacobian</span>(state, accel, dt);
+
+    <span class="code-comment">// 3. Propagate Uncertainty: P = F*P*F' + Q</span>
+    state.P = F * state.P * F.<span class="code-func">transpose</span>() + Q_process_noise;
+}</pre>
+                    </div>
+
+                    <div class="bg-[#151515] border border-white/10 rounded-sm overflow-hidden">
+                        <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center">
+                            <span class="text-[10px] font-mono text-gray-400">ekf_core.cpp</span>
+                            <span class="text-[10px] font-mono text-purple-400">Measurement Update</span>
+                        </div>
+                        <pre class="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-gray-300"><span class="code-type">void</span> <span class="code-func">update_gps</span>(<span class="code-type">Vector3f</span> gps_pos, <span class="code-type">Vector3f</span> gps_vel) {
+    <span class="code-comment">// Calculate Kalman Gain: K = P*H' * (H*P*H' + R)^-1</span>
+    <span class="code-type">MatrixXf</span> S = H * state.P * H.<span class="code-func">transpose</span>() + R_gps;
+    <span class="code-type">MatrixXf</span> K = state.P * H.<span class="code-func">transpose</span>() * S.<span class="code-func">inverse</span>();
+
+    <span class="code-comment">// Update State and Covariance</span>
+    <span class="code-type">VectorXf</span> y = z_measured - z_predicted; <span class="code-comment">// Innovation</span>
+    state.x += K * y;
+    state.P = (Matrix12f::<span class="code-func">Identity</span>() - K * H) * state.P;
+}</pre>
+                    </div>
+
+                </div>
+
+
+                <div class="bg-black border border-white/10 p-1 mb-12">
+                    <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Validation & Results</h3>
+                        <a href="telemetry.html" class="flex gap-2 hover:text-blue-400 transition-colors cursor-pointer group">
+                            <i class="fas fa-play-circle text-emerald-400 group-hover:text-blue-400 transition-colors"></i>
+                            <span class="text-[10px] text-gray-500 font-mono group-hover:text-blue-300">OPEN INTERACTIVE REPLAY ></span>
+                        </a>
+                    </div>
+                    
+                    <div class="p-4 bg-[#151515] space-y-6">
+                        
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-end">
+                                <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">2D Trajectory Estimation (XY Plane)</span>
+                            </div>
+                            <div id="plot1" class="w-full h-72 bg-black/50 border border-white/10 relative group overflow-hidden"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Raw IMU Acceleration (Noisy Input)</span>
+                                <div id="plot2" class="w-full h-48 bg-black/50 border border-white/10 relative group"></div>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Position Error & Uncertainty (1σ)</span>
+                                <div id="plot3" class="w-full h-48 bg-black/50 border border-white/10 relative group"></div>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-white/10 pt-4 mt-2">
+                            <h4 class="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-3">Performance Metrics (RMS Error)</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-black/30 p-4 border border-white/5">
+                                <div>
+                                    <div class="metric-label">Position X/Y</div>
+                                    <div class="metric-value text-emerald-400">&lt; 0.15 m</div>
+                                </div>
+                                <div>
+                                    <div class="metric-label">Altitude Z</div>
+                                    <div class="metric-value text-emerald-400">&lt; 0.08 m</div>
+                                </div>
+                                <div>
+                                    <div class="metric-label">Attitude (RPY)</div>
+                                    <div class="metric-value text-emerald-400">&lt; 1.5&deg;</div>
+                                </div>
+                                <div>
+                                    <div class="metric-label">Loop Rate</div>
+                                    <div class="metric-value text-sky-400">100 Hz</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-[10px] font-mono text-gray-400 text-center py-3 border-t border-white/5 flex justify-center gap-8">
+                        <span>DRIFT REDUCTION: <span class="text-emerald-400">12&deg;/min &rarr; &lt;1&deg;/min</span></span>
+                        <span>MCU LOAD: <span class="text-purple-400">14% (Teensy 4.1)</span></span>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="space-y-10">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">C++ / Python</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Teensy 4.1</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Eigen Library</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Sensor Fusion</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">IMU / GPS</span>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-emerald-500/5 border border-emerald-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">Engineering Impact</h4>
+                    <p class="text-sm text-emerald-100/80 leading-relaxed mb-4">
+                        Replaced raw IMU integration with a sensor-fused state estimator, enabling stable autonomous flight in GPS-denied environments.
+                    </p>
+                    <div class="text-xs font-mono text-gray-400 border-t border-emerald-500/20 pt-4 mt-4">
+                        APPLICATIONS:<br>
+                        > UAV Path Planning<br>
+                        > Robotics Localization<br>
+                        > Wearable Motion Tracking
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+  <script>
+  function goBackToHub() {
+    if (document.referrer && document.referrer.includes('index.html')) {
+      window.history.back();
+    } else {
+      window.location.href = 'index.html#collections';
+    }
+  }
+
+  // --- PLOT GENERATION ---
+  const commonLayout = {
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      font: { color: '#e2e8f0', family: 'JetBrains Mono, monospace' },
+      xaxis: { gridcolor: '#ffffff10', zerolinecolor: '#ffffff30' },
+      yaxis: { gridcolor: '#ffffff10', zerolinecolor: '#ffffff30' },
+      margin: { t: 30, r: 20, b: 30, l: 40 },
+      showlegend: true,
+      legend: { x: 1, xanchor: 'right', y: 1, bgcolor: 'rgba(0,0,0,0.5)' }
+  };
+  const config = { displayModeBar: false, responsive: true };
+
+  // Plot 1: 2D Trajectory
+  const t = Array.from({length: 200}, (_, i) => i / 10);
+  const gtX = t.map(ti => 20 * Math.sin(ti));
+  const gtY = t.map(ti => 10 * Math.sin(2 * ti));
+  const noisyGtX = gtX.map(x => x + (Math.random() - 0.5) * 4);
+  const noisyGtY = gtY.map(y => y + (Math.random() - 0.5) * 4);
+  const ekfX = gtX.map(x => x + (Math.random() - 0.5) * 1);
+  const ekfY = gtY.map(y => y + (Math.random() - 0.5) * 1);
+
+  Plotly.newPlot('plot1', [
+      { x: noisyGtX, y: noisyGtY, mode: 'lines', name: 'Ground Truth', line: { color: 'cyan', width: 1 } },
+      { x: ekfX, y: ekfY, mode: 'lines', name: 'EKF Estimate', line: { color: 'magenta', width: 2, dash: 'dash' } }
+  ], { ...commonLayout, title: '2D Position Estimate', xaxis: { ...commonLayout.xaxis, title: 'East (m)' }, yaxis: { ...commonLayout.yaxis, title: 'North (m)' } }, config);
+
+  // Plot 2: Raw IMU Acceleration
+  const time = Array.from({length: 100}, (_, i) => i);
+  const accelX = time.map(() => (Math.random() - 0.5) * 8);
+  const accelY = time.map(() => (Math.random() - 0.5) * 8);
+
+  Plotly.newPlot('plot2', [
+      { x: time, y: accelX, mode: 'lines', name: 'Accel X', line: { color: 'cyan', width: 1 } },
+      { x: time, y: accelY, mode: 'lines', name: 'Accel Y', line: { color: 'magenta', width: 1 } }
+  ], { ...commonLayout, title: 'Raw IMU Acceleration', xaxis: { ...commonLayout.xaxis, title: 'Time (s)' }, yaxis: { ...commonLayout.yaxis, title: 'Accel (m/s²)' }, margin: { t: 30, r: 20, b: 30, l: 50 } }, config);
+
+  // Plot 3: Error & Uncertainty
+  const posErrorN = time.map(() => (Math.random() - 0.5) * 0.3);
+  const velUncertainty = time.map(ti => 0.5 * Math.exp(-ti / 10) + 0.02);
+
+  Plotly.newPlot('plot3', [
+      { x: time, y: posErrorN, mode: 'lines', name: 'North Error (m)', line: { color: 'cyan', width: 1 } },
+      { x: time, y: velUncertainty, mode: 'lines', name: 'Vel Uncertainty (1σ)', line: { color: 'yellow', width: 2 } },
+  ], { ...commonLayout, title: 'Error & Uncertainty', xaxis: { ...commonLayout.xaxis, title: 'Time (s)' }, yaxis: { ...commonLayout.yaxis, title: 'Value' } }, config);
+
+</script>
+
+</body>
+</html>

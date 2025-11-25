@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Data Record #042 | Enrique Garcia</title>
+
+    <!-- Tailwind / Plotly / Model Viewer -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <!-- Icons / Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0f0f10; }
+        ::-webkit-scrollbar-thumb { background: #334155; }
+
+        /* CRT Scanline Effect (Subtle) */
+        .crt::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 2px;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .panel {
+            background: #0a0a0a;
+            border: 1px solid rgba(148, 163, 184, 0.35); /* similar to white/20 */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            background: #0b0b0c;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+            padding: 4px 12px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #64748b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 4px;
+            background: #3b82f6;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 10px #3b82f6;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #1e293b;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col p-2 gap-2 font-mono antialiased bg-[#0f0f10]">
+
+    <header class="h-12 border border-white/10 bg-black/80 backdrop-blur-sm flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center gap-4">
+            <a href="ekf-nav.html" class="text-gray-500 hover:text-white transition-colors flex items-center gap-2 group">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform text-xs"></i>
+                <span class="text-[10px] font-bold tracking-widest uppercase">Abort / Return</span>
+            </a>
+            <div class="w-px h-6 bg-white/10"></div>
+            <div class="flex flex-col">
+                <span class="text-xs text-gray-400">
+                    Mission: <span class="text-white">HOVER_STABILITY_TEST_04</span>
+                </span>
+                <span class="text-[10px] text-gray-600">ID: 8f3a2c // T-0 Start: 14:02:22 UTC</span>
+            </div>
+        </div>
+        <div class="flex gap-6 text-[10px]">
+            <div class="flex flex-col items-end">
+                <span class="text-gray-500 uppercase tracking-widest">EKF State</span>
+                <span class="text-emerald-400 animate-pulse font-semibold">Converged</span>
+            </div>
+            <div class="flex flex-col items-end">
+                <span class="text-gray-500 uppercase tracking-widest">Battery</span>
+                <span class="text-white">16.4V (4S)</span>
+            </div>
+            <div class="flex flex-col items-end">
+                <span class="text-gray-500 uppercase tracking-widest">Link Quality</span>
+                <span class="text-white">-42 dBm</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 grid grid-cols-12 grid-rows-6 gap-2 min-h-0">
+
+        <!-- Attitude Visualizer -->
+        <div class="panel col-span-12 md:col-span-4 row-span-4 crt">
+            <div class="panel-header">
+                <span><i class="fas fa-cube mr-2 text-xs"></i>Attitude Visualizer</span>
+                <span class="text-blue-400 text-[9px] tracking-widest uppercase">Live Render</span>
+            </div>
+            <div class="flex-1 relative bg-gradient-to-b from-[#111] to-[#050505]">
+                <model-viewer 
+                    id="drone-model"
+                    src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                    camera-controls 
+                    disable-zoom
+                    auto-rotate="false"
+                    shadow-intensity="1" 
+                    camera-orbit="0deg 90deg 2m"
+                    style="width: 100%; height: 100%; --poster-color: transparent;">
+                </model-viewer>
+                
+                <div class="absolute bottom-4 left-4 text-[10px] space-y-1 text-blue-400/80 pointer-events-none">
+                    <div>Pitch: <span id="hud-pitch" class="text-white font-semibold">0.0°</span></div>
+                    <div>Roll: <span id="hud-roll" class="text-white font-semibold">0.0°</span></div>
+                    <div>Yaw: <span id="hud-yaw" class="text-white font-semibold">0.0°</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Telemetry Charts -->
+        <div class="panel col-span-12 md:col-span-8 row-span-4">
+            <div class="panel-header">
+                <span><i class="fas fa-chart-area mr-2 text-xs"></i>Sensor Fusion Telemetry</span>
+                <div class="flex gap-2 items-center text-[9px]">
+                    <span class="text-gray-500 uppercase tracking-widest">Rate</span>
+                    <span class="text-white">100 Hz</span>
+                </div>
+            </div>
+            <div class="flex-1 grid grid-rows-2 gap-px bg-[#1e293b]">
+                <div class="bg-[#0a0a0a] relative p-2" id="chart-altitude"></div>
+                <div class="bg-[#0a0a0a] relative p-2" id="chart-imu"></div>
+            </div>
+        </div>
+
+        <!-- System Events -->
+        <div class="panel col-span-12 md:col-span-4 row-span-2">
+            <div class="panel-header">
+                <span><i class="fas fa-terminal mr-2 text-xs"></i>System Events</span>
+                <span class="text-emerald-400 text-[9px] tracking-widest uppercase">SSH: Active</span>
+            </div>
+            <div id="terminal-log" class="flex-1 p-3 text-[10px] text-gray-400 overflow-y-auto space-y-1 bg-[#050505]">
+            </div>
+        </div>
+
+        <!-- Playback Control -->
+        <div class="panel col-span-12 md:col-span-8 row-span-2">
+            <div class="panel-header">
+                <span><i class="fas fa-sliders-h mr-2 text-xs"></i>Playback Control</span>
+                <span class="text-gray-600 text-[9px] tracking-widest uppercase">Recorded Flight #042</span>
+            </div>
+            
+            <div class="h-full flex flex-col justify-center gap-6 px-4 pb-4 pt-6">
+                <div>
+                    <div class="flex justify-between text-[10px] text-gray-500 mb-2">
+                        <span>T+ <span id="current-time" class="text-white">0.00</span>s</span>
+                        <span>Duration: <span class="text-white">20.00s</span></span>
+                    </div>
+                    <input type="range" id="scrubber" min="0" max="199" value="0" class="w-full">
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button id="play-btn" class="h-8 w-8 rounded-sm border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white flex items-center justify-center transition-colors">
+                        <i class="fas fa-play text-xs"></i>
+                    </button>
+                    
+                    <div class="h-8 border-l border-white/10 mx-2"></div>
+
+                    <div class="flex gap-8 text-[10px]">
+                        <div>
+                            <div class="text-gray-500 uppercase tracking-widest">Est. X-Pos</div>
+                            <div class="text-white text-lg font-bold" id="metric-x">0.00m</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500 uppercase tracking-widest">Est. Y-Pos</div>
+                            <div class="text-white text-lg font-bold" id="metric-y">0.00m</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500 uppercase tracking-widest">Innovation</div>
+                            <div class="text-emerald-400 text-lg font-bold" id="metric-inn">0.02</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    // --- 1. DATA GENERATION ---
+    const frames = 200;
+    const timeData = Array.from({ length: frames }, (_, i) => i / 10);
+    
+    const altData = timeData.map(t => {
+        if (t < 2) return 0;
+        if (t < 5) return (t - 2) * 0.5;
+        if (t < 15) return 1.5 + Math.sin(t * 2) * 0.05 + (Math.random() - 0.5) * 0.1;
+        if (t < 18) return 1.5 - (t - 15) * 0.5;
+        return 0;
+    });
+
+    const imuNoise = timeData.map(t => {
+        const amp = (t > 2 && t < 5) || (t > 15 && t < 18) ? 2.5 : 0.8;
+        return (Math.random() - 0.5) * amp;
+    });
+
+    const quaternions = timeData.map(t => {
+        const pitch = Math.sin(t) * 0.05;
+        const roll = Math.cos(t * 1.5) * 0.05;
+        const yaw = t * 0.02;
+        
+        const c1 = Math.cos(roll / 2), c2 = Math.cos(pitch / 2), c3 = Math.cos(yaw / 2);
+        const s1 = Math.sin(roll / 2), s2 = Math.sin(pitch / 2), s3 = Math.sin(yaw / 2);
+        return [
+            c1 * c2 * c3 - s1 * s2 * s3,
+            s1 * c2 * c3 + c1 * s2 * s3,
+            c1 * s2 * c3 - s1 * c2 * s3,
+            c1 * c2 * s3 + s1 * s2 * c3
+        ];
+    });
+
+    const logEvents = [
+        { t: 0.1, msg: "SYSTEM_INIT: OK" },
+        { t: 0.5, msg: "IMU_CALIBRATION: STARTED" },
+        { t: 1.2, msg: "IMU_CALIBRATION: COMPLETE (OFFSET: [0.01, -0.02, 0.00])" },
+        { t: 1.8, msg: "EKF: FILTER_CONVERGED" },
+        { t: 2.0, msg: "MOTORS: ARMED" },
+        { t: 2.1, msg: "FLIGHT_MODE: TAKEOFF" },
+        { t: 5.0, msg: "ALT_HOLD: ENGAGED (TARGET: 1.5m)" },
+        { t: 8.4, msg: "GPS: SATELLITES=12 HDOP=0.8" },
+        { t: 12.0, msg: "WARN: VIBRATION > THRESHOLD (Correcting R-Matrix)" },
+        { t: 15.0, msg: "FLIGHT_MODE: LAND" },
+        { t: 18.2, msg: "MOTORS: DISARMED" },
+        { t: 19.0, msg: "LOG: SAVED TO SD_CARD" }
+    ];
+
+    // --- 2. CHART INITIALIZATION ---
+    const commonLayout = {
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { color: '#64748b', family: 'JetBrains Mono' },
+        margin: { t: 30, r: 10, b: 30, l: 40 },
+        xaxis: { showgrid: true, gridcolor: '#334155', range: [0, 20] },
+        yaxis: { showgrid: true, gridcolor: '#334155' },
+        showlegend: false
+    };
+
+    const config = { displayModeBar: false, responsive: true };
+
+    Plotly.newPlot('chart-altitude', [{
+        x: timeData,
+        y: altData,
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: '#3b82f6', width: 2 }
+    }], {
+        ...commonLayout,
+        title: 'Altitude (Z-Pos)',
+        height: 160
+    }, config);
+
+    Plotly.newPlot('chart-imu', [{
+        x: timeData,
+        y: imuNoise,
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: '#ef4444', width: 1 }
+    }], {
+        ...commonLayout,
+        title: 'Accel Vibration (Raw)',
+        height: 160
+    }, config);
+
+    const markerTrace = {
+        x: [0],
+        y: [0],
+        mode: 'markers',
+        marker: { color: 'white', size: 8 }
+    };
+    Plotly.addTraces('chart-altitude', markerTrace);
+    Plotly.addTraces('chart-imu', markerTrace);
+
+    // --- 3. PLAYBACK LOGIC ---
+    let isPlaying = false;
+    let frame = 0;
+    const scrubber = document.getElementById('scrubber');
+    const currentTimeEl = document.getElementById('current-time');
+    const modelViewer = document.getElementById('drone-model');
+    const logContainer = document.getElementById('terminal-log');
+
+    function updateVisuals(f) {
+        const t = timeData[f];
+        currentTimeEl.innerText = t.toFixed(2);
+        scrubber.value = f;
+
+        Plotly.animate('chart-altitude', {
+            data: [{ x: [t], y: [altData[f]] }],
+            traces: [1]
+        }, { transition: { duration: 0 }, frame: { duration: 0, redraw: false } });
+
+        Plotly.animate('chart-imu', {
+            data: [{ x: [t], y: [imuNoise[f]] }],
+            traces: [1]
+        }, { transition: { duration: 0 }, frame: { duration: 0, redraw: false } });
+
+        document.getElementById('metric-x').innerText = (Math.sin(t) * 0.5).toFixed(2) + 'm';
+        document.getElementById('metric-y').innerText = (Math.cos(t) * 0.5).toFixed(2) + 'm';
+
+        const q = quaternions[f];
+        modelViewer.orientation = `${q[0] * 20}deg ${q[1] * 20}deg ${q[2] * 20}deg`;
+
+        document.getElementById('hud-pitch').innerText = (q[0] * 50).toFixed(1) + '°';
+        document.getElementById('hud-roll').innerText = (q[1] * 50).toFixed(1) + '°';
+        document.getElementById('hud-yaw').innerText = (t * 20).toFixed(1) + '°';
+
+        const event = logEvents.find(e => Math.abs(e.t - t) < 0.05);
+        if (event) {
+            const entry = document.createElement('div');
+            entry.innerHTML = `<span class="text-blue-400">[${event.t.toFixed(2)}]</span> ${event.msg}`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+    }
+
+    setInterval(() => {
+        if (isPlaying) {
+            frame++;
+            if (frame >= frames) frame = 0;
+            updateVisuals(frame);
+        }
+    }, 100);
+
+    document.getElementById('play-btn').addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        document.getElementById('play-btn').innerHTML = isPlaying
+            ? '<i class="fas fa-pause text-xs"></i>'
+            : '<i class="fas fa-play text-xs"></i>';
+    });
+
+    scrubber.addEventListener('input', (e) => {
+        isPlaying = false;
+        frame = parseInt(e.target.value, 10);
+        updateVisuals(frame);
+        document.getElementById('play-btn').innerHTML = '<i class="fas fa-play text-xs"></i>';
+    });
+
+    updateVisuals(0);
+</script>
+</body>
+</html>

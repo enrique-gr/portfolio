@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interests | Enrique Garcia</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- model-viewer for .glb files -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #e2e8f0; 
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .tech-highlight { color: #10b981; font-weight: 600; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+        /* Match the working test.html proportions more closely */
+        model-viewer {
+            width: 100%;
+            height: 350px; /* similar feel to the test viewer */
+            background: radial-gradient(circle at top, #1e293b 0, #020617 65%);
+            border-radius: 0.125rem; /* rounded-sm */
+        }
+
+        model-viewer::part(default-progress-bar) {
+            height: 2px;
+            background-color: #10b981;
+        }
+
+        /* Ensure aircraft cards align their 3D viewers vertically */
+        .aircraft-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .aircraft-viewer-shell {
+            margin-top: auto; /* pushes viewer to bottom so all align */
+        }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <!-- NAV -->
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" onclick="goBackToHome()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">RETURN</span>
+            </a>
+
+            <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
+                <span class="hidden md:inline">Interests</span>
+                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+  <!-- HEADER BLOCK -->
+<div class="flex flex-col md:flex-row items-start justify-between gap-8 mb-12 border-b border-white/10 pb-10">
+
+ <!-- Left: Icon + Content -->
+<div class="flex items-start gap-8">
+    <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+        <img 
+            src="assets/images/interests.png" 
+            alt="Interests Icon"
+            class="object-contain w-full h-full"
+        />
+    </div>
+
+
+        <div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Interests</h1>
+
+            <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">
+                Fighter Jets · Rockets · Calisthenics · Strength Training · Film
+            </p>
+
+            <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono text-gray-500">
+                <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                    Aerospace & Flight Systems
+                </div>
+
+                <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    Training & Movement
+                </div>
+
+                <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-300"></span>
+                    Storytelling
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Section Number -->
+    <span class="text-xl font-mono text-white/20">05</span>
+
+</div>
+
+
+        <!-- LAYOUT GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+            <!-- LEFT: MAIN CONTENT (2/3) -->
+            <div class="lg:col-span-2 space-y-14">
+                <!-- AEROSPACE & FLIGHT -->
+                <section>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                        Aerospace & Flight
+                    </h3>
+
+                    <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
+                        <p>
+                            I’ve always looked at aircraft and launch vehicles the same way I look at complex engineering 
+                            systems: reduce them down to fundamentals, understand the constraints, and study why each design 
+                            choice exists. These platforms stand out because they reward deep curiosity and disciplined 
+                            analysis—they are the products of engineering done at the limits.
+                        </p>
+                    </div>
+
+                    <!-- Horizontal cards strip -->
+                    <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+                        <!-- SR-71 -->
+                        <article class="aircraft-card snap-start bg-black border border-white/10 p-6 min-w-[360px] max-w-[360px] relative">
+                            <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
+                                <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%)]"></div>
+                            </div>
+
+                            <header class="relative mb-3">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-[11px] font-mono text-sky-300 uppercase tracking-widest">SR-71 Blackbird</span>
+                                    <span class="text-[10px] font-mono text-gray-500">Recon · Mach 3+</span>
+                                </div>
+                                <h4 class="text-sm font-semibold text-white">
+                                    Outrun the threat instead of dodging it.
+                                </h4>
+                            </header>
+
+                            <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
+                                The SR-71 is a perfect example of engineering pushed into the extreme. I’m drawn to how its design 
+                                handles continuous heating, material expansion, and mission reliability at Mach 3+, where every 
+                                decision has direct consequences for survivability and performance.
+                            </p>
+
+                            <!-- 3D model viewer -->
+                            <div class="aircraft-viewer-shell relative bg-[#020617] border border-sky-500/40 rounded-sm overflow-hidden">
+                                <model-viewer
+                                    src="assets/models/sr-71.glb"
+                                    alt="SR-71 Blackbird 3D model"
+                                    auto-rotate
+                                    camera-controls
+                                    interaction-prompt="none"
+                                    touch-action="pan-y"
+                                    shadow-intensity="0.7"
+                                    environment-image="neutral"
+                                    camera-orbit="0deg 65deg 120%"
+                                    field-of-view="30deg">
+                                </model-viewer>
+                            </div>
+                        </article>
+
+                        <!-- F-22 -->
+                        <article class="aircraft-card snap-start bg-black border border-white/10 p-6 min-w-[360px] max-w-[360px] relative">
+                            <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
+                                <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.4),_transparent_60%)]"></div>
+                            </div>
+
+                            <header class="relative mb-3">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-[11px] font-mono text-blue-300 uppercase tracking-widest">F-22 Raptor</span>
+                                    <span class="text-[10px] font-mono text-gray-500">5th Gen Fighter</span>
+                                </div>
+                                <h4 class="text-sm font-semibold text-white">
+                                    Stealth, supercruise, and control laws.
+                                </h4>
+                            </header>
+
+                            <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
+                                The F-22 has always stood out to me for how seamlessly aerodynamics, avionics, and control laws 
+                                work together. It’s a system where real-time software, stealth geometry, and thrust vectoring feel 
+                                integrated rather than layered on top of each other.
+                            </p>
+
+                            <div class="aircraft-viewer-shell relative bg-[#020617] border border-blue-500/40 rounded-sm overflow-hidden">
+                                <model-viewer
+                                    src="assets/models/f-22.glb"
+                                    alt="F-22 Raptor 3D model"
+                                    auto-rotate
+                                    camera-controls
+                                    interaction-prompt="none"
+                                    touch-action="pan-y"
+                                    shadow-intensity="0.7"
+                                    environment-image="neutral"
+                                    camera-orbit="30deg 60deg 130%"
+                                    field-of-view="30deg">
+                                </model-viewer>
+                            </div>
+                        </article>
+
+                        <!-- YF-23 -->
+                        <article class="aircraft-card snap-start bg-black border border-white/10 p-6 min-w-[360px] max-w-[360px] relative">
+                            <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
+                                <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.6),_transparent_60%)]"></div>
+                            </div>
+
+                            <header class="relative mb-3">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-[11px] font-mono text-slate-200 uppercase tracking-widest">YF-23 “Black Widow II”</span>
+                                    <span class="text-[10px] font-mono text-gray-500">Prototype</span>
+                                </div>
+                                <h4 class="text-sm font-semibold text-white">
+                                    The stealthy “what if” path.
+                                </h4>
+                            </header>
+
+                            <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
+                                I’ve always been fascinated by the YF-23 because it represents a completely different path the ATF 
+                                program could have taken. Its emphasis on signature reduction, high-speed stability, and a unique 
+                                planform shows how different engineering priorities can shape an entirely separate solution to 
+                                the same problem.
+                            </p>
+
+                            <div class="aircraft-viewer-shell relative bg-[#020617] border border-slate-400/60 rounded-sm overflow-hidden">
+                                <model-viewer
+                                    src="assets/models/yf-23.glb"
+                                    alt="YF-23 3D model"
+                                    auto-rotate
+                                    camera-controls
+                                    interaction-prompt="none"
+                                    touch-action="pan-y"
+                                    shadow-intensity="0.7"
+                                    environment-image="neutral"
+                                    camera-orbit="-30deg 60deg 130%"
+                                    field-of-view="30deg">
+                                </model-viewer>
+                            </div>
+                        </article>
+
+                        <!-- Saturn V -->
+                        <article class="aircraft-card snap-start bg-black border border-white/10 p-6 min-w-[360px] max-w-[360px] relative">
+                            <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
+                                <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.45),_transparent_60%)]"></div>
+                            </div>
+
+                            <header class="relative mb-3">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-[11px] font-mono text-emerald-300 uppercase tracking-widest">Saturn V</span>
+                                    <span class="text-[10px] font-mono text-gray-500">Moon Rocket</span>
+                                </div>
+                                <h4 class="text-sm font-semibold text-white">
+                                    Brute force with precision.
+                                </h4>
+                            </header>
+
+                            <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
+                                The Saturn V is engineering at full scale—staging decisions, clustered engines, and a mission 
+                                profile that demanded reliability under enormous forces. I appreciate how every part of the 
+                                vehicle reflects disciplined systems engineering under extreme constraints.
+                            </p>
+
+                            <div class="aircraft-viewer-shell relative bg-[#020617] border border-emerald-500/40 rounded-sm overflow-hidden">
+                                <model-viewer
+                                    src="assets/models/saturn_v.glb"
+                                    alt="Saturn V 3D model"
+                                    auto-rotate
+                                    camera-controls
+                                    interaction-prompt="none"
+                                    touch-action="pan-y"
+                                    shadow-intensity="0.8"
+                                    environment-image="neutral"
+                                    camera-orbit="0deg 75deg 160%"
+                                    field-of-view="25deg">
+                                </model-viewer>
+                            </div>
+                        </article>
+
+                        <!-- F-16 -->
+                        <article class="aircraft-card snap-start bg-black border border-white/10 p-6 min-w-[360px] max-w-[360px] relative">
+                            <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
+                                <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.55),_transparent_60%)]"></div>
+                            </div>
+
+                            <header class="relative mb-3">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-[11px] font-mono text-amber-300 uppercase tracking-widest">F-16 “Viper”</span>
+                                    <span class="text-[10px] font-mono text-gray-500">FBW Pioneer</span>
+                                </div>
+                                <h4 class="text-sm font-semibold text-white">
+                                    Relaxed stability as a feature.
+                                </h4>
+                            </header>
+
+                            <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
+                                The F-16’s intentionally unstable design has always been one of my favorite examples of 
+                                control theory in action. It shows how software, real-time feedback, and control surface 
+                                authority can turn instability into agility.
+                            </p>
+
+                            <div class="aircraft-viewer-shell relative bg-[#020617] border border-amber-500/50 rounded-sm overflow-hidden">
+                                <model-viewer
+                                    src="assets/models/f-16.glb"
+                                    alt="F-16 Viper 3D model"
+                                    auto-rotate
+                                    camera-controls
+                                    interaction-prompt="none"
+                                    touch-action="pan-y"
+                                    shadow-intensity="0.7"
+                                    environment-image="neutral"
+                                    camera-orbit="20deg 60deg 130%"
+                                    field-of-view="30deg">
+                                </model-viewer>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- TRAINING & MOVEMENT -->
+                <section>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                        Training & Movement
+                    </h3>
+
+                    <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
+                        <p>
+                            Training has always felt similar to engineering work for me—set a clear target, define the 
+                            constraints, and apply consistent effort. I’m drawn to simple movements performed with high 
+                            intent, where progress comes from discipline rather than tricks.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Calisthenics card -->
+                        <div class="bg-black border border-white/10 p-6">
+                            <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
+                                <div>
+                                    <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
+                                        Calisthenics
+                                    </h4>
+                                    <p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">
+                                        Weighted pull-ups & dips
+                                    </p>
+                                </div>
+                                <i class="fas fa-person-running text-amber-300/80"></i>
+                            </div>
+
+                            <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                                Weighted pull-ups and dips have become my primary strength movements. I focus on controlled 
+                                execution, progressive overload, and keeping the work honest—no shortcuts, no wasted reps.
+                            </p>
+
+                            <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400">
+                                    <span>Style</span>
+                                    <span class="text-amber-300">Heavy, clean, controlled</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400">
+                                    <span>Why</span>
+                                    <span class="text-amber-300">Simple movements, high intent</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strength training card -->
+                        <div class="bg-black border border-white/10 p-6">
+                            <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
+                                <div>
+                                    <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
+                                        Strength Training
+                                    </h4>
+                                    <p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">
+                                        No reps left in reserve
+                                    </p>
+                                </div>
+                                <i class="fas fa-dumbbell text-emerald-300/80"></i>
+                            </div>
+
+                            <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                                Most of my working sets are done at a high effort level—usually 0–1 RIR. It feels similar 
+                                to tuning a control loop: push hard, observe the response, adjust, and build resilience 
+                                over time. The structure and discipline carry over directly into engineering work.
+                            </p>
+
+                            <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400">
+                                    <span>Philosophy</span>
+                                    <span class="text-emerald-300">Make top sets memorable</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400">
+                                    <span>Carryover</span>
+                                    <span class="text-emerald-300">Same mindset as debugging & EKF tuning</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+<!-- FAVORITE MOVIES -->
+<section>
+    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+        Favorite Films
+    </h3>
+
+    <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
+        <p>
+            These films stand out for their atmosphere, pacing, and the way characters carry tension under pressure.
+            Each has a strong sense of discipline, perspective, or control—traits that resonate with how I approach
+            engineering and problem-solving.
+        </p>
+    </div>
+
+    <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+
+        <!-- NO COUNTRY FOR OLD MEN -->
+        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+            <img src="assets/movies/no_country.png"
+                 class="w-full h-72 object-cover border border-white/10 mb-4"
+                 alt="No Country for Old Men Poster">
+            <h4 class="text-sm font-semibold text-white mb-1">No Country for Old Men</h4>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                A masterclass in tension and control—quiet, precise, and driven by internal logic rather than spectacle.
+            </p>
+        </article>
+
+        <!-- SHAWSHANK -->
+        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+            <img src="assets/movies/shawshank.png"
+                 class="w-full h-72 object-cover border border-white/10 mb-4"
+                 alt="Shawshank Redemption Poster">
+            <h4 class="text-sm font-semibold text-white mb-1">The Shawshank Redemption</h4>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                A story about patience, discipline, and long-term persistence—even when progress feels invisible.
+            </p>
+        </article>
+
+        <!-- TAXI DRIVER -->
+        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+            <img src="assets/movies/taxi_driver.png"
+                 class="w-full h-72 object-cover border border-white/10 mb-4"
+                 alt="Taxi Driver Poster">
+            <h4 class="text-sm font-semibold text-white mb-1">Taxi Driver</h4>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                A character study with atmosphere and intensity—slow-burn storytelling that builds pressure deliberately.
+            </p>
+        </article>
+
+        <!-- THE DARK KNIGHT -->
+        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+            <img src="assets/movies/dark_knight.png"
+                 class="w-full h-72 object-cover border border-white/10 mb-4"
+                 alt="The Dark Knight Poster">
+            <h4 class="text-sm font-semibold text-white mb-1">The Dark Knight</h4>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                Tight pacing, moral complexity, and precision in both storytelling and execution—an engineering mindset on screen.
+            </p>
+        </article>
+    </div>
+</section>
+
+
+
+
+            </div>
+
+            <!-- RIGHT SIDEBAR -->
+            <aside class="space-y-10">
+                <!-- Aircraft roster -->
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                        Aircraft & Vehicles Roster
+                    </h3>
+                    <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
+                        <div class="flex items-center justify-between">
+                            <span>[JET] SR-71 Blackbird</span>
+                            <span class="text-sky-300">Mach 3+ Recon</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>[JET] F-22 Raptor</span>
+                            <span class="text-blue-300">5th Gen Fighter</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>[JET] YF-23 Black Widow II</span>
+                            <span class="text-slate-300">Prototype</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>[JET] F-16 “Viper”</span>
+                            <span class="text-amber-300">FBW Pioneer</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>[LV] Saturn V</span>
+                            <span class="text-emerald-300">Lunar Stack</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Snapshot -->
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                        Training Snapshot
+                    </h3>
+                    <div class="p-6 bg-emerald-500/5 border border-emerald-500/20 text-xs font-mono space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span>Primary Focus</span>
+                            <span class="text-emerald-300">Weighted pull & push</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Effort Level</span>
+                            <span class="text-emerald-300">0–1 RIR / work set</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Approach</span>
+                            <span class="text-emerald-300">Progressive overload</span>
+                        </div>
+                        <p class="pt-2 text-[11px] text-emerald-100/80 leading-relaxed">
+                            Same mindset across both engineering and training: pick a target, measure honestly, and 
+                            keep showing up when it stops being easy.
+                        </p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-white/10 bg-black">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+            SYSTEM ID: INTERESTS-FLT-STR // END OF FILE
+        </div>
+    </footer>
+
+    <!-- RETURN HANDLING (SEAMLESS) -->
+    <script>
+    function goBackToHome() {
+        if (document.referrer && document.referrer.includes('index.html')) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+    </script>
+
+</body>
+</html>
