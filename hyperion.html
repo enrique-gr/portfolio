@@ -39,32 +39,48 @@
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
-                <i class="fas fa-arrow-left"></i>
-                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
-            </a>
-            
-            <a href="https://github.com/enrique-gr/hyperion-engine" target="_blank" class="flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-white transition-colors border border-white/10 px-3 py-1.5 rounded-sm hover:bg-white/10">
+   <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        
+        <!-- RETURN -->
+        <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-arrow-left"></i>
+            <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+        </a>
+
+        <!-- RIGHT SIDE -->
+        <div class="flex items-center gap-6">
+
+            <!-- ✅ Source Code button FIRST -->
+            <a href="https://github.com/enrique-gr/hyperion-engine" target="_blank" 
+               class="flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-white transition-colors border border-white/10 px-3 py-1.5 rounded-sm hover:bg-white/10">
                 <i class="fab fa-github"></i>
-                <span>SOURCE_CODE</span>
+                <span>SOURCE CODE</span>
             </a>
+
+            <!-- ✅ Personal Project badge SECOND -->
+            <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
+                <span class="hidden md:inline">Personal Project</span>
+                <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
+            </div>
+
         </div>
-    </nav>
+    </div>
+</nav>
+
 
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         
         <!-- HEADER -->
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-    <img 
-        src="images/hyperionE.png" 
-        alt="Hyperion Project Icon" 
-        class="h-full w-full object-contain p-2" 
-        onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';"
-    >
-</div>
+                <img 
+                    src="images/hyperionE.png" 
+                    alt="Hyperion Project Icon" 
+                    class="h-full w-full object-contain p-2" 
+                    onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';"
+                >
+            </div>
             <div>
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Hyperion 6-DOF Engine</h1>
                 <p class="text-purple-400 font-mono text-sm uppercase tracking-widest">Flight Software Infrastructure</p>
@@ -194,7 +210,7 @@
 
                 </div>
 
-                <!-- VALIDATION & RESULTS (NEW) -->
+                <!-- VALIDATION & RESULTS -->
                 <div class="bg-black border border-white/10 p-1 mb-12">
                     <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
                         <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Performance Validation</h3>
@@ -267,15 +283,15 @@
         </div>
     </main>
 
-  <script>
-  function goBackToHub() {
-    if (document.referrer && document.referrer.includes('index.html')) {
-      window.history.back();
-    } else {
-      window.location.href = 'index.html#collections';
-    }
-  }
-</script>
+    <script>
+      function goBackToHub() {
+        if (document.referrer && document.referrer.includes('index.html')) {
+          window.history.back();
+        } else {
+          window.location.href = 'index.html#collections';
+        }
+      }
+    </script>
 
 </body>
 </html>

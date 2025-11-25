@@ -36,21 +36,36 @@
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
     <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
-                <i class="fas fa-arrow-left"></i>
-                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
-            </a>
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        
+        <!-- RETURN -->
+        <a href="#" onclick="goBackToHub()" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-arrow-left"></i>
+            <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+        </a>
 
-            <a href="telemetry.html" class="flex items-center gap-2 px-4 py-2 border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-white transition-all group rounded-sm">
+        <!-- RIGHT SIDE -->
+        <div class="flex items-center gap-6">
+
+            <!-- ✅ Launch Console button FIRST -->
+            <a href="telemetry.html" 
+               class="flex items-center gap-2 px-4 py-2 border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-white transition-all group rounded-sm">
                 <div class="flex flex-col items-end leading-none">
                     <span class="font-bold font-mono text-xs tracking-widest">LAUNCH CONSOLE</span>
                     <span class="text-[8px] font-mono opacity-60">LIVE FLIGHT DATA</span>
                 </div>
                 <i class="fas fa-external-link-alt text-sm group-hover:translate-x-1 transition-transform"></i>
             </a>
+
+            <!-- ✅ Personal Project badge SECOND -->
+            <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
+                <span class="hidden md:inline">Personal Project</span>
+                <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
+            </div>
+
         </div>
-    </nav>
+    </div>
+</nav>
 
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
