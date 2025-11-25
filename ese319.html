@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Series Solutions & Singular Dynamics | Enrique Garcia</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #e2e8f0; 
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+        }
+        .tech-highlight { color: #10b981; font-weight: 600; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+    </style>
+</head>
+
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+<!-- NAV -->
+<nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        <a href="#"
+           onclick="goBackToHub()"
+           class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-arrow-left"></i>
+            <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+        </a>
+        <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
+            <span class="hidden md:inline">Coursework Project</span>
+            <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+        <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+            <img 
+                src="images/ese319.png" 
+                alt="ESE 319 Project Icon" 
+                class="h-full w-full object-contain p-2">
+        </div>
+        <div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">
+                Series Solutions &amp; Singular Dynamics
+            </h1>
+            <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">
+                Coursework (Individual Project - Spring 2025)
+            </p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+        
+        <!-- MAIN CONTENT -->
+        <div class="lg:col-span-2">
+
+            <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                Frobenius Method &amp; Regular Singular Points
+            </h3>
+
+            <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                <p>
+                    This project analyzed a second-order linear differential equation containing multiple singular points, and developed closed-form series solutions using the <span class="tech-highlight">Frobenius method</span>. The work focused on identifying the singular structure, deriving the indicial equation, and constructing two independent power series solutions.
+                </p>
+
+                <p>
+                    Instead of searching for a simplified closed-form expression, the analysis approached the problem the way many engineering systems are handled: by building a structured approximation that remains mathematically valid near the singularity and converges within a provable interval.
+                </p>
+
+                <ul class="space-y-4 list-disc list-inside border-l-2 border-emerald-500/30 pl-4 text-base">
+                    <li><span class="font-mono text-xs uppercase text-white tracking-wider">Singularity Classification:</span> Identified ordinary vs. singular points and located the nearest singularity that bounds convergence.</li>
+                    <li><span class="font-mono text-xs uppercase text-white tracking-wider">Indicial Equation:</span> Derived two distinct exponents <span class="tech-highlight">r₁</span> and <span class="tech-highlight">r₂</span> for linearly independent solutions.</li>
+                    <li><span class="font-mono text-xs uppercase text-white tracking-wider">Recurrence Relation:</span> Built a coefficient recursion that generates successive terms in both series.</li>
+                    <li><span class="font-mono text-xs uppercase text-white tracking-wider">Validation:</span> Compared truncated series to a numerical solution within the convergence interval.</li>
+                </ul>
+            </div>
+
+            <!-- PROBLEM SETUP -->
+            <div class="bg-black border border-white/10 p-6 mb-12">
+                <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                    <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Problem Setup &amp; Solution Structure</h3>
+                    <i class="fas fa-square-root-variable text-gray-600"></i>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
+                    <div>
+                        <h4 class="text-gray-500 mb-4 uppercase tracking-wider">>> Differential Equation Context</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                <span>[ORDER]</span><span class="text-emerald-400">2nd Order Linear ODE</span>
+                            </div>
+                            <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                <span>[POINTS]</span><span class="text-emerald-400">Ordinary & Singular</span>
+                            </div>
+                            <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                <span>[EXPANSION]</span><span class="text-emerald-400">x = x₀ (Regular Singular)</span>
+                            </div>
+                            <div class="flex justify-between p-2 bg-white/5 border-l-2 border-yellow-500">
+                                <span>[METHOD]</span><span class="text-yellow-400">Frobenius</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PIPELINE -->
+                    <div class="relative p-4 border border-emerald-500/20 bg-emerald-900/5 rounded-sm flex flex-col gap-3">
+                        <h4 class="text-emerald-400 mb-2 text-center uppercase tracking-wider">Analysis Pipeline</h4>
+
+                        <div class="w-full flex items-center justify-between gap-2">
+                            <div class="flex-1 p-2 text-center border border-white/20 bg-[#0f0f10]">
+                                <div class="text-[9px] text-gray-400 mb-1">STEP 1</div>
+                                <div class="text-[10px] text-white font-bold">CLASSIFY</div>
+                                <div class="text-[9px] text-gray-500">Singular points</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-gray-600 text-[10px]"></i>
+                            <div class="flex-1 p-2 text-center border border-emerald-500/40 bg-[#0f0f10]">
+                                <div class="text-[9px] text-gray-400 mb-1">STEP 2</div>
+                                <div class="text-[10px] text-emerald-400 font-bold">INDICIAL EQ.</div>
+                                <div class="text-[9px] text-gray-500">Solve for r</div>
+                            </div>
+                        </div>
+
+                        <div class="w-full flex items-center justify-between gap-2">
+                            <div class="flex-1 p-2 text-center border border-emerald-500/40 bg-[#0f0f10]">
+                                <div class="text-[9px] text-gray-400 mb-1">STEP 3</div>
+                                <div class="text-[10px] text-emerald-400 font-bold">RECURRENCE</div>
+                                <div class="text-[9px] text-gray-500">aₙ₊ₖ vs aₙ</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-gray-600 text-[10px]"></i>
+                            <div class="flex-1 p-2 text-center border border-white/20 bg-[#0f0f10]">
+                                <div class="text-[9px] text-gray-400 mb-1">STEP 4</div>
+                                <div class="text-[10px] text-white font-bold">SERIES</div>
+                                <div class="text-[9px] text-gray-500">y₁(x), y₂(x)</div>
+                            </div>
+                        </div>
+
+                        <div class="w-full flex items-center justify-center gap-2 mt-2">
+                            <div class="w-3/4 h-px bg-gray-700 relative">
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-1 px-3 bg-[#0f0f10] border border-emerald-500/30 text-[9px] text-center">
+                                    <span class="text-emerald-300">Convergence set by nearest singularity</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS -->
+            <div class="mt-12 border-t border-white/10 pt-8">
+                <h3 class="text-xs font-bold text-white font-mono uppercase tracking-widest mb-6">
+                    Key Results &amp; Visuals
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- FIGURE 1 -->
+                    <div class="bg-black border border-white/10 p-4">
+                        <h4 class="text-[11px] font-mono uppercase tracking-widest text-gray-400 mb-3">
+                            Truncated Series vs Numerical Solution
+                        </h4>
+                        <img src="assets/projects/ese319/series_solution_plot.png"
+                             class="w-full border border-white/10 mb-4"
+                             alt="Series vs Numerical Solution Plot">
+                        <p class="mt-3 text-xs text-gray-400 leading-relaxed">
+                            The truncated series closely matched the numerical solution inside the convergence interval, confirming the correctness of the recurrence structure.
+                        </p>
+                    </div>
+
+                    <!-- FIGURE 2 -->
+                    <div class="bg-black border border-white/10 p-4">
+                        <h4 class="text-[11px] font-mono uppercase tracking-widest text-gray-400 mb-3">
+                            Convergence Interval & Singularities
+                        </h4>
+                        <img src="assets/projects/ese319/convergence_interval.png"
+                             class="w-full border border-white/10 mb-4"
+                             alt="Convergence Interval Plot">
+                        <p class="mt-3 text-xs text-gray-400 leading-relaxed">
+                            The allowable interval was bounded by the nearest singularity, defining the domain where both solutions remain valid.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PDF -->
+            <div class="mt-12 border-t border-white/10 pt-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xs font-bold text-white font-mono uppercase tracking-widest">
+                        Documentation Preview
+                    </h3>
+                    <a href="docs/EnMath_ODE_Report.pdf" target="_blank"
+                       class="text-blue-400 text-xs font-mono uppercase hover:text-white transition-colors border border-blue-400/20 px-3 py-1 hover:bg-blue-400/10">
+                        Download PDF <i class="fas fa-download ml-2"></i>
+                    </a>
+                </div>
+                <iframe src="docs/EnMath_ODE_Report.pdf"
+                        class="w-full h-[600px] bg-[#1a1a1a] border border-white/10"></iframe>
+            </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="space-y-10">
+            
+            <div>
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                    Methods &amp; Topics
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Frobenius Method</span>
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Singular Points</span>
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Indicial Equation</span>
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Power Series</span>
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Convergence</span>
+                </div>
+            </div>
+
+            <div class="p-8 bg-emerald-500/5 border border-emerald-500/20">
+                <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">Outcome</h4>
+                <p class="text-sm text-emerald-100/80 leading-relaxed">
+                    Developed two independent Frobenius solutions about a regular singular point, derived a usable recurrence relation, and validated the resulting approximations numerically within the proven convergence interval.
+                </p>
+            </div>
+
+            <div class="p-6 bg-black/60 border border-white/10 text-xs font-mono space-y-3">
+                <h4 class="font-bold text-gray-300 uppercase tracking-widest text-[11px] mb-1">
+                    Engineering Takeaway
+                </h4>
+                <p class="text-[11px] text-gray-400 leading-relaxed">
+                    This project strengthened a general problem-solving habit: when direct formulas stop being useful, break the problem into structured components, respect the behavior near singularities, and build an approximation that remains reliable in the region that matters.
+                </p>
+            </div>
+
+        </aside>
+    </div>
+</main>
+
+<footer class="py-10 border-t border-white/10 bg-black mt-10">
+    <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+        SYSTEM ID: ESE-319-FROBENIUS // END OF FILE
+    </div>
+</footer>
+
+<script>
+    function goBackToHub() {
+        if (document.referrer && document.referrer.includes('index.html')) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html#collections';
+        }
+    }
+</script>
+
+</body>
+</html>

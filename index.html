@@ -1632,6 +1632,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chartData: { labels: ['Standard', 'IoT'], datasets: [{ label: 'Minutes', data: [12, 7], backgroundColor: ['#94a3b8', '#ef4444'] }] } 
     },
 
+
     "solid-mechanics": { 
         title: "Landing Gear FEA", 
         category: "coursework", 
@@ -1648,7 +1649,31 @@ document.addEventListener('DOMContentLoaded', () => {
         chartType: "line", 
         chartLabel: "Mesh Convergence", 
         chartData: { labels: ['Coarse', 'Fine'], datasets: [{ label: 'Stress', data: [250, 345], borderColor: '#0891b2' }] } 
-    }
+    },
+
+    "ese-319": { 
+        title: "Series Solutions & Singular Dynamics", 
+        category: "coursework", 
+        logoUrl: "images/ese319.png",
+        role: "Coursework", 
+        paperUrl: "docs/EnMath_ODE_Report.pdf", 
+        tags: ["Frobenius Method", "Singular Points"], 
+        icon: "fa-square-root-variable", 
+        summary: "Derived Frobenius series solutions around a regular singular point.", 
+        overview: "Analyzed a second-order ODE with singular behavior, constructed independent Frobenius solutions, derived recurrence relations, and validated convergence against numerical results.", 
+        
+        // LINK TO NEW FILE
+        externalLink: "ese319.html",
+
+        chartType: "line", 
+        chartLabel: "Series Convergence", 
+        chartData: { labels: ['n=2', 'n=4', 'n=6'], datasets: [{ label: 'Error', data: [0.12, 0.03, 0.008], borderColor: '#10b981' }] } 
+    },
+
+
+    
+
+    
         };
 
         // --- APP LOGIC ---
