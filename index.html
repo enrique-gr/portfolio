@@ -1445,8 +1445,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+
+
         // --- DATA ---
         const projects = {
+
+            
+            
             "washu-vtol": {
                 title: "WashU VTOL",
                 category: "featured",
@@ -1731,29 +1737,60 @@ pCount.onmouseover = event => scrambleText(event.target);
                         ? `window.location.href='${p.externalLink}'` 
                         : `openProjectDetail('${id}')`;
 
-                    featuredContainer.innerHTML += `
-                        <div onclick="${clickAction}" class="card-base card-hover p-8 cursor-pointer flex flex-col md:flex-row gap-8 items-start">
-                            <div class="w-full md:w-72 shrink-0">
-                                <div class="h-48 w-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center overflow-hidden relative">
-                                    <div class="absolute inset-0 bg-grid-pattern opacity-20"></div>
-                                    ${p.logoUrl ? `<img src="${p.logoUrl}" class="h-full w-full object-cover relative z-10">` : `<div class="h-24 w-24 bg-black border border-white/10 flex items-center justify-center text-4xl text-white relative z-10"><i class="fas ${p.icon}"></i></div>`}
-                                </div>
-                            </div>
-                            <div class="flex-grow">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 class="text-2xl font-bold text-white mb-1 tracking-tight">${p.title}</h3>
-                                        <p class="text-blue-400 font-mono text-sm uppercase tracking-wider">${p.role}</p>
-                                    </div>
-                                    <span class="text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase">${p.dates || '2024-2025'}</span>
-                                </div>
-                                <p class="text-gray-400 leading-relaxed mb-6 font-light">${p.summary}</p>
-                                <div class="flex flex-wrap gap-2">
-                                    ${p.tags.map(t => `<span class="px-3 py-1 bg-white/5 text-gray-300 text-xs font-mono uppercase tracking-wide border border-white/10">${t}</span>`).join('')}
-                                </div>
-                            </div>
+                     featuredContainer.innerHTML += `
+            <div onclick="${clickAction}" 
+                 class="card-base card-hover p-8 cursor-pointer flex flex-col md:flex-row gap-8 items-start group">
+
+                <!-- LEFT: IMAGE -->
+                <div class="w-full md:w-72 shrink-0">
+                    <div class="h-48 w-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center overflow-hidden relative">
+                        <div class="absolute inset-0 bg-grid-pattern opacity-20"></div>
+                        ${
+                            p.logoUrl
+                                ? `<img src="${p.logoUrl}" class="h-full w-full object-cover relative z-10">`
+                                : `<div class="h-24 w-24 bg-black border border-white/10 flex items-center justify-center text-4xl text-white relative z-10">
+                                        <i class="fas ${p.icon}"></i>
+                                   </div>`
+                        }
+                    </div>
+                </div>
+
+                <!-- RIGHT: TEXT -->
+                <div class="flex-grow">
+
+                    <!-- TITLE + ROLE + DATES -->
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-1 tracking-tight">${p.title}</h3>
+                            <p class="text-blue-400 font-mono text-sm uppercase tracking-wider">${p.role}</p>
                         </div>
-                    `;
+                        <span class="text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase">
+                            ${p.dates || '2024-2025'}
+                        </span>
+                    </div>
+
+                    <!-- SUMMARY -->
+                    <p class="text-gray-400 leading-relaxed mb-6 font-light">${p.summary}</p>
+
+                    <!-- TAGS -->
+                    <div class="flex flex-wrap gap-2">
+                        ${p.tags
+                            .map(
+                                (t) =>
+                                    `<span class="px-3 py-1 bg-white/5 text-gray-300 text-xs font-mono uppercase tracking-wide border border-white/10">${t}</span>`
+                            )
+                            .join("")}
+                    </div>
+
+                    <!-- ✅ NEW CLICK INDICATOR -->
+                    <div class="flex justify-end mt-4 pr-1">
+                        <i class="fas fa-arrow-right text-gray-500 text-xs group-hover:text-white group-hover:translate-x-1 transition-all"></i>
+                    </div>
+
+                </div>
+            </div>
+        `;
+
                 } else if (p.category === 'coursework') courseworkCount++;
                 else if (p.category === 'personal') personalCount++;
             }
