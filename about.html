@@ -7,100 +7,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Enrique Garcia</title>
 
+    <!-- Match interests.html stack -->
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
-<body class="bg-black text-gray-300 font-sans antialiased min-h-screen">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #e2e8f0; 
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
 
     <!-- NAV -->
     <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
-        <div class="max-w-5xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="index.html" class="text-xs font-mono text-gray-400 hover:text-white transition">
-                RETURN
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <!-- RETURN BUTTON (same pattern as interests.html) -->
+            <a href="#" onclick="goBackToHome()" 
+               class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left text-sm"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">RETURN</span>
             </a>
 
-            <span class="text-xs font-mono text-gray-500 uppercase tracking-widest hidden md:inline">
-                About
-            </span>
+            <!-- SECTION LABEL -->
+            <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
+                <span class="hidden md:inline">About</span>
+                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-5xl mx-auto">
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
-        <!-- HEADER -->
-        <div class="mb-12 border-b border-white/10 pb-10 flex items-start gap-6">
-            <div class="h-20 w-20 bg-black border border-white/10 flex items-center justify-center overflow-hidden">
-                <img src="assets/images/about.png" class="object-contain w-full h-full" alt="About Icon">
+        <!-- HEADER BLOCK -->
+        <div class="flex flex-col md:flex-row items-start justify-between gap-8 mb-12 border-b border-white/10 pb-10">
+
+            <!-- Left: Icon + Text -->
+            <div class="flex items-start gap-8">
+                <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                    <img 
+                        src="assets/images/about_icon.png" 
+                        alt="About Icon"
+                        class="object-contain w-full h-full"
+                    />
+                </div>
+
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">About</h1>
+
+                    <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">
+                        Systems · Flight · Steady Work
+                    </p>
+
+                    <div class="mt-4 space-y-3 text-sm md:text-base text-gray-300 font-light max-w-2xl">
+                        <p>
+                            I like working where hardware, software, and physics meet. I enjoy building systems that keep
+                            working when conditions are not ideal and when the data is not clean. That is the part of
+                            engineering that interests me the most.
+                        </p>
+                        <p>
+                            I am comfortable spending long stretches of time alone with a problem, testing ideas and
+                            throwing away what does not hold up. I pay attention to how things fail, not only when they
+                            look good in a slide. I prefer clear thinking and simple structures over complicated tricks.
+                        </p>
+                        <p>
+                            Most of my work so far has been around flight systems, sensing, and control. I like projects
+                            where you can measure the result in a clear way: the aircraft flies stable, the estimator
+                            holds, the data matches the model. That is the type of work I want to keep doing.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <h1 class="text-4xl font-bold text-white mb-2 tracking-tight">About Me</h1>
-                <p class="text-xs font-mono text-emerald-400 uppercase tracking-widest">
-                    Steady Work. Clear Thinking.
-                </p>
-            </div>
+            <!-- Right: Small Snapshot Card -->
+            <aside class="w-full md:w-64">
+                <div class="bg-black border border-white/10 p-5 text-xs font-mono space-y-3">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-gray-500 uppercase tracking-widest">Snapshot</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    </div>
+
+                    <div class="space-y-2 text-[11px]">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Location</span>
+                            <span class="text-gray-200">St. Louis, MO</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Degree Path</span>
+                            <span class="text-gray-200 text-right">B.S. Mechanical Engineering</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Current Focus</span>
+                            <span class="text-emerald-300 text-right">Flight, GNC, Sensor Fusion</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Active Missions</span>
+                            <span class="text-gray-200 text-right">VTOL · DBF · Sentinel</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-white/10 text-[11px] text-gray-400 leading-relaxed">
+                        I try to carry the same mindset into every project: keep the scope clear, test the thing in
+                        front of you, and stay calm when it breaks.
+                    </div>
+                </div>
+            </aside>
         </div>
 
-        <!-- SECTION 1 -->
-        <section class="mb-12 space-y-4 text-sm leading-relaxed">
-            <h2 class="text-xs font-mono uppercase text-gray-500 tracking-widest mb-2">
-                Starting Point
-            </h2>
-            <p>
-                I grew up liking anything that made me curious about how things worked. Over time, I learned that I enjoy working on real problems, not just ideas. I like having something in front of me that I can break down, understand, and improve.
-            </p>
-        </section>
+        <!-- SECOND ROW: HOW I WORK / WHAT I VALUE -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-black border border-white/10 p-6">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">
+                    How I like to work
+                </h2>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li>• Start simple, then add complexity only when needed.</li>
+                    <li>• Write things down so I can see gaps in my own thinking.</li>
+                    <li>• Test early, even if the setup is rough.</li>
+                    <li>• Treat failures as data, not as a reason to stop.</li>
+                </ul>
+            </div>
 
-        <!-- SECTION 2 -->
-        <section class="mb-12 space-y-4 text-sm leading-relaxed">
-            <h2 class="text-xs font-mono uppercase text-gray-500 tracking-widest mb-2">
-                What Matters To Me
-            </h2>
-            <p>
-                I care about staying focused, being reliable, and giving full effort even when progress is slow. I like work that rewards patience, honesty, and consistency. I do not rush the process. I would rather build something carefully than chase quick results.
-            </p>
-            <p>
-                I respect people who stay calm when things get difficult and who can think clearly when problems start stacking up. That mindset is something I try to practice in my own work and outside of it.
-            </p>
-        </section>
-
-        <!-- SECTION 3 -->
-        <section class="mb-12 space-y-4 text-sm leading-relaxed">
-            <h2 class="text-xs font-mono uppercase text-gray-500 tracking-widest mb-2">
-                How I Approach Challenges
-            </h2>
-            <p>
-                When I run into a wall, I step back, break the problem into smaller parts, and move forward one step at a time. I do not expect instant answers. Most progress comes from showing up, paying attention, and not quitting when it gets uncomfortable.
-            </p>
-        </section>
-
-        <!-- SECTION 4 -->
-        <section class="mb-12 space-y-4 text-sm leading-relaxed">
-            <h2 class="text-xs font-mono uppercase text-gray-500 tracking-widest mb-2">
-                What I’m Working Toward
-            </h2>
-            <p>
-                I want to keep growing into someone who earns trust through actions, not words. I want more responsibility, tougher problems, and the chance to contribute to work that actually matters. I am not in a hurry. I just want to keep moving forward with purpose.
-            </p>
-        </section>
-
-        <!-- SECTION 5 -->
-        <section class="space-y-4 text-sm leading-relaxed">
-            <h2 class="text-xs font-mono uppercase text-gray-500 tracking-widest mb-2">
-                Outside the Work
-            </h2>
-            <p>
-                I like training, learning new skills, and working on myself with the same steady effort I bring to engineering. I enjoy quiet routines, clear goals, and the feeling of earning progress rather than expecting it.
-            </p>
+            <div class="bg-black border border-white/10 p-6">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">
+                    What I am aiming for
+                </h2>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li>• Work on flight systems, guidance, and control in real vehicles.</li>
+                    <li>• Build tools and infrastructure that other engineers can rely on.</li>
+                    <li>• Stay close to the hardware and the data, not only the slides.</li>
+                    <li>• Keep improving my judgment under pressure and uncertainty.</li>
+                </ul>
+            </div>
         </section>
 
     </main>
 
-    <footer class="py-10 border-t border-white/10 bg-black text-center">
-        <p class="text-[10px] font-mono text-gray-600">
-            END OF FILE
-        </p>
+    <footer class="py-12 border-t border-white/10 bg-black">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+            SYSTEM ID: ABOUT-CFG // END OF FILE
+        </div>
     </footer>
+
+    <!-- RETURN HANDLING -->
+    <script>
+    function goBackToHome() {
+        if (document.referrer && document.referrer.includes('index.html')) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+    </script>
 
 </body>
 </html>
