@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Enrique Garcia</title>
 
-    <!-- Match interests.html stack -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -29,17 +28,14 @@
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
-    <!-- NAV -->
     <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <!-- RETURN BUTTON (same pattern as interests.html) -->
             <a href="#" onclick="goBackToHome()" 
                class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors">
                 <i class="fas fa-arrow-left text-sm"></i>
                 <span class="font-mono font-bold tracking-wider uppercase text-sm">RETURN</span>
             </a>
 
-            <!-- SECTION LABEL -->
             <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
                 <span class="hidden md:inline">About</span>
                 <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -49,10 +45,8 @@
 
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
-        <!-- HEADER BLOCK -->
         <div class="flex flex-col md:flex-row items-start justify-between gap-8 mb-12 border-b border-white/10 pb-10">
 
-            <!-- Left: Icon + Text -->
             <div class="flex items-start gap-8">
                 <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
                     <img 
@@ -66,30 +60,23 @@
                     <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">About</h1>
 
                     <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">
-                        Systems · Flight · Steady Work
+                        Systems · Engineering · Steady Work
                     </p>
 
                     <div class="mt-4 space-y-3 text-sm md:text-base text-gray-300 font-light max-w-2xl">
                         <p>
-                            I like working where hardware, software, and physics meet. I enjoy building systems that keep
-                            working when conditions are not ideal and when the data is not clean. That is the part of
-                            engineering that interests me the most.
+                            I am a mechanical engineering student who likes working on real systems that have to perform in the field. My work so far has centered on sensing, embedded software, and the infrastructure that ties hardware, code, and data together in a reliable way.
                         </p>
                         <p>
-                            I am comfortable spending long stretches of time alone with a problem, testing ideas and
-                            throwing away what does not hold up. I pay attention to how things fail, not only when they
-                            look good in a slide. I prefer clear thinking and simple structures over complicated tricks.
+                            I try to be useful by owning a clear part of the system and making sure it behaves as expected. That means reading logs, tightening interfaces, writing simple tools, and keeping test plans current. I care about matching the model to the data and to what the hardware is actually doing instead of only focusing on slides.
                         </p>
                         <p>
-                            Most of my work so far has been around flight systems, sensing, and control. I like projects
-                            where you can measure the result in a clear way: the aircraft flies stable, the estimator
-                            holds, the data matches the model. That is the type of work I want to keep doing.
+                            For an internship I am looking to join teams that build and test demanding systems. I want to support senior engineers by taking real tasks, closing out issues, and improving the pieces I am responsible for. The goal is to be dependable, learn fast, and contribute to work that moves projects forward in a visible way.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Small Snapshot Card -->
             <aside class="w-full md:w-64">
                 <div class="bg-black border border-white/10 p-5 text-xs font-mono space-y-3">
                     <div class="flex items-center justify-between mb-1">
@@ -107,8 +94,8 @@
                             <span class="text-gray-200 text-right">B.S. Mechanical Engineering</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-gray-500">Current Focus</span>
-                            <span class="text-emerald-300 text-right">Flight, GNC, Sensor Fusion</span>
+                            <span class="text-gray-500">Interest Areas</span>
+                            <span class="text-emerald-300 text-right">Systems · Controls · Sensing</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-500">Active Missions</span>
@@ -117,24 +104,22 @@
                     </div>
 
                     <div class="mt-4 pt-3 border-t border-white/10 text-[11px] text-gray-400 leading-relaxed">
-                        I try to carry the same mindset into every project: keep the scope clear, test the thing in
-                        front of you, and stay calm when it breaks.
+                        I aim to be the kind of engineer who takes ownership, keeps the work grounded in data, and helps the team move faster, not slower.
                     </div>
                 </div>
             </aside>
         </div>
 
-        <!-- SECOND ROW: HOW I WORK / WHAT I VALUE -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-black border border-white/10 p-6">
                 <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">
                     How I like to work
                 </h2>
                 <ul class="space-y-2 text-sm text-gray-300">
-                    <li>• Start simple, then add complexity only when needed.</li>
-                    <li>• Write things down so I can see gaps in my own thinking.</li>
-                    <li>• Test early, even if the setup is rough.</li>
-                    <li>• Treat failures as data, not as a reason to stop.</li>
+                    <li>• Start with a clear and simple approach, then add detail when the data shows it is needed.</li>
+                    <li>• Write things down so gaps, assumptions, and open questions are easy to see.</li>
+                    <li>• Test early, even with basic setups, to find issues before they become hard to fix.</li>
+                    <li>• Treat failures as information and track them until the root cause is understood.</li>
                 </ul>
             </div>
 
@@ -143,10 +128,10 @@
                     What I am aiming for
                 </h2>
                 <ul class="space-y-2 text-sm text-gray-300">
-                    <li>• Work on flight systems, guidance, and control in real vehicles.</li>
-                    <li>• Build tools and infrastructure that other engineers can rely on.</li>
-                    <li>• Stay close to the hardware and the data, not only the slides.</li>
-                    <li>• Keep improving my judgment under pressure and uncertainty.</li>
+                    <li>• Take on internship roles where I can support real test campaigns and system builds.</li>
+                    <li>• Build tools and small frameworks that other engineers can rely on every day.</li>
+                    <li>• Stay close to hardware and telemetry so my work is tied to real behavior, not only theory.</li>
+                    <li>• Grow into an engineer who can stay calm under pressure and make clear decisions with limited time.</li>
                 </ul>
             </div>
         </section>
@@ -155,11 +140,10 @@
 
     <footer class="py-12 border-t border-white/10 bg-black">
         <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
-            SYSTEM ID: ABOUT-CFG // END OF FILE
+            SYSTEM ID: ABOUT CFG // END OF FILE
         </div>
     </footer>
 
-    <!-- RETURN HANDLING -->
     <script>
     function goBackToHome() {
         if (document.referrer && document.referrer.includes('index.html')) {
