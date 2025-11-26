@@ -404,17 +404,27 @@ model-viewer {
             </span>
         </a>
             
-            <div class="hidden md:flex space-x-10 text-xs font-mono font-medium tracking-widest text-gray-400 uppercase">
-                <a href="#featured" class="hover:text-white transition-colors">Mission Critical</a>
-                <a href="#capabilities" class="hover:text-white transition-colors">Capabilities</a>
-                <a href="#anomalies" class="hover:text-white transition-colors">Anomalies</a>
-                <a href="#collections" class="hover:text-white transition-colors">Projects</a>
-                <a href="interests.html" class="hover:text-white transition-colors flex items-center gap-1">Interests
-                <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60"></i></a>
+     <div class="hidden md:flex space-x-10 text-xs font-mono font-medium tracking-widest uppercase">
 
+    <!-- Distinct + Click Cue -->
+    <a href="about.html" class="flex items-center gap-1 text-emerald-400 hover:text-white transition-all">
+        About
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+    </a>
 
-                
-            </div>
+    <a href="#featured" class="hover:text-white transition-colors text-gray-400">Mission Critical</a>
+    <a href="#capabilities" class="hover:text-white transition-colors text-gray-400">Capabilities</a>
+    <a href="#anomalies" class="hover:text-white transition-colors text-gray-400">Anomalies</a>
+    <a href="#collections" class="hover:text-white transition-colors text-gray-400">Projects</a>
+
+    <!-- Existing external-link style -->
+    <a href="interests.html" class="hover:text-white transition-colors flex items-center gap-1 text-gray-400">
+        Interests
+        <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60"></i>
+    </a>
+
+</div>
+
 
    <div class="flex justify-end">
 
@@ -425,6 +435,8 @@ model-viewer {
         <span>Portfolio</span>
         <i class="fas fa-arrow-right -rotate-45 text-[10px] ml-2"></i>
     </a>
+
+    
 
     <!-- Resume Button -->
     <a href="resume.html" target="_blank"
