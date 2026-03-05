@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentinel HUD Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #020617;
+            font-family: 'JetBrains Mono', monospace;
+            overflow: hidden;
+        }
+
+        .hud-text {
+            text-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+        }
+
+        .target-box {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+            animation: pulse-red 1s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { border-color: rgba(239, 68, 68, 0.4); }
+            50% { border-color: rgba(239, 68, 68, 1); }
+            100% { border-color: rgba(239, 68, 68, 0.4); }
+        }
+
+        /* Prevent nav overlap */
+        .hud-container {
+            margin-top: 80px; /* reserved space for nav */
+        }
+    </style>
+</head>
+
+<body class="w-screen h-screen relative overflow-hidden">
+
+<!-- NAVIGATION (NO OVERLAP) -->
+<nav class="fixed top-0 left-0 w-full bg-black/60 backdrop-blur-md border-b border-emerald-500/20 z-50">
+    <div class="flex justify-between items-center px-6 py-4">
+
+        <!-- BACK BUTTON -->
+        <a href="sentinel.html"
+           class="flex items-center gap-2 text-emerald-400 hover:text-white transition-colors text-xs tracking-widest font-bold bg-black/50 px-3 py-2 border border-emerald-500/40">
+            <i class="fas fa-arrow-left"></i> RETURN
+        </a>
+
+        <!-- GITHUB BUTTON -->
+        <a href="https://github.com/enrique-gr" target="_blank"
+           class="flex items-center gap-2 text-emerald-400 hover:text-white transition-colors text-xs tracking-widest font-bold bg-black/50 px-3 py-2 border border-emerald-500/40">
+            <i class="fab fa-github"></i> C++ SOURCE
+        </a>
+
+    </div>
+</nav>
+
+
+
+<!-- HUD MAIN CONTENT -->
+<div class="absolute inset-0 hud-container z-20 pointer-events-none p-8 flex flex-col justify-between">
+
+    <!-- TOP BAR -->
+    <div class="flex justify-between items-start">
+        <div class="flex flex-col gap-1">
+            <div class="text-emerald-500 font-bold text-xl tracking-widest hud-text">SENTINEL v4.2</div>
+            <div class="text-emerald-500/60 text-xs">OPTICAL TRACKING // INTERCEPT LOGIC</div>
+
+            <div class="mt-4 text-xs text-emerald-400/80">
+                <div>SYS_CLK: <span id="sys-time">00:00:00:00</span></div>
+                <div>FPS: <span id="fps">59.3</span></div>
+                <div>LATENCY: <span id="latency">14ms</span></div>
+            </div>
+        </div>
+
+        <div class="text-right">
+            <div class="px-4 py-1 border border-emerald-500/50 bg-emerald-500/10 text-emerald-400 text-xs font-bold animate-pulse">
+                LIVE FEED // CAM_01
+            </div>
+            <div class="mt-2 text-[10px] text-emerald-500/60">
+                EXP: AUTO<br>ISO: 800<br>F/2.8
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- CENTER RETICLE -->
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-emerald-500/20 rounded-full flex items-center justify-center">
+        <div class="w-1 h-1 bg-emerald-500 rounded-full"></div>
+
+        <div class="absolute top-0 w-px h-4 bg-emerald-500/50"></div>
+        <div class="absolute bottom-0 w-px h-4 bg-emerald-500/50"></div>
+        <div class="absolute left-0 w-4 h-px bg-emerald-500/50"></div>
+        <div class="absolute right-0 w-4 h-px bg-emerald-500/50"></div>
+    </div>
+
+
+
+    <!-- MOVING TARGET BOX -->
+    <div id="target-box" class="absolute border-2 border-red-500 w-16 h-16 target-box hidden">
+        <div class="absolute -top-5 left-0 text-[10px] text-red-500 font-bold bg-black/50 px-1">
+            TRK_ID: 0492
+        </div>
+        <div class="absolute -bottom-5 left-0 text-[9px] text-red-400 w-32">
+            V: 14.2 m/s <br> D: 42.1 m
+        </div>
+    </div>
+
+
+
+    <!-- BOTTOM DATA -->
+    <div class="grid grid-cols-3 gap-8 items-end">
+
+        <!-- LOG FEED -->
+        <div class="h-32 overflow-hidden text-[10px] text-emerald-500/70 leading-tight">
+            <div id="log-feed">
+                > SYSTEM INITIALIZED<br>
+                > LOADING WEIGHTS... OK<br>
+                > KALMAN FILTER: ACTIVE<br>
+                > VIDEO STREAM ACQUIRED<br>
+            </div>
+        </div>
+
+        <!-- GRAPHS -->
+        <div class="col-span-2 flex justify-end gap-4">
+
+            <!-- ERROR RESIDUALS -->
+            <div class="w-48 h-24 border border-emerald-500/30 bg-black/40 p-2 relative">
+                <div class="text-[9px] text-emerald-500 uppercase absolute top-1 left-2">
+                    Error Residuals
+                </div>
+
+                <svg class="w-full h-full mt-2" viewBox="0 0 100 50" preserveAspectRatio="none">
+                    <path d="M0,25 Q10,10 20,25 T40,25 T60,30 T80,20 T100,25"
+                          fill="none" stroke="#10b981" stroke-width="1" vector-effect="non-scaling-stroke">
+                        <animate attributeName="d" dur="2s" repeatCount="indefinite"
+                                 values="
+                                     M0,25 Q10,10 20,25 T40,25 T60,30 T80,20 T100,25;
+                                     M0,25 Q10,40 20,25 T40,10 T60,25 T80,30 T100,25;
+                                     M0,25 Q10,10 20,25 T40,25 T60,30 T80,20 T100,25
+                                 " />
+                    </path>
+                </svg>
+            </div>
+
+            <!-- CONFIDENCE BAR GRAPH -->
+            <div class="w-48 h-24 border border-emerald-500/30 bg-black/40 p-2 relative">
+                <div class="text-[9px] text-emerald-500 uppercase absolute top-1 left-2">
+                    Confidence Score
+                </div>
+
+                <div class="h-full flex items-end gap-1 pt-4">
+                    <div class="w-1/6 bg-emerald-500/50 h-[70%]"></div>
+                    <div class="w-1/6 bg-emerald-500/50 h-[50%]"></div>
+                    <div class="w-1/6 bg-emerald-500/50 h-[85%]"></div>
+                    <div class="w-1/6 bg-emerald-500/50 h-[80%]"></div>
+                    <div class="w-1/6 bg-emerald-500/50 h-[92%]"></div>
+                    <div class="w-1/6 bg-emerald-500/80 h-[90%] animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- VIDEO BACKGROUND OR GRID -->
+<div class="absolute inset-0 z-0 bg-[#050505] overflow-hidden">
+    <div id="sim-canvas" class="w-full h-full opacity-30"></div>
+
+    <!-- Scanline effect -->
+    <div class="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[length:100%_4px] pointer-events-none"></div>
+</div>
+
+
+
+<!-- SIMULATION SCRIPTS -->
+<script>
+    /* Target Box Movement */
+    const targetBox = document.getElementById("target-box");
+    const logFeed = document.getElementById("log-feed");
+
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+    let dx = 4;
+    let dy = 3;
+
+    let startTime = Date.now();
+
+    function updateTarget() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        x += dx;
+        y += dy;
+
+        if (x + 64 > width || x < 0) dx = -dx;
+        if (y + 64 > height || y < 80) dy = -dy; // keep away from navbar
+
+        const jitterX = (Math.random() - 0.5) * 4;
+        const jitterY = (Math.random() - 0.5) * 4;
+
+        targetBox.style.left = (x + jitterX) + "px";
+        targetBox.style.top = (y + jitterY) + "px";
+        targetBox.classList.remove("hidden");
+
+        const elapsed = Date.now() - startTime;
+        const t = new Date(elapsed);
+        document.getElementById("sys-time").innerText = t.toISOString().substr(11, 12);
+
+        requestAnimationFrame(updateTarget);
+    }
+
+    updateTarget();
+
+
+    /* Logging simulation */
+    const logs = [
+        "DETECT: OBJECT_ID_0492 [CONF: 0.98]",
+        "KALMAN: STATE_UPDATE [X,Y,Z,Vx,Vy,Vz]",
+        "WARN: OCCLUSION DETECTED",
+        "TRACK: LOCK MAINTAINED",
+        "PREDICT: INTERCEPT VECTOR COMPUTED",
+        "FIRE CTRL: READY"
+    ];
+
+    setInterval(() => {
+        const msg = logs[Math.floor(Math.random() * logs.length)];
+        const line = document.createElement("div");
+        line.innerHTML = "> " + msg;
+
+        logFeed.appendChild(line);
+        if (logFeed.children.length > 6) logFeed.removeChild(logFeed.children[0]);
+    }, 1500);
+
+
+
+    /* Background grid animation */
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    document.getElementById("sim-canvas").appendChild(canvas);
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    function drawGrid() {
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = "#10b981";
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.1;
+
+        const time = Date.now() / 1000;
+        const offsetX = (time * 20) % 50;
+
+        ctx.beginPath();
+        for (let i = 0; i < canvas.width; i += 50) {
+            ctx.moveTo(i - offsetX, 0);
+            ctx.lineTo(i - offsetX, canvas.height);
+        }
+        for (let i = 0; i < canvas.height; i += 50) {
+            ctx.moveTo(0, i);
+            ctx.lineTo(canvas.width, i);
+        }
+        ctx.stroke();
+
+        requestAnimationFrame(drawGrid);
+    }
+
+    drawGrid();
+</script>
+
+</body>
+</html>

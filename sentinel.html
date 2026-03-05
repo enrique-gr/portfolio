@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sentinel CV & Actuator | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        /* SMOOTH TRANSITION BASE */
+        html { background-color: #000000; } /* Prevents white flash */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #e2e8f0;
+            will-change: opacity, transform; /* Optimize animation */
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .tech-highlight {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #71717a;
+        }
+    </style>
+</head>
+
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            
+            <a href="index.html#sentinel-cv" onclick="smoothExit(event, this.href)"
+               class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+            </a>
+
+            <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest
+                        text-emerald-400 drop-shadow-[0_0_4px_rgba(52,211,153,0.35)]">
+                <span class="hidden md:inline font-semibold">System Operational – Complete</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div
+                class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                <img src="images/sent.png" alt="Sentinel CV System"
+                     class="h-full w-full object-cover"
+                     onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-crosshairs text-4xl text-white\'></i>'">
+            </div>
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">
+                    Sentinel: Tracking &amp; Kinetic Intercept
+                </h1>
+                <p class="text-sky-400 font-mono text-sm uppercase tracking-widest">
+                    Computer Vision Pipeline + High-Dynamic Actuation System
+                </p>
+                <div class="mt-4 flex flex-wrap gap-2 items-center">
+                    <div
+                        class="text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">
+                        Completed Winter 2025
+                    </div>
+                    <div
+                        class="text-[10px] font-mono text-emerald-300 border border-emerald-500/40 px-2 py-1 uppercase inline-block bg-emerald-500/10">
+                        Status: Mission Complete
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+            <div class="lg:col-span-2">
+
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                    Engineering Cycle
+                </h3>
+
+                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                    <p>
+                        Control loops are useless if you do not know what you are looking at, and detection is useless if you cannot act on it. 
+                        Sentinel is a closed-loop defense prototype that bridges the gap between software perception and physical actuation.
+                    </p>
+                    <p class="text-sm text-gray-400">
+                        The system uses a C++ <span class="tech-highlight">OpenCV</span> pipeline to detect fast-moving targets, feeds state estimates into a 
+                        <span class="tech-highlight">Kalman Filter</span>, and transmits intercept coordinates to the 
+                        <strong class="text-white">Sentinel-Actuator</strong>—a high-speed, 2-axis robotic gimbal powered by a Teensy 4.1 microcontroller.
+                    </p>
+
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-sky-500/40 pl-4">
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">
+                                Perception (The Eyes):
+                            </strong>
+                            Motion-based and learned detectors (YOLO/Background Subtraction) process raw frames to extract target centroids in noisy environments.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">
+                                State Estimation (The Brain):
+                            </strong>
+                            A 3D <span class="tech-highlight">Kalman Filter</span> fuses noisy measurements to estimate velocity and predict future position, compensating for system latency.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">
+                                Kinetic Actuation (The Muscle):
+                            </strong>
+                            The "Sentinel-Actuator" module. A custom 2-DOF aluminum turret driven by high-torque digital servos performs real-time visual servoing to physically track and "paint" the target with a laser designator.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6 mb-10 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoNTYsIDE4OSwgMjQ4LCAwLjA1KSIvPjwvc3ZnPg==')] opacity-50"></div>
+                    
+                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4 relative z-10">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
+                            Sentinel-Actuator // Hardware-in-the-Loop
+                        </h3>
+                        <i class="fas fa-microchip text-gray-600"></i>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs relative z-10">
+                        <div>
+                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">
+                                >> Avionics & Actuation
+                            </h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
+                                    <span>Flight Controller</span>
+                                    <span class="text-sky-400">Teensy 4.1 (600MHz M7)</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
+                                    <span>Actuators</span>
+                                    <span class="text-sky-400">High-Speed Digital Metal Gear</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
+                                    <span>Control Loop</span>
+                                    <span class="text-sky-400">100Hz PID / Trapezoidal Profile</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-red-500">
+                                    <span>Payload</span>
+                                    <span class="text-red-400">5V Laser Designator</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                             <h4 class="text-gray-500 mb-4 uppercase tracking-wider">
+                                >> Comms Architecture
+                            </h4>
+                            <div class="w-full p-2 border border-white/10 bg-[#0f0f10] text-center">
+                                <div class="text-sky-300 font-bold">PC (Vision)</div>
+                                <div class="text-[9px] text-gray-500">COMPUTE TARGET VECTOR (u, v)</div>
+                            </div>
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrow-down text-gray-600"></i>
+                                <span class="text-[9px] text-gray-500 ml-2">USB SERIAL / 115200 BAUD</span>
+                            </div>
+                            <div class="w-full p-2 border border-white/10 bg-[#0f0f10] text-center">
+                                <div class="text-white font-bold">Teensy 4.1</div>
+                                <div class="text-[9px] text-gray-500">PARSING -> KINEMATICS -> PID</div>
+                            </div>
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrow-down text-gray-600"></i>
+                                <span class="text-[9px] text-gray-500 ml-2">PWM (50-330Hz)</span>
+                            </div>
+                            <div class="w-full p-2 border border-white/10 bg-[#0f0f10] text-center">
+                                <div class="text-red-400 font-bold">Turret Response</div>
+                                <div class="text-[9px] text-gray-500">PHYSICAL INTERCEPT</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
+                            HUD & Telemetry Preview
+                        </h3>
+                        <i class="fas fa-crosshairs text-gray-600"></i>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-6 items-center">
+                        <div class="w-full md:w-1/2">
+                            <div
+                                class="aspect-video border border-emerald-500/40 bg-[#020617] relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center text-emerald-400/70 text-[10px] font-mono tracking-widest">
+                                    SENTINEL HUD // LIVE FEED MOCK
+                                </div>
+                                <div
+                                    class="absolute inset-4 border border-emerald-500/40 rounded-full opacity-40"></div>
+                                <div
+                                    class="absolute top-2 left-2 text-[9px] text-emerald-500/80 font-mono">
+                                    CAM_01 // OPTICAL
+                                </div>
+                                <div
+                                    class="absolute bottom-2 right-2 text-[9px] text-red-400 font-mono">
+                                    TRK_ID: 0492 // LOCKED
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/2 space-y-3 text-sm text-gray-300">
+                            <p>
+                                The full-screen HUD validates the system in real-time. It visualizes the raw detection bounding boxes, the smoothed Kalman trajectory (predicted path), and the calculated intercept point.
+                            </p>
+                            <p class="text-xs text-gray-400">
+                                Future updates will overlay the Turret's real-time position feedback to visualize tracking error during live fire tests.
+                            </p>
+                            <a href="sentinel-hud.html"
+                               class="inline-flex items-center gap-2 text-emerald-400 hover:text-white text-xs font-mono tracking-widest mt-2 border border-emerald-500/40 px-3 py-2 bg-black/40">
+                                <i class="fas fa-play"></i>
+                                LAUNCH HUD DEMO
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="space-y-10">
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                        Tech Stack
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">
+                            C++
+                        </span>
+                        <span
+                            class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">
+                            OpenCV
+                        </span>
+                        <span
+                            class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">
+                            Kalman Filtering
+                        </span>
+                        <span
+                            class="px-3 py-1.5 bg-sky-500/10 text-sky-300 text-xs font-mono border border-sky-500/30 uppercase">
+                            Teensy 4.1
+                        </span>
+                        <span
+                            class="px-3 py-1.5 bg-sky-500/10 text-sky-300 text-xs font-mono border border-sky-500/30 uppercase">
+                            Embedded C++
+                        </span>
+                        <span
+                            class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">
+                            Linux / Profiling
+                        </span>
+                        <span
+                            class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">
+                            PID Control
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-emerald-500/5 border border-emerald-500/30">
+                    <h4
+                        class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">
+                        Execution Log
+                    </h4>
+                    <ul class="text-xs text-emerald-50/70 space-y-3 leading-relaxed">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-0.5 text-emerald-500"></i>
+                            <span><span class="font-mono text-emerald-300">Phase 1</span>: Vision Pipeline & Kalman Filter (C++).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-0.5 text-emerald-500"></i>
+                            <span><span class="font-mono text-emerald-300">Phase 2</span>: Hardware Build (Gimbal + Teensy integration).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-0.5 text-emerald-500"></i>
+                            <span><span class="font-mono text-emerald-300">Phase 3</span>: Comms Bridge (Serial Protocol).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-check mt-0.5 text-emerald-500"></i>
+                            <span><span class="font-mono text-emerald-300">Phase 4</span>: Live intercept tests & latency tuning.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-8 bg-sky-500/5 border border-sky-500/30">
+                    <h4
+                        class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-sky-400">
+                        Project Goal
+                    </h4>
+                    <p class="text-sm text-sky-50/80 leading-relaxed">
+                        To engineer a complete "Detect-Track-Engage" loop from scratch. This project demonstrates proficiency in full-stack robotics: from low-level hardware actuation and embedded control to high-level computer vision and state estimation.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-white/10 bg-black">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+            SYSTEM ID: SENTINEL-ACTUATOR // OPERATIONAL // COMPLETE
+        </div>
+    </footer>
+
+    <script>
+        function smoothExit(e, url) {
+            e.preventDefault(); // Stop instant jump
+            
+            // 1. Animate out (Fade + slight shrink for depth)
+            document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+            document.body.style.opacity = "0";
+            document.body.style.transform = "scale(0.98)"; 
+            
+            // 2. Wait for animation, then go
+            setTimeout(() => {
+                window.location.href = url;
+            }, 400);
+        }
+    </script>
+
+</body>
+</html>

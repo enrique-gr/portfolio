@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrique Garcia | Website</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        html { font-size: 90%; background-color: #050505; }
+        body { font-family: 'Inter', sans-serif; color: #e2e8f0; overflow-x: hidden; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* SCROLLBARS */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 0px; }
+        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+        /* VIDEO BACKGROUND - UPDATED (Not Grayscale) */
+        .header-video-layer {
+            position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+        }
+        .header-video-layer video {
+            width: 100%; height: 100%; object-fit: cover;
+            /* No grayscale, slightly darkened for text legibility but keeping color */
+            filter: contrast(1.1) brightness(0.5);
+            opacity: 0.6; 
+        }
+
+        /* TECHNICAL GRID PATTERN */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(50,50,50,0.3) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(50,50,50,0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 100%);
+        }
+
+        /* CORNER MARKERS (The "Engineering" Look) */
+        .corner-bracket {
+            position: absolute; width: 8px; height: 8px;
+            border-color: rgba(255, 255, 255, 0.2); border-style: solid; pointer-events: none; transition: all 0.3s; z-index: 20;
+        }
+        .group:hover .corner-bracket { border-color: rgba(59, 130, 246, 0.8); width: 12px; height: 12px; }
+        
+        .tl { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+        .tr { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+        .bl { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+        .br { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+        /* TIMELINE & SCROLL UTILS */
+        .mission-scroll::-webkit-scrollbar { width: 2px; }
+        .mission-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        .mission-scroll::-webkit-scrollbar-thumb { background: #4b5563; }
+
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* UTILITIES */
+        .modal-enter { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* PFP SCAN EFFECT */
+        @keyframes identity-scan {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); border-color: rgba(255,255,255,0.2); }
+            20% { box-shadow: 0 0 20px 2px rgba(59, 130, 246, 0.5); border-color: #3b82f6; filter: brightness(1.2); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); border-color: rgba(255,255,255,0.2); }
+        }
+        .animate-identity {
+            animation: identity-scan 1.0s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* RADAR SPECIFIC STYLES */
+        @keyframes radar-sweep {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .radar-sweep-line {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 50%; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.8));
+            transform-origin: 0% 50%;
+            animation: radar-sweep 4s infinite linear;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .radar-sweep-shade {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 50%; height: 50%; /* Adjust based on needs */
+            background: conic-gradient(from 270deg, transparent 0deg, rgba(59, 130, 246, 0.1) 60deg, transparent 60deg);
+            transform-origin: 0% 0%;
+            animation: radar-sweep 4s infinite linear;
+            pointer-events: none;
+            z-index: 4;
+            border-radius: 100% 0 0 0; /* Rough approximation */
+        }
+
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: #3b82f6; z-index: 100; width: 0%; }
+        
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: #0f0f10; color: #fff;
+            text-align: center; border: 1px solid #3b82f6; padding: 12px; position: fixed;
+            z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 1px;
+            opacity: 0; transition: all 0.3s; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+        
+        .tab-active { color: #fff; border-bottom: 2px solid #10b981; background: rgba(16, 185, 129, 0.1); }
+        .tab-inactive { color: #6b7280; border-bottom: 2px solid transparent; }
+        .tab-inactive:hover { color: #d1d5db; background: rgba(255,255,255,0.05); }
+
+        /* ROLE BADGE GLOW */
+        .role-badge {
+            box-shadow: -2px 0 0 0 #3b82f6;
+            transition: all 0.3s ease;
+        }
+        .group:hover .role-badge {
+            background: rgba(59, 130, 246, 0.15);
+            box-shadow: -4px 0 0 0 #3b82f6;
+        }
+    </style>
+</head>
+
+
+
+<script>
+function toggleInternshipMission() {
+    const section = document.getElementById("internship-mission-details");
+
+    if (section.style.maxHeight && section.style.maxHeight !== "0px") {
+        section.style.maxHeight = "0px";
+    } else {
+        section.style.maxHeight = section.scrollHeight + "px";
+    }
+}
+</script>
+
+
+<body class="antialiased relative bg-[#050505] selection:bg-blue-500/30 selection:text-white">
+
+    <div id="scroll-progress"></div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast">
+        <div class="flex items-center justify-center gap-3">
+            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+            <span id="toast-message">DATA_PACKET_RECEIVED</span>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full bg-[#050505]/95 backdrop-blur-md z-50 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="h-8 w-8 bg-black border border-white/20 flex items-center justify-center overflow-hidden">
+                     <img src="EG.png" alt="EG" class="h-full w-full object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-mono font-bold text-white tracking-widest uppercase text-xs group-hover:text-blue-400 transition-colors">
+                        E.Garcia
+                    </span>
+                    <span class="text-[9px] text-gray-600 font-mono tracking-tighter">ID: 8F3A-2C // MECH_ENG</span>
+                </div>
+            </a>
+            
+            <div class="hidden md:flex space-x-8 text-[10px] font-mono font-bold tracking-widest uppercase text-gray-500 items-center">
+                <!-- NEW ABOUT LINK -->
+                <a href="about.html" class="flex items-center gap-2 text-emerald-400 hover:text-white transition-all mr-4">
+                    [00] About
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60"></i>
+                </a>
+
+                <a href="#featured" class="hover:text-white transition-colors">[01] MISSIONS</a>
+                <a href="#capabilities" class="hover:text-white transition-colors">[02] SPECS</a>
+                <a href="#anomalies" class="hover:text-white transition-colors">[03] LOGS</a>
+                <a href="#collections" class="hover:text-white transition-colors">[04] ARCHIVE</a>
+                <a href="interests.html" class="hover:text-blue-400 transition-colors flex items-center gap-1">
+                    [05] PERSONAL <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60"></i>
+                </a>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex gap-3">
+                <a href="portfolio.html" target="_blank" class="flex items-center px-4 py-1.5 border border-white/20 text-white text-[10px] font-mono uppercase font-bold hover:bg-white hover:text-black transition-all tracking-wide">
+                    View Portfolio
+                </a>
+                
+                <a href="resume.html" target="_blank" class="flex items-center px-4 py-1.5 bg-white text-black text-[10px] font-mono uppercase font-bold hover:bg-blue-400 hover:text-white transition-all tracking-wide">
+                    Download Resume
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER / HERO SECTION -->
+    <header id="about" class="pt-32 pb-20 md:pt-48 md:pb-32 max-w-7xl mx-auto px-6 relative border-b border-white/5">
+        <!-- Video Background -->
+        <div class="header-video-layer">
+            <video autoplay muted loop playsinline><source src="videos/mission-control.mp4" type="video/mp4"></video>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-[#050505]/70 to-[#050505]"></div>
+            <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
+            
+            <!-- LEFT: INTRO (Cols 1-7) -->
+            <div class="lg:col-span-7 flex flex-col justify-center">
+                <!-- Status Line -->
+                <div class="flex items-center gap-2 mb-8">
+                     <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                     <span class="text-[10px] font-mono text-emerald-500 tracking-widest uppercase">System Status: Nominal</span>
+                     <span class="text-[10px] font-mono text-gray-600 tracking-widest uppercase ml-2">Loc: WashU // St. Louis</span>
+                </div>
+
+                <div class="flex items-center gap-6 mb-8">
+                    <!-- PFP IMAGE -->
+                    <div id="pfp-container" onclick="triggerScan()" class="h-24 w-24 md:h-28 md:w-28 shrink-0 border border-white/20 p-1 bg-black/40 backdrop-blur-md relative cursor-pointer transition-all duration-300 hover:scale-105 hover:border-blue-400">
+                        <!-- Corner accents for PFP -->
+                        <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/50"></div>
+                        <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/50"></div>
+                        <img src="images/pfpv2.png" alt="Profile" class="h-full w-full object-cover">
+                    </div>
+                    <div>
+                        <!-- NAME -->
+                        <h1 class="text-5xl md:text-7xl leading-none uppercase font-bold tracking-tight text-white mb-2">
+                            Enrique<br>Garcia
+                        </h1>
+                         <div class="text-xl md:text-2xl font-mono text-blue-400 mt-2">
+                            Dynamic. Model driven. Systems focused.
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-lg text-gray-400 leading-relaxed font-light max-w-2xl border-l border-white/10 pl-6">
+                    Mechanical Engineering student focused on <span class="text-white font-medium">high-reliability autonomous systems</span>. 
+                    Building the interface between hardware and logic through first-principles design and rigorous testing.
+                </p>
+                
+                <div class="mt-6 pl-6">
+    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">
+        Operational Roles
+    </div>
+
+    <div class="flex flex-col gap-1 text-xs">
+        <div>
+            <span class="text-blue-400 font-medium">Avionics & Systems Lead</span>
+            <span class="text-gray-500">· WashU VTOL</span>
+        </div>
+
+        <div>
+            <span class="text-blue-400 font-medium">Aerodynamics</span>
+            <span class="text-gray-500">· WashU Design/Build/Fly</span>
+        </div>
+    </div>
+</div>
+                
+                <div class="flex gap-6 mt-10 text-xl text-gray-500 pl-6">
+                    <a href="https://linkedin.com/in/enrique-gr" target="_blank" class="hover:text-blue-400 transition-colors"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/enrique-gr" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
+                    <button onclick="copyEmail()" class="hover:text-emerald-400 transition-colors"><i class="fas fa-envelope"></i></button>
+                </div>
+            </div>
+
+            <!-- RIGHT: MISSION HISTORY (Cols 8-12) -->
+<div class="lg:col-span-5 relative pl-8 border-l border-white/10 lg:border-none">
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-[10px] font-bold text-gray-500 font-mono uppercase tracking-widest">Mission Timeline</h3>
+        <span class="text-[9px] font-mono text-gray-700">SYNCED: T-00:00</span>
+    </div>
+    
+    <div class="mission-scroll max-h-[380px] overflow-y-auto pl-4 pr-4 relative -ml-4">
+        <div class="space-y-8 relative">
+            
+            <!-- Connecting Line: Yellow -> Blue -> Grey -->
+            <div class="timeline-line hidden lg:block absolute left-0 top-0 bottom-0 w-px" 
+                 style="background: linear-gradient(to bottom, 
+                     #facc15 0%, 
+                     #facc15 15%, 
+                     #60a5fa 25%, 
+                     #60a5fa 45%, 
+                     #64748b 55%, 
+                     #64748b 100%
+                 ); opacity: 0.5;">
+            </div>
+
+           <!-- Engineering Internship -->
+<div id="engineering-internship"
+     class="relative pl-0 lg:pl-12 flex items-start gap-4 cursor-pointer group"
+     onclick="toggleInternshipMission()">
+
+    <!-- Timeline Node -->
+    <div class="timeline-node hidden lg:block absolute -left-[5px] bg-black z-10"
+         style="top: 24px; width: 9px; height: 9px; border: 1px solid #facc15;"></div>
+
+    <!-- Icon / Logo -->
+    <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 
+                group-hover:border-yellow-400 transition-all duration-500 z-10">
+        <img src="images/internship.png" class="h-full w-full object-contain">
+    </div>
+
+    <!-- Content -->
+    <div class="w-full">
+
+        <!-- Header -->
+        <div class="text-[9px] font-mono text-yellow-500 mb-0.5 tracking-wider">
+            SUMMER 2026 // TARGET
+        </div>
+
+        <h4 class="text-yellow-400 font-bold text-sm 
+                   group-hover:text-white transition-colors duration-300">
+            Engineering Internship
+        </h4>
+
+        <p class="text-xs text-gray-500">
+            Click to deploy mission briefing
+        </p>
+
+        <!-- EXPANDABLE SECTION -->
+        <div id="internship-mission-details"
+             class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
+
+            <div class="mt-6 p-5 bg-black/40 border border-yellow-500/20 
+                        backdrop-blur-sm text-sm text-gray-300 space-y-4
+                        shadow-[0_0_30px_rgba(250,204,21,0.08)]">
+
+                <p>
+    Contribute to high-impact aerospace systems by applying controls, system integration, and systems engineering principles to real-world hardware.
+</p>
+
+<p class="font-mono text-yellow-400 text-xs tracking-wider pt-2">
+    >> TARGET CONTRIBUTIONS
+</p>
+
+<ul class="space-y-2 list-disc list-inside">
+    <li>Own subsystem-level design and integration</li>
+    <li>Model, simulate, and validate avionics and control subsystems (MATLAB, Simulink, Python)</li>
+    <li>Collaborate with cross-functional teams to ensure system performance</li>
+    <li>Prepare for flight tests and provide system-level analysis</li>
+</ul>
+
+<p class="font-mono text-yellow-400 text-xs tracking-wider pt-2">
+    >> STATUS
+</p>
+
+<p class="text-gray-400">
+    Actively engaged in systems integration and advanced controls development, with flight test preparation underway through WashU VTOL.
+</p>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+            
+
+            <!-- 2. WashU VTOL (Active/Blue) -->
+<div class="relative pl-0 lg:pl-12 flex items-start gap-4 cursor-pointer group" onclick="document.getElementById('washu-vtol').scrollIntoView({behavior: 'smooth'})">
+    <div class="timeline-node hidden lg:block absolute -left-[5px] bg-black z-10"
+         style="top: 24px; width: 9px; height: 9px; border: 1px solid #60a5fa; box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);"></div>
+    <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-blue-400 transition-colors z-10">
+        <img src="images/washu_vtol.png" class="h-full w-full object-contain">
+    </div>
+    <div>
+        <div class="text-[9px] font-mono text-blue-400 mb-0.5 tracking-wider">SEP 2025 - PRESENT // ACTIVE</div>
+        <h4 class="text-white font-bold text-sm group-hover:text-blue-400 transition-colors">WashU VTOL</h4>
+        <p class="text-xs text-gray-500">Avionics & Systems Integration Lead</p>
+    </div>
+</div>
+
+<!-- 3. WashU DBF (Active/Blue) -->
+<div class="relative pl-0 lg:pl-12 flex items-start gap-4 cursor-pointer group" onclick="document.getElementById('washu-dbf').scrollIntoView({behavior: 'smooth'})">
+    <div class="timeline-node hidden lg:block absolute -left-[5px] bg-black z-10"
+         style="top: 24px; width: 9px; height: 9px; border: 1px solid #60a5fa; box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);"></div>
+    <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-blue-400 transition-colors z-10">
+        <img src="images/washu_dbf.png" class="h-full w-full object-contain">
+    </div>
+    <div>
+        <div class="text-[9px] font-mono text-blue-400 mb-0.5 tracking-wider">SEP 2024 - PRESENT // ACTIVE</div>
+        <h4 class="text-white font-bold text-sm group-hover:text-blue-400 transition-colors">WashU Design/Build/Fly</h4>
+        <p class="text-xs text-gray-500">Aerodynamics & Payload</p>
+    </div>
+</div>
+
+            <!-- 4. Sentinel (Complete/Grey) -->
+            <div class="relative pl-0 lg:pl-12 flex items-start gap-4 cursor-pointer group" onclick="document.getElementById('sentinel-cv').scrollIntoView({behavior: 'smooth'})">
+                <div class="timeline-node hidden lg:block absolute -left-[5px] bg-black z-10"
+                     style="top: 24px; width: 9px; height: 9px; border: 1px solid #64748b;"></div>
+                <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
+                    <img src="images/sent.png" class="h-full w-full object-contain">
+                </div>
+                <div>
+                    <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">WINTER 2025 // COMPLETE</div>
+                    <h4 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">Sentinel CV</h4>
+                    <p class="text-xs text-gray-600">Computer Vision Tracking</p>
+                </div>
+            </div>
+
+            <!-- 5. MIRO Lab (Complete/Grey) -->
+            <div class="relative pl-0 lg:pl-12 flex items-start gap-4 cursor-pointer group" onclick="document.getElementById('miro-lab').scrollIntoView({behavior: 'smooth'})">
+                <div class="timeline-node hidden lg:block absolute -left-[5px] bg-black z-10"
+                     style="top: 24px; width: 9px; height: 9px; border: 1px solid #64748b;"></div>
+                <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
+                    <img src="images/mirolab.png" class="h-full w-full object-contain">
+                </div>
+                <div>
+                    <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">SUMMER 2025 // COMPLETE</div>
+                    <h4 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">mirolab</h4>
+                    <p class="text-xs text-gray-600">Research Intern</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+        </div>
+    </header>
+
+    <main>
+        
+        <!-- ====================================================== -->
+        <!-- SECTION 01: MISSION CRITICAL (Alternating Layout) -->
+        <!-- ====================================================== -->
+        <section id="featured" class="py-24 max-w-7xl mx-auto px-6">
+            <div class="flex items-end justify-between mb-20 border-b border-white/10 pb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight">Featured Engineering</h2>
+                    <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Primary Mission Objectives & Technical Outcomes</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-xl font-mono text-white/20 block">01</span>
+                    <span class="text-[9px] font-mono text-gray-600 uppercase">Class: High Priority</span>
+                </div>
+            </div>
+            
+            <!-- This container is populated by render() in JS -->
+            <div id="featured-container" class="flex flex-col gap-24"></div>
+        </section>
+
+        <!-- ====================================================== -->
+        <!-- SECTION 02: CAPABILITIES (UPDATED RADAR) -->
+        <!-- ====================================================== -->
+        <section id="capabilities" class="py-12 max-w-7xl mx-auto px-6 border-t border-white/5">
+            <div class="flex items-end justify-between mb-8 border-b border-white/10 pb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight">System Capabilities</h2>
+                    <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Diagnostic & Academic Kernel</p>
+                </div>
+                <span class="text-xl font-mono text-white/20">02</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                <!-- LEFT: SKILLS & DIAGNOSTICS -->
+                <div class="flex flex-col gap-6">
+                    <div>
+                        <p class="text-gray-400 leading-relaxed mb-8">
+                            Bridging mechanical design with autonomous system behavior. Experience spans sensor fusion, embedded logic, and integrated hardware–software systems.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- TECH CARDS -->
+                            <div class="p-4 border border-white/10 bg-[#0a0a0a] relative group hover:border-blue-500/50 transition-colors">
+                                <div class="text-lg text-white font-bold mb-1 font-mono">C++ / Python</div>
+                                <div class="text-[9px] text-gray-500 font-mono uppercase tracking-wider">Core Languages</div>
+                            </div>
+                            <div class="p-4 border border-white/10 bg-[#0a0a0a] relative group hover:border-blue-500/50 transition-colors">
+                                <div class="text-lg text-white font-bold mb-1 font-mono">SolidWorks / ANSYS</div>
+                                <div class="text-[9px] text-gray-500 font-mono uppercase tracking-wider">CAD / FEA</div>
+                            </div>
+                            <div class="p-4 border border-white/10 bg-[#0a0a0a] relative group hover:border-blue-500/50 transition-colors">
+                                <div class="text-lg text-white font-bold mb-1 font-mono">MATLAB</div>
+                                <div class="text-[9px] text-gray-500 font-mono uppercase tracking-wider">Simulink / Control</div>
+                            </div>
+                            <div class="p-4 border border-white/10 bg-[#0a0a0a] relative group hover:border-blue-500/50 transition-colors">
+                                <div class="text-lg text-white font-bold mb-1 font-mono">Teensy / STM32</div>
+                                <div class="text-[9px] text-gray-500 font-mono uppercase tracking-wider">Embedded Hardware</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACADEMIC TERMINAL MONITOR -->
+                    <div class="border border-white/10 bg-[#080808] p-6 font-mono text-xs rounded-sm relative overflow-hidden group shadow-2xl h-full flex flex-col flex-grow">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4 text-gray-500 tracking-widest text-[10px]">
+                            <span>root@washu-edu:~/academic_kernel</span>
+                            <div class="flex gap-4">
+                                <button onclick="switchCoursework('active')" id="btn-active" class="tab-active px-2 py-1 uppercase tracking-wider transition-colors">[ ACTIVE_PROCESSES ]</button>
+                                <button onclick="switchCoursework('history')" id="btn-history" class="tab-inactive px-2 py-1 uppercase tracking-wider transition-colors">[ LOG_HISTORY ]</button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-4 gap-4 mb-2 text-[10px] text-gray-600 border-b border-white/5 pb-2">
+                            <span>PID</span><span class="col-span-2">PROCESS_NAME</span><span>STATUS</span>
+                        </div>
+
+                        <div id="coursework-list" class="space-y-1 overflow-y-auto flex-grow flex flex-col justify-center gap-2 pr-2 scrollbar-hide">
+                            <!-- Injected by JS -->
+                        </div>
+
+                         <div class="mt-auto pt-4 border-t border-white/10 flex justify-between text-[10px] text-gray-600">
+                             <span>Mem: 4.2GB / 8GB</span>
+                             <span class="animate-pulse text-emerald-500">● SYSTEM_OPTIMAL</span>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: RADAR CHART (UPDATED VISUAL - HUD STYLE) -->
+                <div class="flex flex-col justify-between gap-4 h-full">
+                    
+                    <!-- Radar Chart Container: HUD Style -->
+                    <div class="relative w-full flex-grow min-h-[400px] flex items-center justify-center bg-[#0a0a0a] border border-white/10 rounded-sm p-4 group overflow-hidden">
+                        
+                        <!-- Tech Decorations -->
+                        <div class="corner-bracket tl"></div>
+                        <div class="corner-bracket tr"></div>
+                        <div class="corner-bracket bl"></div>
+                        <div class="corner-bracket br"></div>
+                        <div class="absolute top-2 right-2 text-[8px] font-mono text-blue-500/50">RADAR_SEQ_09</div>
+
+                        <!-- Static Reticle Background -->
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+                             <div class="w-full h-px bg-blue-500/50"></div>
+                             <div class="h-full w-px bg-blue-500/50 absolute"></div>
+                             <!-- Concentric Circles -->
+                             <div class="absolute w-[40%] h-[40%] rounded-full border border-blue-500/20"></div>
+                             <div class="absolute w-[60%] h-[60%] rounded-full border border-blue-500/20 border-dashed"></div>
+                             <div class="absolute w-[80%] h-[80%] rounded-full border border-blue-500/20"></div>
+                        </div>
+                        
+                        <!-- Rotating Scan Sweep -->
+                        <div class="radar-sweep-line"></div>
+                        
+                        <!-- The Chart Canvas -->
+                        <canvas id="skillsChart" class="relative z-10 w-full h-full"></canvas>
+                    </div>
+                    
+                    <!-- Roadmap -->
+                    <div class="border border-white/10 bg-[#0f0f10] p-6 rounded-sm space-y-4 h-auto shrink-0">
+                        <div>
+                            <h3 class="text-sm font-mono text-gray-400 uppercase tracking-wider">
+                                Roadmap // Focus Areas
+                            </h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mt-2">
+                                Current focus on flight control, embedded avionics, and aerodynamic testing —
+                                building toward aircraft navigation and autonomous mission systems.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 text-xs text-gray-300">
+                            <div class="border border-white/10 bg-black/20 rounded-md p-3">
+                                <div class="text-gray-500 font-mono mb-1 uppercase tracking-wider">Current</div>
+                                <ul class="space-y-1 list-disc list-inside">
+                                    <li>Controls modeling</li>
+                                    <li>Firmware architecture</li>
+                                    <li>Aerodynamic testing</li>
+                                </ul>
+                            </div>
+
+                            <div class="border border-white/10 bg-black/20 rounded-md p-3">
+                                <div class="text-gray-500 font-mono mb-1 uppercase tracking-wider">Next Steps</div>
+                                <ul class="space-y-1 list-disc list-inside">
+                                    <li>Aircraft GNC fundamentals</li>
+                                    <li>Advanced estimation</li>
+                                    <li>Autonomous mission design</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====================================================== -->
+        <!-- SECTION 03: ANOMALIES (Horizontal Scroll + Nav) -->
+        <!-- ====================================================== -->
+        <section id="anomalies" class="py-20 max-w-7xl mx-auto px-6 border-t border-white/5 relative">
+            <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight">Engineering Challenges</h2>
+                    <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Incident & Resolution Log // Anomalies</p>
+                </div>
+                
+                <!-- NAV BUTTONS FOR SCROLL -->
+                <div class="flex items-center gap-4">
+                     <div class="flex gap-1">
+                        <button onclick="scrollAnomalies(-1)" class="w-8 h-8 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors"><i class="fas fa-chevron-left"></i></button>
+                        <button onclick="scrollAnomalies(1)" class="w-8 h-8 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors"><i class="fas fa-chevron-right"></i></button>
+                     </div>
+                    <div class="text-right hidden md:block ml-4">
+                        <span class="text-xl font-mono text-white/20 block">03</span>
+                        <span class="text-[9px] font-mono text-gray-600 uppercase">CLASSIFIED: UNRESTRICTED</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="anomalies-scroll" class="flex gap-6 overflow-x-auto pb-8 -mx-6 px-6 snap-x snap-mandatory cursor-grab active:cursor-grabbing scrollbar-hide scroll-smooth">
+                
+                <!-- VTOL CARD -->
+                <div class="snap-center bg-[#0a0a0a] border border-white/10 p-8 min-w-[320px] md:min-w-[400px] relative hover:border-red-500/30 transition-colors group">
+                    <div class="corner-bracket tl"></div><div class="corner-bracket tr"></div><div class="corner-bracket bl"></div><div class="corner-bracket br"></div>
+                    <div class="absolute top-0 right-0 px-3 py-1 bg-red-500/10 border-l border-b border-red-500/20 text-[9px] font-mono text-red-400 font-bold uppercase tracking-widest">Resolved</div>
+                    <div class="mb-6">
+                        <div class="flex items-center gap-3 mb-2"><i class="fas fa-satellite-dish text-red-500"></i><span class="font-mono text-xs text-red-400">INCIDENT #VTOL-01</span></div>
+                        <h3 class="text-xl font-bold text-white">Sensor Dropouts on Bench Test</h3>
+                    </div>
+                    <div class="space-y-4 pl-4 border-l border-white/10">
+                        <div><span class="text-[9px] font-bold text-gray-500 uppercase block tracking-widest">Root Cause</span><p class="text-gray-400 text-sm mt-1">Electrical noise from high-current motor wiring interfering with I2C lines.</p></div>
+                        <div><span class="text-[9px] font-bold text-emerald-400 uppercase block tracking-widest">The Fix</span><p class="text-gray-300 text-sm mt-1">Re-routed and shielded avionics wiring; added pull-up resistors.</p></div>
+                    </div>
+                </div>
+
+                <!-- HYPERION CARD -->
+                <div class="snap-center bg-[#0a0a0a] border border-white/10 p-8 min-w-[320px] md:min-w-[400px] relative hover:border-orange-500/30 transition-colors group">
+                    <div class="corner-bracket tl"></div><div class="corner-bracket tr"></div><div class="corner-bracket bl"></div><div class="corner-bracket br"></div>
+                    <div class="absolute top-0 right-0 px-3 py-1 bg-orange-500/10 border-l border-b border-orange-500/20 text-[9px] font-mono text-orange-400 font-bold uppercase tracking-widest">Resolved</div>
+                    <div class="mb-6">
+                        <div class="flex items-center gap-3 mb-2"><i class="fas fa-microchip text-orange-500"></i><span class="font-mono text-xs text-orange-400">INCIDENT #HYPERION-01</span></div>
+                        <h3 class="text-xl font-bold text-white">Thread Contention Jitter</h3>
+                    </div>
+                    <div class="space-y-4 pl-4 border-l border-white/10">
+                        <div><span class="text-[9px] font-bold text-gray-500 uppercase block tracking-widest">Root Cause</span><p class="text-gray-400 text-sm mt-1">Physics and telemetry threads competing for mutex, delaying integration steps.</p></div>
+                        <div><span class="text-[9px] font-bold text-emerald-400 uppercase block tracking-widest">The Fix</span><p class="text-gray-300 text-sm mt-1">Implemented double-buffered state handoff to eliminate blocking.</p></div>
+                    </div>
+                </div>
+
+                <!-- PROPULSION CARD -->
+                <div class="snap-center bg-[#0a0a0a] border border-white/10 p-8 min-w-[320px] md:min-w-[400px] relative hover:border-rose-500/30 transition-colors group">
+                    <div class="corner-bracket tl"></div><div class="corner-bracket tr"></div><div class="corner-bracket bl"></div><div class="corner-bracket br"></div>
+                    <div class="absolute top-0 right-0 px-3 py-1 bg-rose-500/10 border-l border-b border-rose-500/20 text-[9px] font-mono text-rose-400 font-bold uppercase tracking-widest">Resolved</div>
+                    <div class="mb-6">
+                        <div class="flex items-center gap-3 mb-2"><i class="fas fa-fire-burner text-rose-500"></i><span class="font-mono text-xs text-rose-400">INCIDENT #PROP-09</span></div>
+                        <h3 class="text-xl font-bold text-white">Igniter Continuity False Positive</h3>
+                    </div>
+                    <div class="space-y-4 pl-4 border-l border-white/10">
+                        <div><span class="text-[9px] font-bold text-gray-500 uppercase block tracking-widest">Root Cause</span><p class="text-gray-400 text-sm mt-1">ADC float voltage on the sense pin was interpreted as a valid continuity high.</p></div>
+                        <div><span class="text-[9px] font-bold text-emerald-400 uppercase block tracking-widest">The Fix</span><p class="text-gray-300 text-sm mt-1">Added hardware pulldown resistor and debounce logic to MCU firmware.</p></div>
+                    </div>
+                </div>
+
+                 <!-- DBF CARD -->
+                 <div class="snap-center bg-[#0a0a0a] border border-white/10 p-8 min-w-[320px] md:min-w-[400px] relative hover:border-purple-500/30 transition-colors group">
+                    <div class="corner-bracket tl"></div><div class="corner-bracket tr"></div><div class="corner-bracket bl"></div><div class="corner-bracket br"></div>
+                    <div class="absolute top-0 right-0 px-3 py-1 bg-purple-500/10 border-l border-b border-purple-500/20 text-[9px] font-mono text-purple-400 font-bold uppercase tracking-widest">Resolved</div>
+                    <div class="mb-6">
+                        <div class="flex items-center gap-3 mb-2"><i class="fas fa-plane text-purple-500"></i><span class="font-mono text-xs text-purple-400">INCIDENT #DBF-01</span></div>
+                        <h3 class="text-xl font-bold text-white">Pitch Stability Hunting</h3>
+                    </div>
+                    <div class="space-y-4 pl-4 border-l border-white/10">
+                        <div><span class="text-[9px] font-bold text-gray-500 uppercase block tracking-widest">Root Cause</span><p class="text-gray-400 text-sm mt-1">CG shifted aft due to battery placement, reducing static margin.</p></div>
+                        <div><span class="text-[9px] font-bold text-emerald-400 uppercase block tracking-widest">The Fix</span><p class="text-gray-300 text-sm mt-1">Shifted mass forward and increased tail authority.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====================================================== -->
+        <!-- SECTION 04: ARCHIVES (Tabbed Interface) -->
+        <!-- ====================================================== -->
+        <section id="collections" class="py-24 max-w-7xl mx-auto px-6 border-t border-white/5 min-h-[800px]">
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold text-white tracking-tight">Project Archives</h2>
+                    <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Classified Logs & Documentation</p>
+                </div>
+                <span class="text-xl font-mono text-white/20">04</span>
+            </div>
+
+            <!-- TABS -->
+            <div class="flex gap-8 mb-12 border-b border-white/10">
+                <button onclick="switchTab('personal')" id="tab-personal" class="pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-blue-500 text-white transition-all hover:text-blue-400">
+                    <i class="fas fa-code mr-2"></i>Personal_Logs
+                </button>
+                <button onclick="switchTab('coursework')" id="tab-coursework" class="pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-all">
+                    <i class="fas fa-university mr-2"></i>Coursework_Logs
+                </button>
+            </div>
+
+            <!-- GRID (Populated by JS) -->
+            <div id="archive-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+                <!-- JS injects cards here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-black border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-600 text-[10px] font-mono tracking-widest uppercase">
+            <div>
+                <p class="text-white">&copy; 2026 ENRIQUE GARCIA // SYSTEM NOMINAL.</p>
+                <p class="mt-1 text-gray-600">LOC: 38.6488° N, 90.3108° W</p>
+            </div>
+            
+            <!-- LIVE TELEMETRY SIM -->
+            <div class="mt-8 md:mt-0 text-right flex gap-12 border-l border-white/10 pl-12">
+                 <div>
+                    <span class="block text-gray-700 mb-1">SYS_LOAD</span>
+                    <div class="w-24 h-1 bg-gray-900 overflow-hidden"><div class="h-full bg-blue-500 animate-pulse" style="width: 45%"></div></div>
+                </div>
+                 <div>
+                    <span class="block text-gray-700 mb-1">MEM_USAGE</span>
+                    <div class="w-24 h-1 bg-gray-900 overflow-hidden"><div class="h-full bg-emerald-500 animate-pulse" style="width: 62%"></div></div>
+                </div>
+                <div>
+                    <span class="block text-gray-700 mb-1">SESSION_TIME</span>
+                    <p id="uptime-counter" class="text-gray-400">T+ 00:00:00</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL FOR PROJECT DETAILS -->
+    <div id="project-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeModal('project-modal')"></div>
+        <div class="absolute inset-0 overflow-y-auto pointer-events-none">
+            <div class="min-h-full flex items-center justify-center p-0 md:p-6 pointer-events-auto">
+                <div id="project-modal-content" class="relative bg-[#0f0f10] w-full max-w-5xl shadow-2xl overflow-hidden modal-enter border border-white/10 min-h-screen md:min-h-0 md:rounded-sm">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- DATA ---
+        // Added 'metric' field to all Featured items for hiring impact
+        const projects = {
+            "washu-vtol": {
+                title: "WashU VTOL", category: "featured", logoUrl: "images/vtol.png",
+                role: "Avionics & Systems Integration Lead", dates: "Sept 2025 - Present", tags: ["Pixhawk 6C", "PX4", "HIL Testing"],
+                summary: "Architected the avionics and control system for WashU’s semi-autonomous VTOL aircraft.",
+                metric: "Outcome: Stable Autonomous Flight",
+                externalLink: "washu-vtol.html"
+            },
+            "washu-dbf": {
+                title: "WashU Design/Build/Fly", category: "featured", logoUrl: "images/dbf.png",
+                role: "Aerodynamics Engineer", dates: "Sept 2024 - Present", tags: ["ANSYS CFX", "XFLR5", "Composites"],
+                summary: "Designed NACA-series wings using XFLR5/CFD and performed structural 2.5g load analysis.",
+                metric: "Status: Flight Hardware Validated",
+                externalLink: "washu-dbf.html"
+            },
+            "sentinel-cv": {
+                title: "Sentinel Computer Vision", category: "featured", logoUrl: "images/sent.png",
+                role: "Algorithm Engineer", dates: "Winter 2025", tags: ["C++", "OpenCV", "Kalman Filter"],
+                summary: "Real-time computer vision pipeline for autonomous target tracking and intercept prediction.",
+                metric: "Capability: Zero-Latency Tracking",
+                externalLink: "sentinel.html"
+            },
+            "miro-lab": {
+                title: "Multiplatform Interactive Robotics Lab", category: "featured", logoUrl: "images/mirolab.png",
+                role: "Research Intern", dates: "Summer 2025", tags: ["Python","MATLAB", "Sensor Fusion"],
+                summary: "Developed a wearable sensor fusion system (IMU + EMG) and visual tracking pipeline.",
+                metric: "Result: High-Fidelity Motion Sync",
+                externalLink: "miro-lab.html"
+            },
+            // PERSONAL
+            "ekf-nav": {
+                title: "Multi-Sensor Flight Nav", category: "personal", logoUrl: "images/sensor_fusion.png", icon: "fa-satellite",
+                role: "Independent Dev", tags: ["C++", "Embedded", "EKF"],
+                summary: "Real-time 12-state Extended Kalman Filter fusing IMU, GPS, and vision data.",
+                externalLink: "ekf-nav.html", fileSize: "2.4 MB"
+            },
+            "webtunnel-cfd": {
+                title: "WebTunnel CFD", category: "personal", logoUrl: "images/cfd_v2.png", icon: "fa-wind",
+                role: "Independent Dev", tags: ["JS", "Navier-Stokes", "Physics"],
+                summary: "Zero-dependency real-time fluid simulation running in the browser.",
+                externalLink: "webtunnel-cfd.html", fileSize: "1.8 MB"
+            },
+            "hyperion-engine": {
+                title: "Hyperion 6-DOF", category: "personal", logoUrl: "images/hyperion.png", icon: "fa-cube",
+                role: "Systems Architect", tags: ["C++20", "Multithreading"],
+                summary: "High-frequency (10kHz) rigid body physics engine for flight software validation.",
+                externalLink: "hyperion.html", fileSize: "14 MB"
+            },
+            "gnc-sim": {
+                title: "GNC Lander Sim", category: "personal", logoUrl: "images/gnc.png", icon: "fa-rocket",
+                role: "Sim Engineer", tags: ["Control Theory", "PID"],
+                summary: "Interactive rocket landing simulator with real-time PID tuning.",
+                externalLink: "lander.html", fileSize: "3.2 MB"
+            },
+            "faultline": {
+                title: "FAULTLINE", category: "personal", logoUrl: "images/faultline.png", icon: "fa-triangle-exclamation",
+                role: "Systems Engineer", tags: ["State Machines", "Diagnostics"],
+                summary: "Deterministic fault-detection console for robotic subsystems.",
+                externalLink: "faultline.html", fileSize: "4.1 MB"
+            },
+            // COURSEWORK
+            "cad-foosball": {
+                title: "Regulation Foosball", category: "coursework", logoUrl: "images/foosball.png", icon: "fa-ruler-combined",
+                role: "Mechanical Design", tags: ["SolidWorks", "DFM"],
+                summary: "Bottom-up CAD design of a playable table with 200+ part assembly.",
+                externalLink: "cad-foosball.html", fileSize: "128 MB"
+            },
+            "cruise-control": {
+                title: "Adaptive Cruise Control", category: "coursework", logoUrl: "images/acc.png", icon: "fa-car",
+                role: "Control Systems", tags: ["MATLAB", "Simulink"],
+                summary: "Simulated longitudinal vehicle control using PID loops and radar logic.",
+                externalLink: "cruise-control.html", fileSize: "8 MB"
+            },
+            "ambulance-system": {
+                title: "RF Priority System", category: "coursework", logoUrl: "images/amb.png", icon: "fa-ambulance",
+                role: "Embedded Systems", tags: ["Arduino", "RF Comms"],
+                summary: "Wireless traffic preemption system for emergency vehicles.",
+                externalLink: "ambulance-system.html", fileSize: "150 KB"
+            },
+             "solid-mechanics": { 
+                title: "Landing Gear FEA", category: "coursework", logoUrl: "images/solids.png", icon: "fa-cube",
+                role: "Solid Mechanics", tags: ["ANSYS", "FEA"], 
+                summary: "Designing a nose landing gear built to withstand 3g impacts through focused structural modeling.",
+                externalLink: "solid-mechanics.html", fileSize: "450 MB"
+            }
+        };
+
+        // --- RENDER FEATURED (Updated for Role Visibility) ---
+        function renderFeatured() {
+            const container = document.getElementById('featured-container');
+            let index = 0;
+            for (const [id, p] of Object.entries(projects)) {
+                if (p.category !== 'featured') continue;
+                
+                const isEven = index % 2 === 0;
+                // Alternate Image Position
+                const layoutClass = isEven ? "flex-col md:flex-row" : "flex-col md:flex-row-reverse";
+                const textAlign = isEven ? "text-left" : "text-left md:text-right";
+                const itemsAlign = isEven ? "items-start" : "items-start md:items-end";
+                const badgeAlign = isEven ? "flex-row" : "flex-row-reverse";
+                
+                const action = p.externalLink ? `window.location.href='${p.externalLink}'` : `openProjectDetail('${id}')`;
+
+                const html = `
+                <div id="${id}" onclick="${action}" class="flex ${layoutClass} gap-12 items-center group cursor-pointer scroll-mt-32">
+                    <!-- IMAGE SIDE: NO PADDING, FULL COVER -->
+                    <div class="w-full md:w-1/2 h-64 md:h-80 relative border border-white bg-[#0a0a0a] overflow-hidden">
+                         <img src="${p.logoUrl}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+                         <!-- Subtle Tech Overlay -->
+                         <div class="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors pointer-events-none"></div>
+                         <!-- Image Corners -->
+                         <div class="absolute top-0 left-0 w-4 h-4 border-l border-t border-white/30"></div>
+                         <div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-white/30"></div>
+                    </div>
+
+                    <!-- TEXT SIDE -->
+                    <div class="w-full md:w-1/2 flex flex-col ${itemsAlign} ${textAlign}">
+                        
+                        <!-- NEW ROLE BADGE: High Visibility -->
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border-l-2 border-blue-500 mb-4 role-badge">
+                             <i class="fas fa-id-badge text-blue-400 text-[10px]"></i>
+                             <span class="font-mono font-bold text-blue-400 text-xs tracking-wider uppercase">${p.role}</span>
+                        </div>
+
+                        <h3 class="text-3xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors tracking-tight">${p.title}</h3>
+                        
+                        <!-- Telemetry / Metrics Data -->
+                        <div class="mb-4 font-mono text-[10px] text-emerald-500 tracking-widest border border-emerald-500/20 bg-emerald-500/5 px-2 py-1 inline-block">
+                            ${p.metric}
+                        </div>
+
+                        <p class="text-gray-400 leading-relaxed mb-6 max-w-md">${p.summary}</p>
+                        
+                        <div class="flex flex-wrap gap-2 ${isEven ? 'justify-start' : 'justify-start md:justify-end'}">
+                             ${p.tags.map(t => `<span class="text-[9px] bg-white/5 border border-white/10 px-2 py-1 text-gray-500 uppercase font-mono tracking-wider">${t}</span>`).join('')}
+                        </div>
+                        
+                        <div class="mt-6 text-[10px] font-mono text-white flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest">
+                            <span>Initialize Protocol</span> <i class="fas fa-arrow-right text-blue-400"></i>
+                        </div>
+                    </div>
+                </div>`;
+                
+                container.innerHTML += html;
+                index++;
+            }
+        }
+
+        // --- RENDER ARCHIVES (Tabs + Full Image) ---
+        function switchTab(tabName) {
+            const grid = document.getElementById('archive-grid');
+            const tabPersonal = document.getElementById('tab-personal');
+            const tabCourse = document.getElementById('tab-coursework');
+            
+            // Visual Toggle
+            if (tabName === 'personal') {
+                tabPersonal.className = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-blue-500 text-white transition-all hover:text-blue-400";
+                tabCourse.className = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white transition-all";
+            } else {
+                tabPersonal.className = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white transition-all";
+                tabCourse.className = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-emerald-500 text-white transition-all";
+            }
+
+            grid.innerHTML = '';
+            
+            for (const [id, p] of Object.entries(projects)) {
+                if (p.category !== tabName) continue;
+                
+                const action = p.externalLink ? `window.location.href='${p.externalLink}'` : `openProjectDetail('${id}')`;
+                const fileSize = p.fileSize || "1.0 MB";
+                
+                const card = `
+                <div onclick="${action}" class="group relative bg-[#0a0a0a] border border-white/10 hover:border-blue-500/50 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col h-full">
+                    <div class="corner-bracket tl"></div><div class="corner-bracket tr"></div><div class="corner-bracket bl"></div><div class="corner-bracket br"></div>
+                    
+                    <!-- 1. HEADER -->
+                    <div class="flex justify-between items-center px-4 py-2 bg-white/5 border-b border-white/10 relative z-10">
+                        <span class="font-mono text-[9px] text-gray-500 uppercase tracking-widest">FILE: ${id.split('-')[0].toUpperCase()}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[9px] font-mono text-gray-600 group-hover:text-blue-400 transition-colors">${fileSize}</span>
+                            <span class="w-1.5 h-1.5 bg-gray-700 group-hover:bg-blue-500 rounded-full transition-colors"></span>
+                        </div>
+                    </div>
+
+                    <!-- 2. IMAGE (NO GRAYSCALE, NO PADDING, FULL BLEED) -->
+                    <div class="h-48 w-full bg-[#0a0a0a] relative overflow-hidden group-hover:bg-[#0e0e0e] transition-colors border-b border-white/5">
+                        <img src="${p.logoUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+                        <!-- Scanline Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/10 to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 pointer-events-none z-20"></div>
+                    </div>
+
+                    <!-- 3. CONTENT BODY -->
+                    <div class="p-6 flex flex-col flex-grow bg-[#0a0a0a]">
+                        <h4 class="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors tracking-tight">${p.title}</h4>
+                        <p class="text-[10px] font-mono text-blue-400 mb-4 uppercase tracking-wider font-bold">${p.role}</p>
+                        <p class="text-sm text-gray-400 font-light leading-relaxed mb-6 flex-grow border-l border-white/10 pl-3">${p.summary}</p>
+                        
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            ${p.tags.slice(0,3).map(t => `<span class="text-[9px] bg-white/5 border border-white/5 px-2 py-1 text-gray-500 font-mono uppercase tracking-wider">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>`;
+                grid.innerHTML += card;
+            }
+        }
+        
+        // --- COURSEWORK TAB SWITCHER ---
+        function switchCoursework(view) {
+            const activeBtn = document.getElementById('btn-active');
+            const historyBtn = document.getElementById('btn-history');
+            const listContainer = document.getElementById('coursework-list');
+
+            const activeCourses = `
+                <div class="grid grid-cols-4 gap-6 text-gray-400 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-blue-500">4320</span><span class="col-span-2">Control_Systems</span><span class="text-emerald-500">RUNNING</span></div>
+                <div class="grid grid-cols-4 gap-6 text-gray-500 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-blue-500">3430</span><span class="col-span-2">Thermal_Sys_Design</span><span class="text-emerald-500">RUNNING</span></div>
+                <div class="grid grid-cols-4 gap-6 text-gray-500 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-blue-500">3420</span><span class="col-span-2">Heat_Transfer</span><span class="text-emerald-500">RUNNING</span></div>
+                <div class="grid grid-cols-4 gap-6 text-gray-500 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-blue-500">3110</span><span class="col-span-2">Machine_Elements</span><span class="text-emerald-500">RUNNING</span></div>
+                <div class="grid grid-cols-4 gap-6 text-gray-500 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-blue-500">3050</span><span class="col-span-2">Fluids_Heat_Lab</span><span class="text-emerald-500">RUNNING</span></div>
+            `;
+
+            const historyCourses = `
+                <div class="grid grid-cols-4 gap-6 text-gray-600 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-gray-700">4310</span><span class="col-span-2">Vibrations</span><span class="text-gray-500">COMPLETE</span></div>
+                <div class="grid grid-cols-4 gap-6 text-gray-600 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-gray-700">3400</span><span class="col-span-2">Thermodynamics</span><span class="text-gray-500">COMPLETE</span></div>
+                <div class="grid grid-cols-4 gap-6 text-gray-600 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-gray-700">3410</span><span class="col-span-2">Fluid_Mechanics</span><span class="text-gray-500">COMPLETE</span></div>
+                <div class="grid grid-cols-4 gap-6 text-gray-600 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-gray-700">3530</span><span class="col-span-2">Solid_Mechanics</span><span class="text-gray-500">COMPLETE</span></div>
+                <div class="grid grid-cols-4 gap-6 text-gray-600 text-sm font-mono py-3 border-b border-white/5 items-center"><span class="text-gray-700">3280</span><span class="col-span-2">Prob_&_Stats</span><span class="text-gray-500">COMPLETE</span></div>
+            `;
+
+            if (view === 'active') {
+                activeBtn.className = "tab-active px-2 py-1 uppercase tracking-wider transition-colors";
+                historyBtn.className = "tab-inactive px-2 py-1 uppercase tracking-wider transition-colors";
+                listContainer.innerHTML = activeCourses;
+            } else {
+                activeBtn.className = "tab-inactive px-2 py-1 uppercase tracking-wider transition-colors";
+                historyBtn.className = "tab-active px-2 py-1 uppercase tracking-wider transition-colors";
+                listContainer.innerHTML = historyCourses;
+            }
+        }
+        
+        // --- ANOMALIES SCROLL ---
+        function scrollAnomalies(direction) {
+            const container = document.getElementById('anomalies-scroll');
+            const scrollAmount = 350; // Approx card width
+            container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+        }
+
+        // --- SKILLS RADAR (UPDATED FOR STANDOUT VISUAL) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeatured();
+            switchTab('personal'); 
+            switchCoursework('active'); 
+            
+            // Chart
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            
+            // Adjust Font Size based on screen width
+            const isMobile = window.innerWidth < 768;
+            const fontSize = isMobile ? 9 : 11;
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Aerodynamics', 'Embedded C++', 'Control Theory', 'CAD / DFM', 'Circuit Design', 'Simulation'],
+                    datasets: [{
+                        label: 'Competency',
+                        data: [84, 80, 80, 90, 75, 86],
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)', // Very light fill
+                        borderColor: '#3b82f6', // Sharp line
+                        borderWidth: 2,
+                        pointBackgroundColor: '#000',
+                        pointBorderColor: '#3b82f6',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        pointStyle: 'crossRot' // TACTICAL CROSSHAIR STYLE
+                    }]
+                },
+                options: {
+                    layout: {
+                        padding: 30
+                    },
+                    scales: { 
+                        r: { 
+                            min: 0,
+                            max: 100,
+                            angleLines: { color: 'rgba(255,255,255,0.1)' }, 
+                            grid: { color: 'rgba(255,255,255,0.05)' }, 
+                            pointLabels: { 
+                                color: '#94a3b8', 
+                                font: { size: fontSize, family: "'JetBrains Mono'", weight: 'bold' },
+                                padding: 10
+                            }, 
+                            ticks: { display: false, stepSize: 25, backdropColor: 'transparent' } 
+                        } 
+                    },
+                    plugins: { legend: { display: false } },
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Uptime
+            const start = Date.now();
+            setInterval(() => {
+                const diff = new Date(Date.now() - start);
+                document.getElementById('uptime-counter').innerText = `T+ 00:${String(diff.getMinutes()).padStart(2,'0')}:${String(diff.getSeconds()).padStart(2,'0')}`;
+            }, 1000);
+        });
+
+        function copyEmail() {
+            navigator.clipboard.writeText('e.garciarivera@wustl.edu');
+            const t = document.getElementById('toast');
+            t.className = "show";
+            setTimeout(() => t.className = "", 3000);
+        }
+
+        // TRIGGER PFP SCAN
+        function triggerScan() {
+            const pfp = document.getElementById('pfp-container');
+            pfp.classList.add('animate-identity');
+            
+            const t = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = "IDENTITY_VERIFIED // ACCESS_GRANTED";
+            t.className = "show";
+
+            setTimeout(() => {
+                pfp.classList.remove('animate-identity');
+                t.className = "";
+            }, 2500);
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+    </script>
+</body>
+</html>

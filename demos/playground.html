@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNC Flight Software | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* SMOOTH TRANSITION BASE */
+        html { background-color: #000000; } /* Prevents white flash */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #e2e8f0; 
+            will-change: opacity, transform; /* Optimize animation */
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #111318; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Technical Form Elements */
+        input[type=number] {
+            background: #0b0d12; border: 1px solid #334155; color: white;
+            padding: 4px 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+            width: 100%; outline: none; transition: border-color 0.2s;
+        }
+        input[type=number]:focus { border-color: #10b981; }
+        
+        select {
+            background: #0b0d12; border: 1px solid #334155; color: white;
+            padding: 6px 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+            width: 100%; outline: none; cursor: pointer;
+        }
+
+        /* Range Slider */
+        input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; }
+        input[type=range]:focus { outline: none; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; height: 16px; width: 16px; 
+            background: #050505; border: 2px solid #10b981; 
+            cursor: pointer; margin-top: -7px;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 2px; background: #333; cursor: pointer;
+        }
+
+        /* CRT Effect */
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px; pointer-events: none;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+        }
+
+        /* Mission Control Return Button */
+        .mission-return-btn {
+            background: rgba(255, 183, 0, 0.1); /* Amber tint */
+            border: 1px solid #f59e0b; /* Amber-500 */
+            color: #f59e0b;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 6px 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-right: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            outline: none;
+            text-decoration: none;
+            border-radius: 2px;
+            height: 32px;
+        }
+
+        .mission-return-btn:hover {
+            background: #f59e0b;
+            color: #0b0d12;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+            transform: translateX(-2px);
+        }
+    </style>
+</head>
+<body class="antialiased bg-[#0b0d12] h-screen flex flex-col overflow-hidden selection:bg-emerald-500/30">
+
+<!-- Navigation -->
+<nav class="border-b border-white/10 bg-black/50 backdrop-blur-md h-14 flex items-center px-4 md:px-6 shrink-0 z-50 justify-between">
+    <div class="flex items-center">
+        <!-- 
+            UPDATED RETURN MECHANISM:
+            1. Links to ../lander.html (Up one level to Project Overview Page)
+            2. onclick triggers smoothExit() animation
+        -->
+        <a href="../lander.html" onclick="smoothExit(event, this.href)" class="mission-return-btn">
+            <i class="fas fa-chevron-left"></i> RETURN
+        </a>
+        
+        <!-- Separator -->
+        <div class="h-6 w-px bg-white/10 mr-4 hidden md:block"></div>
+
+        <div class="flex flex-col">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-white">GNC Control Playground <span class="text-emerald-500"></span></span>
+            <span class="text-[9px] text-gray-500 uppercase tracking-widest">Physics Simulation Environment</span>
+        </div>
+    </div>
+    <div class="flex items-center gap-4">
+        <div class="hidden md:flex flex-col items-end mr-4">
+            <span class="text-[9px] text-gray-500 uppercase">System Time</span>
+            <span id="sys-time" class="font-mono text-xs text-white">00:00:00.00</span>
+        </div>
+        <div class="font-mono text-[10px] md:text-xs text-emerald-500 uppercase tracking-widest flex items-center gap-2">
+            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]"></span> 
+            <span class="hidden md:inline">Telemetry Active</span>
+            <span class="md:hidden">LIVE</span>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden relative">
+    
+    <!-- Sidebar Control Panel -->
+    <div class="w-80 md:w-96 bg-[#111318] border-r border-white/10 flex flex-col overflow-y-auto custom-scrollbar p-4 md:p-6 gap-6 shrink-0 z-20 absolute md:relative h-full transition-transform duration-300 transform -translate-x-full md:translate-x-0" id="sidebar">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-end border-b border-white/5 pb-4">
+            <div>
+                <h1 class="font-mono text-lg font-bold text-white mb-1">CONFIGURATION</h1>
+                <p class="text-[10px] text-gray-500 font-mono uppercase tracking-wider">Mission Parameters</p>
+            </div>
+            <button onclick="resetSim()" class="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-3 py-1 text-[10px] font-mono uppercase transition-colors">
+                <i class="fas fa-rotate-right mr-1"></i> Reset
+            </button>
+        </div>
+
+        <!-- Vehicle Selection -->
+        <div class="space-y-3">
+            <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest border-l-2 border-emerald-500 pl-2">Vehicle Preset</h3>
+            <select id="preset-selector" onchange="loadPreset(this.value)">
+                <option value="custom">Custom Configuration</option>
+                <option value="hopper" selected>Grasshopper Prototype</option>
+                <option value="falcon">Orbital Booster Stage</option>
+                <option value="starship">Heavy Starship Prototype</option>
+                <option value="lander">Lunar Descent Module</option>
+                <option value="sounding">Sounding Rocket</option>
+            </select>
+        </div>
+
+        <!-- Detailed Vehicle Config -->
+        <div class="space-y-3">
+             <div class="flex justify-between items-center">
+                <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest border-l-2 border-blue-500 pl-2">Physics Properties</h3>
+                <span id="twr-indicator" class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-gray-800 text-gray-400" title="Thrust to Weight Ratio">TWR: 0.0</span>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <label class="text-[9px] text-gray-500 uppercase">Dry Mass (kg)</label>
+                    <input type="number" id="input-dry-mass" value="1500" onchange="updateCustomConfig()">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[9px] text-gray-500 uppercase">Fuel Mass (kg)</label>
+                    <input type="number" id="input-fuel-mass" value="3000" onchange="updateCustomConfig()">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[9px] text-gray-500 uppercase">Max Thrust (kN)</label>
+                    <input type="number" id="input-thrust" value="120" onchange="updateCustomConfig()">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[9px] text-gray-500 uppercase">ISP (s)</label>
+                    <input type="number" id="input-isp" value="280" onchange="updateCustomConfig()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Environment -->
+        <div class="space-y-3">
+            <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest border-l-2 border-purple-500 pl-2">Environment</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <label class="text-[9px] text-gray-500 uppercase">Gravity (m/s²)</label>
+                    <select id="input-gravity" onchange="updateEnvironment()">
+                        <option value="9.81" selected>Earth (9.81)</option>
+                        <option value="3.71">Mars (3.71)</option>
+                        <option value="1.62">Moon (1.62)</option>
+                        <option value="24.79">Jupiter (24.79)</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[9px] text-gray-500 uppercase">Atmosphere</label>
+                    <div class="text-[10px] text-gray-400 py-1.5 px-2 bg-black/30 border border-white/5 cursor-not-allowed">Standard</div>
+                </div>
+            </div>
+            <button 
+                id="btn-wind"
+                onmousedown="startWind()" 
+                onmouseup="stopWind()" 
+                onmouseleave="stopWind()"
+                ontouchstart="startWind(); event.preventDefault()"
+                ontouchend="stopWind(); event.preventDefault()"
+                class="w-full py-2 border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 active:bg-rose-500/20 font-mono text-[10px] uppercase font-bold transition-colors rounded-sm relative overflow-hidden">
+                <span class="relative z-10"><i class="fas fa-wind mr-2"></i>Inject Lateral Wind</span>
+                <div id="wind-indicator" class="absolute inset-0 bg-rose-500/20 translate-y-full transition-transform duration-100"></div>
+            </button>
+        </div>
+
+        <!-- GNC Algorithm -->
+        <div class="space-y-3 border-t border-white/5 pt-4">
+            <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest border-l-2 border-yellow-500 pl-2">Guidance Computer</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="setMode('PID')" id="btn-pid" class="py-2 border border-emerald-500 bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold hover:bg-emerald-500 hover:text-black transition-all">HOVER (PID)</button>
+                <button onclick="setMode('HOVERSLAM')" id="btn-slam" class="py-2 border border-white/10 text-gray-400 text-[10px] font-mono font-bold hover:text-white hover:border-white transition-all">HOVERSLAM</button>
+            </div>
+            
+            <div id="pid-panel" class="space-y-4 pt-2 opacity-100 transition-opacity duration-300">
+                <div class="group">
+                    <div class="flex justify-between text-[9px] mb-1 font-mono text-gray-400 group-hover:text-emerald-400 transition-colors"><span>Kp (Proportional)</span><span id="val-kp" class="text-white font-bold">2.5</span></div>
+                    <input type="range" id="slider-kp" min="0" max="15" step="0.1" value="2.5">
+                </div>
+                <div class="group">
+                    <div class="flex justify-between text-[9px] mb-1 font-mono text-gray-400 group-hover:text-emerald-400 transition-colors"><span>Kd (Derivative)</span><span id="val-kd" class="text-white font-bold">3.0</span></div>
+                    <input type="range" id="slider-kd" min="0" max="15" step="0.1" value="3.0">
+                </div>
+                <div class="group">
+                    <div class="flex justify-between text-[9px] mb-1 font-mono text-gray-400 group-hover:text-emerald-400 transition-colors"><span>Ki (Integral)</span><span id="val-ki" class="text-white font-bold">0.05</span></div>
+                    <input type="range" id="slider-ki" min="0" max="2" step="0.01" value="0.05">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Toggle Button for Mobile -->
+    <button onclick="toggleSidebar()" class="absolute top-4 right-4 z-30 md:hidden bg-gray-800 text-white p-2 rounded border border-gray-700 shadow-lg">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Simulation Viewport -->
+    <div class="flex-1 bg-[#050608] relative flex flex-col min-w-0">
+        
+        <!-- HUD Overlay -->
+        <div class="absolute top-4 left-4 z-10 font-mono text-xs space-y-2 pointer-events-none text-white/90">
+            <div class="flex items-center gap-3 bg-black/40 backdrop-blur px-3 py-1 rounded border border-white/5">
+                <span class="text-gray-500 w-8">ALT</span> 
+                <span id="hud-alt" class="font-bold tabular-nums text-lg">00.0 m</span>
+            </div>
+            <div class="flex items-center gap-3 bg-black/40 backdrop-blur px-3 py-1 rounded border border-white/5">
+                <span class="text-gray-500 w-8">VEL</span> 
+                <span id="hud-vel" class="font-bold tabular-nums text-lg">00.0 m/s</span>
+            </div>
+            <div class="flex items-center gap-3 bg-black/40 backdrop-blur px-3 py-1 rounded border border-white/5">
+                <span class="text-gray-500 w-8">FUEL</span> 
+                <span id="hud-fuel" class="font-bold tabular-nums text-blue-400">100 %</span>
+            </div>
+            
+            <div class="mt-4 pt-4">
+                <div class="text-[10px] text-gray-500 mb-1 tracking-wider uppercase">Flight Phase</div>
+                <div id="hud-phase" class="text-emerald-400 font-bold uppercase text-sm tracking-wide bg-black/60 inline-block px-2 py-1 rounded border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]">POWERED DESCENT</div>
+            </div>
+
+             <div id="wind-warning" class="hidden mt-2 text-rose-500 font-bold uppercase text-xs animate-pulse bg-rose-950/50 px-2 py-1 border border-rose-500/50 rounded inline-block">
+                <i class="fas fa-exclamation-triangle mr-1"></i> High Wind Shear
+            </div>
+        </div>
+
+        <!-- Canvas -->
+        <div class="relative flex-1 w-full h-full min-h-0">
+            <canvas id="simCanvas" class="w-full h-full block"></canvas>
+            <div class="absolute inset-0 crt-overlay"></div>
+        </div>
+
+        <!-- Bottom Plot Panel -->
+        <div class="h-32 md:h-40 bg-[#0b0d12] border-t border-white/10 grid grid-cols-2 shrink-0">
+            <div class="relative border-r border-white/10">
+                <div class="absolute top-2 left-2 text-[9px] text-gray-500 font-mono font-bold z-10 bg-[#0b0d12]/80 px-1">ALTITUDE ERROR</div>
+                <div id="plot-error" class="w-full h-full"></div>
+            </div>
+            <div class="relative">
+                <div class="absolute top-2 left-2 text-[9px] text-gray-500 font-mono font-bold z-10 bg-[#0b0d12]/80 px-1">THROTTLE CMD (%)</div>
+                <div id="plot-thrust" class="w-full h-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Telemetry Bars -->
+    <div class="w-12 md:w-16 bg-[#111318] border-l border-white/10 flex flex-col items-center py-6 gap-6 shrink-0 z-20">
+        <div class="flex-1 w-full flex flex-col items-center gap-2">
+            <div class="text-[9px] text-gray-500 rotate-180" style="writing-mode: vertical-rl;">THROTTLE</div>
+            <div class="w-2 md:w-3 flex-1 bg-gray-900 rounded-full relative overflow-hidden border border-white/5">
+                <div id="bar-throttle" class="absolute bottom-0 w-full bg-yellow-400 shadow-[0_0_10px_#facc15] transition-all duration-75" style="height: 0%"></div>
+            </div>
+        </div>
+        <div class="flex-1 w-full flex flex-col items-center gap-2">
+            <div class="text-[9px] text-gray-500 rotate-180" style="writing-mode: vertical-rl;">PROPELLANT</div>
+            <div class="w-2 md:w-3 flex-1 bg-gray-900 rounded-full relative overflow-hidden border border-white/5">
+                <div id="bar-fuel" class="absolute bottom-0 w-full bg-blue-500 shadow-[0_0_10px_#3b82f6] transition-all duration-75" style="height: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // --- CONFIGURATION SYSTEM ---
+
+    // Presets Database
+    const PRESETS = {
+        'hopper': {
+            dryMass: 1500,
+            fuelMass: 3000,
+            maxThrust: 120, // kN
+            isp: 280,
+            color: '#cbd5e1',
+            height: 80,
+            width: 30
+        },
+        'falcon': {
+            dryMass: 22200, // Scaled down for sim playability (Real ~25t)
+            fuelMass: 40000, 
+            maxThrust: 845, // Scaled down
+            isp: 300,
+            color: '#ffffff',
+            height: 140,
+            width: 25
+        },
+        'starship': {
+            dryMass: 100000, // Scaled
+            fuelMass: 150000,
+            maxThrust: 3500,
+            isp: 330,
+            color: '#e2e8f0', // Shiny
+            height: 120,
+            width: 50
+        },
+        'lander': {
+            dryMass: 4000,
+            fuelMass: 6000,
+            maxThrust: 60,
+            isp: 311,
+            color: '#fbbf24', // Gold foil
+            height: 40,
+            width: 60
+        },
+        'sounding': {
+            dryMass: 200,
+            fuelMass: 500,
+            maxThrust: 15,
+            isp: 250,
+            color: '#ef4444',
+            height: 50,
+            width: 15
+        }
+    };
+
+    // Current State Objects
+    let vehicle = { ...PRESETS['hopper'] };
+    let env = { gravity: 9.81 };
+    
+    // PID Controller
+    let pid = { kp: 2.5, ki: 0.05, kd: 3.0, integral: 0, prevError: 0 };
+
+    // Simulation State
+    const state = {
+        y: 200,
+        v: -10,
+        target: 10,
+        fuel: 0, // Set in init
+        wind: 0,
+        throttle: 0,
+        phase: 'DESCENT',
+        mode: 'PID',
+        twr: 0
+    };
+
+    let time = 0;
+    const dt = 1/60;
+    let lastTimestamp = 0;
+    let historyT = [], historyErr = [], historyThr = [];
+    let particles = [];
+    let running = true;
+
+    // --- UI FUNCTIONS ---
+
+    let sidebarOpen = false;
+    function toggleSidebar() {
+        sidebarOpen = !sidebarOpen;
+        const el = document.getElementById('sidebar');
+        el.classList.toggle('-translate-x-full', !sidebarOpen);
+    }
+
+    function loadPreset(key) {
+        if (key === 'custom') return;
+        const p = PRESETS[key];
+        
+        // Update Internal Object
+        vehicle = { ...p };
+        
+        // Update UI Inputs
+        document.getElementById('input-dry-mass').value = p.dryMass;
+        document.getElementById('input-fuel-mass').value = p.fuelMass;
+        document.getElementById('input-thrust').value = p.maxThrust;
+        document.getElementById('input-isp').value = p.isp;
+        
+        calculateTWR();
+        resetSim();
+    }
+
+    function updateCustomConfig() {
+        // Set selector to custom
+        document.getElementById('preset-selector').value = 'custom';
+        
+        // Read Inputs
+        vehicle.dryMass = parseFloat(document.getElementById('input-dry-mass').value) || 1000;
+        vehicle.fuelMass = parseFloat(document.getElementById('input-fuel-mass').value) || 1000;
+        vehicle.maxThrust = parseFloat(document.getElementById('input-thrust').value) || 100;
+        vehicle.isp = parseFloat(document.getElementById('input-isp').value) || 250;
+        
+        // Keep visual dimensions from last preset or default
+        if (!vehicle.height) { vehicle.height = 80; vehicle.width = 30; vehicle.color = '#cbd5e1'; }
+
+        calculateTWR();
+    }
+
+    function updateEnvironment() {
+        env.gravity = parseFloat(document.getElementById('input-gravity').value);
+        calculateTWR();
+    }
+
+    function calculateTWR() {
+        const totalMass = vehicle.dryMass + vehicle.fuelMass;
+        const weight = totalMass * env.gravity;
+        const thrustN = vehicle.maxThrust * 1000;
+        const twr = thrustN / weight;
+        
+        const el = document.getElementById('twr-indicator');
+        el.innerText = `TWR: ${twr.toFixed(2)}`;
+        
+        if (twr < 1.0) {
+            el.className = "text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-500/50";
+            el.title = "Warning: Insufficient thrust to hover!";
+        } else {
+            el.className = "text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/50";
+            el.title = "Thrust to Weight Ratio > 1.0 (Good)";
+        }
+    }
+
+    function startWind() {
+        state.wind = -25000 * (vehicle.dryMass/1500); // Scale wind effect by mass slightly
+        document.getElementById('wind-indicator').classList.remove('translate-y-full');
+        document.getElementById('wind-warning').classList.remove('hidden');
+    }
+    function stopWind() {
+        state.wind = 0;
+        document.getElementById('wind-indicator').classList.add('translate-y-full');
+        document.getElementById('wind-warning').classList.add('hidden');
+    }
+
+    // --- PHYSICS & GNC ---
+
+    function runGuidance() {
+        if(state.phase === 'CRASHED' || state.phase === 'LANDED') {
+            state.throttle = 0;
+            return;
+        }
+
+        const currentMass = vehicle.dryMass + state.fuel;
+        const thrustN = vehicle.maxThrust * 1000;
+        
+        // Out of fuel check
+        if (state.fuel <= 0) {
+            state.phase = 'OUT OF FUEL';
+            state.throttle = 0;
+            return;
+        }
+
+        if (state.mode === 'HOVERSLAM') {
+            // Max Deceleration capability
+            const maxAccel = (thrustN / currentMass) - env.gravity;
+            
+            // If TWR < 1, we can't stop.
+            if (maxAccel <= 0) {
+                state.throttle = 1.0; 
+                state.phase = 'LOW TWR';
+                return;
+            }
+
+            // Suicide burn height calculation
+            const stopDist = (state.v * state.v) / (2 * maxAccel);
+            
+            // Logic
+            if (state.v < -1.0) {
+                 // 1.5m buffer for safety
+                 if (state.y <= stopDist + 1.5) { 
+                    state.throttle = 1.0; 
+                    state.phase = 'SUICIDE BURN';
+                } else {
+                    state.throttle = 0;
+                    state.phase = 'COASTING';
+                }
+            } else {
+                // Terminal landing logic
+                if(state.y < 10) {
+                    state.phase = 'TERMINAL GUIDANCE';
+                    pidControl(currentMass, thrustN);
+                } else {
+                    state.throttle = 0;
+                    state.phase = 'HOLDING';
+                }
+            }
+        } else {
+            // PID Mode
+            pidControl(currentMass, thrustN);
+            state.phase = 'POWERED DESC';
+        }
+    }
+
+    function pidControl(mass, maxThrustN) {
+        const error = state.target - state.y;
+        
+        // Integral WIndup Guard
+        pid.integral += error * dt;
+        pid.integral = Math.max(-50, Math.min(50, pid.integral)); 
+        
+        const derivative = (error - pid.prevError) / dt;
+        
+        // Control Law
+        // Desired Acceleration = P + I + D
+        let accelCmd = (pid.kp * error) + (pid.ki * pid.integral) + (pid.kd * derivative);
+        
+        // F = m(a_cmd + g)
+        let thrustNeeded = mass * (accelCmd + env.gravity);
+        
+        // Output normalization
+        state.throttle = Math.max(0, Math.min(1, thrustNeeded / maxThrustN));
+        pid.prevError = error;
+    }
+
+    function updatePhysics() {
+        runGuidance();
+
+        const currentMass = vehicle.dryMass + state.fuel;
+        const thrustN = vehicle.maxThrust * 1000;
+        const thrustForce = state.throttle * thrustN;
+        const exhaustVel = vehicle.isp * 9.81; // Isp is always relative to earth g0 standard
+        
+        // Consume Fuel
+        if(state.throttle > 0 && state.fuel > 0) {
+            const massFlow = thrustForce / exhaustVel;
+            state.fuel -= massFlow * dt;
+            if(state.fuel < 0) state.fuel = 0;
+        }
+
+        // Net Force = Thrust - Weight + Wind
+        const weight = currentMass * env.gravity;
+        const netForce = thrustForce - weight + state.wind;
+        const accel = netForce / currentMass;
+
+        // Integration
+        state.v += accel * dt;
+        state.y += state.v * dt;
+
+        // Ground Collision
+        if (state.y <= 0) {
+            state.y = 0;
+            if (state.v < -8.0) { 
+                state.phase = 'CRASHED';
+                state.throttle = 0;
+            } else {
+                if(state.phase !== 'CRASHED') {
+                    state.phase = 'LANDED';
+                    state.v = 0;
+                    pid.integral = 0;
+                }
+            }
+        }
+
+        time += dt;
+        
+        // Emitter
+        if (state.throttle > 0.05 && state.y > 0) {
+            let count = Math.floor(state.throttle * 5 * (thrustN/100000)); // More particles for bigger engines
+            count = Math.min(count, 10); // Limit caps
+            for(let i=0; i<count; i++) {
+                particles.push({
+                    x: (Math.random() - 0.5) * (vehicle.width/4),
+                    y: -(vehicle.height/2) + 5, // Engine nozzle location approx
+                    vx: (Math.random() - 0.5) * 4 + (state.wind/5000), 
+                    vy: -20 - Math.random() * 60 * state.throttle,
+                    life: 1.0,
+                    size: Math.random() * 3 + 2,
+                    color: Math.random() > 0.6 ? '#f59e0b' : '#64748b'
+                });
+            }
+        }
+
+        // History
+        if (Math.floor(time * 100) % 5 === 0) {
+            if (historyT.length > 80) { historyT.shift(); historyErr.shift(); historyThr.shift(); }
+            historyT.push(time);
+            historyErr.push(state.target - state.y);
+            historyThr.push(state.throttle * 100);
+        }
+        
+        // Sys Time Update
+        const mins = Math.floor(time / 60);
+        const secs = (time % 60).toFixed(2);
+        document.getElementById('sys-time').innerText = `00:${mins < 10 ? '0'+mins : mins}:${secs < 10 ? '0'+secs : secs}`;
+    }
+
+    function updateParticles() {
+        for (let i = particles.length - 1; i >= 0; i--) {
+            let p = particles[i];
+            p.x += p.vx * dt * 60; 
+            p.y += p.vy * dt * 60;
+            p.life -= 0.04;
+            p.size += 0.2;
+            if (p.life <= 0) particles.splice(i, 1);
+        }
+    }
+
+    // --- RENDER ---
+    
+    function resize() { 
+        const parent = canvas.parentElement;
+        canvas.width = parent.clientWidth; 
+        canvas.height = parent.clientHeight; 
+    }
+    window.addEventListener('resize', () => { setTimeout(resize, 100); });
+    resize();
+
+    function draw() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        
+        const scale = 3; // px per meter
+        const groundY = canvas.height - 60;
+        
+        // Camera
+        let visualAlt = state.y;
+        let offsetY = 0;
+        const maxVisualAlt = (canvas.height / scale) * 0.7;
+        if (visualAlt > maxVisualAlt) {
+            offsetY = (visualAlt - maxVisualAlt) * scale;
+        }
+
+        const rocketVisualY = groundY - (state.y * scale) + offsetY;
+        const rocketX = canvas.width / 2;
+        const groundVisualY = groundY + offsetY;
+
+        // Sky/Stars
+        ctx.fillStyle = '#ffffff';
+        for(let i=0; i<15; i++) {
+            const sx = (i * 137 * canvas.width) % canvas.width;
+            const sy = (i * 93 * canvas.height) % canvas.height;
+            ctx.globalAlpha = 0.2;
+            ctx.fillRect(sx, sy, 1, 1);
+        }
+        ctx.globalAlpha = 1.0;
+
+        // Target Line
+        const targetY = groundY - (state.target * scale) + offsetY;
+        if(targetY > 0 && targetY < canvas.height) {
+            ctx.strokeStyle = 'rgba(16, 185, 129, 0.3)';
+            ctx.setLineDash([5,5]);
+            ctx.beginPath(); ctx.moveTo(0, targetY); ctx.lineTo(canvas.width, targetY); ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        ctx.save();
+        ctx.translate(rocketX, rocketVisualY);
+
+        if(state.throttle > 0.8) {
+            ctx.translate((Math.random()-0.5)*2, (Math.random()-0.5)*2);
+        }
+
+        if(state.phase === 'CRASHED') {
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath(); ctx.arc(0, 0, vehicle.width, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath(); ctx.arc(0, 0, vehicle.width*0.7, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = 'white'; ctx.textAlign = 'center'; ctx.font = 'bold 12px JetBrains Mono';
+            ctx.fillText("CRITICAL FAILURE", 0, 5);
+        } else {
+            // --- DYNAMIC ROCKET DRAWING ---
+            const w = vehicle.width;
+            const h = vehicle.height;
+            
+            // Legs
+            const legLen = h * 0.4;
+            const legExt = Math.min(1, Math.max(0, (50 - state.y) / 20)); 
+            const legAngle = 0.4 + (legExt * 0.8);
+            
+            ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(-w/2, 0); ctx.lineTo(-w/2 - Math.sin(legAngle)*legLen, Math.cos(legAngle)*legLen); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(w/2, 0); ctx.lineTo(w/2 + Math.sin(legAngle)*legLen, Math.cos(legAngle)*legLen); ctx.stroke();
+
+            // Body
+            ctx.fillStyle = vehicle.color;
+            // Simple shading
+            const grad = ctx.createLinearGradient(-w/2, 0, w/2, 0);
+            grad.addColorStop(0, adjustColor(vehicle.color, -30));
+            grad.addColorStop(0.5, vehicle.color);
+            grad.addColorStop(1, adjustColor(vehicle.color, -30));
+            ctx.fillStyle = grad;
+            ctx.fillRect(-w/2, -h, w, h);
+            
+            // Nose
+            ctx.beginPath(); ctx.moveTo(-w/2, -h); ctx.lineTo(0, -h - (w*0.5)); ctx.lineTo(w/2, -h); ctx.fill();
+            
+            // Engine
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath(); 
+            ctx.moveTo(-w/4, 0); ctx.lineTo(-w/3, 8); ctx.lineTo(w/3, 8); ctx.lineTo(w/4, 0); 
+            ctx.fill();
+
+            // Particles
+            for (let p of particles) {
+                ctx.globalAlpha = p.life;
+                ctx.fillStyle = p.color;
+                ctx.beginPath(); ctx.arc(p.x, p.y + h, p.size, 0, Math.PI*2); ctx.fill(); // Offset y by height relative to 0
+            }
+            ctx.globalAlpha = 1.0;
+        }
+        ctx.restore();
+
+        // Ground
+        ctx.fillStyle = env.gravity > 4 ? '#111827' : (env.gravity < 3 ? '#3f3f46' : '#7f1d1d'); // Earth, Moon, Mars colors (rough approx)
+        if (env.gravity > 20) ctx.fillStyle = '#c2410c'; // Jupiter gas??
+        
+        ctx.fillRect(0, groundVisualY + 20, canvas.width, canvas.height); 
+        
+        // Pad
+        ctx.fillStyle = '#374151';
+        ctx.fillRect(rocketX - 80, groundVisualY + 20, 160, 10);
+    }
+
+    // Utility to darken/lighten hex color for gradients
+    function adjustColor(color, amount) {
+        return '#' + color.replace(/^#/, '').replace(/../g, color => ('0'+Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
+    }
+
+    // --- LOOP & INIT ---
+
+    window.setMode = function(m) {
+        state.mode = m;
+        const btnPid = document.getElementById('btn-pid');
+        const btnSlam = document.getElementById('btn-slam');
+        const pidPanel = document.getElementById('pid-panel');
+
+        if(m === 'PID') {
+            btnPid.className = "py-2 border border-emerald-500 bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold hover:bg-emerald-500 hover:text-black transition-all";
+            btnSlam.className = "py-2 border border-white/10 text-gray-400 text-[10px] font-mono font-bold hover:text-white hover:border-white transition-all";
+            pidPanel.style.opacity = "1";
+            pidPanel.style.pointerEvents = "auto";
+        } else {
+            btnSlam.className = "py-2 border border-emerald-500 bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold hover:bg-emerald-500 hover:text-black transition-all";
+            btnPid.className = "py-2 border border-white/10 text-gray-400 text-[10px] font-mono font-bold hover:text-white hover:border-white transition-all";
+            pidPanel.style.opacity = "0.3";
+            pidPanel.style.pointerEvents = "none";
+        }
+        resetSim();
+        state.y = 500; 
+    }
+
+    window.resetSim = function() {
+        state.y = state.mode === 'HOVERSLAM' ? 800 : 200;
+        state.v = -10;
+        state.fuel = vehicle.fuelMass;
+        state.phase = 'DESCENT';
+        state.throttle = 0;
+        pid.integral = 0;
+        historyT = []; historyErr = []; historyThr = [];
+        particles = [];
+        time = 0;
+    }
+
+    // Sliders
+    document.getElementById('slider-kp').oninput = (e) => { pid.kp = parseFloat(e.target.value); document.getElementById('val-kp').innerText = pid.kp; };
+    document.getElementById('slider-kd').oninput = (e) => { pid.kd = parseFloat(e.target.value); document.getElementById('val-kd').innerText = pid.kd; };
+    document.getElementById('slider-ki').oninput = (e) => { pid.ki = parseFloat(e.target.value); document.getElementById('val-ki').innerText = pid.ki; };
+
+    function loop(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const elapsed = timestamp - lastTimestamp;
+        
+        if (elapsed < 100) {
+             updatePhysics();
+             updateParticles();
+        }
+        lastTimestamp = timestamp;
+
+        draw();
+        updateUI();
+        requestAnimationFrame(loop);
+    }
+    
+    function updateUI() {
+        document.getElementById('hud-alt').innerText = state.y.toFixed(1) + " m";
+        document.getElementById('hud-vel').innerText = state.v.toFixed(1) + " m/s";
+        
+        const fuelPct = (state.fuel / vehicle.fuelMass) * 100;
+        document.getElementById('hud-fuel').innerText = fuelPct.toFixed(0) + " %";
+        document.getElementById('hud-phase').innerText = state.phase;
+        
+        const velEl = document.getElementById('hud-vel');
+        if(state.v < -10) velEl.className = "font-bold tabular-nums text-lg text-rose-500";
+        else if (state.v > 5) velEl.className = "font-bold tabular-nums text-lg text-blue-400";
+        else velEl.className = "font-bold tabular-nums text-lg text-white";
+
+        document.getElementById('bar-fuel').style.height = fuelPct + "%";
+        document.getElementById('bar-throttle').style.height = (state.throttle*100) + "%";
+    }
+
+    // Init Plotly
+    setInterval(() => {
+        const plotConfig = { displayModeBar: false, staticPlot: true, responsive: true };
+        const layout = { 
+            paper_bgcolor:'transparent', plot_bgcolor:'transparent', 
+            margin:{t:5,b:5,l:5,r:5}, 
+            xaxis:{visible:false, fixedrange: true}, yaxis:{visible:false, fixedrange: true, range: [-20, 20]}
+        };
+        const layoutThrust = { ...layout, yaxis: {visible:false, range:[0, 110]} };
+        
+        Plotly.react('plot-error', [{y:historyErr, type:'scatter', mode:'lines', line:{color:'#ef4444', width:2}}], layout, plotConfig);
+        Plotly.react('plot-thrust', [{y:historyThr, type:'scatter', mode:'lines', line:{color:'#facc15', width:2}, fill:'tozeroy', fillcolor: 'rgba(250, 204, 21, 0.2)'}], layoutThrust, plotConfig);
+    }, 150);
+
+    // Boot
+    loadPreset('hopper');
+    calculateTWR();
+    requestAnimationFrame(loop);
+
+    // --- SMOOTH EXIT FUNCTION ---
+    function smoothExit(e, url) {
+        e.preventDefault(); 
+        document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+        document.body.style.opacity = "0";
+        document.body.style.transform = "scale(0.98)"; 
+        setTimeout(() => {
+            window.location.href = url;
+        }, 400);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enrique Garcia // Mechanical Engineering</title>
+  <meta name="description" content="Enrique Garcia — WashU Mechanical Engineering. Avionics, controls, autonomous systems.">
+  <meta property="og:title" content="Enrique Garcia // Mechanical Engineering">
+  <meta property="og:description" content="Avionics, controls, and autonomous systems. WashU Mechanical Engineering.">
+  <meta property="og:image" content="images/pfpv2.png">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#000">
+  <link rel="icon" href="favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+  <style>
+    /* ─── DESIGN TOKENS — pure monochrome ─── */
+    :root {
+      --bg:      #000000;
+      --surface: #0a0a0a;
+      --s2:      #111111;
+      --border:  rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text:    #c8c8c8;
+      --muted:   #444444;
+      --dim:     #222222;
+      --white:   #ffffff;
+      --off:     #e8e8e8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      font-family: 'Syne', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .disp { font-family: 'Bebas Neue', sans-serif; }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 2px; height: 2px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; }
+
+    /* NOISE GRAIN */
+    body::after {
+      content: ''; position: fixed; inset: 0; z-index: 998; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.022; mix-blend-mode: overlay;
+    }
+
+    /* CURSOR — crisp white square, blend-mode difference */
+    @media (hover: hover) { body { cursor: none; } a, button, [onclick], label { cursor: none; } }
+    @media (hover: none)  { #cursor { display: none !important; } }
+    #cursor {
+      position: fixed; z-index: 9999; pointer-events: none;
+      mix-blend-mode: difference;
+    }
+    #cd {
+      width: 10px; height: 10px; background: var(--white);
+      position: absolute; transform: translate(-50%,-50%);
+      transition: width .12s, height .12s, border-radius .12s;
+    }
+    body.hov #cd { width: 20px; height: 20px; border-radius: 50%; }
+
+    /* SCROLL PROGRESS */
+    #prog { position: fixed; top: 0; left: 0; height: 1px; background: var(--white); z-index: 300; width: 0; pointer-events: none; }
+
+    /* ─── LAYOUT ─── */
+    .ct { max-width: 1400px; margin: 0 auto; padding: 0 48px; }
+    @media(max-width:768px){ .ct { padding: 0 24px; } }
+    section { position: relative; z-index: 2; }
+
+    /* shared label */
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+      display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    }
+    .eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--muted); flex-shrink: 0; }
+
+    /* section head */
+    .s-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+      padding-bottom: 48px; border-bottom: 1px solid var(--border); margin-bottom: 64px;
+    }
+    .s-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      color: var(--white); letter-spacing: 0.02em; line-height: 0.9; text-transform: uppercase;
+    }
+    .s-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 8rem; font-weight: 900;
+      color: rgba(255,255,255,0.03); line-height: 1; user-select: none; pointer-events: none;
+    }
+
+    /* REVEAL */
+    .rv  { opacity: 0; transform: translateY(24px); transition: opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1); }
+    .rvl { opacity: 0; transform: translateX(-24px); transition: opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1); }
+    .rvr { opacity: 0; transform: translateX(24px);  transition: opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1); }
+    .rv.vi, .rvl.vi, .rvr.vi { opacity: 1; transform: none; }
+    [d1]{transition-delay:.08s!important}[d2]{transition-delay:.16s!important}
+    [d3]{transition-delay:.24s!important}[d4]{transition-delay:.32s!important}[d5]{transition-delay:.4s!important}
+
+    /* ─── NAV ─── */
+    #nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      border-bottom: 1px solid transparent;
+      transition: background .3s, border-color .3s;
+    }
+    #nav.on { background: rgba(0,0,0,.92); border-color: var(--border); backdrop-filter: blur(14px); }
+    .nav-w { max-width: 1400px; margin: 0 auto; padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    @media(max-width:768px){ .nav-w { padding: 0 24px; } }
+
+    .nlogo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .nmark { width: 32px; height: 32px; background: var(--white); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .nmark img { width: 100%; height: 100%; object-fit: contain; filter: invert(1); }
+    .nid span:first-child { font-family: 'JetBrains Mono',monospace; font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--white); display: block; }
+    .nid span:last-child  { font-family: 'JetBrains Mono',monospace; font-size: 8px; color: var(--muted); letter-spacing: .1em; display: block; }
+
+    .nlinks { display: none; align-items: center; gap: 28px; }
+    @media(min-width:900px){ .nlinks { display: flex; } }
+    .nl { font-family: 'JetBrains Mono',monospace; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .15s; position: relative; }
+    .nl:hover, .nl.on { color: var(--white); }
+    .nl.on::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px; background:var(--white); }
+
+    .nctas { display: flex; gap: 8px; }
+    .btn-o { font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; padding:8px 16px; border:1px solid var(--border2); color:var(--white); text-decoration:none; transition:all .15s; }
+    .btn-o:hover { background:rgba(255,255,255,.06); border-color:var(--muted); }
+    .btn-f { font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; padding:8px 16px; background:var(--white); color:var(--bg); text-decoration:none; transition:background .15s; }
+    .btn-f:hover { background:var(--off); }
+
+    #ham { display:none; background:none; border:1px solid var(--border2); padding:8px 12px; color:var(--white); font-size:12px; }
+    @media(max-width:899px){ #ham { display:block; } .nctas { display:none; } }
+    #mob { display:none; position:fixed; inset:64px 0 0; background:var(--bg); z-index:99; flex-direction:column; padding:32px 24px; border-top:1px solid var(--border); }
+    #mob.on { display:flex; }
+    #mob a { padding:16px 0; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .15s; }
+    #mob a:hover { color:var(--white); }
+    #mob .mc { display:flex; flex-direction:column; gap:10px; margin-top:24px; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+      padding-top: 64px; position: relative; overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Video layer */
+    .hero-video-layer {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    }
+    .hero-video-layer video {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.32) contrast(1.15) saturate(0);
+      opacity: 1;
+    }
+    .hero-video-layer::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.0) 40%, rgba(0,0,0,0.85) 100%);
+    }
+
+    /* Animated grid overlay on video */
+    .hero-grid-overlay {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse 100% 100% at 50% 60%, black 10%, transparent 75%);
+      animation: gdrift 28s linear infinite;
+    }
+    @keyframes gdrift { to { background-position: 72px 72px; } }
+
+    .hero-body { position: relative; z-index: 2; padding: 0 48px 80px; max-width: 1400px; margin: 0 auto; width: 100%; }
+    @media(max-width:768px){ .hero-body { padding: 0 24px 60px; } }
+
+    /* Status bar */
+    .status-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 32px;
+      font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .status-pulse { width: 5px; height: 5px; border-radius: 50%; background: var(--white); animation: spulse 2.5s ease-in-out infinite; flex-shrink: 0; }
+    @keyframes spulse { 0%,100%{opacity:1} 50%{opacity:.15} }
+    .status-sep { color: var(--dim); }
+
+    /* Big name */
+    h1.hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(7rem, 17vw, 17rem);
+      font-weight: 400; line-height: 0.84;
+      letter-spacing: -0.01em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 48px;
+    }
+    h1.hero-name .outline {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.28);
+    }
+
+    /* Bottom info bar */
+    .hero-bar {
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+    @media(max-width:900px){ .hero-bar { grid-template-columns: 1fr; gap: 32px; } }
+
+    .hero-desc { font-size: 1rem; font-weight: 400; color: var(--muted); line-height: 1.7; max-width: 500px; }
+    .hero-desc strong { color: var(--white); font-weight: 600; }
+
+    .hero-right { display: flex; flex-direction: column; gap: 24px; }
+    .hero-role-line { display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono',monospace; font-size: 9px; color: var(--muted); }
+    .hero-role-line::before { content: '—'; color: var(--dim); flex-shrink: 0; }
+    .hero-role-line strong { color: var(--white); font-weight: 600; letter-spacing: .05em; }
+    .hero-seek { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono',monospace; font-size: 9px; color: var(--muted); }
+    .seek-tag { font-size: 8px; font-weight: 700; letter-spacing: .12em; padding: 3px 8px; background: var(--white); color: var(--bg); }
+    .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero-socials { display: flex; gap: 6px; }
+    .hs { width: 32px; height: 32px; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; transition: all .15s; font-size: 12px; }
+    .hs:hover { border-color: var(--muted); color: var(--white); }
+
+    /* ─── IDENTITY CARD ─── */
+    .icard {
+      border: 1px solid var(--border); background: rgba(10,10,10,.65);
+      backdrop-filter: blur(20px); padding: 24px; position: relative; overflow: hidden;
+      flex: 1;
+    }
+    .icard::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+      animation: scanline 4s ease-in-out infinite;
+    }
+    @keyframes scanline { 0%,100%{opacity:.2} 50%{opacity:.7} }
+    .icard-head { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid var(--border); }
+
+    /* ── PROFILE PHOTO — full color, no greyscale ── */
+    .pfp {
+      width: 68px; height: 68px;
+      border: 1px solid var(--border2); padding: 3px; flex-shrink: 0;
+      cursor: pointer; transition: border-color .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .pfp:hover { border-color: rgba(255,255,255,.55); box-shadow: 0 0 18px rgba(255,255,255,.08); }
+    .pfp img {
+      width: 100%; height: 100%; object-fit: cover;
+      /* Full color — no saturate(0) */
+      filter: brightness(0.92) contrast(1.05);
+      transition: filter .25s, transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .pfp:hover img { filter: brightness(1) contrast(1.08); transform: scale(1.04); }
+    .pfp-scan { position: absolute; inset: 0; background: linear-gradient(transparent 40%, rgba(255,255,255,.1) 50%, transparent 60%); background-size: 100% 200%; opacity: 0; pointer-events: none; }
+    .pfp:hover .pfp-scan { opacity: 1; animation: pfscan 1.4s ease-in-out infinite; }
+    @keyframes pfscan { 0%{background-position:0 -100%} 100%{background-position:0 200%} }
+
+    .icard-name { font-family: 'Bebas Neue',sans-serif; font-size: 1.6rem; color: var(--white); line-height: 1; letter-spacing: .04em; }
+    .icard-title { font-family: 'JetBrains Mono',monospace; font-size: 8px; color: var(--muted); letter-spacing: .14em; text-transform: uppercase; margin-top: 4px; }
+    .icard-badge { font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: .1em; padding: 3px 8px; border: 1px solid rgba(255,255,255,.15); color: var(--white); margin-top: 8px; display: inline-flex; align-items: center; gap: 5px; }
+
+    /* Timeline items */
+    .tl-item { display: flex; gap: 10px; align-items: flex-start; padding: 9px 8px; margin: 0 -8px; cursor: pointer; transition: background .15s; border-bottom: 1px solid var(--border); border-radius: 1px; }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-item:hover { background: rgba(255,255,255,.03); }
+    .tl-dot { width: 7px; height: 7px; border: 1px solid; border-radius: 1px; flex-shrink: 0; margin-top: 3px; }
+    .tl-c { flex: 1; }
+    .tl-date { font-family: 'JetBrains Mono',monospace; font-size: 7px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+    .tl-role { font-size: 12px; font-weight: 600; color: var(--white); margin-top: 2px; }
+    .tl-sub  { font-family: 'JetBrains Mono',monospace; font-size: 8px; color: var(--muted); margin-top: 1px; }
+    .tl-arr  { font-size: 9px; color: var(--muted); opacity: 0; transition: opacity .15s, transform .15s; align-self: center; }
+    .tl-item:hover .tl-arr { opacity: 1; transform: translateX(3px); }
+
+    /* ─── HARDWARE LOG ─── */
+    #hwlog { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg); position: relative; z-index: 2; }
+    .hw-hdr { max-width: 1400px; margin: 0 auto; padding: 0 48px; height: 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+    @media(max-width:768px){ .hw-hdr { padding: 0 24px; } }
+    .hw-hdr-left { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+    .hw-hdr-left span:first-child { color: var(--white); }
+    .hw-hdr-right { font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: .1em; color: var(--dim); }
+
+    .hw-outer { overflow: hidden; position: relative; }
+    .hw-outer::before, .hw-outer::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 100px; z-index: 2; pointer-events: none;
+    }
+    .hw-outer::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+    .hw-outer::after  { right: 0; background: linear-gradient(-90deg, var(--bg), transparent); }
+
+    .hw-track { display: flex; gap: 0; animation: hwrun 60s linear infinite; width: max-content; }
+    .hw-track:hover { animation-play-state: paused; }
+    @keyframes hwrun { to { transform: translateX(-50%); } }
+
+    /* Hardware cards — keep greyscale (these are process/evidence photos, not key portfolio images) */
+    .hw-card { width: 300px; height: 210px; flex-shrink: 0; border-right: 1px solid var(--border); position: relative; overflow: hidden; text-decoration: none; display: block; background: var(--surface); }
+    .hw-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.42) contrast(1.1) saturate(0); transition: filter .5s, transform .6s cubic-bezier(.16,1,.3,1); display: block; }
+    .hw-card:hover img { filter: brightness(.62) contrast(1.1) saturate(0.08); transform: scale(1.06); }
+
+    .hw-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 14px; }
+    .hw-type { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; padding: 3px 8px; background: rgba(0,0,0,.6); color: rgba(255,255,255,.35); border: 1px solid rgba(255,255,255,.08); align-self: flex-start; display: flex; align-items: center; gap: 5px; }
+    .hw-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,.5); animation: spulse 2.5s ease-in-out infinite; }
+
+    .hw-bottom { }
+    .hw-title { font-family: 'Bebas Neue',sans-serif; font-size: 1.2rem; color: var(--white); letter-spacing: .06em; text-transform: uppercase; line-height: 1.1; opacity: 0; transform: translateY(8px); transition: opacity .3s, transform .3s; }
+    .hw-sub   { font-family: 'JetBrains Mono',monospace; font-size: 8px; color: rgba(255,255,255,.38); margin-top: 4px; opacity: 0; transition: opacity .3s .04s; }
+    .hw-link  { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--white); margin-top: 8px; display: flex; align-items: center; gap: 5px; opacity: 0; transition: opacity .3s .08s; }
+    .hw-card:hover .hw-title, .hw-card:hover .hw-sub, .hw-card:hover .hw-link { opacity: 1; transform: none; }
+
+    .hw-label-always { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 14px 10px; background: linear-gradient(transparent, rgba(0,0,0,.72)); font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: .1em; color: rgba(255,255,255,.25); transition: opacity .25s; }
+    .hw-card:hover .hw-label-always { opacity: 0; }
+
+    /* ─── FEATURED MISSIONS ─── */
+    #featured { padding: 120px 0; border-top: 1px solid var(--border); }
+
+    .feat-list { border: 1px solid var(--border); border-bottom: none; }
+    .feat-row {
+      display: grid; grid-template-columns: 1fr; border-bottom: 1px solid var(--border);
+      text-decoration: none; transition: background .2s; position: relative;
+    }
+    @media(min-width:900px){ .feat-row { grid-template-columns: 1fr 1fr; } }
+    .feat-row.flip { }
+    @media(min-width:900px){ .feat-row.flip { direction: rtl; } .feat-row.flip > * { direction: ltr; } }
+    .feat-row:hover { background: rgba(255,255,255,.016); }
+
+    /* ── Featured images — full color, crisp ── */
+    .feat-img-wrap { position: relative; overflow: hidden; height: 300px; background: var(--surface); border-right: 1px solid var(--border); }
+    @media(min-width:900px){ .feat-img-wrap { height: auto; min-height: 360px; } }
+    .feat-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      /* Full color — was brightness(.45) contrast(1.1) saturate(0) */
+      filter: brightness(0.82) contrast(1.08);
+      transition: filter .5s, transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .feat-row:hover .feat-img-wrap img {
+      filter: brightness(0.95) contrast(1.05);
+      transform: scale(1.04);
+    }
+    /* subtle color tint overlay on hover for depth */
+    .feat-img-wrap::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(135deg, rgba(0,0,0,.18) 0%, transparent 60%);
+      transition: opacity .4s;
+    }
+    .feat-row:hover .feat-img-wrap::before { opacity: 0; }
+
+    .feat-img-tag { position: absolute; top: 0; left: 0; z-index: 2; font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; padding: 7px 12px; background: rgba(0,0,0,.72); color: var(--muted); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .feat-img-num { position: absolute; bottom: 12px; right: 16px; z-index: 2; font-family: 'Bebas Neue',sans-serif; font-size: 5rem; color: rgba(255,255,255,.06); line-height: 1; pointer-events: none; user-select: none; }
+
+    .feat-body { padding: 44px 52px; display: flex; flex-direction: column; justify-content: center; background: var(--surface); }
+    @media(max-width:768px){ .feat-body { padding: 32px 24px; } }
+    .feat-idx  { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .15em; color: var(--muted); margin-bottom: 20px; }
+    .feat-role { font-family: 'JetBrains Mono',monospace; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .feat-role::before { content: ''; width: 14px; height: 1px; background: var(--muted); }
+    .feat-title { font-family: 'Bebas Neue',sans-serif; font-size: clamp(2.2rem,4vw,3.5rem); color: var(--white); letter-spacing: .02em; text-transform: uppercase; line-height: .95; margin-bottom: 14px; transition: color .2s; }
+    .feat-row:hover .feat-title { color: var(--off); }
+    .feat-metric-num { font-family: 'Bebas Neue',sans-serif; font-size: 3.5rem; color: var(--white); line-height: 1; display: block; margin-bottom: 4px; letter-spacing: -.01em; }
+    .feat-metric { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 5px 10px; border: 1px solid var(--border2); display: inline-flex; align-items: center; gap: 7px; margin-bottom: 20px; }
+    .feat-metric::before { content: '//'; opacity: .35; }
+    .feat-desc { font-size: .88rem; font-weight: 400; color: var(--muted); line-height: 1.7; margin-bottom: 20px; max-width: 440px; padding-left: 14px; border-left: 1px solid var(--border2); }
+    .feat-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 24px; }
+    .ftag { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--border); color: var(--muted); }
+    .feat-cta { font-family: 'JetBrains Mono',monospace; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--white); display: inline-flex; align-items: center; gap: 8px; transition: gap .2s; }
+    .feat-row:hover .feat-cta { gap: 16px; }
+    .feat-cta i { font-size: 9px; }
+
+    /* ─── CAPABILITIES ─── */
+    #capabilities { padding: 120px 0; border-top: 1px solid var(--border); }
+    .caps-grid { display: grid; grid-template-columns: 1fr; gap: 60px; }
+    @media(min-width:1024px){ .caps-grid { grid-template-columns: 1fr 1fr; } }
+
+    .sg { margin-bottom: 20px; }
+    .sg-label { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .spills { display: flex; flex-wrap: wrap; gap: 4px; }
+    .sp { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; padding: 4px 9px; border: 1px solid var(--border); color: var(--muted); transition: all .15s; cursor: default; }
+    .sp:hover { border-color: var(--muted); color: var(--white); background: rgba(255,255,255,.03); }
+
+    /* Terminal */
+    .term { border: 1px solid var(--border); background: #000; font-family: 'JetBrains Mono',monospace; margin-top: 20px; }
+    .term-bar { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .term-dot { width: 9px; height: 9px; border-radius: 50%; }
+    .term-tabs { display: flex; margin-left: 10px; }
+    .tt { font-size: 8px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 12px; color: var(--muted); cursor: pointer; border-bottom: 1px solid transparent; background: none; border-top: none; border-left: none; border-right: none; transition: all .15s; }
+    .tt.on { color: var(--white); border-bottom-color: var(--white); }
+    .term-path { font-size: 7px; color: var(--dim); letter-spacing: .1em; margin-left: auto; }
+    .term-body { padding: 12px 14px; max-height: 220px; overflow-y: auto; }
+    .term-body::-webkit-scrollbar { width: 1px; }
+    .term-body::-webkit-scrollbar-thumb { background: var(--dim); }
+    .trow { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,.025); font-size: 11px; }
+    .tpid { color: var(--muted); width: 34px; flex-shrink: 0; }
+    .tname { color: var(--text); flex: 1; }
+    .trun  { color: var(--white); }
+    .tdone { color: var(--muted); }
+    .term-foot { padding: 7px 14px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 7px; color: var(--muted); }
+
+    /* Radar */
+    .radar-wrap { border: 1px solid var(--border); background: var(--surface); padding: 28px; position: relative; }
+    .radar-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .radar-label { font-family: 'JetBrains Mono',monospace; font-size: 8px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+    .radar-note  { font-family: 'JetBrains Mono',monospace; font-size: 7px; color: var(--dim); }
+    .radar-canvas-wrap { position: relative; height: 320px; }
+    .rsweep { position: absolute; top: 50%; left: 50%; width: calc(50% - 14px); height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.22)); transform-origin: 0 50%; animation: rsw 8s linear infinite; pointer-events: none; }
+    @keyframes rsw { to { transform: rotate(360deg); } }
+    .roadmap-box { border: 1px solid var(--border); background: var(--surface); padding: 24px; margin-top: 1px; }
+
+    /* ─── ANOMALIES ─── */
+    #anomalies { padding: 120px 0; border-top: 1px solid var(--border); }
+    .anom-scroll { display: flex; gap: 1px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; cursor: grab; background: var(--border); border: 1px solid var(--border); }
+    .anom-scroll:active { cursor: grabbing; }
+    .anom-scroll::-webkit-scrollbar { height: 1px; }
+    .anom-scroll::-webkit-scrollbar-thumb { background: var(--muted); }
+
+    .anom-card { min-width: 380px; scroll-snap-align: start; flex-shrink: 0; background: var(--surface); padding: 36px; position: relative; transition: background .2s; }
+    .anom-card:hover { background: #141414; }
+    .anom-badge { position: absolute; top: 0; right: 0; font-family: 'JetBrains Mono',monospace; font-size: 7px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 5px 10px; background: var(--white); color: var(--bg); }
+    .anom-id    { font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: .1em; color: var(--muted); display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .anom-title { font-family: 'Bebas Neue',sans-serif; font-size: 1.65rem; color: var(--white); letter-spacing: .02em; text-transform: uppercase; line-height: 1; margin-bottom: 24px; }
+    .anom-block { margin-bottom: 12px; padding-left: 14px; border-left: 1px solid var(--border2); }
+    .anom-blabel { font-family: 'JetBrains Mono',monospace; font-size: 7px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .anom-text  { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 1.55; }
+    .anom-block.res { border-left-color: var(--muted); }
+    .anom-block.res .anom-blabel { color: var(--white); }
+    .anom-block.res .anom-text   { color: var(--text); }
+    .anav { display: flex; gap: 4px; }
+    .anb  { width: 32px; height: 32px; border: 1px solid var(--border2); background: none; color: var(--white); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .15s; font-size: 10px; }
+    .anb:hover { background: rgba(255,255,255,.06); }
+
+    /* ─── ARCHIVES ─── */
+    #archives { padding: 120px 0; border-top: 1px solid var(--border); }
+    .atabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+    .atab { font-family: 'JetBrains Mono',monospace; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 12px 18px; color: var(--muted); cursor: pointer; border-bottom: 1px solid transparent; background: none; border-top: none; border-left: none; border-right: none; transition: all .15s; }
+    .atab.on { color: var(--white); border-bottom-color: var(--white); }
+    .agrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: none; }
+
+    /* ── Archive cards — full color ── */
+    .acard { background: var(--surface); overflow: hidden; cursor: pointer; text-decoration: none; display: block; position: relative; transition: background .2s; }
+    .acard:hover { background: #141414; }
+    .acard-bar  { display: flex; justify-content: space-between; padding: 6px 14px; border-bottom: 1px solid var(--border); }
+    .acard-id   { font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+    .acard-size { font-family: 'JetBrains Mono',monospace; font-size: 7px; color: var(--dim); }
+    .acard-img  { height: 180px; overflow: hidden; position: relative; }
+    .acard-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      /* Full color — was brightness(.42) saturate(0) */
+      filter: brightness(0.78) contrast(1.06);
+      transition: transform .6s cubic-bezier(.16,1,.3,1), filter .35s;
+    }
+    .acard:hover .acard-img img {
+      transform: scale(1.06);
+      filter: brightness(0.92) contrast(1.05);
+    }
+    /* darkening gradient at bottom for text legibility */
+    .acard-img::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+      background: linear-gradient(transparent, rgba(10,10,10,.7));
+      pointer-events: none;
+    }
+    .acard-body { padding: 20px; }
+    .acard-title { font-family: 'Bebas Neue',sans-serif; font-size: 1.25rem; letter-spacing: .04em; text-transform: uppercase; color: var(--white); margin-bottom: 3px; transition: color .15s; }
+    .acard:hover .acard-title { color: var(--off); }
+    .acard-role { font-family: 'JetBrains Mono',monospace; font-size: 8px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .acard-desc { font-size: 12px; font-weight: 400; color: var(--muted); line-height: 1.55; padding-left: 10px; border-left: 1px solid var(--border); }
+    .acard-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 12px; }
+    .atg { font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 6px; border: 1px solid var(--border); color: var(--muted); }
+
+    /* ─── FOOTER ─── */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; background: var(--bg); position: relative; z-index: 2; }
+    .foot-w { max-width: 1400px; margin: 0 auto; padding: 0 48px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between; }
+    @media(max-width:768px){ .foot-w { padding: 0 24px; } }
+    .foot-left p { font-family: 'JetBrains Mono',monospace; font-size: 9px; color: var(--muted); letter-spacing: .1em; }
+    .foot-left p:first-child { color: var(--text); margin-bottom: 3px; }
+    .foot-tel { display: flex; gap: 28px; flex-wrap: wrap; }
+    .fti { display: flex; flex-direction: column; gap: 5px; }
+    .fti-l { font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
+    .fti-b { width: 80px; height: 1px; background: rgba(255,255,255,.06); overflow: hidden; }
+    .fti-f { height: 100%; background: var(--white); transition: width 1.2s ease; }
+    .fti-v { font-family: 'JetBrains Mono',monospace; font-size: 8px; color: var(--muted); }
+    #upt   { font-family: 'JetBrains Mono',monospace; font-size: 9px; color: var(--dim); }
+
+    /* TOAST */
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(14px); background: var(--white); color: var(--bg); padding: 10px 20px; font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: .12em; z-index: 999; opacity: 0; transition: all .25s; pointer-events: none; display: flex; align-items: center; gap: 8px; }
+    #toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Tag hover: subtle fill on interaction ── */
+    .ftag { transition: border-color .15s, color .15s; }
+    .feat-row:hover .ftag { border-color: rgba(255,255,255,.12); }
+
+    /* ── Seek tag pulse ── */
+    .seek-tag {
+      animation: seekpulse 3s ease-in-out infinite;
+    }
+    @keyframes seekpulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.75; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"><div id="cd"></div></div>
+<div id="prog"></div>
+<div id="toast"><i class="fas fa-check" style="font-size:9px"></i><span id="tmsg">Copied</span></div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="nav-w">
+    <a href="#" class="nlogo">
+      <div class="nmark"><img src="EG.png" alt="EG"></div>
+      <div class="nid"><span>E. Garcia</span><span>8F3A · MECH ENG</span></div>
+    </a>
+    <div class="nlinks">
+      <a href="about.html" class="nl" style="color:#555">About ↗</a>
+      <a href="#featured" class="nl">Missions</a>
+      <a href="#capabilities" class="nl">Specs</a>
+      <a href="#anomalies" class="nl">Logs</a>
+      <a href="#archives" class="nl">Archive</a>
+      <a href="interests.html" class="nl">Personal ↗</a>
+    </div>
+    <div class="nctas">
+      <a href="portfolio.html" target="_blank" class="btn-o">Portfolio</a>
+      <a href="resume.html" target="_blank" class="btn-f">Resume</a>
+    </div>
+    <button id="ham" onclick="toggleMob()" aria-label="Menu"><i id="hami" class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div id="mob">
+  <a href="about.html" onclick="closeMob()">About ↗</a>
+  <a href="#featured" onclick="closeMob()">Missions</a>
+  <a href="#capabilities" onclick="closeMob()">Specs</a>
+  <a href="#anomalies" onclick="closeMob()">Logs</a>
+  <a href="#archives" onclick="closeMob()">Archive</a>
+  <a href="interests.html" onclick="closeMob()">Personal ↗</a>
+  <div class="mc">
+    <a href="portfolio.html" target="_blank" class="btn-o" style="text-align:center">Portfolio</a>
+    <a href="resume.html" target="_blank" class="btn-f" style="text-align:center;display:block;padding:10px">Resume</a>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-video-layer">
+    <video autoplay muted loop playsinline><source src="videos/mission-control.mp4" type="video/mp4"></video>
+  </div>
+  <div class="hero-grid-overlay"></div>
+
+  <div class="hero-body">
+    <div class="status-row rv">
+      <span class="status-pulse"></span>
+      <span>System Status: Nominal</span>
+      <span class="status-sep">·</span>
+      <span>WashU / St. Louis</span>
+      <span class="status-sep">·</span>
+      <span>MECH ENG</span>
+    </div>
+
+    <h1 class="hero-name rv" d1>
+      Enrique<br>
+      <span class="outline">Garcia</span>
+    </h1>
+
+    <div class="hero-bar rv" d2>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <p class="hero-desc">
+          Building systems that operate in extreme environments.
+          Focus on <strong>flight control</strong>, <strong>sensor fusion</strong>, and
+          <strong>embedded avionics</strong> — from first-principles modeling to hardware validation.
+        </p>
+        <div class="hero-ctas">
+          <a href="#featured" class="btn-f">View Work</a>
+          <button onclick="copyEmail()" class="btn-o"><i class="fas fa-envelope" style="margin-right:7px;font-size:9px"></i>Contact</button>
+        </div>
+        <div class="hero-socials">
+          <a href="https://linkedin.com/in/enrique-gr" target="_blank" class="hs"><i class="fab fa-linkedin"></i></a>
+          <a href="https://github.com/enrique-gr" target="_blank" class="hs"><i class="fab fa-github"></i></a>
+          <a href="portfolio.html" target="_blank" class="hs"><i class="fas fa-briefcase"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="icard">
+          <div class="icard-head">
+            <div class="pfp" onclick="showToast('Identity verified · Access granted')">
+              <img src="images/pfpv2.png" alt="Enrique Garcia">
+              <div class="pfp-scan"></div>
+            </div>
+            <div>
+              <div class="icard-name">Enrique Garcia</div>
+              <div class="icard-title">Mechanical Engineering · WashU</div>
+              <div class="icard-badge">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--white);display:inline-block;animation:spulse 2.5s ease-in-out infinite"></span>
+                Systems Nominal
+              </div>
+            </div>
+          </div>
+          <div style="padding:10px 0 14px;margin-bottom:4px;border-bottom:1px solid var(--border)">
+            <div class="hero-seek">
+              <span class="seek-tag">Seeking</span>
+              <span>Summer 2026 Engineering Internship</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column">
+            <div class="hero-role-line d1"><strong>Avionics & Systems Lead</strong><span>&nbsp;· WashU VTOL</span></div>
+            <div class="hero-role-line d2"><strong>Aerodynamics</strong><span>&nbsp;· WashU Design/Build/Fly</span></div>
+          </div>
+          <div style="margin-top:16px" id="tl"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HARDWARE LOG ═══ -->
+<div id="hwlog">
+  <div class="hw-hdr">
+    <div class="hw-hdr-left"><span>Hardware Log</span><span>Physical Evidence — Hover to pause · Click to explore</span></div>
+    <div class="hw-hdr-right mono">Add your photos as images/hw_*.jpg</div>
+  </div>
+  <div class="hw-outer"><div class="hw-track" id="hwtrack"></div></div>
+</div>
+
+<!-- ═══ FEATURED MISSIONS ═══ -->
+<section id="featured">
+  <div class="ct">
+    <div class="s-head rv">
+      <div><div class="eyebrow">01 — Featured Engineering</div><div class="s-title">Primary<br>Missions</div></div>
+      <div class="s-num">01</div>
+    </div>
+  </div>
+  <div style="max-width:1400px;margin:0 auto;padding:0 48px" id="fc"></div>
+</section>
+
+<!-- ═══ CAPABILITIES ═══ -->
+<section id="capabilities">
+  <div class="ct">
+    <div class="s-head rv">
+      <div><div class="eyebrow">02 — System Capabilities</div><div class="s-title">Technical<br>Specs</div></div>
+      <div class="s-num">02</div>
+    </div>
+    <div class="caps-grid">
+      <div class="rvl">
+        <p style="font-size:.9rem;font-weight:400;color:var(--muted);line-height:1.7;margin-bottom:28px;max-width:480px">
+          Bridging mechanical design with autonomous system behavior. Experience across sensor fusion, embedded logic, and integrated hardware–software pipelines validated against real hardware.
+        </p>
+        <div class="sg"><div class="sg-label">Languages & Frameworks</div><div class="spills"><span class="sp">C++20</span><span class="sp">Python</span><span class="sp">MATLAB</span><span class="sp">Simulink</span><span class="sp">JavaScript</span></div></div>
+        <div class="sg"><div class="sg-label">Hardware & Embedded</div><div class="spills"><span class="sp">Teensy 4.1</span><span class="sp">STM32</span><span class="sp">Pixhawk 6C</span><span class="sp">PX4</span><span class="sp">ArduPilot</span><span class="sp">I²C · SPI · UART</span></div></div>
+        <div class="sg"><div class="sg-label">CAD / Simulation / Analysis</div><div class="spills"><span class="sp">SolidWorks</span><span class="sp">ANSYS FEA</span><span class="sp">ANSYS CFX</span><span class="sp">XFLR5</span><span class="sp">OpenCV</span></div></div>
+        <div class="sg"><div class="sg-label">Methods & Concepts</div><div class="spills"><span class="sp">EKF / UKF</span><span class="sp">PID Control</span><span class="sp">HIL Testing</span><span class="sp">6-DOF Dynamics</span><span class="sp">Sensor Fusion</span><span class="sp">DFM</span></div></div>
+        <div class="term">
+          <div class="term-bar">
+            <div class="term-dot" style="background:#2a2a2a"></div>
+            <div class="term-dot" style="background:#2a2a2a"></div>
+            <div class="term-dot" style="background:#2a2a2a"></div>
+            <div class="term-tabs">
+              <button class="tt on" onclick="swterm('active',this)">Active</button>
+              <button class="tt" onclick="swterm('history',this)">History</button>
+            </div>
+            <div class="term-path">washu-edu:~/courses</div>
+          </div>
+          <div class="term-body" id="termbody"></div>
+          <div class="term-foot"><span>Mem: 4.2 / 8 GB</span><span style="color:var(--white);animation:spulse 2.5s infinite">● Optimal</span></div>
+        </div>
+      </div>
+      <div class="rvr">
+        <div class="radar-wrap">
+          <div class="radar-hdr">
+            <div class="radar-label">Competency Radar</div>
+            <div class="radar-note">Self-assessed · Jan 2026 · Scale 0–100</div>
+          </div>
+          <div class="radar-canvas-wrap">
+            <div class="rsweep"></div>
+            <canvas id="rc" style="width:100%;height:100%"></canvas>
+          </div>
+        </div>
+        <div class="roadmap-box">
+          <div class="eyebrow" style="margin-bottom:14px">Roadmap</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;font-size:12px;font-weight:400;color:var(--muted)">
+            <div>
+              <div class="sg-label" style="margin-bottom:7px">Current Focus</div>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
+                <li style="display:flex;align-items:center;gap:8px"><span style="color:var(--muted)">—</span>Controls modeling</li>
+                <li style="display:flex;align-items:center;gap:8px"><span style="color:var(--muted)">—</span>Firmware architecture</li>
+                <li style="display:flex;align-items:center;gap:8px"><span style="color:var(--muted)">—</span>Aerodynamic testing</li>
+              </ul>
+            </div>
+            <div>
+              <div class="sg-label" style="margin-bottom:7px">Next Steps</div>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
+                <li style="display:flex;align-items:center;gap:8px"><span style="color:var(--dim)">—</span>Aircraft GNC</li>
+                <li style="display:flex;align-items:center;gap:8px"><span style="color:var(--dim)">—</span>Advanced state estimation</li>
+                <li style="display:flex;align-items:center;gap:8px"><span style="color:var(--dim)">—</span>Autonomous missions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ANOMALY LOG ═══ -->
+<section id="anomalies">
+  <div class="ct">
+    <div class="s-head rv">
+      <div><div class="eyebrow">03 — Engineering Challenges</div><div class="s-title">Anomaly<br>Log</div></div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div class="anav"><button class="anb" onclick="sca(-1)"><i class="fas fa-chevron-left"></i></button><button class="anb" onclick="sca(1)"><i class="fas fa-chevron-right"></i></button></div>
+        <div class="s-num" style="font-size:6rem">03</div>
+      </div>
+    </div>
+    <div class="anom-scroll" id="as"></div>
+  </div>
+</section>
+
+<!-- ═══ ARCHIVES ═══ -->
+<section id="archives">
+  <div class="ct">
+    <div class="s-head rv">
+      <div><div class="eyebrow">04 — Project Archives</div><div class="s-title">Classified<br>Logs</div></div>
+      <div class="s-num">04</div>
+    </div>
+    <div class="atabs">
+      <button class="atab on" onclick="swarch('personal',this)">Personal Projects</button>
+      <button class="atab" onclick="swarch('coursework',this)">Coursework</button>
+    </div>
+    <div class="agrid" id="ag"></div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="foot-w">
+    <div class="foot-left">
+      <p>© 2026 Enrique Garcia — System Nominal</p>
+      <p>38.6488° N, 90.3108° W — WashU, St. Louis</p>
+    </div>
+    <div class="foot-tel">
+      <div class="fti"><div class="fti-l">SYS_LOAD</div><div class="fti-b"><div class="fti-f" id="fsys" style="width:0"></div></div><div class="fti-v" id="fsysv">—</div></div>
+      <div class="fti"><div class="fti-l">MEM_USAGE</div><div class="fti-b"><div class="fti-f" id="fmem" style="width:0"></div></div><div class="fti-v" id="fmemv">—</div></div>
+      <div class="fti"><div class="fti-l">Projects</div><div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);line-height:1.1">13</div></div>
+      <div class="fti"><div class="fti-l">Session</div><div id="upt" style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim)">T+ 00:00:00</div></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════ DATA ═══════════ */
+const featured = [
+  { id:'washu-vtol', title:'WashU VTOL', role:'Avionics & Systems Integration Lead', dates:'Sep 2025 – Present',
+    tags:['Pixhawk 6C','PX4','HIL Testing','Multirotor','FreeRTOS'],
+    metric:'Stable Autonomous Hover',
+    desc:'Architected the complete avionics stack — sensor wiring, power distribution, PX4 parameter tuning, and hardware-in-loop validation. Responsible for all flight-critical subsystem integration.',
+    img:'images/vtol.png', cta:'View Avionics Architecture', link:'washu-vtol.html' },
+  { id:'washu-dbf', title:'WashU Design/Build/Fly', role:'Aerodynamics Engineer', dates:'Sep 2024 – Present',
+    tags:['ANSYS CFX','XFLR5','Composites','2.5g Load'],
+    metric:'Flight Hardware Validated', metricNum:'2.5g',
+    desc:'Designed NACA-series wings via XFLR5 and CFD, validated structural integrity under 2.5g pull loads. Led composite layup, CG balancing, and payload integration for competition.',
+    img:'images/dbf.png', cta:'See CFD Results', link:'washu-dbf.html' },
+  { id:'sentinel-cv', title:'Sentinel Computer Vision', role:'Algorithm Engineer', dates:'Winter 2025',
+    tags:['C++','OpenCV','Kalman Filter','Real-Time'],
+    metric:'Sub-Frame Latency Tracking',
+    desc:'Real-time CV pipeline for autonomous target detection and intercept trajectory prediction. Kalman filter state estimator running at camera frame rate with deterministic sub-frame latency.',
+    img:'images/sent.png', cta:'Explore Tracking Pipeline', link:'sentinel.html' },
+  { id:'miro-lab', title:'MIRO Lab', role:'Research Intern', dates:'Summer 2025',
+    tags:['Python','MATLAB','IMU + EMG','Sensor Fusion'],
+    metric:'High-Fidelity Motion Sync',
+    desc:'Wearable sensor fusion combining IMU and EMG streams with a visual tracking pipeline for real-time limb state estimation in a research robotics context.',
+    img:'images/mirolab.png', cta:'View Sensor Fusion Work', link:'miro-lab.html' },
+];
+
+const hwItems = [
+  { type:'Avionics',   status:'Active',    title:'VTOL Avionics Bay',      sub:'Pixhawk 6C · ESC Stack · GPS',      src:'images/hw_vtol_avionics.jpg',  link:'washu-vtol.html' },
+  { type:'Structural', status:'Active',    title:'DBF Wing Layup',          sub:'NACA 4415 · Carbon Spar',           src:'images/hw_dbf_wing.jpg',        link:'washu-dbf.html' },
+  { type:'Firmware',   status:'Complete',  title:'EKF Navigation Board',    sub:'Teensy 4.1 · IMU · GPS Module',     src:'images/hw_ekf_board.jpg',       link:'ekf-nav.html' },
+  { type:'Vision',     status:'Complete',  title:'Sentinel CV Rig',         sub:'OpenCV · Kalman Tracker',           src:'images/hw_sentinel_rig.jpg',    link:'sentinel.html' },
+  { type:'Research',   status:'Complete',  title:'MIRO Wearable Sensor',    sub:'IMU Array · EMG Electrodes',        src:'images/hw_miro_wearable.jpg',   link:'miro-lab.html' },
+  { type:'Simulation', status:'Active',    title:'Hyperion Test Loop',      sub:'6-DOF · 10 kHz · C++20',           src:'images/hw_hyperion_sim.jpg',    link:'hyperion.html' },
+  { type:'CFD',        status:'Complete',  title:'Wing Section CFD',        sub:'ANSYS CFX · Cp Distribution',       src:'images/hw_cfd_result.jpg',      link:'washu-dbf.html' },
+  { type:'Embedded',   status:'Active',    title:'Flight Control Stack',    sub:'STM32 · PX4 · DSHOT600',           src:'images/hw_flight_stack.jpg',    link:'washu-vtol.html' },
+];
+
+const anomData = [
+  { id:'VTOL-01', date:'NOV 2025', title:'Sensor Dropouts on Bench Test',
+    cause:'Electrical noise from high-current motor wiring coupling into I²C lines, causing MAVLink telemetry gaps during motor-arm tests.',
+    fix:'Re-routed avionics wiring away from power cables, added shielding and pull-up resistors. Noise floor dropped 18 dB; zero dropouts since.' },
+  { id:'HYPERION-01', date:'OCT 2025', title:'Thread Contention Jitter in 10 kHz Loop',
+    cause:'Physics and telemetry threads competing for the same mutex, causing integration step timing violations exceeding 2σ bounds.',
+    fix:'Double-buffered state handoff eliminated all blocking. Loop jitter reduced from ±120 µs to ±8 µs.' },
+  { id:'PROP-09', date:'SEP 2025', title:'Igniter Continuity False Positive',
+    cause:'ADC float voltage on the sense pin exceeded the firmware continuity threshold before any igniter was connected.',
+    fix:'Hardware pulldown resistor + 3-sample software debounce. False-positive rate: zero across 200 bench-test cycles.' },
+  { id:'DBF-01', date:'FEB 2025', title:'Pitch Stability Hunting in Cruise',
+    cause:'Battery placement shifted CG aft 22 mm, reducing static margin from 8% to −2% MAC — below the stability boundary.',
+    fix:'Battery moved forward 18 mm; horizontal tail chord increased 12%. Static margin restored to 9.5% MAC, confirmed in flight.' },
+];
+
+const personal = [
+  { id:'ekf-nav', title:'Multi-Sensor Flight Nav', role:'Independent Dev', tags:['C++','EKF','12-State'], desc:'12-state Extended Kalman Filter fusing IMU, GPS, and optical flow. Validated in simulation and on embedded hardware.', img:'images/sensor_fusion.png', link:'ekf-nav.html', size:'2.4 MB' },
+  { id:'webtunnel-cfd', title:'WebTunnel CFD', role:'Independent Dev', tags:['JS','Navier-Stokes','Real-Time'], desc:'Zero-dependency real-time Navier-Stokes simulation in the browser. Interactive flow visualization at 60 fps.', img:'images/cfd_v2.png', link:'webtunnel-cfd.html', size:'1.8 MB' },
+  { id:'hyperion-engine', title:'Hyperion 6-DOF Engine', role:'Systems Architect', tags:['C++20','Multithreading','10 kHz'], desc:'Deterministic 10 kHz rigid-body physics engine for flight software validation and hardware-in-loop simulation.', img:'images/hyperion.png', link:'hyperion.html', size:'14 MB' },
+  { id:'gnc-sim', title:'GNC Lander Sim', role:'Sim Engineer', tags:['Control Theory','PID','GNC'], desc:'Interactive rocket-landing simulator with real-time PID tuning, trajectory visualization, and fuel burn modeling.', img:'images/gnc.png', link:'lander.html', size:'3.2 MB' },
+  { id:'faultline', title:'FAULTLINE', role:'Systems Engineer', tags:['State Machines','FDI','Diagnostics'], desc:'Deterministic fault-detection and isolation console for modular robotic subsystems. State-machine based FDI.', img:'images/faultline.png', link:'faultline.html', size:'4.1 MB' },
+];
+
+const coursework = [
+  { id:'cad-foosball', title:'Regulation Foosball', role:'Mechanical Design', tags:['SolidWorks','DFM','200+ Parts'], desc:'Bottom-up CAD of a full-scale playable foosball table. 200+ part assembly with tolerance stack-up analysis.', img:'images/foosball.png', link:'cad-foosball.html', size:'128 MB' },
+  { id:'cruise-control', title:'Adaptive Cruise Control', role:'Control Systems', tags:['MATLAB','Simulink','PID'], desc:'Longitudinal vehicle control system with PID loops, virtual radar logic, and mode-transition state machine.', img:'images/acc.png', link:'cruise-control.html', size:'8 MB' },
+  { id:'ambulance-system', title:'RF Priority System', role:'Embedded Systems', tags:['Arduino','RF Comms'], desc:'Wireless traffic preemption for emergency vehicles. Custom RF protocol with redundancy and collision avoidance.', img:'images/amb.png', link:'ambulance-system.html', size:'150 KB' },
+  { id:'solid-mechanics', title:'Landing Gear FEA', role:'Solid Mechanics', tags:['ANSYS','FEA','3g Impact'], desc:'Nose landing gear validated to withstand 3g hard-landing loads. Topology optimization reduced mass by 18%.', img:'images/solids.png', link:'solid-mechanics.html', size:'450 MB' },
+];
+
+const termActive  = [{pid:'4320',name:'Control_Systems',s:'RUNNING'},{pid:'3430',name:'Thermal_Sys_Design',s:'RUNNING'},{pid:'3420',name:'Heat_Transfer',s:'RUNNING'},{pid:'3110',name:'Machine_Elements',s:'RUNNING'},{pid:'3050',name:'Fluids_Heat_Lab',s:'RUNNING'}];
+const termHistory = [{pid:'4310',name:'Vibrations',s:'COMPLETE'},{pid:'3400',name:'Thermodynamics',s:'COMPLETE'},{pid:'3410',name:'Fluid_Mechanics',s:'COMPLETE'},{pid:'3530',name:'Solid_Mechanics',s:'COMPLETE'},{pid:'3280',name:'Prob_&_Stats',s:'COMPLETE'}];
+
+/* ═══════════ RENDER ═══════════ */
+function renderHW() {
+  const t = document.getElementById('hwtrack');
+  const all = [...hwItems, ...hwItems];
+  t.innerHTML = all.map(c => `
+    <a href="${c.link}" class="hw-card">
+      <img src="${c.src}" alt="${c.title}">
+      <div class="hw-overlay">
+        <div class="hw-type"><span class="hw-dot"></span>${c.type}</div>
+        <div class="hw-bottom">
+          <div class="hw-title">${c.title}</div>
+          <div class="hw-sub">${c.sub}</div>
+          <div class="hw-link">View Project <i class="fas fa-arrow-right" style="font-size:8px"></i></div>
+        </div>
+      </div>
+      <div class="hw-label-always">${c.title}</div>
+    </a>`).join('');
+}
+
+function renderFeatured() {
+  const container = document.getElementById('fc');
+  container.innerHTML = `<div class="feat-list">${
+    featured.map((p, i) => `
+      <a id="${p.id}" href="${p.link}" class="feat-row ${i % 2 === 1 ? 'flip' : ''} rv" style="scroll-margin-top:80px;transition-delay:${i*.05}s">
+        <div class="feat-img-wrap">
+          <div class="feat-img-tag">${p.dates}</div>
+          <img src="${p.img}" alt="${p.title}">
+          <div class="feat-img-num">0${i+1}</div>
+        </div>
+        <div class="feat-body">
+          <div class="feat-idx">Mission 0${i+1} / 04</div>
+          <div class="feat-role">${p.role}</div>
+          ${p.metricNum ? `<span class="feat-metric-num">${p.metricNum}</span>` : ''}
+          <div class="feat-title">${p.title}</div>
+          <div class="feat-metric">${p.metric}</div>
+          <p class="feat-desc">${p.desc}</p>
+          <div class="feat-tags">${p.tags.map(t => `<span class="ftag">${t}</span>`).join('')}</div>
+          <div class="feat-cta">${p.cta} <i class="fas fa-arrow-right"></i></div>
+        </div>
+      </a>`).join('')
+  }</div>`;
+}
+
+function renderAnomalies() {
+  const c = document.getElementById('as');
+  c.innerHTML = anomData.map(a => `
+    <div class="anom-card">
+      <div class="anom-badge">Resolved</div>
+      <div class="anom-id"><i class="fas fa-triangle-exclamation"></i> INCIDENT #${a.id} — ${a.date}</div>
+      <div class="anom-title">${a.title}</div>
+      <div class="anom-block">
+        <div class="anom-blabel">Root Cause</div>
+        <div class="anom-text">${a.cause}</div>
+      </div>
+      <div class="anom-block res">
+        <div class="anom-blabel">Resolution</div>
+        <div class="anom-text">${a.fix}</div>
+      </div>
+    </div>`).join('');
+  let dn=false,sx,sl;
+  c.addEventListener('mousedown',e=>{dn=true;sx=e.pageX-c.offsetLeft;sl=c.scrollLeft;});
+  c.addEventListener('mouseleave',()=>dn=false);
+  c.addEventListener('mouseup',()=>dn=false);
+  c.addEventListener('mousemove',e=>{if(!dn)return;e.preventDefault();c.scrollLeft=sl-(e.pageX-c.offsetLeft-sx);});
+}
+
+function renderArchive(items) {
+  document.getElementById('ag').innerHTML = items.map(p => `
+    <a href="${p.link}" class="acard">
+      <div class="acard-bar"><span class="acard-id">FILE:${p.id.split('-')[0].toUpperCase()}</span><span class="acard-size">${p.size}</span></div>
+      <div class="acard-img"><img src="${p.img}" alt="${p.title}"></div>
+      <div class="acard-body">
+        <div class="acard-title">${p.title}</div>
+        <div class="acard-role">${p.role}</div>
+        <div class="acard-desc">${p.desc}</div>
+        <div class="acard-tags">${p.tags.map(t => `<span class="atg">${t}</span>`).join('')}</div>
+      </div>
+    </a>`).join('');
+}
+
+function swarch(type, btn) {
+  document.querySelectorAll('.atab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  renderArchive(type === 'personal' ? personal : coursework);
+}
+
+function renderTL() {
+  const items = [
+    { date:'Sep 2025–Now', role:'WashU VTOL', sub:'Avionics Lead', active:true, id:'washu-vtol' },
+    { date:'Sep 2024–Now', role:'WashU DBF', sub:'Aerodynamics', active:true, id:'washu-dbf' },
+    { date:'Summer 2025', role:'MIRO Lab', sub:'Research Intern', active:false, id:'miro-lab' },
+    { date:'Winter 2025', role:'Sentinel CV', sub:'Algorithm Eng.', active:false, id:'sentinel-cv' },
+  ];
+  document.getElementById('tl').innerHTML = items.map(d => `
+    <div class="tl-item" onclick="goTo('${d.id}')">
+      <div class="tl-dot" style="border-color:${d.active ? 'var(--white)' : 'var(--muted)'};background:${d.active ? 'rgba(255,255,255,.12)' : 'transparent'}"></div>
+      <div class="tl-c">
+        <div class="tl-date">${d.date}</div>
+        <div class="tl-role">${d.role}</div>
+        <div class="tl-sub">${d.sub}</div>
+      </div>
+      <div class="tl-arr">→</div>
+    </div>`).join('');
+}
+
+function renderTerm(lines) {
+  document.getElementById('termbody').innerHTML = lines.map(l => `
+    <div class="trow"><span class="tpid">${l.pid}</span><span class="tname">${l.name}</span><span class="${l.s==='RUNNING'?'trun':'tdone'}">${l.s}</span></div>`).join('');
+}
+function swterm(v, btn) {
+  document.querySelectorAll('.tt').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  renderTerm(v === 'active' ? termActive : termHistory);
+}
+
+function initRadar() {
+  new Chart(document.getElementById('rc').getContext('2d'), {
+    type: 'radar',
+    data: {
+      labels: ['Aerodynamics','Embedded C++','Control Theory','CAD / DFM','Circuit Design','Simulation'],
+      datasets: [{ label: 'Competency', data: [84,80,80,90,75,86],
+        backgroundColor: 'rgba(255,255,255,.05)',
+        borderColor: 'rgba(255,255,255,.45)', borderWidth: 1,
+        pointBackgroundColor: '#000', pointBorderColor: 'rgba(255,255,255,.45)',
+        pointBorderWidth: 1, pointRadius: 3, pointHoverRadius: 5 }]
+    },
+    options: {
+      layout: { padding: 16 },
+      scales: { r: { min: 0, max: 100,
+        angleLines: { color: 'rgba(255,255,255,.05)' },
+        grid: { color: 'rgba(255,255,255,.04)' },
+        pointLabels: { color: '#444', font: { size: 10, family: "'JetBrains Mono'", weight: '400' }, padding: 8 },
+        ticks: { display: false, stepSize: 25, backdropColor: 'transparent' } }},
+      plugins: { legend: { display: false } },
+      maintainAspectRatio: false
+    }
+  });
+}
+
+/* Cursor */
+let mx=0, my=0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  document.getElementById('cursor').style.transform = `translate(${mx}px,${my}px)`;
+});
+function bindHov() {
+  document.querySelectorAll('a,button,[onclick]').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
+  });
+}
+
+/* Scroll */
+window.addEventListener('scroll', () => {
+  document.getElementById('prog').style.width = (scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%';
+  document.getElementById('nav').classList.toggle('on', scrollY > 40);
+  ['featured','capabilities','anomalies','archives'].forEach(id => {
+    const el = document.getElementById(id); if (!el) return;
+    const r = el.getBoundingClientRect();
+    const lk = document.querySelector(`.nl[href="#${id}"]`);
+    if (lk) lk.classList.toggle('on', r.top <= 80 && r.bottom > 80);
+  });
+});
+
+/* Reveal */
+const ro = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vi'); ro.unobserve(e.target); }});
+}, { threshold: 0.08 });
+function initRv() { document.querySelectorAll('.rv,.rvl,.rvr').forEach(el => ro.observe(el)); }
+
+/* Utils */
+function goTo(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function sca(d)   { document.getElementById('as').scrollBy({ left: d * 400, behavior: 'smooth' }); }
+function copyEmail() { navigator.clipboard.writeText('e.garciarivera@wustl.edu'); showToast('e.garciarivera@wustl.edu copied'); }
+function showToast(msg) { const t = document.getElementById('toast'); document.getElementById('tmsg').textContent = msg; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 3200); }
+function toggleMob() { const m = document.getElementById('mob'), i = document.getElementById('hami'); m.classList.toggle('on'); i.className = m.classList.contains('on') ? 'fas fa-xmark' : 'fas fa-bars'; }
+function closeMob() { document.getElementById('mob').classList.remove('on'); document.getElementById('hami').className = 'fas fa-bars'; }
+
+/* Telemetry */
+function tel() {
+  const s = 38 + Math.floor(Math.random() * 18), m = 55 + Math.floor(Math.random() * 14);
+  document.getElementById('fsys').style.width = s + '%'; document.getElementById('fsysv').textContent = s + '%';
+  document.getElementById('fmem').style.width = m + '%'; document.getElementById('fmemv').textContent = m + '%';
+}
+
+/* Uptime */
+const t0 = Date.now();
+setInterval(() => {
+  const d = new Date(Date.now() - t0);
+  document.getElementById('upt').textContent = `T+ 00:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+}, 1000);
+
+/* Init */
+document.addEventListener('DOMContentLoaded', () => {
+  renderHW();
+  renderFeatured();
+  renderAnomalies();
+  renderArchive(personal);
+  renderTerm(termActive);
+  renderTL();
+  initRadar();
+  initRv();
+  tel(); setInterval(tel, 4000);
+  bindHov(); setTimeout(bindHov, 600);
+});
+</script>
+</body>
+</html>

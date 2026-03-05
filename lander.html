@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNC Control | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* SMOOTH TRANSITION BASE */
+        html { background-color: #000000; } /* Prevents white flash */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #e2e8f0; 
+            will-change: opacity, transform; /* Optimize animation */
+        }
+        .font-mono { 
+            font-family: 'JetBrains Mono', monospace; 
+        }
+        
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+        }
+
+        .crt-overlay {
+            background: 
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+<nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        <!-- 
+           UPDATED RETURN MECHANISM:
+           1. Links to index.html?hub=personal#collections
+           2. onclick triggers smoothExit() animation
+        -->
+        <a href="index.html?hub=personal#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+            <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+            <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+        </a>
+
+        <!-- Personal Project badge -->
+        <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
+            <span class="hidden md:inline">Project Overview</span>
+            <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+        <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+            <img src="images/gnc.png" alt="GNC Logo" class="h-full w-full object-contain p-2" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-rocket text-4xl text-white\'></i>'">
+        </div>
+        <div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">GNC Control Playground</h1>
+            <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Interactive Simulation</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+        
+        <!-- LEFT COLUMN: Description & Button (Replaced Sliders) -->
+        <div class="lg:col-span-1 space-y-8">
+            
+            <div>
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">About the Project</h3>
+                <p class="text-gray-300 leading-relaxed text-sm font-light">
+                    This is a real-time physics engine simulating a 1D vertical landing scenario. The system uses a standard PID controller to modulate thrust vectoring against gravity and stochastic wind disturbances.
+                    <br><br>
+                    The visualizer on the right is currently running in <strong>Autopilot Mode</strong> to demonstrate the stabilization logic.
+                </p>
+            </div>
+
+            <div class="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm">
+                
+                <div class="mb-8">
+                    <h4 class="text-[10px] text-gray-500 mb-3 uppercase tracking-widest font-bold">System Status</h4>
+                    <div class="flex items-center gap-2 text-emerald-400 font-mono text-sm">
+                        <i class="fas fa-check-circle"></i> PREVIEW ONLINE
+                    </div>
+                </div>
+
+                <div class="space-y-5 border-t border-white/10 pt-6 mb-8">
+                   <p class="text-xs text-gray-400">
+                       To manually tune the PID gains (Kp, Ki, Kd) and test wind resistance, please enter the playground.
+                   </p>
+                </div>
+
+                <!-- LINK TO PLAYGROUND -->
+                <a href="demos/playground.html" class="w-full py-4 border border-blue-600 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all">
+                    Enter Simulation <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div>
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Core Tech</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Control Theory</span>
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">JS Physics</span>
+                    <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Real-time Plotting</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Autopilot Preview -->
+        <div class="lg:col-span-2 flex flex-col gap-4">
+            
+            <div class="w-full bg-black border border-white/10 relative h-[500px] overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-[#0a0a0a] absolute top-0 w-full z-10">
+                    <div class="flex gap-2 items-center">
+                        <span class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Live Telemetry</h3>
+                    </div>
+                    <!-- MODE INDICATOR -->
+                    <div class="font-mono text-[10px] text-gray-500">MODE: <span class="text-yellow-500">AUTOPILOT</span></div>
+                </div>
+
+                <canvas id="simCanvas" class="w-full h-full block mt-8"></canvas>
+                <div class="absolute inset-0 crt-overlay pointer-events-none mt-8"></div>
+
+                <div class="absolute top-12 left-4 font-mono text-xs text-white/80 space-y-1 pointer-events-none">
+                    <div>ALTITUDE: <span id="hud-alt" class="font-bold">00.0 m</span></div>
+                    <div>VELOCITY: <span id="hud-vel" class="font-bold">00.0 m/s</span></div>
+                    <div>G-FORCE: <span id="hud-g" class="font-bold text-blue-400">1.0 G</span></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 h-40">
+                <div class="bg-[#0a0a0a] border border-white/10 relative p-2">
+                    <div class="absolute top-2 left-2 text-[9px] text-gray-500 uppercase font-bold z-10">Altitude Response</div>
+                    <div id="plot-alt" class="w-full h-full"></div>
+                </div>
+                <div class="bg-[#0a0a0a] border border-white/10 relative p-2">
+                    <div class="absolute top-2 left-2 text-[9px] text-gray-500 uppercase font-bold z-10">Thrust Effort</div>
+                    <div id="plot-thrust" class="w-full h-full"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    // --- SMOOTH EXIT FUNCTION ---
+    function smoothExit(e, url) {
+        e.preventDefault(); // Stop instant jump
+        
+        // 1. Animate out (Fade + slight shrink for depth)
+        document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+        document.body.style.opacity = "0";
+        document.body.style.transform = "scale(0.98)"; 
+        
+        // 2. Wait for animation, then go
+        setTimeout(() => {
+            window.location.href = url;
+        }, 400);
+    }
+
+    // --- AUTOPILOT LOGIC FOR INDEX.HTML ---
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    const state = {
+        y: 20, v: 0, target: 15, mass: 1000, g: -9.81, thrust: 0, wind: 0
+    };
+
+    // Pre-tuned "Optimal" gains for the preview
+    let pid = { kp: 3.5, ki: 0.1, kd: 2.5, integral: 0, prevError: 0 };
+    let time = 0;
+    const dt = 1/60;
+    let historyT = [], historyY = [], historyTarget = [], historyThrust = [];
+    const maxHistory = 200;
+
+    function updatePhysics() {
+        // AUTOMATION: Move target up and down gently
+        state.target = 15 + Math.sin(time * 0.5) * 8;
+
+        const error = state.target - state.y;
+        pid.integral += error * dt;
+        pid.integral = Math.max(-50, Math.min(50, pid.integral)); 
+        const derivative = (error - pid.prevError) / dt;
+        
+        let accelCmd = (pid.kp * error) + (pid.ki * pid.integral) + (pid.kd * derivative);
+        let thrustNeeded = (accelCmd + 9.81) * state.mass;
+        
+        // No manual wind in preview
+        const maxThrust = state.mass * 9.81 * 3; 
+        state.thrust = Math.max(0, Math.min(maxThrust, thrustNeeded));
+
+        const totalForce = state.thrust + (state.mass * state.g);
+        const accel = totalForce / state.mass;
+        
+        state.v += accel * dt;
+        state.y += state.v * dt;
+
+        if (state.y < 0) {
+            state.y = 0;
+            state.v = -state.v * 0.2;
+            if (Math.abs(state.v) < 0.5) state.v = 0;
+        }
+
+        pid.prevError = error;
+        time += dt;
+
+        if (historyT.length > maxHistory) {
+            historyT.shift(); 
+            historyY.shift(); 
+            historyTarget.shift(); 
+            historyThrust.shift();
+        }
+        historyT.push(time);
+        historyY.push(state.y);
+        historyTarget.push(state.target);
+        historyThrust.push(state.thrust);
+    }
+
+    // Visualization
+    function resize() {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const scale = 15;
+        const groundY = canvas.height - 20;
+        const rocketY = groundY - (state.y * scale);
+        const targetY = groundY - (state.target * scale);
+
+        // Target Line
+        ctx.beginPath(); 
+        ctx.moveTo(0, targetY); 
+        ctx.lineTo(canvas.width, targetY);
+        ctx.strokeStyle = '#10b981'; 
+        ctx.setLineDash([5, 5]); 
+        ctx.stroke(); 
+        ctx.setLineDash([]);
+
+        // Rocket
+        const w = 30; 
+        const h = 50;
+        ctx.fillStyle = '#ccc';
+        ctx.fillRect(canvas.width / 2 - w / 2, rocketY - h, w, h);
+        
+        // Flame
+        if (state.thrust > 100) {
+            const flameLen = (state.thrust / 30000) * 60 + (Math.random() * 10);
+            ctx.fillStyle = '#facc15';
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2 - 8, rocketY);
+            ctx.lineTo(canvas.width / 2 + 8, rocketY);
+            ctx.lineTo(canvas.width / 2, rocketY + flameLen);
+            ctx.fill();
+        }
+
+        // Ground
+        ctx.fillStyle = '#333';
+        ctx.fillRect(0, groundY, canvas.width, 20);
+    }
+
+    // UI Loop
+    function loop() {
+        updatePhysics();
+        draw();
+        document.getElementById('hud-alt').innerText = state.y.toFixed(1) + " m";
+        document.getElementById('hud-vel').innerText = state.v.toFixed(1) + " m/s";
+        document.getElementById('hud-g').innerText = ((state.thrust + state.wind) / state.mass / 9.81).toFixed(2) + " G";
+        // Removed updating of sim-time since element is not present
+        requestAnimationFrame(loop);
+    }
+
+    const plotLayout = {
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { color: '#64748b', family: 'JetBrains Mono', size: 9 },
+        margin: { t: 30, r: 5, b: 20, l: 30 },
+        xaxis: { showgrid: false, showticklabels: false },
+        yaxis: { gridcolor: '#1e293b' },
+        showlegend: false
+    };
+
+    function updatePlots() {
+        Plotly.react('plot-alt', [
+            { 
+                x: historyT, 
+                y: historyY, 
+                type: 'scatter', 
+                mode: 'lines', 
+                line: { color: '#ffffff', width: 2 } 
+            },
+            { 
+                x: historyT, 
+                y: historyTarget, 
+                type: 'scatter', 
+                mode: 'lines', 
+                line: { color: '#10b981', width: 1, dash: 'dot' } 
+            }
+        ], { 
+            ...plotLayout, 
+            yaxis: { 
+                ...plotLayout.yaxis, 
+                range: [-5, 30] 
+            } 
+        }, { displayModeBar: false });
+
+        Plotly.react('plot-thrust', [
+            { 
+                x: historyT, 
+                y: historyThrust, 
+                type: 'scatter', 
+                mode: 'lines', 
+                line: { color: '#3b82f6', width: 1 }, 
+                fill: 'tozeroy' 
+            }
+        ], { 
+            ...plotLayout, 
+            yaxis: { 
+                ...plotLayout.yaxis, 
+                range: [0, 40000] 
+            } 
+        }, { displayModeBar: false });
+    }
+
+    setInterval(updatePlots, 100);
+    loop();
+</script>
+
+</body>
+</html>
