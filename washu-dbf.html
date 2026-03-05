@@ -1,584 +1,486 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WashU DBF | Enrique Garcia</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WashU DBF | Enrique Garcia</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Model Viewer Script -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <style>
-        /* SMOOTH TRANSITION BASE */
-        html { background-color: #000000; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505;
-            color: #e2e8f0;
-            will-change: opacity, transform;
-        }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .tech-highlight { color: #10b981; font-weight: 600; }
+  <style>
+    html, body { height: 100%; background-color: #000; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #050505;
+      color: #e2e8f0;
+      /* IMPORTANT: do NOT will-change transform on body; it breaks fixed modals in some browsers */
+    }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #3f3f46; }
-        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .tech-highlight { color: #10b981; font-weight: 600; }
 
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background-color: #0a0a0a;
-            --poster-color: transparent;
-        }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050505; }
+    ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    ::-webkit-scrollbar-thumb:hover { background: #71717a; }
 
-        /* ===== LIGHTBOX / MODAL ===== */
-        .no-scroll { overflow: hidden !important; }
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background-color: #0a0a0a;
+      --poster-color: transparent;
+    }
 
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.78);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 9999;
-            display: none;
-        }
-        .modal-backdrop[data-open="true"] { display: block; }
+    /* ===== MODAL (true viewport-fixed, unaffected by scroll) ===== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: none;
+    }
+    .modal-backdrop[data-open="true"] { display: block; }
 
-        .modal-shell {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-        .modal-panel {
-            width: min(1100px, 100%);
-            max-height: min(86vh, 900px);
-            background: rgba(6,6,7,0.9);
-            border: 1px solid rgba(255,255,255,0.12);
-            box-shadow: 0 0 0 1px rgba(16,185,129,0.10), 0 30px 90px rgba(0,0,0,0.65);
-            overflow: hidden;
-        }
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 12px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            background: rgba(0,0,0,0.35);
-        }
-        .modal-title {
-            font-size: 11px;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(226,232,240,0.85);
-            font-family: 'JetBrains Mono', monospace;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .modal-actions a, .modal-actions button {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-        }
-        .modal-actions button {
-            border: 1px solid rgba(255,255,255,0.14);
-            background: rgba(255,255,255,0.06);
-            color: rgba(226,232,240,0.9);
-            padding: 8px 10px;
-        }
-        .modal-actions button:hover { background: rgba(255,255,255,0.10); }
+    .modal-shell {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      /* ensure no accidental transforms */
+      transform: none !important;
+    }
+    .modal-shell[data-open="true"] { display: flex; }
 
-        .modal-body {
-            max-height: calc(min(86vh, 900px) - 52px);
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: 14px;
-        }
-        .modal-body img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border: 1px solid rgba(255,255,255,0.10);
-            background: rgba(255,255,255,0.03);
-        }
-        .modal-body iframe {
-            width: 100%;
-            height: 78vh;
-            border: 1px solid rgba(255,255,255,0.10);
-            background: rgba(255,255,255,0.02);
-        }
-        @media (max-width: 640px) {
-            .modal-shell { padding: 10px; }
-            .modal-panel { max-height: 88vh; }
-            .modal-body iframe { height: 76vh; }
-        }
+    .modal-panel {
+      display: flex;
+      flex-direction: column;
+      width: min(1100px, 100%);
+      height: min(900px, 92vh);   /* stable modal height */
+      background: rgba(6,6,7,0.97);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.10), 0 30px 90px rgba(0,0,0,0.7);
+      overflow: hidden;
+    }
 
-        /* ===== INLINE PDF PREVIEW FIX ===== */
-        /* Fixed height + pointer-events off + fade so the cut-off looks intentional */
-        .pdf-preview-wrap {
-            position: relative;
-            height: 320px;
-            overflow: hidden;
-            background: #050506;
-        }
-        .pdf-preview-wrap iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border: none;
-            pointer-events: none;
-        }
-        .pdf-preview-wrap::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 60px;
-            background: linear-gradient(transparent, #000);
-            pointer-events: none;
-        }
-    </style>
+    .modal-header {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.40);
+    }
+
+    .modal-title {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(226,232,240,0.85);
+      font-family: 'JetBrains Mono', monospace;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .modal-actions a, .modal-actions button {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .modal-actions button {
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: rgba(226,232,240,0.9);
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+    .modal-actions button:hover { background: rgba(255,255,255,0.10); }
+
+    /* body fills remaining space; scrolling happens INSIDE here */
+    .modal-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      background: #000;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-body img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      margin: auto;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* PDF uses the full modal body area */
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: #000;
+    }
+
+    @media (max-width: 640px) {
+      .modal-shell { padding: 10px; }
+      .modal-panel { height: 94vh; }
+    }
+
+    /* ===== INLINE PDF PREVIEW (NOW INTERACTIVE) ===== */
+    .pdf-preview-wrap {
+      position: relative;
+      height: 360px;
+      overflow: hidden;
+      background: #050506;
+    }
+    .pdf-preview-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+      /* IMPORTANT: allow interaction */
+      pointer-events: auto;
+    }
+    .pdf-preview-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(transparent, #000);
+      pointer-events: none;
+    }
+  </style>
 </head>
+
 <body class="antialiased bg-[#0f0f10] min-h-screen">
+  <!-- Wrap all page content so smoothExit can animate WITHOUT touching body -->
+  <div id="pageWrap">
 
     <!-- NAV -->
     <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-
-            <a href="index.html#washu-dbf" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
-                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
-                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
-            </a>
-
-            <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#ef4444] drop-shadow-[0_0_6px_rgba(239,68,68,0.6)]">
-                <span class="hidden md:inline font-bold">Mission Critical – Active</span>
-                <span class="w-2 h-2 rounded-full bg-[#ef4444] animate-pulse"></span>
-            </div>
+      <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        <a href="index.html#washu-dbf" onclick="smoothExit(event, this.href)"
+           class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+          <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+          <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+        </a>
+        <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#ef4444] drop-shadow-[0_0_6px_rgba(239,68,68,0.6)]">
+          <span class="hidden md:inline font-bold">Mission Critical &#8211; Active</span>
+          <span class="w-2 h-2 rounded-full bg-[#ef4444] animate-pulse"></span>
         </div>
+      </div>
     </nav>
 
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
-            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-                <img src="images/washu_dbf.png" alt="WashU DBF Logo" class="h-full w-full object-cover"
-                     onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-paper-plane text-4xl text-white\'></i>'">
+      <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+        <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+          <!-- FIX 1: corrected escape sequences in onerror from \\' to \' -->
+          <img src="images/washu_dbf.png" alt="WashU DBF Logo" class="h-full w-full object-cover"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-paper-plane text-4xl text-white\'></i>'">
+        </div>
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">WashU Design/Build/Fly</h1>
+          <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">Aerodynamics &amp; Payload Engineer</p>
+          <div class="mt-4 text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">Sept 2024 - Present</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+        <div class="lg:col-span-2">
+
+          <!-- INTERACTIVE CAD MODEL -->
+          <div class="w-full h-64 md:h-[420px] bg-[#0a0a0a] border border-white/10 relative overflow-hidden mb-10 group rounded-sm shadow-2xl">
+            <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-white/30 z-20"></div>
+            <div class="absolute top-0 right-0 w-3 h-3 border-t border-r border-white/30 z-20"></div>
+            <div class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-white/30 z-20"></div>
+            <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-white/30 z-20"></div>
+
+            <model-viewer
+              src="assets/models/dbf_plane.glb"
+              poster="https://placehold.co/900x600/0a0a0a/10b981?text=3D+Model+Loading..."
+              loading="eager"
+              camera-controls
+              auto-rotate
+              shadow-intensity="1"
+              camera-orbit="45deg 55deg 2.5m"
+              alt="3D CAD Model of WashU DBF Plane">
+              <div slot="poster" class="flex items-center justify-center w-full h-full text-gray-500 bg-[#0a0a0a]">
+                <div class="text-center">
+                  <i class="fas fa-cube text-4xl animate-pulse mb-2 text-emerald-500"></i>
+                  <p class="text-xs font-mono uppercase tracking-widest">Loading CAD Asset...</p>
+                </div>
+              </div>
+            </model-viewer>
+
+            <div class="absolute top-4 left-4 px-3 py-1 bg-black/80 border border-emerald-500/30 backdrop-blur-md text-[10px] font-mono uppercase tracking-widest text-emerald-400 pointer-events-none z-10 flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Interactive View // v5
             </div>
-            <div>
-                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">WashU Design/Build/Fly</h1>
-                <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">Aerodynamics & Payload Engineer</p>
-                <div class="mt-4 text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">Sept 2024 - Present</div>
+            <div class="absolute bottom-4 right-4 text-[9px] font-mono text-gray-500 pointer-events-none z-10 uppercase tracking-tight">
+              Use Mouse to Rotate / Scroll to Zoom
             </div>
+          </div>
+
+          <!-- FLIGHT TEST MEDIA -->
+          <div class="bg-black border border-white/10 p-6 mb-10">
+            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+              <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Flight Test Media</h3>
+              <i class="fas fa-photo-film text-gray-600"></i>
+            </div>
+            <p class="text-gray-300 leading-relaxed text-sm mb-6 font-light">
+              Selected snapshots from build + field work, plus test-flight footage. Click any figure to open a full preview.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
+                <!-- FIX 2: moved onclick from <figure> to <button> for correct event targeting -->
+                <button class="block w-full text-left" type="button"
+                        onclick="openModal({type:'image', src:'images/dbf_field_1.png', title:'DBF Field Session \u2014 Aircraft Prep'})">
+                  <img src="images/dbf_field_1.png" alt="DBF field session aircraft image 1" class="w-full h-56 object-cover">
+                  <figcaption class="p-4">
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Field Session</div>
+                    <div class="text-xs text-gray-300 mt-1">Aircraft prep + configuration checks</div>
+                    <div class="text-[10px] font-mono text-gray-500 mt-2">Click to expand</div>
+                  </figcaption>
+                </button>
+              </figure>
+
+              <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
+                <button class="block w-full text-left" type="button"
+                        onclick="openModal({type:'image', src:'images/dbf_field_2.png', title:'DBF Field Session \u2014 Taxi / Systems'})">
+                  <img src="images/dbf_field_2.png" alt="DBF field session aircraft image 2" class="w-full h-56 object-cover">
+                  <figcaption class="p-4">
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Field Session</div>
+                    <div class="text-xs text-gray-300 mt-1">Taxi + systems verification</div>
+                    <div class="text-[10px] font-mono text-gray-500 mt-2">Click to expand</div>
+                  </figcaption>
+                </button>
+              </figure>
+            </div>
+
+            <!-- Video -->
+            <div class="mt-6 border border-emerald-500/20 bg-emerald-900/5 rounded-sm overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
+                <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Test Flight Video</div>
+                <div class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">MP4 / WEBM</div>
+              </div>
+              <div class="p-4">
+                <video class="w-full border border-white/10 bg-black/40"
+                       controls playsinline preload="metadata"
+                       poster="images/dbf_video_poster.png">
+                  <source src="videos/dbf_test_flight.mp4" type="video/mp4">
+                  <source src="videos/dbf_test_flight.webm" type="video/webm">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+          </div>
+
+          <!-- COMPETITION DELIVERABLES -->
+          <div class="bg-black border border-white/10 p-6 mb-10">
+            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+              <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Competition Deliverables</h3>
+              <i class="fas fa-file-pdf text-gray-600"></i>
+            </div>
+            <p class="text-gray-300 leading-relaxed text-sm mb-6 font-light">
+              Embedded previews for quick scanning. Open full-screen for readable navigation.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="border border-white/10 bg-white/5 rounded-sm overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
+                  <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">CONFIG</div>
+                  <div class="flex items-center gap-2 modal-actions">
+                    <a href="docs/2026DBF_Wahington_University_in_St_Louis_CONFIG.pdf"
+                       target="_blank" rel="noopener noreferrer"
+                       class="px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200 text-[10px] font-mono uppercase tracking-widest">
+                      Open
+                    </a>
+                    <button type="button"
+                            onclick="openModal({type:'pdf', src:'docs/2026DBF_Wahington_University_in_St_Louis_CONFIG.pdf', title:'DBF Configuration (PDF)'})">
+                      Fullscreen
+                    </button>
+                  </div>
+                </div>
+                <div class="pdf-preview-wrap">
+                  <!-- Interactive + scrollable -->
+                  <iframe
+                    src="docs/2026DBF_Wahington_University_in_St_Louis_CONFIG.pdf#toolbar=1&navpanes=0&view=FitH"
+                    title="DBF Configuration PDF Preview"
+                    loading="lazy">
+                  </iframe>
+                </div>
+              </div>
+
+              <div class="border border-white/10 bg-white/5 rounded-sm overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
+                  <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">DESIGN REPORT</div>
+                  <div class="flex items-center gap-2 modal-actions">
+                    <a href="docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf"
+                       target="_blank" rel="noopener noreferrer"
+                       class="px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200 text-[10px] font-mono uppercase tracking-widest">
+                      Open
+                    </a>
+                    <button type="button"
+                            onclick="openModal({type:'pdf', src:'docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf', title:'DBF Design Report (PDF)'})">
+                      Fullscreen
+                    </button>
+                  </div>
+                </div>
+                <div class="pdf-preview-wrap">
+                  <iframe
+                    src="docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf#toolbar=1&navpanes=0&view=FitH"
+                    title="DBF Design Report PDF Preview"
+                    loading="lazy">
+                  </iframe>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
-
-            <div class="lg:col-span-2">
-
-                <!-- INTERACTIVE CAD MODEL SECTION -->
-                <div class="w-full h-64 md:h-[420px] bg-[#0a0a0a] border border-white/10 relative overflow-hidden mb-10 group rounded-sm shadow-2xl">
-                    <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-white/30 z-20"></div>
-                    <div class="absolute top-0 right-0 w-3 h-3 border-t border-r border-white/30 z-20"></div>
-                    <div class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-white/30 z-20"></div>
-                    <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-white/30 z-20"></div>
-
-                    <model-viewer
-                        src="assets/models/dbf_plane.glb"
-                        poster="https://placehold.co/900x600/0a0a0a/10b981?text=3D+Model+Loading..."
-                        loading="eager"
-                        camera-controls
-                        auto-rotate
-                        shadow-intensity="1"
-                        camera-orbit="45deg 55deg 2.5m"
-                        alt="3D CAD Model of WashU DBF Plane">
-
-                        <div slot="poster" class="flex items-center justify-center w-full h-full text-gray-500 bg-[#0a0a0a]">
-                            <div class="text-center">
-                                <i class="fas fa-cube text-4xl animate-pulse mb-2 text-emerald-500"></i>
-                                <p class="text-xs font-mono uppercase tracking-widest">Loading CAD Asset...</p>
-                            </div>
-                        </div>
-                    </model-viewer>
-
-                    <div class="absolute top-4 left-4 px-3 py-1 bg-black/80 border border-emerald-500/30 backdrop-blur-md text-[10px] font-mono uppercase tracking-widest text-emerald-400 pointer-events-none z-10 flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        Interactive View // v5
-                    </div>
-
-                    <div class="absolute bottom-4 right-4 text-[9px] font-mono text-gray-500 pointer-events-none z-10 uppercase tracking-tight">
-                        Use Mouse to Rotate / Scroll to Zoom
-                    </div>
-                </div>
-
-                <!-- FLIGHT TEST MEDIA (IMAGES + VIDEO) -->
-                <div class="bg-black border border-white/10 p-6 mb-10">
-                    <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
-                            Flight Test Media
-                        </h3>
-                        <i class="fas fa-photo-film text-gray-600"></i>
-                    </div>
-
-                    <p class="text-gray-300 leading-relaxed text-sm mb-6 font-light">
-                        Selected snapshots from build + field work, plus test-flight footage. Click any figure to open a full, scrollable preview.
-                    </p>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Image 1 -->
-                        <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
-                            <button class="block w-full text-left" type="button"
-                                    onclick="openModal({type:'image', src:'images/dbf_field_1.png', title:'DBF Field Session — Aircraft Prep'})">
-                                <img src="images/dbf_field_1.png" alt="DBF field session aircraft image 1" class="w-full h-56 object-cover">
-                                <figcaption class="p-4">
-                                    <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Field Session</div>
-                                    <div class="text-xs text-gray-300 mt-1">Aircraft prep + configuration checks</div>
-                                    <div class="text-[10px] font-mono text-gray-500 mt-2">Click to expand</div>
-                                </figcaption>
-                            </button>
-                        </figure>
-
-                        <!-- Image 2 -->
-                        <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
-                            <button class="block w-full text-left" type="button"
-                                    onclick="openModal({type:'image', src:'images/dbf_field_2.png', title:'DBF Field Session — Taxi / Systems'})">
-                                <img src="images/dbf_field_2.png" alt="DBF field session aircraft image 2" class="w-full h-56 object-cover">
-                                <figcaption class="p-4">
-                                    <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Field Session</div>
-                                    <div class="text-xs text-gray-300 mt-1">Taxi + systems verification</div>
-                                    <div class="text-[10px] font-mono text-gray-500 mt-2">Click to expand</div>
-                                </figcaption>
-                            </button>
-                        </figure>
-                    </div>
-
-                    <!-- Video -->
-                    <div class="mt-6 border border-emerald-500/20 bg-emerald-900/5 rounded-sm overflow-hidden">
-                        <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
-                            <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">
-                                Test Flight Video
-                            </div>
-                            <div class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
-                                MP4 / WEBM
-                            </div>
-                        </div>
-
-                        <div class="p-4">
-                            <video class="w-full border border-white/10 bg-black/40"
-                                   controls
-                                   playsinline
-                                   preload="metadata"
-                                   poster="images/dbf_video_poster.png">
-                                <source src="assets/videos/dbf_test_flight.mp4" type="video/mp4">
-                                <source src="assets/videos/dbf_test_flight.webm" type="video/webm">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                </div>
-
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Engineering Cycle</h3>
-
-                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
-                    <p>
-                        Design, Build, Fly (DBF) requires balancing high-performance aerodynamics with structural durability.
-                        My work focuses on unifying simulation results with physical manufacturing constraints:
-                    </p>
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-emerald-500/30 pl-4">
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Aerodynamics (Theory + Analysis):</strong>
-                            Performed trade studies on NACA airfoils using <span class="tech-highlight">XFLR5</span>, including 3D wing stability and induced drag modeling.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Structures (FEA + Loads):</strong>
-                            Conducted <span class="tech-highlight">ANSYS Static Structural</span> analysis to size carbon fiber wing spars and ribs under 2.5g maneuver loads.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Mechanisms (Hardware):</strong>
-                            Built servo-driven payload release mechanisms via <span class="tech-highlight">CAD prototyping</span> and mechanical iteration.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Flight Testing (Telemetry-Based):</strong>
-                            Analyzed real flight telemetry to validate aerodynamic predictions and refine stability margins.
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- REPORTS (INLINE PREVIEW + FULLSCREEN MODAL) -->
-                <div class="bg-black border border-white/10 p-6 mb-10">
-                    <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
-                            Competition Deliverables
-                        </h3>
-                        <i class="fas fa-file-pdf text-gray-600"></i>
-                    </div>
-
-                    <p class="text-gray-300 leading-relaxed text-sm mb-6 font-light">
-                        Embedded previews for quick scanning. Open full-screen for readable navigation.
-                    </p>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- CONFIG PDF -->
-                        <div class="border border-white/10 bg-white/5 rounded-sm overflow-hidden">
-                            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
-                                <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">CONFIG</div>
-                                <div class="flex items-center gap-2 modal-actions">
-                                    <a href="docs/2026DBF_Wahington_University_in_St_Louis_CONFIG.pdf" target="_blank"
-                                       class="px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200">
-                                        Open
-                                    </a>
-                                    <button type="button"
-                                            onclick="openModal({type:'pdf', src:'docs/2026DBF_Wahington_University_in_St_Louis_CONFIG.pdf', title:'DBF Configuration (PDF)'})">
-                                        Fullscreen
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Fixed-height preview with bottom fade -->
-                            <div class="pdf-preview-wrap">
-                                <iframe
-                                    src="docs/2026DBF_Wahington_University_in_St_Louis_CONFIG.pdf#toolbar=0&navpanes=0&view=FitH"
-                                    title="DBF Configuration PDF Preview"
-                                    loading="lazy">
-                                </iframe>
-                            </div>
-                        </div>
-
-                        <!-- DESIGN REPORT PDF -->
-                        <div class="border border-white/10 bg-white/5 rounded-sm overflow-hidden">
-                            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
-                                <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">DESIGN REPORT</div>
-                                <div class="flex items-center gap-2 modal-actions">
-                                    <a href="docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf" target="_blank"
-                                       class="px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200">
-                                        Open
-                                    </a>
-                                    <button type="button"
-                                            onclick="openModal({type:'pdf', src:'docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf', title:'DBF Design Report (PDF)'})">
-                                        Fullscreen
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Fixed-height preview with bottom fade -->
-                            <div class="pdf-preview-wrap">
-                                <iframe
-                                    src="docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf#toolbar=0&navpanes=0&view=FitH"
-                                    title="DBF Design Report PDF Preview"
-                                    loading="lazy">
-                                </iframe>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 text-[10px] font-mono text-gray-500 leading-relaxed">
-                        If your browser blocks PDF previews locally, serve your site (e.g., simple HTTP server) and the iframes will render reliably.
-                    </div>
-                </div>
-
-                <div class="bg-black border border-white/10 p-6">
-                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
-                            Design Validation Pipeline
-                        </h3>
-                        <i class="fas fa-project-diagram text-gray-600"></i>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
-                        <div>
-                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">>> Validation Targets</h4>
-                            <div class="space-y-2">
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                    <span>[AERO] Lift Coeff Target</span>
-                                    <span class="text-emerald-500">MET (Cl > 1.2)</span>
-                                </div>
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                    <span>[STRUCT] 2.5g Load Case</span>
-                                    <span class="text-emerald-500">SF > 1.5</span>
-                                </div>
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                    <span>[MECH] Payload Deploy</span>
-                                    <span class="text-emerald-500">NOMINAL</span>
-                                </div>
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-yellow-500">
-                                    <span>[DATA] Sim-Real Corr.</span>
-                                    <span class="text-yellow-500">92% MATCH</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="relative p-4 border border-emerald-500/20 bg-emerald-900/5 rounded-sm flex flex-col items-center gap-3">
-                            <h4 class="text-emerald-500 mb-2 text-center uppercase tracking-wider">The "V" Model</h4>
-
-                            <div class="w-full flex items-center justify-between gap-2">
-                                <div class="w-1/2 p-2 text-center border border-white/20 bg-[#0f0f10] text-[10px]">
-                                    <div class="text-emerald-400 font-bold">XFLR5 / CFD</div>
-                                    <div class="text-gray-600">PREDICTION</div>
-                                </div>
-                                <i class="fas fa-arrow-right text-gray-600 text-[10px]"></i>
-                                <div class="w-1/2 p-2 text-center border border-white/20 bg-[#0f0f10] text-[10px]">
-                                    <div class="text-white font-bold">LOADS</div>
-                                    <div class="text-gray-600">TRANSFER</div>
-                                </div>
-                            </div>
-
-                            <i class="fas fa-arrow-down text-gray-600 text-[10px]"></i>
-
-                            <div class="w-full p-2 text-center border border-white/40 bg-[#0f0f10] text-[10px] relative">
-                                <div class="text-white font-bold">ANSYS FEA</div>
-                                <div class="text-gray-500">STRUCTURAL VALIDATION</div>
-                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/10 to-transparent"></div>
-                            </div>
-
-                            <i class="fas fa-arrow-down text-gray-600 text-[10px]"></i>
-
-                            <div class="w-full flex items-center justify-between gap-2">
-                                <div class="w-1/2 p-2 text-center border border-white/20 bg-[#0f0f10] text-[10px]">
-                                    <div class="text-white font-bold">BUILD</div>
-                                    <div class="text-gray-600">COMPOSITES</div>
-                                </div>
-                                <i class="fas fa-arrow-right text-gray-600 text-[10px]"></i>
-                                <div class="w-1/2 p-2 text-center border border-white/20 bg-[#0f0f10] text-[10px]">
-                                    <div class="text-emerald-400 font-bold">FLIGHT</div>
-                                    <div class="text-gray-600">TELEMETRY</div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+        <!-- RIGHT SIDEBAR -->
+        <div class="space-y-10">
+          <a href="https://aiaa.org/dbf/" target="_blank" rel="noopener noreferrer"
+             class="block p-5 border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400 transition-all group cursor-pointer">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-white font-mono uppercase tracking-widest group-hover:text-blue-400 transition-colors">Competition Intel</span>
+              <i class="fas fa-external-link-alt text-gray-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-transform"></i>
             </div>
-
-            <!-- RIGHT SIDEBAR -->
-            <div class="space-y-10">
-
-                <a href="https://aiaa.org/dbf/" target="_blank" class="block p-5 border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400 transition-all group cursor-pointer">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-bold text-white font-mono uppercase tracking-widest group-hover:text-blue-400 transition-colors">Competition Intel</span>
-                        <i class="fas fa-external-link-alt text-gray-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                    <p class="text-[10px] text-gray-400 font-mono leading-relaxed">Official AIAA Design/Build/Fly rules, rankings, and mission parameters.</p>
-                </a>
-
-                <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">ANSYS CFX</span>
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">XFLR5</span>
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">SolidWorks</span>
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Composites</span>
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Data Analysis</span>
-                    </div>
-                </div>
-
-                <div class="p-8 bg-emerald-500/5 border border-emerald-500/20">
-                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">
-                        Key Outcome
-                    </h4>
-                    <p class="text-sm text-emerald-100/80 leading-relaxed">
-                        Closed the design loop by correlating computational predictions with real flight data,
-                        achieving a lightweight and aerodynamically stable configuration.
-                    </p>
-                </div>
-
-            </div>
-
+            <p class="text-[10px] text-gray-400 font-mono leading-relaxed">Official AIAA Design/Build/Fly rules, rankings, and mission parameters.</p>
+          </a>
         </div>
+
+      </div>
     </main>
 
     <footer class="py-12 border-t border-white/10 bg-black">
-        <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
-            SYSTEM ID: WASHU-DBF-AERO // END OF FILE
-        </div>
+      <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+        SYSTEM ID: WASHU-DBF-AERO // END OF FILE
+      </div>
     </footer>
 
-    <!-- ===== MODAL (GLOBAL) ===== -->
-    <div id="modal" class="modal-backdrop" aria-hidden="true">
-        <div class="modal-shell" role="dialog" aria-modal="true" aria-label="Media Preview">
-            <div class="modal-panel rounded-sm">
-                <div class="modal-header">
-                    <div id="modalTitle" class="modal-title">Preview</div>
-                    <div class="modal-actions flex items-center gap-2">
-                        <a id="modalOpenLink" href="#" target="_blank"
-                           class="px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200">
-                            Open
-                        </a>
-                        <button type="button" onclick="closeModal()">
-                            Close <span class="opacity-70">(Esc)</span>
-                        </button>
-                    </div>
-                </div>
-                <div id="modalBody" class="modal-body"></div>
-            </div>
-        </div>
-    </div>
+  </div><!-- /#pageWrap -->
 
-    <script>
+  <!-- ===== MODAL (kept OUTSIDE #pageWrap so transforms never affect it) ===== -->
+  <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true"></div>
+
+  <div id="modalShell" class="modal-shell" role="dialog" aria-modal="true" aria-label="Media Preview" aria-hidden="true">
+    <div class="modal-panel rounded-sm">
+      <div class="modal-header">
+        <div id="modalTitle" class="modal-title">Preview</div>
+        <div class="modal-actions flex items-center gap-2">
+          <a id="modalOpenLink" href="#" target="_blank" rel="noopener noreferrer"
+             class="px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200">
+            Open
+          </a>
+          <button type="button" onclick="closeModal()">
+            Close <span class="opacity-70">(Esc)</span>
+          </button>
+        </div>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    // Smooth exit: animate the WRAPPER, not the body (keeps modal fixed behavior correct)
     function smoothExit(e, url) {
-        e.preventDefault();
-        document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
-        document.body.style.opacity = "0";
-        document.body.style.transform = "scale(0.98)";
-        setTimeout(() => { window.location.href = url; }, 400);
+      e.preventDefault();
+      const wrap = document.getElementById('pageWrap');
+      wrap.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+      wrap.style.opacity = "0";
+      wrap.style.transform = "scale(0.98)";
+      setTimeout(() => { window.location.href = url; }, 400);
     }
 
-    const modalEl = document.getElementById('modal');
-    const modalBody = document.getElementById('modalBody');
-    const modalTitle = document.getElementById('modalTitle');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalShell    = document.getElementById('modalShell');
+    const modalBody     = document.getElementById('modalBody');
+    const modalTitle    = document.getElementById('modalTitle');
     const modalOpenLink = document.getElementById('modalOpenLink');
 
+    function lockScroll() {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+    function unlockScroll() {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+
     function openModal({ type, src, title }) {
-        document.documentElement.classList.add('no-scroll');
-        document.body.classList.add('no-scroll');
+      modalTitle.textContent = title || 'Preview';
+      modalOpenLink.href = src;
 
-        modalTitle.textContent = title || 'Preview';
-        modalOpenLink.href = src;
-        modalBody.innerHTML = '';
+      // clear
+      modalBody.innerHTML = '';
 
-        if (type === 'pdf') {
-            const iframe = document.createElement('iframe');
-            iframe.src = src + '#view=FitH';
-            iframe.title = title || 'PDF Preview';
-            iframe.loading = 'eager';
-            modalBody.appendChild(iframe);
-        } else {
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = title || 'Image Preview';
-            img.loading = 'eager';
-            modalBody.appendChild(img);
-        }
+      if (type === 'pdf') {
+        const iframe = document.createElement('iframe');
+        // toolbar=1 so it's actually usable inside the modal
+        iframe.src = src + '#toolbar=1&navpanes=0&view=FitH';
+        iframe.title = title || 'PDF Preview';
+        iframe.loading = 'eager';
+        modalBody.appendChild(iframe);
+      } else {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = title || 'Image Preview';
+        modalBody.appendChild(img);
+      }
 
-        modalEl.setAttribute('data-open', 'true');
-        modalEl.setAttribute('aria-hidden', 'false');
+      modalBackdrop.setAttribute('data-open', 'true');
+      modalShell.setAttribute('data-open', 'true');
+      modalShell.setAttribute('aria-hidden', 'false');
+
+      lockScroll();
     }
 
     function closeModal() {
-        modalEl.setAttribute('data-open', 'false');
-        modalEl.setAttribute('aria-hidden', 'true');
-        modalBody.innerHTML = '';
-        document.documentElement.classList.remove('no-scroll');
-        document.body.classList.remove('no-scroll');
+      modalBackdrop.setAttribute('data-open', 'false');
+      modalShell.setAttribute('data-open', 'false');
+      modalShell.setAttribute('aria-hidden', 'true');
+      modalBody.innerHTML = '';
+      unlockScroll();
     }
 
-    modalEl.addEventListener('click', (e) => {
-        const panel = modalEl.querySelector('.modal-panel');
-        if (!panel.contains(e.target)) closeModal();
+    // Click outside panel to close
+    modalShell.addEventListener('click', (e) => {
+      if (e.target === modalShell) closeModal();
     });
+    modalBackdrop.addEventListener('click', closeModal);
 
     window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalEl.getAttribute('data-open') === 'true') closeModal();
+      if (e.key === 'Escape' && modalShell.getAttribute('data-open') === 'true') closeModal();
     });
-    </script>
-
+  </script>
 </body>
 </html>
