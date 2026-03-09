@@ -518,31 +518,44 @@ function toggleInternshipMission(){
                         <div class="mission-scroll hero-mission-scroll relative">
                             <div class="hero-mission-list">
 
-                            <!-- Internship -->
-                            <div class="hero-mission-item target flex items-start gap-4 cursor-pointer group" onclick="toggleInternshipMission()">
-                                <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-yellow-400 transition-all duration-500 z-10">
-                                    <img src="images/internship.png" class="h-full w-full object-contain">
-                                </div>
-                                <div class="w-full">
-                                    <div class="text-[9px] font-mono text-yellow-500 mb-0.5 tracking-wider">SUMMER 2026 // TARGET</div>
-                                    <h4 class="text-yellow-400 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering Internship</h4>
-                                    <p class="text-xs text-gray-500">Click to deploy mission briefing</p>
-                                    <div id="internship-mission-details" class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
-                                        <div class="mt-6 p-5 bg-black/40 border border-yellow-500/20 backdrop-blur-sm text-sm text-gray-300 space-y-4">
-                                            <p>Contribute to high-impact aerospace systems by applying controls, system integration, and systems engineering principles to real-world hardware.</p>
-                                            <p class="font-mono text-yellow-400 text-xs tracking-wider">>> TARGET CONTRIBUTIONS</p>
-                                            <ul class="space-y-2 list-disc list-inside">
-                                                <li>Own subsystem-level design and integration</li>
-                                                <li>Model, simulate, and validate avionics and control subsystems</li>
-                                                <li>Collaborate with cross-functional teams</li>
-                                                <li>Prepare for flight tests and provide system-level analysis</li>
-                                            </ul>
-                                            <p class="font-mono text-yellow-400 text-xs tracking-wider">>> STATUS</p>
-                                            <p class="text-gray-400">Actively engaged in systems integration and advanced controls development, with flight test preparation underway through WashU VTOL.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Internship -->
+<div class="hero-mission-item target flex items-start gap-4 cursor-pointer group" onclick="toggleInternshipMission()">
+    <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-yellow-400 transition-all duration-500 z-10">
+        <img src="images/internship.png" class="h-full w-full object-contain">
+    </div>
+    <div class="w-full">
+        <div class="text-[9px] font-mono text-yellow-500 mb-0.5 tracking-wider">SUMMER 2026 // TARGET</div>
+        <h4 class="text-yellow-400 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering Internship</h4>
+        <p class="text-xs text-gray-500">Click to deploy mission briefing</p>
+
+        <div id="internship-mission-details" class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
+            <div class="mt-6 p-5 bg-black/40 border border-yellow-500/20 backdrop-blur-sm text-sm text-gray-300 space-y-4">
+
+                <p>
+                Contribute to the development of aerospace and autonomous systems by applying controls, avionics integration,
+                and first-principles systems engineering to real-world flight hardware.
+                </p>
+
+                <p class="font-mono text-yellow-400 text-xs tracking-wider">>> TARGET CONTRIBUTIONS</p>
+
+                <ul class="space-y-2 list-disc list-inside">
+                    <li>Lead subsystem-level design, integration, and validation</li>
+                    <li>Model and simulate flight dynamics, control systems, and avionics architectures</li>
+                    <li>Collaborate with cross-functional teams across mechanical, electrical, and software domains</li>
+                    <li>Support flight testing through instrumentation, system verification, and post-flight analysis</li>
+                </ul>
+
+                <p class="font-mono text-yellow-400 text-xs tracking-wider">>> STATUS</p>
+
+                <p class="text-gray-400">
+                Currently developing avionics architecture and system integration workflows through the WashU VTOL program,
+                with active work in flight control systems, avionics power design, and hardware-in-the-loop testbench development.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>        
 
                             <!-- VTOL -->
                             <div class="hero-mission-item active flex items-start gap-4 cursor-pointer group" onclick="document.getElementById('washu-vtol').scrollIntoView({behavior:'smooth'})">
