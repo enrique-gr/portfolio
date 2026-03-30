@@ -491,7 +491,6 @@ function toggleInternshipMission(){
                         <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">Operational Roles</div>
                         <div class="flex flex-col gap-1 text-xs">
                             <div><span class="text-blue-400 font-medium">Avionics & Systems Lead</span><span class="text-gray-500"> · WashU VTOL</span></div>
-                            <div><span class="text-blue-400 font-medium">Aerodynamics</span><span class="text-gray-500"> · WashU Design/Build/Fly</span></div>
                         </div>
                     </div>
                     <div class="pl-6 mt-8 flex flex-wrap gap-3">
@@ -568,33 +567,69 @@ function toggleInternshipMission(){
                             </div>
 
                             <!-- DBF -->
-                            <div class="hero-mission-item active flex items-start gap-4 cursor-pointer group" onclick="document.getElementById('washu-dbf').scrollIntoView({behavior:'smooth'})">
-                                <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-blue-400 transition-colors z-10"><img src="images/washu_dbf.png" class="h-full w-full object-contain"></div>
-                                <div>
-                                    <div class="text-[9px] font-mono text-blue-400 mb-0.5 tracking-wider">SEP 2024 - PRESENT // ACTIVE</div>
-                                    <h4 class="text-white font-bold text-sm group-hover:text-blue-400 transition-colors">WashU Design/Build/Fly</h4>
-                                    <p class="text-xs text-gray-500">Aerodynamics & Payload</p>
-                                </div>
-                            </div>
+<div class="hero-mission-item done flex items-start gap-4 cursor-pointer group opacity-75"
+     onclick="document.getElementById('washu-dbf').scrollIntoView({behavior:'smooth'})">
 
-                            <!-- Sentinel -->
-                            <div class="hero-mission-item done flex items-start gap-4 cursor-pointer group" onclick="document.getElementById('sentinel-cv').scrollIntoView({behavior:'smooth'})">
-                                <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10"><img src="images/sent.png" class="h-full w-full object-contain"></div>
-                                <div>
-                                    <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">WINTER 2025 // COMPLETE</div>
-                                    <h4 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">Sentinel CV</h4>
-                                    <p class="text-xs text-gray-600">Computer Vision Tracking</p>
-                                </div>
-                            </div>
+    <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
+        <img src="images/washu_dbf.png" class="h-full w-full object-contain grayscale-[30%]">
+    </div>
 
-                            <!-- MIRO -->
-                            <div class="hero-mission-item done flex items-start gap-4 cursor-pointer group" onclick="document.getElementById('miro-lab').scrollIntoView({behavior:'smooth'})">
-                                <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10"><img src="images/mirolab.png" class="h-full w-full object-contain"></div>
-                                <div>
-                                    <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">SUMMER 2025 // COMPLETE</div>
-                                    <h4 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">mirolab</h4>
-                                    <p class="text-xs text-gray-600">Research Intern</p>
-                                </div>
+    <div>
+        <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">
+            SEP 2024 - JAN 2026 // LEFT
+        </div>
+        <h4 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">
+            WashU Design/Build/Fly
+        </h4>
+        <p class="text-xs text-gray-600">
+            Aerodynamics & Payload
+        </p>
+    </div>
+</div>
+
+
+<!-- Sentinel -->
+<div class="hero-mission-item done flex items-start gap-4 cursor-pointer group opacity-75"
+     onclick="document.getElementById('sentinel-cv').scrollIntoView({behavior:'smooth'})">
+
+    <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
+        <img src="images/sent.png" class="h-full w-full object-contain grayscale-[50%]">
+    </div>
+
+    <div>
+        <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">
+            WINTER 2025 // COMPLETE
+        </div>
+        <h4 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">
+            Sentinel CV
+        </h4>
+        <p class="text-xs text-gray-600">
+            Computer Vision Tracking
+        </p>
+    </div>
+</div>
+
+
+<!-- MIRO -->
+<div class="hero-mission-item done flex items-start gap-4 cursor-pointer group opacity-75"
+     onclick="document.getElementById('miro-lab').scrollIntoView({behavior:'smooth'})">
+
+    <div class="h-10 w-10 bg-black border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
+        <img src="images/mirolab.png" class="h-full w-full object-contain grayscale-[70%]">
+    </div>
+
+    <div>
+        <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">
+            SUMMER 2025 // COMPLETE
+        </div>
+        <h4 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">
+            mirolab
+        </h4>
+        <p class="text-xs text-gray-600">
+            Research Intern
+        </p>
+    </div>
+</div>
                             </div>
                         </div>
                     </div>
@@ -946,7 +981,7 @@ function toggleInternshipMission(){
 /* ============= DATA ============= */
 const projects = {
     "washu-vtol":      { title:"WashU VTOL", category:"featured", logoUrl:"images/vtol.png", role:"Avionics & Systems Integration Lead", dates:"Sept 2025 - Present", tags:["Pixhawk 6C","PX4","HIL Testing"], summary:"Architected the avionics and control system for WashU's semi-autonomous VTOL aircraft.", metric:"Outcome: Stable Autonomous Flight", problem:"Need reliable autonomous transition/hover behavior on a student-built VTOL platform.", contribution:"Owned avionics architecture, PX4 configuration, wiring reliability, and HIL validation loop.", result:"Achieved repeatable stable hover envelope and reduced integration regressions before flight days.", constraint:"Noisy embedded buses under mixed power loads", tradeoff:"Rapid feature tuning vs robust pre-flight validation", decision:"Prioritized HIL-first regression gates before field tests", outcome:"Reduced integration regressions and stabilized hover behavior", proof:["PX4 + Pixhawk 6C full stack bring-up","HIL scenarios validated pre-flight","I2C noise fault resolved (VTOL-01)"], externalLink:"washu-vtol.html" },
-    "washu-dbf":       { title:"WashU Design/Build/Fly", category:"featured", logoUrl:"images/dbf.png", role:"Aerodynamics Engineer", dates:"Sept 2024 - Present", tags:["ANSYS CFX","XFLR5","Composites"], summary:"Designed NACA-series wings using XFLR5/CFD and performed structural 2.5g load analysis.", metric:"Status: Flight Hardware Validated", problem:"Optimize aerodynamic efficiency while keeping structure manufacturable and competition-ready.", contribution:"Ran XFLR5 + ANSYS CFX iteration loops and coordinated wing geometry with structural constraints.", result:"Validated wing section performance and supported hardware configuration ready for flight testing.", constraint:"Competing aero efficiency and manufacturing practicality", tradeoff:"Aggressive airfoil targets vs structural reliability margins", decision:"Used iterative CFD + structural checks for final geometry", outcome:"Flight-ready wing configuration with validated trends", proof:["XFLR5 polar sweeps across operating envelope","CFD cross-checks on lift/drag trends","2.5g structural load-informed geometry"], externalLink:"washu-dbf.html" },
+    "washu-dbf":       { title:"WashU Design/Build/Fly", category:"featured", logoUrl:"images/dbf.png", role:"Aerodynamics Engineer", dates:"Sept 2024 - Jan 2026", tags:["ANSYS CFX","XFLR5","Composites"], summary:"Designed NACA-series wings using XFLR5/CFD and performed structural 2.5g load analysis.", metric:"Status: Flight Hardware Validated", problem:"Optimize aerodynamic efficiency while keeping structure manufacturable and competition-ready.", contribution:"Ran XFLR5 + ANSYS CFX iteration loops and coordinated wing geometry with structural constraints.", result:"Validated wing section performance and supported hardware configuration ready for flight testing.", constraint:"Competing aero efficiency and manufacturing practicality", tradeoff:"Aggressive airfoil targets vs structural reliability margins", decision:"Used iterative CFD + structural checks for final geometry", outcome:"Flight-ready wing configuration with validated trends", proof:["XFLR5 polar sweeps across operating envelope","CFD cross-checks on lift/drag trends","2.5g structural load-informed geometry"], externalLink:"washu-dbf.html" },
     "sentinel-cv":     { title:"Sentinel Computer Vision", category:"featured", logoUrl:"images/sent.png", role:"Algorithm Engineer", dates:"Winter 2025", tags:["C++","OpenCV","Kalman Filter"], summary:"Real-time computer vision pipeline for autonomous target tracking and intercept prediction.", metric:"Capability: Zero-Latency Tracking", problem:"Track dynamic targets robustly with low-latency estimates for downstream guidance logic.", contribution:"Built CV detection pipeline and Kalman-based state estimation under noisy measurements.", result:"Delivered stable real-time tracking output suitable for closed-loop intercept simulation.", constraint:"Frame noise and target jitter at real-time rates", tradeoff:"Detection sensitivity vs false-positive stability", decision:"Paired contour filtering with Kalman smoothing", outcome:"Low-latency stable state estimates for guidance logic", proof:["Frame-by-frame contour extraction pipeline","Kalman filter for smoothed state estimates","Low-latency C++ implementation"], externalLink:"sentinel.html" },
     "miro-lab":        { title:"Multiplatform Interactive Robotics Lab", category:"featured", logoUrl:"images/mirolab.png", role:"Research Intern", dates:"Summer 2025", tags:["Python","MATLAB","Sensor Fusion"], summary:"Developed a wearable sensor fusion system (IMU + EMG) and visual tracking pipeline.", metric:"Result: High-Fidelity Motion Sync", problem:"Synchronize noisy wearable sensor streams with visual tracking for reliable motion interpretation.", contribution:"Implemented fusion workflow for IMU + EMG + camera signals and analysis tooling.", result:"Improved signal coherence and produced repeatable motion signatures for research trials.", constraint:"Asynchronous multi-sensor timing and drift", tradeoff:"Pipeline complexity vs reproducible synchronization", decision:"Built deterministic alignment and validation tooling", outcome:"Repeatable motion signatures across test trials", proof:["IMU + EMG synchronization pipeline","Python/MATLAB analysis stack","Research-oriented validation datasets"], externalLink:"miro-lab.html" },
     "ekf-nav":         { title:"Multi-Sensor Flight Nav", category:"personal", logoUrl:"images/sensor_fusion.png", role:"Independent Dev", tags:["C++","Embedded","EKF"], summary:"Real-time 12-state Extended Kalman Filter fusing IMU, GPS, and vision data.", externalLink:"ekf-nav.html", fileSize:"2.4 MB" },
