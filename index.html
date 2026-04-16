@@ -893,60 +893,6 @@ function toggleInternshipMission(){
     <div id="archive-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in"></div>
 </section>
 
-<!-- <section id="now-building" class="py-16 max-w-7xl mx-auto px-6 border-t border-white/5">
-    <div class="border border-white/10 bg-[#0a0a0a] p-6 md:p-8">
-        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-white/10 pb-5 mb-6">
-            <div>
-                <div class="text-[10px] font-mono uppercase tracking-widest text-blue-400 mb-2">Learning + Build Log</div>
-                <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Control Theory to Flight Behavior</h3>
-                <p class="text-gray-400 text-sm mt-2 max-w-3xl">This section tracks what I am actively learning and applying. I am building stronger controls fundamentals, testing ideas in bench/HIL workflows, and documenting what is working versus what still needs improvement.</p>
-            </div>
-            <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500">Spring 2026 // Weekly Cycle</div>
-        </div>
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-5">
-            <div class="xl:col-span-5 border border-white/10 bg-black/20 p-5">
-                <div class="text-[9px] font-mono uppercase tracking-widest text-blue-300 mb-3">Current Focus</div>
-                <ul class="space-y-2 text-sm text-gray-300 list-disc list-inside">
-                    <li>Understanding loop behavior (rise time, overshoot, settling).</li>
-                    <li>Connecting estimator quality to controller response.</li>
-                    <li>Building repeatable test habits before flight decisions.</li>
-                </ul>
-                <div class="mt-4 border border-white/10 bg-[#0b0b0b] p-3 text-xs text-gray-300">
-                    <div class="text-[9px] font-mono uppercase tracking-widest text-gray-400 mb-1">Reality Check</div>
-                    <p>Still in the learning-and-validation phase. The goal is steady improvement and better engineering discipline, not claiming fully mature flight controls yet.</p>
-                </div>
-            </div>
-            <div class="xl:col-span-7 border border-white/10 bg-[#0f0f10] p-5">
-                <div class="text-[9px] font-mono uppercase tracking-widest text-yellow-300 mb-3">Artifacts (Coursework + Bench + Notes)</div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div class="border border-white/10 bg-black/25 overflow-hidden">
-                        <img src="images/vtol_wiring_diagram.png" alt="VTOL wiring/control architecture diagram" loading="lazy" class="w-full h-36 object-cover opacity-85">
-                        <div class="p-3">
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-gray-300">Control Architecture Notes</div>
-                            <p class="text-xs text-gray-400 mt-1">Signal path mapping: sensors -> estimator -> controller -> actuator outputs.</p>
-                        </div>
-                    </div>
-                    <div class="border border-white/10 bg-black/25 overflow-hidden">
-                        <img src="images/vtol_test_bench_1.png" alt="VTOL electronics test bench for controls validation" loading="lazy" class="w-full h-36 object-cover opacity-85">
-                        <div class="p-3">
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-gray-300">Bench Validation</div>
-                            <p class="text-xs text-gray-400 mt-1">Pre-flight checks and controlled tuning passes before field attempts.</p>
-                        </div>
-                    </div>
-                    <div class="border border-white/10 bg-black/25 overflow-hidden">
-                        <img src="images/ese319.png" alt="Control systems coursework artifact" loading="lazy" class="w-full h-36 object-cover opacity-85">
-                        <div class="p-3">
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-gray-300">Coursework + Reading</div>
-                            <p class="text-xs text-gray-400 mt-1">Control Systems material used to guide what to test next in HIL.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3 text-[10px] font-mono uppercase tracking-widest text-gray-500">Simple workflow: study -> test -> log -> iterate</div>
-            </div>
-        </div>
-    </div>
-</section> -->
-
 </main>
 
 <!-- FOOTER -->
@@ -1162,7 +1108,7 @@ function switchTab(tabName){
 function switchCoursework(view){
     const ab=document.getElementById('btn-active'),hb=document.getElementById('btn-history'),list=document.getElementById('coursework-list');
     const rows=view==='active'
-        ?[{pid:'4320',n:'Control_Systems',s:'RUNNING'},{pid:'3430',n:'Thermal_Sys_Design',s:'RUNNING'},{pid:'3420',n:'Heat_Transfer',s:'RUNNING'},{pid:'3110',n:'Machine_Elements',s:'RUNNING'},{pid:'3050',n:'Fluids_Heat_Lab',s:'RUNNING'}]
+        ?[{pid:'4320',n:'Modeling_Simulation_Control',s:'RUNNING'},{pid:'3430',n:'Thermal_Systems_Design',s:'RUNNING'},{pid:'3420',n:'Heat_Transfer',s:'RUNNING'},{pid:'3110',n:'Machine_Elements',s:'RUNNING'},{pid:'3050',n:'Fluids_Heat_Lab',s:'RUNNING'}]
         :[{pid:'4310',n:'Vibrations',s:'COMPLETE'},{pid:'3400',n:'Thermodynamics',s:'COMPLETE'},{pid:'3410',n:'Fluid_Mechanics',s:'COMPLETE'},{pid:'3530',n:'Solid_Mechanics',s:'COMPLETE'},{pid:'3280',n:'Prob_&_Stats',s:'COMPLETE'}];
     ab.className=view==='active'?'tab-active px-2 py-1 uppercase tracking-wider transition-colors':'tab-inactive px-2 py-1 uppercase tracking-wider transition-colors';
     hb.className=view==='history'?'tab-active px-2 py-1 uppercase tracking-wider transition-colors':'tab-inactive px-2 py-1 uppercase tracking-wider transition-colors';
