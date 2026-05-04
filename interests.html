@@ -12,17 +12,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- model-viewer for .glb files -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <style>
-        html { background-color: #000000; }
+        html { background-color: #000000; scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #e2e8f0;
-            will-change: opacity, transform;
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
@@ -54,11 +52,8 @@
         }
 
         .aircraft-viewer-shell,
-        .space-viewer-shell {
-            margin-top: auto;
-        }
+        .space-viewer-shell { margin-top: auto; }
 
-        /* Subtle sword enhancement only */
         .header-sword-shell {
             position: relative;
             width: 86px;
@@ -92,34 +87,83 @@
             background: transparent;
         }
 
+        /* Section nav */
+        .section-nav {
+            position: sticky;
+            top: 80px; /* sits just below the main nav */
+            z-index: 40;
+            background: rgba(5,5,5,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .section-nav-btn {
+            position: relative;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #6b7280;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+            background: none;
+            border: none;
+        }
+
+        .section-nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 16px;
+            right: 16px;
+            height: 1px;
+            background: #10b981;
+            transform: scaleX(0);
+            transition: transform 0.2s ease;
+            transform-origin: left;
+        }
+
+        .section-nav-btn:hover {
+            color: #d1d5db;
+        }
+
+        .section-nav-btn.active {
+            color: #e5e7eb;
+        }
+
+        .section-nav-btn.active::after {
+            transform: scaleX(1);
+        }
+
+        .book-card {
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            will-change: transform;
+        }
+        .book-card:hover {
+            border-color: rgba(251,191,36,0.3);
+            transform: translateY(-2px);
+        }
+        .book-card:hover .book-cover { opacity: 0.85; }
+
         @media (max-width: 768px) {
-            .header-sword-shell {
-                width: 72px;
-                height: 112px;
-            }
-
-            .aircraft-card,
-            .space-card {
-                min-width: 320px;
-                max-width: 320px;
-            }
-
-            model-viewer {
-                height: 320px;
-            }
+            .header-sword-shell { width: 72px; height: 112px; }
+            .aircraft-card, .space-card { min-width: 320px; max-width: 320px; }
+            model-viewer { height: 320px; }
         }
     </style>
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
-    <!-- NAV -->
+    <!-- MAIN NAV -->
     <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                 <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                 <span class="font-mono font-bold tracking-wider uppercase text-sm">RETURN</span>
             </a>
-
             <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
                 <span class="hidden md:inline">Interests</span>
                 <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -127,62 +171,60 @@
         </div>
     </nav>
 
+    <!-- SECTION NAV -->
+    <div class="section-nav">
+        <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+            <div class="flex items-center gap-0">
+                <button class="section-nav-btn active" onclick="scrollToSection('section-aerospace', this)">
+                    Aerospace & Flight
+                </button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-missions', this)">
+                    Missions
+                </button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-training', this)">
+                    Training
+                </button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-films', this)">
+                    Films
+                </button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-books', this)">
+                    Books
+                </button>
+            </div>
+        </div>
+    </div>
+
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
         <!-- HEADER BLOCK -->
         <div class="flex flex-col md:flex-row items-start justify-between gap-8 mb-12 border-b border-white/10 pb-10">
-
             <div class="flex items-start gap-6 md:gap-8">
 
-                <!-- Interests Icon -->
                 <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-                    <img
-                        src="assets/images/interests.png"
-                        alt="Interests Icon"
-                        class="object-contain w-full h-full"
-                        onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-star text-4xl text-white\'></i>'"
-                    />
+                    <img src="assets/images/interests.png" alt="Interests Icon" class="object-contain w-full h-full"
+                         onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-star text-4xl text-white\'></i>'"/>
                 </div>
 
-                <!-- Anduril Sword -->
                 <div class="header-sword-shell">
                     <div class="header-sword-viewer">
-                        <model-viewer
-                            src="assets/models/anduril.glb"
-                            alt="Anduril sword"
-                            camera-controls
-                            interaction-prompt="none"
-                            disable-zoom
-                            shadow-intensity="0"
-                            environment-image="neutral"
-                            camera-orbit="0deg 88deg 110%"
-                            field-of-view="18deg"
-                            min-camera-orbit="auto 80deg auto"
-                            max-camera-orbit="auto 96deg auto"
-                            loading="eager">
-                        </model-viewer>
+                        <model-viewer src="assets/models/anduril.glb" alt="Anduril sword" camera-controls interaction-prompt="none" disable-zoom shadow-intensity="0" environment-image="neutral" camera-orbit="0deg 88deg 110%" field-of-view="18deg" min-camera-orbit="auto 80deg auto" max-camera-orbit="auto 96deg auto" loading="eager"></model-viewer>
                     </div>
                 </div>
 
-                <!-- Title Block -->
                 <div>
                     <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Interests</h1>
-
                     <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">
-                        Fighter Jets · Spacecraft · Calisthenics · Strength Training · Film
+                        Aircraft · Spacecraft · Training · Film · Books
                     </p>
-
                     <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono text-gray-500">
                         <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
                             <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
                             Aerospace & Flight Systems
                         </div>
-
                         <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
                             <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                             Training & Movement
                         </div>
-
                         <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
                             <span class="w-1.5 h-1.5 rounded-full bg-purple-300"></span>
                             Storytelling
@@ -190,7 +232,6 @@
                     </div>
                 </div>
             </div>
-
             <span class="text-xl font-mono text-white/20">05</span>
         </div>
 
@@ -201,997 +242,378 @@
             <div class="lg:col-span-2 space-y-14">
 
                 <!-- AEROSPACE & FLIGHT -->
-                <section>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
-                        Aerospace & Flight
-                    </h3>
-
+                <section id="section-aerospace">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Aerospace & Flight</h3>
                     <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>
-                            I’ve always looked at aircraft, spacecraft, and launch vehicles the same way I look at complex engineering
-                            systems: reduce them down to fundamentals, understand the constraints, and study why each design
-                            choice exists. These platforms stand out because they reward deep curiosity and disciplined
-                            analysis. They are engineering pushed toward the limit.
-                        </p>
+                        <p>I've always looked at aircraft, spacecraft, and launch vehicles the same way I look at complex engineering systems: reduce them down to fundamentals, understand the constraints, and study why each design choice exists. These platforms stand out because they reward deep curiosity and disciplined analysis. They are engineering pushed toward the limit.</p>
                     </div>
 
-                    <!-- AIRCRAFT SUBSECTION -->
+                    <!-- AIRCRAFT -->
                     <div class="mb-12">
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-[11px] font-mono uppercase tracking-[0.25em] text-sky-300">
-                                Aircraft
-                            </h4>
-                            <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
-                                Fighters · Recon · Bombers
-                            </span>
+                            <h4 class="text-[11px] font-mono uppercase tracking-[0.25em] text-sky-300">Aircraft</h4>
+                            <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Fighters · Recon · Bombers</span>
                         </div>
-
                         <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
 
-                            <!-- F-117 -->
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(168,85,247,0.40),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(168,85,247,0.40),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-purple-300 uppercase tracking-widest">F-117 Nighthawk</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Stealth Attack</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        First in line for pure stealth engineering.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-purple-300 uppercase tracking-widest">F-117 Nighthawk</span><span class="text-[10px] font-mono text-gray-500">Stealth Attack</span></div>
+                                    <h4 class="text-sm font-semibold text-white">First in line for pure stealth engineering.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The F-117 stands out to me because it feels like a machine built around one hard constraint:
-                                    survivability through signature reduction. It reflects a mindset I respect deeply. Accept
-                                    aerodynamic tradeoffs, then use systems and mission design to make the aircraft effective anyway.
-                                </p>
-
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-purple-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/f-117.glb"
-                                        alt="F-117 Nighthawk 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.7"
-                                        environment-image="neutral"
-                                        camera-orbit="15deg 65deg 130%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The F-117 stands out to me because it feels like a machine built around one hard constraint: survivability through signature reduction. It reflects a mindset I respect deeply. Accept aerodynamic tradeoffs, then use systems and mission design to make the aircraft effective anyway.</p>
+                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-purple-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/f-117.glb" alt="F-117 Nighthawk 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="15deg 65deg 130%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- SR-71 -->
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.35),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-sky-300 uppercase tracking-widest">SR-71 Blackbird</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Recon · Mach 3+</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Outrun the threat instead of dodging it.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-sky-300 uppercase tracking-widest">SR-71 Blackbird</span><span class="text-[10px] font-mono text-gray-500">Recon · Mach 3+</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Outrun the threat instead of dodging it.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The SR-71 is a perfect example of engineering pushed into the extreme. I’m drawn to how its design
-                                    handles continuous heating, material expansion, and mission reliability at Mach 3+, where every
-                                    decision has direct consequences for survivability and performance.
-                                </p>
-
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-sky-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/sr-71.glb"
-                                        alt="SR-71 Blackbird 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.7"
-                                        environment-image="neutral"
-                                        camera-orbit="0deg 65deg 120%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The SR-71 is a perfect example of engineering pushed into the extreme. I'm drawn to how its design handles continuous heating, material expansion, and mission reliability at Mach 3+, where every decision has direct consequences for survivability and performance.</p>
+                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-sky-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/sr-71.glb" alt="SR-71 Blackbird 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="0deg 65deg 120%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- F-22 -->
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.4),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.4),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-blue-300 uppercase tracking-widest">F-22 Raptor</span>
-                                        <span class="text-[10px] font-mono text-gray-500">5th Gen Fighter</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Stealth, supercruise, and control laws.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-blue-300 uppercase tracking-widest">F-22 Raptor</span><span class="text-[10px] font-mono text-gray-500">5th Gen Fighter</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Stealth, supercruise, and control laws.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The F-22 has always stood out to me for how seamlessly aerodynamics, avionics, and control laws
-                                    work together. It’s a system where real-time software, stealth geometry, and thrust vectoring feel
-                                    integrated rather than layered on top of each other.
-                                </p>
-
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-blue-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/f-22.glb"
-                                        alt="F-22 Raptor 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.7"
-                                        environment-image="neutral"
-                                        camera-orbit="30deg 60deg 130%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The F-22 has always stood out to me for how seamlessly aerodynamics, avionics, and control laws work together. It's a system where real-time software, stealth geometry, and thrust vectoring feel integrated rather than layered on top of each other.</p>
+                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-blue-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/f-22.glb" alt="F-22 Raptor 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="30deg 60deg 130%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- YF-23 -->
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.6),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.6),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-slate-200 uppercase tracking-widest">YF-23 “Black Widow II”</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Prototype</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        The stealthy “what if” path.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-slate-200 uppercase tracking-widest">YF-23 "Black Widow II"</span><span class="text-[10px] font-mono text-gray-500">Prototype</span></div>
+                                    <h4 class="text-sm font-semibold text-white">The stealthy "what if" path.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    I’ve always been fascinated by the YF-23 because it represents a completely different path the ATF
-                                    program could have taken. Its emphasis on signature reduction, high-speed stability, and a unique
-                                    planform shows how different engineering priorities can shape an entirely separate solution to
-                                    the same problem.
-                                </p>
-
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-slate-400/60 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/yf-23.glb"
-                                        alt="YF-23 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.7"
-                                        environment-image="neutral"
-                                        camera-orbit="-30deg 60deg 130%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">I've always been fascinated by the YF-23 because it represents a completely different path the ATF program could have taken. Its emphasis on signature reduction, high-speed stability, and a unique planform shows how different engineering priorities can shape an entirely separate solution to the same problem.</p>
+                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-slate-400/60 rounded-sm overflow-hidden"><model-viewer src="assets/models/yf-23.glb" alt="YF-23 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="-30deg 60deg 130%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- F-14 -->
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(244,114,182,0.35),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(244,114,182,0.35),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-pink-300 uppercase tracking-widest">F-14 Tomcat</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Fleet Defense Fighter</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Variable geometry with attitude.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-pink-300 uppercase tracking-widest">F-14 Tomcat</span><span class="text-[10px] font-mono text-gray-500">Fleet Defense Fighter</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Variable geometry with attitude.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The F-14 stands out because it feels mechanically alive. Between the variable-sweep wings,
-                                    naval mission demands, and long-range intercept role, it represents an era where geometry,
-                                    propulsion, and mission profile all had to work together in a very visible way.
-                                </p>
-
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-pink-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/f-14.glb"
-                                        alt="F-14 Tomcat 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.7"
-                                        environment-image="neutral"
-                                        camera-orbit="20deg 65deg 135%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The F-14 stands out because it feels mechanically alive. Between the variable-sweep wings, naval mission demands, and long-range intercept role, it represents an era where geometry, propulsion, and mission profile all had to work together in a very visible way.</p>
+                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-pink-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/f-14.glb" alt="F-14 Tomcat 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="20deg 65deg 135%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- F-16 -->
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.55),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.55),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-amber-300 uppercase tracking-widest">F-16 “Viper”</span>
-                                        <span class="text-[10px] font-mono text-gray-500">FBW Pioneer</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Relaxed stability as a feature.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-amber-300 uppercase tracking-widest">F-16 "Viper"</span><span class="text-[10px] font-mono text-gray-500">FBW Pioneer</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Relaxed stability as a feature.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The F-16’s intentionally unstable design has always been one of my favorite examples of
-                                    control theory in action. It shows how software, real-time feedback, and control surface
-                                    authority can turn instability into agility.
-                                </p>
-
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-amber-500/50 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/f-16.glb"
-                                        alt="F-16 Viper 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.7"
-                                        environment-image="neutral"
-                                        camera-orbit="20deg 60deg 130%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The F-16's intentionally unstable design has always been one of my favorite examples of control theory in action. It shows how software, real-time feedback, and control surface authority can turn instability into agility.</p>
+                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-amber-500/50 rounded-sm overflow-hidden"><model-viewer src="assets/models/f-16.glb" alt="F-16 Viper 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="20deg 60deg 130%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- B-2 -->
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.35),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.35),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-indigo-300 uppercase tracking-widest">B-2 Spirit</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Stealth Bomber</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Signature reduction at strategic scale.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-indigo-300 uppercase tracking-widest">B-2 Spirit</span><span class="text-[10px] font-mono text-gray-500">Stealth Bomber</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Signature reduction at strategic scale.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The B-2 is one of the clearest examples of stealth shaping becoming the aircraft. I’m drawn to how it blends
-                                    mission-level thinking, survivability, and systems integration into one clean flying-wing solution.
-                                </p>
-
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-indigo-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/b-2.glb"
-                                        alt="B-2 Spirit 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.7"
-                                        environment-image="neutral"
-                                        camera-orbit="0deg 65deg 140%"
-                                        field-of-view="28deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The B-2 is one of the clearest examples of stealth shaping becoming the aircraft. I'm drawn to how it blends mission-level thinking, survivability, and systems integration into one clean flying-wing solution.</p>
+                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-indigo-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/b-2.glb" alt="B-2 Spirit 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="0deg 65deg 140%" field-of-view="28deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- B-52 -->
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.30),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.30),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-green-300 uppercase tracking-widest">B-52 Stratofortress</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Strategic Bomber</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Endurance, payload, and staying power.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-green-300 uppercase tracking-widest">B-52 Stratofortress</span><span class="text-[10px] font-mono text-gray-500">Strategic Bomber</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Endurance, payload, and staying power.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The B-52 earns its place because it proves that a platform can stay relevant for decades when the architecture
-                                    is adaptable. It’s less about novelty and more about durability, payload, and mission usefulness over time.
-                                </p>
-
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-green-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/b-52.glb"
-                                        alt="B-52 Stratofortress 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.7"
-                                        environment-image="neutral"
-                                        camera-orbit="-15deg 65deg 150%"
-                                        field-of-view="28deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The B-52 earns its place because it proves that a platform can stay relevant for decades when the architecture is adaptable. It's less about novelty and more about durability, payload, and mission usefulness over time.</p>
+                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-green-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/b-52.glb" alt="B-52 Stratofortress 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="-15deg 65deg 150%" field-of-view="28deg" loading="lazy"></model-viewer></div>
                             </article>
 
                         </div>
                     </div>
 
-                    <!-- SPACECRAFT SUBSECTION -->
+                    <!-- SPACECRAFT -->
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-[11px] font-mono uppercase tracking-[0.25em] text-emerald-300">
-                                Spacecraft & Exploration Systems
-                            </h4>
-                            <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
-                                Launch Vehicles · Crewed Flight · Planetary Systems
-                            </span>
+                            <h4 class="text-[11px] font-mono uppercase tracking-[0.25em] text-emerald-300">Spacecraft & Exploration Systems</h4>
+                            <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Launch Vehicles · Crewed Flight · Planetary Systems</span>
                         </div>
-
                         <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
 
-                            <!-- Saturn V -->
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.45),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.45),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-emerald-300 uppercase tracking-widest">Saturn V</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Moon Rocket</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Brute force with precision.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-emerald-300 uppercase tracking-widest">Saturn V</span><span class="text-[10px] font-mono text-gray-500">Moon Rocket</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Brute force with precision.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The Saturn V is engineering at full scale. Staging decisions, clustered engines, and a mission profile that
-                                    demanded reliability under enormous forces. Every part of the vehicle reflects disciplined systems engineering.
-                                </p>
-
-                                <div class="space-viewer-shell relative bg-[#020617] border border-emerald-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/saturn_v.glb"
-                                        alt="Saturn V 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.8"
-                                        environment-image="neutral"
-                                        camera-orbit="0deg 75deg 160%"
-                                        field-of-view="25deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The Saturn V is engineering at full scale. Staging decisions, clustered engines, and a mission profile that demanded reliability under enormous forces. Every part of the vehicle reflects disciplined systems engineering.</p>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-emerald-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/saturn_v.glb" alt="Saturn V 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="0deg 75deg 160%" field-of-view="25deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- Space Shuttle -->
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.45),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.45),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-cyan-300 uppercase tracking-widest">Space Shuttle</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Reusable Orbiter</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Reentry, operations, and complexity at scale.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-cyan-300 uppercase tracking-widest">Space Shuttle</span><span class="text-[10px] font-mono text-gray-500">Reusable Orbiter</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Reentry, operations, and complexity at scale.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The Shuttle is fascinating because it combined launch vehicle, spacecraft, and glider-like recovery into a single system.
-                                    It feels like a masterclass in compromise, operations, and ambitious engineering.
-                                </p>
-
-                                <div class="space-viewer-shell relative bg-[#020617] border border-cyan-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/space_shuttle.glb"
-                                        alt="Space Shuttle 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.8"
-                                        environment-image="neutral"
-                                        camera-orbit="25deg 65deg 145%"
-                                        field-of-view="28deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The Shuttle is fascinating because it combined launch vehicle, spacecraft, and glider-like recovery into a single system. It feels like a masterclass in compromise, operations, and ambitious engineering.</p>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-cyan-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/space_shuttle.glb" alt="Space Shuttle 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="25deg 65deg 145%" field-of-view="28deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- Falcon 9 -->
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(20,184,166,0.45),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(20,184,166,0.45),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-teal-300 uppercase tracking-widest">Falcon 9</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Reusable Booster</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Control, iteration, and landing precision.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-teal-300 uppercase tracking-widest">Falcon 9</span><span class="text-[10px] font-mono text-gray-500">Reusable Booster</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Control, iteration, and landing precision.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    Falcon 9 stands out because it turned precision guidance, telemetry, and closed-loop control into a repeatable recovery system.
-                                    It is one of the clearest examples of modern aerospace iteration done right.
-                                </p>
-
-                                <div class="space-viewer-shell relative bg-[#020617] border border-teal-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/falcon_9.glb"
-                                        alt="Falcon 9 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.8"
-                                        environment-image="neutral"
-                                        camera-orbit="-10deg 70deg 150%"
-                                        field-of-view="26deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">Falcon 9 stands out because it turned precision guidance, telemetry, and closed-loop control into a repeatable recovery system. It is one of the clearest examples of modern aerospace iteration done right.</p>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-teal-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/falcon_9.glb" alt="Falcon 9 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="-10deg 70deg 150%" field-of-view="26deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- Starship -->
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(249,115,22,0.40),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(249,115,22,0.40),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-orange-300 uppercase tracking-widest">Starship</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Heavy Lift</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Scale, ambition, and rapid iteration.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-orange-300 uppercase tracking-widest">Starship</span><span class="text-[10px] font-mono text-gray-500">Heavy Lift</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Scale, ambition, and rapid iteration.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    What draws me to Starship is how unapologetically ambitious the architecture is. It feels like a system designed for scale,
-                                    operational reuse, and a future where aerospace hardware is built to fly often.
-                                </p>
-
-                                <div class="space-viewer-shell relative bg-[#020617] border border-orange-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/starship.glb"
-                                        alt="Starship 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.8"
-                                        environment-image="neutral"
-                                        camera-orbit="0deg 72deg 155%"
-                                        field-of-view="24deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">What draws me to Starship is how unapologetically ambitious the architecture is. It feels like a system designed for scale, operational reuse, and a future where aerospace hardware is built to fly often.</p>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-orange-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/starship.glb" alt="Starship 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="0deg 72deg 155%" field-of-view="24deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- Apollo CSM -->
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(250,204,21,0.40),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(250,204,21,0.40),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-yellow-300 uppercase tracking-widest">Apollo CSM</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Crew Transport</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Mission architecture with no wasted margin.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-yellow-300 uppercase tracking-widest">Apollo CSM</span><span class="text-[10px] font-mono text-gray-500">Crew Transport</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Mission architecture with no wasted margin.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    The Apollo Command and Service Module represents compact, high-consequence engineering. It carried people through deep space,
-                                    supported navigation and reentry, and had to work with an unforgiving level of reliability.
-                                </p>
-
-                                <div class="space-viewer-shell relative bg-[#020617] border border-yellow-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/apollo_csm.glb"
-                                        alt="Apollo CSM 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.8"
-                                        environment-image="neutral"
-                                        camera-orbit="20deg 65deg 135%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The Apollo Command and Service Module represents compact, high-consequence engineering. It carried people through deep space, supported navigation and reentry, and had to work with an unforgiving level of reliability.</p>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-yellow-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/apollo_csm.glb" alt="Apollo CSM 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="20deg 65deg 135%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- Lunar Module -->
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(214,211,209,0.45),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(214,211,209,0.45),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-stone-300 uppercase tracking-widest">Lunar Module</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Moon Lander</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Built only for the mission that mattered.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-stone-300 uppercase tracking-widest">Lunar Module</span><span class="text-[10px] font-mono text-gray-500">Moon Lander</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Built only for the mission that mattered.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    I love the Lunar Module because it feels brutally honest. No atmospheric compromise, no unnecessary elegance, just a machine
-                                    optimized for one environment and one purpose. That kind of engineering discipline is beautiful.
-                                </p>
-
-                                <div class="space-viewer-shell relative bg-[#020617] border border-stone-400/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/lunar_module.glb"
-                                        alt="Lunar Module 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.8"
-                                        environment-image="neutral"
-                                        camera-orbit="-20deg 65deg 140%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">I love the Lunar Module because it feels brutally honest. No atmospheric compromise, no unnecessary elegance, just a machine optimized for one environment and one purpose. That kind of engineering discipline is beautiful.</p>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-stone-400/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/lunar_module.glb" alt="Lunar Module 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="-20deg 65deg 140%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- Ingenuity -->
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(251,113,133,0.40),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(251,113,133,0.40),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-rose-300 uppercase tracking-widest">Ingenuity</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Mars Rotorcraft</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Tiny vehicle, huge systems achievement.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-rose-300 uppercase tracking-widest">Ingenuity</span><span class="text-[10px] font-mono text-gray-500">Mars Rotorcraft</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Tiny vehicle, huge systems achievement.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    Ingenuity is one of my favorite examples of aerospace engineering because it brought powered flight to another planet.
-                                    It’s a reminder that elegant control, autonomy, and lightweight design can still redefine what is possible.
-                                </p>
-
-                                <div class="space-viewer-shell relative bg-[#020617] border border-rose-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/ingenuity.glb"
-                                        alt="Ingenuity helicopter 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.8"
-                                        environment-image="neutral"
-                                        camera-orbit="25deg 65deg 135%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">Ingenuity is one of my favorite examples of aerospace engineering because it brought powered flight to another planet. It's a reminder that elegant control, autonomy, and lightweight design can still redefine what is possible.</p>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-rose-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/ingenuity.glb" alt="Ingenuity helicopter 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="25deg 65deg 135%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <!-- Perseverance -->
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none">
-                                    <div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(248,113,113,0.40),_transparent_60%)]"></div>
-                                </div>
-
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(248,113,113,0.40),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-[11px] font-mono text-red-300 uppercase tracking-widest">Perseverance</span>
-                                        <span class="text-[10px] font-mono text-gray-500">Planetary Rover</span>
-                                    </div>
-                                    <h4 class="text-sm font-semibold text-white">
-                                        Robotics where there is no second chance.
-                                    </h4>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-red-300 uppercase tracking-widest">Perseverance</span><span class="text-[10px] font-mono text-gray-500">Planetary Rover</span></div>
+                                    <h4 class="text-sm font-semibold text-white">Robotics where there is no second chance.</h4>
                                 </header>
-
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">
-                                    Perseverance represents the kind of robotics I admire most. Every subsystem has to justify itself. Every watt, gram, and line of code
-                                    matters. It’s exploration through careful, high-stakes systems engineering.
-                                </p>
-
-                                <div class="space-viewer-shell relative bg-[#020617] border border-red-500/40 rounded-sm overflow-hidden">
-                                    <model-viewer
-                                        src="assets/models/perseverance.glb"
-                                        alt="Perseverance rover 3D model"
-                                        auto-rotate
-                                        camera-controls
-                                        interaction-prompt="none"
-                                        touch-action="pan-y"
-                                        shadow-intensity="0.8"
-                                        environment-image="neutral"
-                                        camera-orbit="-15deg 65deg 140%"
-                                        field-of-view="30deg"
-                                        loading="lazy">
-                                    </model-viewer>
-                                </div>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">Perseverance represents the kind of robotics I admire most. Every subsystem has to justify itself. Every watt, gram, and line of code matters. It's exploration through careful, high-stakes systems engineering.</p>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-red-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/perseverance.glb" alt="Perseverance rover 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="-15deg 65deg 140%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
                         </div>
                     </div>
                 </section>
 
-                <!-- FAVORITE REAL-WORLD MISSIONS -->
-                <section>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
-                        Favorite Real-World Missions
-                    </h3>
-
+                <!-- MISSIONS -->
+                <section id="section-missions">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Favorite Real-World Missions</h3>
                     <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>
-                            These missions shaped how I think about engineering under pressure: making decisions with incomplete data,
-                            building systems that tolerate failure, and staying calm when the margin for error is effectively zero.
-                            They’re real examples of control, discipline, and teamwork at scale.
-                        </p>
+                        <p>These missions shaped how I think about engineering under pressure: making decisions with incomplete data, building systems that tolerate failure, and staying calm when the margin for error is effectively zero.</p>
                     </div>
-
                     <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
-
                         <article class="snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
-                            <img src="assets/missions/apollo13.png"
-                                 class="w-full h-40 object-cover border border-white/10 mb-4"
-                                 alt="Apollo 13 Mission"
-                                 loading="lazy"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-rocket text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Apollo 13</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Real-time systems engineering under pressure.</p>'">
+                            <img src="assets/missions/apollo13.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Apollo 13" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-rocket text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Apollo 13</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Real-time systems engineering under pressure.</p>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Apollo 13</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                Real-time systems engineering: reconfiguring hardware, procedures, and checklists on the fly to bring
-                                a damaged spacecraft home safely.
-                            </p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Real-time systems engineering: reconfiguring hardware, procedures, and checklists on the fly to bring a damaged spacecraft home safely.</p>
                         </article>
-
                         <article class="snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
-                            <img src="assets/missions/falcon9.png"
-                                 class="w-full h-40 object-cover border border-white/10 mb-4"
-                                 alt="Falcon 9 First Landing"
-                                 loading="lazy"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-shuttle-space text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Falcon 9 First Landing</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Closed-loop control and telemetry-driven decision making.</p>'">
+                            <img src="assets/missions/falcon9.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Falcon 9 First Landing" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-shuttle-space text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Falcon 9 First Landing</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Closed-loop control and telemetry-driven decision making.</p>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Falcon 9 First Landing</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                Closed-loop control, iteration, and telemetry-driven decision-making—turning something that looked
-                                impossible into a repeatable, reliable system.
-                            </p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Closed-loop control, iteration, and telemetry-driven decision-making—turning something that looked impossible into a repeatable, reliable system.</p>
                         </article>
-
                         <article class="snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
-                            <img src="assets/missions/perseverance_heli.png"
-                                 class="w-full h-40 object-cover border border-white/10 mb-4"
-                                 alt="Perseverance and Ingenuity on Mars"
-                                 loading="lazy"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-robot text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Perseverance & Ingenuity</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Precision robotics in an untouchable environment.</p>'">
+                            <img src="assets/missions/perseverance_heli.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Perseverance and Ingenuity" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-robot text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Perseverance & Ingenuity</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Precision robotics in an untouchable environment.</p>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Perseverance & Ingenuity</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                Precision robotics and control in an environment you can't touch—every gram, watt, and line of code has
-                                to earn its place.
-                            </p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Precision robotics and control in an environment you can't touch—every gram, watt, and line of code has to earn its place.</p>
                         </article>
-
                         <article class="snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
-                            <img src="assets/missions/c_uas.png"
-                                 class="w-full h-40 object-cover border border-white/10 mb-4"
-                                 alt="Counter-UAS Field Exercise"
-                                 loading="lazy"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-shield-halved text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Counter-UAS</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Sensor fusion and autonomy in dynamic airspace.</p>'">
+                            <img src="assets/missions/c_uas.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Counter-UAS" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-shield-halved text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Counter-UAS</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Sensor fusion and autonomy in dynamic airspace.</p>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Counter-UAS Field Exercise</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                Sensor fusion, autonomy, and fast decision loops—treating the airspace as a dynamic system that has to
-                                be understood, not just observed.
-                            </p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Sensor fusion, autonomy, and fast decision loops—treating the airspace as a dynamic system that has to be understood, not just observed.</p>
                         </article>
-
                     </div>
                 </section>
 
-                <!-- TRAINING & MOVEMENT -->
-                <section>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
-                        Training & Movement
-                    </h3>
-
+                <!-- TRAINING -->
+                <section id="section-training">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Training & Movement</h3>
                     <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>
-                            Training has always felt similar to engineering work for me—set a clear target, define the
-                            constraints, and apply consistent effort. I’m drawn to simple movements performed with high
-                            intent, where progress comes from discipline rather than tricks.
-                        </p>
+                        <p>Training has always felt similar to engineering work for me—set a clear target, define the constraints, and apply consistent effort. I'm drawn to simple movements performed with high intent, where progress comes from discipline rather than tricks.</p>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
                         <div class="bg-black border border-white/10 p-6">
                             <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
-                                <div>
-                                    <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
-                                        Calisthenics
-                                    </h4>
-                                    <p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">
-                                        Weighted pull-ups & dips
-                                    </p>
-                                </div>
+                                <div><h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Calisthenics</h4><p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">Weighted pull-ups & dips</p></div>
                                 <i class="fas fa-person-running text-amber-300/80"></i>
                             </div>
-
-                            <p class="text-xs text-gray-300 leading-relaxed mb-4">
-                                Weighted pull-ups and dips have become my primary strength movements. I focus on controlled
-                                execution, progressive overload, and keeping the work honest—no shortcuts, no wasted reps.
-                            </p>
-
+                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Weighted pull-ups and dips have become my primary strength movements. I focus on controlled execution, progressive overload, and keeping the work honest—no shortcuts, no wasted reps.</p>
                             <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400">
-                                    <span>Style</span>
-                                    <span class="text-amber-300">Heavy, clean, controlled</span>
-                                </div>
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400">
-                                    <span>Why</span>
-                                    <span class="text-amber-300">Simple movements, high intent</span>
-                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400"><span>Style</span><span class="text-amber-300">Heavy, clean, controlled</span></div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400"><span>Why</span><span class="text-amber-300">Simple movements, high intent</span></div>
                             </div>
                         </div>
-
                         <div class="bg-black border border-white/10 p-6">
                             <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
-                                <div>
-                                    <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
-                                        Strength Training
-                                    </h4>
-                                    <p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">
-                                        No reps left in reserve
-                                    </p>
-                                </div>
+                                <div><h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Strength Training</h4><p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">No reps left in reserve</p></div>
                                 <i class="fas fa-dumbbell text-emerald-300/80"></i>
                             </div>
-
-                            <p class="text-xs text-gray-300 leading-relaxed mb-4">
-                                Most of my working sets are done at a high effort level—usually 0–1 RIR. It feels similar
-                                to tuning a control loop: push hard, observe the response, adjust, and build resilience
-                                over time. The structure and discipline carry over directly into engineering work.
-                            </p>
-
+                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Most of my working sets are done at a high effort level—usually 0–1 RIR. It feels similar to tuning a control loop: push hard, observe the response, adjust, and build resilience over time.</p>
                             <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400">
-                                    <span>Philosophy</span>
-                                    <span class="text-emerald-300">Make top sets memorable</span>
-                                </div>
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400">
-                                    <span>Carryover</span>
-                                    <span class="text-emerald-300">Same mindset as debugging & EKF tuning</span>
-                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400"><span>Philosophy</span><span class="text-emerald-300">Make top sets memorable</span></div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400"><span>Carryover</span><span class="text-emerald-300">Same mindset as debugging & EKF tuning</span></div>
                             </div>
                         </div>
-
                     </div>
                 </section>
 
-                <!-- FAVORITE FILMS -->
-                <section>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
-                        Favorite Films
-                    </h3>
-
+                <!-- FILMS -->
+                <section id="section-films">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Favorite Films</h3>
                     <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>
-                            These films stand out for their atmosphere, pacing, and the way characters carry tension under pressure.
-                            Each has a strong sense of discipline, perspective, or control—traits that resonate with how I approach
-                            engineering and problem-solving.
-                        </p>
+                        <p>These films stand out for their atmosphere, pacing, and the way characters carry tension under pressure. Each has a strong sense of discipline, perspective, or control.</p>
                     </div>
+                    <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/movies/no_country.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="No Country for Old Men" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>No Country for Old Men</h4>'">
+                            <h4 class="text-sm font-semibold text-white mb-1">No Country for Old Men</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A masterclass in tension and control—quiet, precise, and driven by internal logic rather than spectacle.</p>
+                        </article>
+                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/movies/shawshank.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="Shawshank Redemption" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Shawshank Redemption</h4>'">
+                            <h4 class="text-sm font-semibold text-white mb-1">The Shawshank Redemption</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A story about patience, discipline, and long-term persistence—even when progress feels invisible.</p>
+                        </article>
+                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/movies/taxi_driver.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="Taxi Driver" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Taxi Driver</h4>'">
+                            <h4 class="text-sm font-semibold text-white mb-1">Taxi Driver</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A character study with atmosphere and intensity—slow-burn storytelling that builds pressure deliberately.</p>
+                        </article>
+                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/movies/dark_knight.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Dark Knight" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Dark Knight</h4>'">
+                            <h4 class="text-sm font-semibold text-white mb-1">The Dark Knight</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Tight pacing, moral complexity, and precision in both storytelling and execution—an engineering mindset on screen.</p>
+                        </article>
+                    </div>
+                </section>
 
+                <!-- BOOKS -->
+                <section id="section-books">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Favorite Books</h3>
+                    <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
+                        <p>Books that shaped how I think about engineering, discipline, and the mindset behind building things that matter under real constraints.</p>
+                    </div>
                     <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
 
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/movies/no_country.png"
-                                 class="w-full h-72 object-cover border border-white/10 mb-4"
-                                 alt="No Country for Old Men Poster"
-                                 loading="lazy"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>No Country for Old Men</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>A masterclass in tension and control.</p>'">
-                            <h4 class="text-sm font-semibold text-white mb-1">No Country for Old Men</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                A masterclass in tension and control—quiet, precise, and driven by internal logic rather than spectacle.
-                            </p>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/skunk_works.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Skunk Works" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-sky-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-sky-300 uppercase tracking-widest mb-1">Ben R. Rich & Leo Janos</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Skunk Works</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Engineering culture, secrecy, risk, and aircraft development under extreme constraints.</p>
                         </article>
 
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/movies/shawshank.png"
-                                 class="w-full h-72 object-cover border border-white/10 mb-4"
-                                 alt="Shawshank Redemption Poster"
-                                 loading="lazy"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Shawshank Redemption</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>A story about patience and discipline.</p>'">
-                            <h4 class="text-sm font-semibold text-white mb-1">The Shawshank Redemption</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                A story about patience, discipline, and long-term persistence—even when progress feels invisible.
-                            </p>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/stealth_warplanes.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Stealth Warplanes" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-purple-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-purple-300 uppercase tracking-widest mb-1">Doug Richardson</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Stealth Warplanes</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A technical look at stealth aircraft, signature reduction, and modern airpower design.</p>
                         </article>
 
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/movies/taxi_driver.png"
-                                 class="w-full h-72 object-cover border border-white/10 mb-4"
-                                 alt="Taxi Driver Poster"
-                                 loading="lazy"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Taxi Driver</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Atmosphere and intensity.</p>'">
-                            <h4 class="text-sm font-semibold text-white mb-1">Taxi Driver</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                A character study with atmosphere and intensity—slow-burn storytelling that builds pressure deliberately.
-                            </p>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/intro_to_flight.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Introduction to Flight" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-emerald-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-emerald-300 uppercase tracking-widest mb-1">John D. Anderson</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Introduction to Flight</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A foundation for understanding flight mechanics, aerodynamics, propulsion, and aircraft performance.</p>
                         </article>
 
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/movies/dark_knight.png"
-                                 class="w-full h-72 object-cover border border-white/10 mb-4"
-                                 alt="The Dark Knight Poster"
-                                 loading="lazy"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Dark Knight</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Precision in storytelling and execution.</p>'">
-                            <h4 class="text-sm font-semibold text-white mb-1">The Dark Knight</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">
-                                Tight pacing, moral complexity, and precision in both storytelling and execution—an engineering mindset on screen.
-                            </p>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/meditations.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Meditations" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-amber-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-amber-300 uppercase tracking-widest mb-1">Marcus Aurelius</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Meditations</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A reminder to stay disciplined, calm, and focused on what can be controlled.</p>
                         </article>
 
                     </div>
                 </section>
+
             </div>
 
             <!-- RIGHT SIDEBAR -->
             <aside class="space-y-10">
-
-                <!-- Aircraft roster -->
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
-                        Aircraft Roster
-                    </h3>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Aircraft Roster</h3>
                     <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
-                        <div class="flex items-center justify-between">
-                            <span>[JET] F-117 Nighthawk</span>
-                            <span class="text-purple-300">Stealth Attack</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[JET] SR-71 Blackbird</span>
-                            <span class="text-sky-300">Mach 3+ Recon</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[JET] F-22 Raptor</span>
-                            <span class="text-blue-300">5th Gen Fighter</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[JET] YF-23 Black Widow II</span>
-                            <span class="text-slate-300">Prototype</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[JET] F-14 Tomcat</span>
-                            <span class="text-pink-300">Variable Sweep</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[JET] F-16 “Viper”</span>
-                            <span class="text-amber-300">FBW Pioneer</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[BMB] B-2 Spirit</span>
-                            <span class="text-indigo-300">Stealth Bomber</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[BMB] B-52 Stratofortress</span>
-                            <span class="text-green-300">Strategic Bomber</span>
-                        </div>
+                        <div class="flex items-center justify-between"><span>[JET] F-117 Nighthawk</span><span class="text-purple-300">Stealth Attack</span></div>
+                        <div class="flex items-center justify-between"><span>[JET] SR-71 Blackbird</span><span class="text-sky-300">Mach 3+ Recon</span></div>
+                        <div class="flex items-center justify-between"><span>[JET] F-22 Raptor</span><span class="text-blue-300">5th Gen Fighter</span></div>
+                        <div class="flex items-center justify-between"><span>[JET] YF-23 Black Widow II</span><span class="text-slate-300">Prototype</span></div>
+                        <div class="flex items-center justify-between"><span>[JET] F-14 Tomcat</span><span class="text-pink-300">Variable Sweep</span></div>
+                        <div class="flex items-center justify-between"><span>[JET] F-16 "Viper"</span><span class="text-amber-300">FBW Pioneer</span></div>
+                        <div class="flex items-center justify-between"><span>[BMB] B-2 Spirit</span><span class="text-indigo-300">Stealth Bomber</span></div>
+                        <div class="flex items-center justify-between"><span>[BMB] B-52 Stratofortress</span><span class="text-green-300">Strategic Bomber</span></div>
                     </div>
                 </div>
-
-                <!-- Spacecraft roster -->
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
-                        Spacecraft Roster
-                    </h3>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Spacecraft Roster</h3>
                     <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
-                        <div class="flex items-center justify-between">
-                            <span>[LV] Saturn V</span>
-                            <span class="text-emerald-300">Moon Rocket</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[ORB] Space Shuttle</span>
-                            <span class="text-cyan-300">Reusable Orbiter</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[LV] Falcon 9</span>
-                            <span class="text-teal-300">Reusable Booster</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[LV] Starship</span>
-                            <span class="text-orange-300">Heavy Lift</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[CSM] Apollo CSM</span>
-                            <span class="text-yellow-300">Crew Transport</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[LM] Lunar Module</span>
-                            <span class="text-stone-300">Moon Lander</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[MARS] Ingenuity</span>
-                            <span class="text-rose-300">Rotorcraft</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>[MARS] Perseverance</span>
-                            <span class="text-red-300">Planetary Rover</span>
-                        </div>
+                        <div class="flex items-center justify-between"><span>[LV] Saturn V</span><span class="text-emerald-300">Moon Rocket</span></div>
+                        <div class="flex items-center justify-between"><span>[ORB] Space Shuttle</span><span class="text-cyan-300">Reusable Orbiter</span></div>
+                        <div class="flex items-center justify-between"><span>[LV] Falcon 9</span><span class="text-teal-300">Reusable Booster</span></div>
+                        <div class="flex items-center justify-between"><span>[LV] Starship</span><span class="text-orange-300">Heavy Lift</span></div>
+                        <div class="flex items-center justify-between"><span>[CSM] Apollo CSM</span><span class="text-yellow-300">Crew Transport</span></div>
+                        <div class="flex items-center justify-between"><span>[LM] Lunar Module</span><span class="text-stone-300">Moon Lander</span></div>
+                        <div class="flex items-center justify-between"><span>[MARS] Ingenuity</span><span class="text-rose-300">Rotorcraft</span></div>
+                        <div class="flex items-center justify-between"><span>[MARS] Perseverance</span><span class="text-red-300">Planetary Rover</span></div>
                     </div>
                 </div>
-
-                <!-- Training Snapshot -->
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
-                        Training Snapshot
-                    </h3>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Training Snapshot</h3>
                     <div class="p-6 bg-emerald-500/5 border border-emerald-500/20 text-xs font-mono space-y-3">
-                        <div class="flex items-center justify-between">
-                            <span>Primary Focus</span>
-                            <span class="text-emerald-300">Weighted pull & push</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>Effort Level</span>
-                            <span class="text-emerald-300">0–1 RIR / work set</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>Approach</span>
-                            <span class="text-emerald-300">Progressive overload</span>
-                        </div>
-                        <p class="pt-2 text-[11px] text-emerald-100/80 leading-relaxed">
-                            Same mindset across both engineering and training: pick a target, measure honestly, and
-                            keep showing up when it stops being easy.
-                        </p>
+                        <div class="flex items-center justify-between"><span>Primary Focus</span><span class="text-emerald-300">Weighted pull & push</span></div>
+                        <div class="flex items-center justify-between"><span>Effort Level</span><span class="text-emerald-300">0–1 RIR / work set</span></div>
+                        <div class="flex items-center justify-between"><span>Approach</span><span class="text-emerald-300">Progressive overload</span></div>
+                        <p class="pt-2 text-[11px] text-emerald-100/80 leading-relaxed">Same mindset across both engineering and training: pick a target, measure honestly, and keep showing up when it stops being easy.</p>
                     </div>
                 </div>
-
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Reading List</h3>
+                    <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
+                        <div class="flex items-center justify-between"><span>Skunk Works</span><span class="text-sky-300">Ben R. Rich & Leo Janos</span></div>
+                        <div class="flex items-center justify-between"><span>Stealth Warplanes</span><span class="text-purple-300">Doug Richardson</span></div>
+                        <div class="flex items-center justify-between"><span>Introduction to Flight</span><span class="text-emerald-300">Anderson</span></div>
+                        <div class="flex items-center justify-between"><span>Meditations</span><span class="text-amber-300">Marcus Aurelius</span></div>
+                    </div>
+                </div>
             </aside>
         </div>
     </main>
@@ -1208,11 +630,49 @@
             document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
             document.body.style.opacity = "0";
             document.body.style.transform = "scale(0.98)";
-
-            setTimeout(() => {
-                window.location.href = url;
-            }, 400);
+            setTimeout(() => { window.location.href = url; }, 400);
         }
+
+        function scrollToSection(id, btn) {
+            // Update active state
+            document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Scroll with offset for both navbars (80px main + 45px section nav)
+            const el = document.getElementById(id);
+            if (!el) return;
+            const offset = 80 + 45 + 24;
+            const top = el.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }
+
+        // Update active nav button on scroll
+        const sections = [
+            { id: 'section-aerospace', btn: 0 },
+            { id: 'section-missions', btn: 1 },
+            { id: 'section-training', btn: 2 },
+            { id: 'section-films', btn: 3 },
+            { id: 'section-books', btn: 4 },
+        ];
+
+        const navBtns = document.querySelectorAll('.section-nav-btn');
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const match = sections.find(s => s.id === entry.target.id);
+                    if (match) {
+                        navBtns.forEach(b => b.classList.remove('active'));
+                        navBtns[match.btn].classList.add('active');
+                    }
+                }
+            });
+        }, { rootMargin: '-30% 0px -60% 0px' });
+
+        sections.forEach(s => {
+            const el = document.getElementById(s.id);
+            if (el) scrollObserver.observe(el);
+        });
     </script>
 
 </body>
