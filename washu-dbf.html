@@ -2,25 +2,22 @@
 <html lang="en">
 <head>
   <link rel="icon" type="image/png" href="favicon.png">
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WashU DBF | Enrique Garcia</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    html, body { height: 100%; background-color: #000; }
+    html, body { height: 100%; background-color: #000; scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       background-color: #050505;
       color: #e2e8f0;
-      /* IMPORTANT: do NOT will-change transform on body; it breaks fixed modals in some browsers */
     }
 
     .font-mono { font-family: 'JetBrains Mono', monospace; }
@@ -38,7 +35,46 @@
       --poster-color: transparent;
     }
 
-    /* ===== MODAL (true viewport-fixed, unaffected by scroll) ===== */
+    /* SECTION NAV */
+    .section-nav {
+      position: sticky;
+      top: 80px;
+      z-index: 40;
+      background: rgba(5,5,5,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-nav-btn {
+      position: relative;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b7280;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+      background: none;
+      border: none;
+    }
+    .section-nav-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 16px;
+      right: 16px;
+      height: 1px;
+      background: #10b981;
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+      transform-origin: left;
+    }
+    .section-nav-btn:hover { color: #d1d5db; }
+    .section-nav-btn.active { color: #e5e7eb; }
+    .section-nav-btn.active::after { transform: scaleX(1); }
+
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -60,7 +96,6 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      /* ensure no accidental transforms */
       transform: none !important;
     }
     .modal-shell[data-open="true"] { display: flex; }
@@ -69,7 +104,7 @@
       display: flex;
       flex-direction: column;
       width: min(1100px, 100%);
-      height: min(900px, 92vh);   /* stable modal height */
+      height: min(900px, 92vh);
       background: rgba(6,6,7,0.97);
       border: 1px solid rgba(255,255,255,0.12);
       box-shadow: 0 0 0 1px rgba(16,185,129,0.10), 0 30px 90px rgba(0,0,0,0.7);
@@ -113,7 +148,6 @@
     }
     .modal-actions button:hover { background: rgba(255,255,255,0.10); }
 
-    /* body fills remaining space; scrolling happens INSIDE here */
     .modal-body {
       flex: 1 1 auto;
       min-height: 0;
@@ -136,7 +170,6 @@
       border: 1px solid rgba(255,255,255,0.08);
     }
 
-    /* PDF uses the full modal body area */
     .modal-body iframe {
       width: 100%;
       height: 100%;
@@ -150,7 +183,6 @@
       .modal-panel { height: 94vh; }
     }
 
-    /* ===== INLINE PDF PREVIEW (NOW INTERACTIVE) ===== */
     .pdf-preview-wrap {
       position: relative;
       height: 360px;
@@ -162,7 +194,6 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       border: none;
-      /* IMPORTANT: allow interaction */
       pointer-events: auto;
     }
     .pdf-preview-wrap::after {
@@ -177,10 +208,9 @@
 </head>
 
 <body class="antialiased bg-[#0f0f10] min-h-screen">
-  <!-- Wrap all page content so smoothExit can animate WITHOUT touching body -->
   <div id="pageWrap">
 
-    <!-- NAV -->
+    <!-- MAIN NAV -->
     <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
       <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
         <a href="index.html#washu-dbf" onclick="smoothExit(event, this.href)"
@@ -188,17 +218,27 @@
           <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
           <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
         </a>
-                        <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#9ca3af] drop-shadow-[0_0_3px_rgba(156,163,175,0.25)]">
-                <span class="hidden md:inline font-semibold">Mission Complete &#8211; Left Jan 2026</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-[#9ca3af]"></span>
-            </div>
+        <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#9ca3af] drop-shadow-[0_0_3px_rgba(156,163,175,0.25)]">
+          <span class="hidden md:inline font-semibold">Mission Complete &#8211; Left Jan 2026</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-[#9ca3af]"></span>
+        </div>
       </div>
     </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+    <!-- SECTION NAV -->
+    <div class="section-nav">
+      <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+        <div class="flex items-center gap-0">
+          <button class="section-nav-btn active" onclick="scrollToSection('section-contributions', this)">Contributions</button>
+          <button class="section-nav-btn" onclick="scrollToSection('section-flighttest', this)">Flight Test</button>
+          <button class="section-nav-btn" onclick="scrollToSection('section-deliverables', this)">Competition Deliverables</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="pt-44 pb-20 px-6 max-w-7xl mx-auto">
       <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
         <div class="h-24 w-24 bg-white border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-          <!-- FIX 1: corrected escape sequences in onerror from \\' to \' -->
           <img src="images/washu_dbf.jpg" alt="WashU DBF Logo" class="h-full w-full object-cover"
                onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-paper-plane text-4xl text-white\'></i>'">
         </div>
@@ -219,7 +259,6 @@
             <div class="absolute top-0 right-0 w-3 h-3 border-t border-r border-white/30 z-20"></div>
             <div class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-white/30 z-20"></div>
             <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-white/30 z-20"></div>
-
             <model-viewer
               src="assets/models/dbf_plane.glb"
               poster="https://placehold.co/900x600/0a0a0a/10b981?text=3D+Model+Loading..."
@@ -236,7 +275,6 @@
                 </div>
               </div>
             </model-viewer>
-
             <div class="absolute top-4 left-4 px-3 py-1 bg-black/80 border border-emerald-500/30 backdrop-blur-md text-[10px] font-mono uppercase tracking-widest text-emerald-400 pointer-events-none z-10 flex items-center gap-2">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               Interactive View // v5
@@ -246,78 +284,44 @@
             </div>
           </div>
 
+          <!-- MY CONTRIBUTIONS -->
+          <div id="section-contributions" class="bg-black border border-white/10 p-6 mb-10">
+            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+              <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">My Contributions</h3>
+              <i class="fas fa-wrench text-gray-600"></i>
+            </div>
+            <div class="text-gray-300 leading-relaxed text-sm font-light space-y-6">
+              <p>
+                My role in WashU DBF focused on supporting the aircraft from
+                <span class="tech-highlight">analysis</span> through
+                <span class="tech-highlight">hardware implementation</span> and
+                <span class="tech-highlight">flight testing</span>, helping ensure that
+                aerodynamic decisions and payload integration aligned with the
+                competition mission requirements.
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="border border-white/10 bg-white/5 p-4">
+                  <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">Aerodynamic Analysis</div>
+                  <p>Evaluated airfoil candidates and wing configurations using <span class="tech-highlight">XFLR5</span> to compare lift, drag, and stability tradeoffs for the mission profile.</p>
+                </div>
+                <div class="border border-white/10 bg-white/5 p-4">
+                  <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">Structural Feasibility</div>
+                  <p>Supported early <span class="tech-highlight">structural sizing</span> and validation of wing members and load paths to ensure the aircraft remained lightweight while meeting expected loading conditions.</p>
+                </div>
+                <div class="border border-white/10 bg-white/5 p-4">
+                  <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">Payload System</div>
+                  <p>Contributed to refinement of the <span class="tech-highlight">payload release mechanism</span>, ensuring the design remained compact, manufacturable, and compatible with the overall airframe layout.</p>
+                </div>
+                <div class="border border-white/10 bg-white/5 p-4">
+                  <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">Flight Testing</div>
+                  <p>Participated in aircraft assembly, field preparation, and <span class="tech-highlight">flight-test operations</span>, helping connect analytical expectations with real aircraft behavior.</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<!-- MY CONTRIBUTIONS -->
-<div class="bg-black border border-white/10 p-6 mb-10">
-  <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-    <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">My Contributions</h3>
-    <i class="fas fa-wrench text-gray-600"></i>
-  </div>
-
-  <div class="text-gray-300 leading-relaxed text-sm font-light space-y-6">
-
-    <p>
-      My role in WashU DBF focused on supporting the aircraft from
-      <span class="tech-highlight">analysis</span> through
-      <span class="tech-highlight">hardware implementation</span> and
-      <span class="tech-highlight">flight testing</span>, helping ensure that
-      aerodynamic decisions and payload integration aligned with the
-      competition mission requirements.
-    </p>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-      <div class="border border-white/10 bg-white/5 p-4">
-        <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">
-          Aerodynamic Analysis
-        </div>
-        <p>
-          Evaluated airfoil candidates and wing configurations using
-          <span class="tech-highlight">XFLR5</span> to compare lift, drag,
-          and stability tradeoffs for the mission profile.
-        </p>
-      </div>
-
-      <div class="border border-white/10 bg-white/5 p-4">
-        <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">
-          Structural Feasibility
-        </div>
-        <p>
-          Supported early <span class="tech-highlight">structural sizing</span>
-          and validation of wing members and load paths to ensure the aircraft
-          remained lightweight while meeting expected loading conditions.
-        </p>
-      </div>
-
-      <div class="border border-white/10 bg-white/5 p-4">
-        <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">
-          Payload System
-        </div>
-        <p>
-          Contributed to refinement of the
-          <span class="tech-highlight">payload release mechanism</span>,
-          ensuring the design remained compact, manufacturable, and compatible
-          with the overall airframe layout.
-        </p>
-      </div>
-
-      <div class="border border-white/10 bg-white/5 p-4">
-        <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 mb-2">
-          Flight Testing
-        </div>
-        <p>
-          Participated in aircraft assembly, field preparation, and
-          <span class="tech-highlight">flight-test operations</span>,
-          helping connect analytical expectations with real aircraft behavior.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-</div>
           <!-- FLIGHT TEST MEDIA -->
-          <div class="bg-black border border-white/10 p-6 mb-10">
+          <div id="section-flighttest" class="bg-black border border-white/10 p-6 mb-10">
             <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Flight Test Media</h3>
               <i class="fas fa-photo-film text-gray-600"></i>
@@ -325,10 +329,8 @@
             <p class="text-gray-300 leading-relaxed text-sm mb-6 font-light">
               Selected snapshots from build + field work, plus test-flight footage. Click any figure to open a full preview.
             </p>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
-                <!-- FIX 2: moved onclick from <figure> to <button> for correct event targeting -->
                 <button class="block w-full text-left" type="button"
                         onclick="openModal({type:'image', src:'images/dbf_field_1.png', title:'DBF Field Session \u2014 Aircraft Prep'})">
                   <img src="images/dbf_field_1.png" alt="DBF field session aircraft image 1" class="w-full h-56 object-cover">
@@ -339,7 +341,6 @@
                   </figcaption>
                 </button>
               </figure>
-
               <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
                 <button class="block w-full text-left" type="button"
                         onclick="openModal({type:'image', src:'images/dbf_field_2.png', title:'DBF Field Session \u2014 Taxi / Systems'})">
@@ -352,8 +353,6 @@
                 </button>
               </figure>
             </div>
-
-            <!-- Video -->
             <div class="mt-6 border border-emerald-500/20 bg-emerald-900/5 rounded-sm overflow-hidden">
               <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
                 <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Test Flight Video</div>
@@ -372,7 +371,7 @@
           </div>
 
           <!-- COMPETITION DELIVERABLES -->
-          <div class="bg-black border border-white/10 p-6 mb-10">
+          <div id="section-deliverables" class="bg-black border border-white/10 p-6 mb-10">
             <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
               <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Competition Deliverables</h3>
               <i class="fas fa-file-pdf text-gray-600"></i>
@@ -380,7 +379,6 @@
             <p class="text-gray-300 leading-relaxed text-sm mb-6 font-light">
               Embedded previews for quick scanning. Open full-screen for readable navigation.
             </p>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="border border-white/10 bg-white/5 rounded-sm overflow-hidden">
                 <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
@@ -398,15 +396,10 @@
                   </div>
                 </div>
                 <div class="pdf-preview-wrap">
-                  <!-- Interactive + scrollable -->
-                  <iframe
-                    src="docs/2026DBF_Wahington_University_in_St_Louis_CONFIG.pdf#toolbar=1&navpanes=0&view=FitH"
-                    title="DBF Configuration PDF Preview"
-                    loading="lazy">
-                  </iframe>
+                  <iframe src="docs/2026DBF_Wahington_University_in_St_Louis_CONFIG.pdf#toolbar=1&navpanes=0&view=FitH"
+                    title="DBF Configuration PDF Preview" loading="lazy"></iframe>
                 </div>
               </div>
-
               <div class="border border-white/10 bg-white/5 rounded-sm overflow-hidden">
                 <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
                   <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">DESIGN REPORT</div>
@@ -423,15 +416,11 @@
                   </div>
                 </div>
                 <div class="pdf-preview-wrap">
-                  <iframe
-                    src="docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf#toolbar=1&navpanes=0&view=FitH"
-                    title="DBF Design Report PDF Preview"
-                    loading="lazy">
-                  </iframe>
+                  <iframe src="docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf#toolbar=1&navpanes=0&view=FitH"
+                    title="DBF Design Report PDF Preview" loading="lazy"></iframe>
                 </div>
               </div>
             </div>
-
           </div>
 
         </div>
@@ -444,9 +433,7 @@
               <span class="text-xs font-bold text-white font-mono uppercase tracking-widest group-hover:text-blue-400 transition-colors">Competition Intel</span>
               <i class="fas fa-external-link-alt text-gray-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-transform"></i>
             </div>
-            <p class="text-[10px] text-gray-400 font-mono leading-relaxed">
-              Official AIAA Design/Build/Fly rules, rankings, and mission parameters.
-            </p>
+            <p class="text-[10px] text-gray-400 font-mono leading-relaxed">Official AIAA Design/Build/Fly rules, rankings, and mission parameters.</p>
           </a>
 
           <div>
@@ -461,9 +448,7 @@
           </div>
 
           <div class="p-8 bg-emerald-500/5 border border-emerald-500/20">
-            <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">
-              Key Outcome
-            </h4>
+            <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">Key Outcome</h4>
             <p class="text-sm text-emerald-100/80 leading-relaxed">
               Helped close the loop between aerodynamic analysis, payload integration, and flight-test execution,
               supporting a lightweight and competition-ready aircraft configuration.
@@ -497,21 +482,16 @@
 
   </div><!-- /#pageWrap -->
 
-  <!-- ===== MODAL (kept OUTSIDE #pageWrap so transforms never affect it) ===== -->
+  <!-- MODAL -->
   <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true"></div>
-
   <div id="modalShell" class="modal-shell" role="dialog" aria-modal="true" aria-label="Media Preview" aria-hidden="true">
     <div class="modal-panel rounded-sm">
       <div class="modal-header">
         <div id="modalTitle" class="modal-title">Preview</div>
         <div class="modal-actions flex items-center gap-2">
           <a id="modalOpenLink" href="#" target="_blank" rel="noopener noreferrer"
-             class="px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200">
-            Open
-          </a>
-          <button type="button" onclick="closeModal()">
-            Close <span class="opacity-70">(Esc)</span>
-          </button>
+             class="px-3 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200">Open</a>
+          <button type="button" onclick="closeModal()">Close <span class="opacity-70">(Esc)</span></button>
         </div>
       </div>
       <div id="modalBody" class="modal-body"></div>
@@ -519,7 +499,6 @@
   </div>
 
   <script>
-    // Smooth exit: animate the WRAPPER, not the body (keeps modal fixed behavior correct)
     function smoothExit(e, url) {
       e.preventDefault();
       const wrap = document.getElementById('pageWrap');
@@ -528,6 +507,38 @@
       wrap.style.transform = "scale(0.98)";
       setTimeout(() => { window.location.href = url; }, 400);
     }
+
+    function scrollToSection(id, btn) {
+      document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const offset = 80 + 45 + 24;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+
+    const dbfSections = [
+      { id: 'section-contributions', btn: 0 },
+      { id: 'section-flighttest', btn: 1 },
+      { id: 'section-deliverables', btn: 2 },
+    ];
+    const navBtns = document.querySelectorAll('.section-nav-btn');
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const match = dbfSections.find(s => s.id === entry.target.id);
+          if (match) {
+            navBtns.forEach(b => b.classList.remove('active'));
+            navBtns[match.btn].classList.add('active');
+          }
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    dbfSections.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el) scrollObserver.observe(el);
+    });
 
     const modalBackdrop = document.getElementById('modalBackdrop');
     const modalShell    = document.getElementById('modalShell');
@@ -547,13 +558,9 @@
     function openModal({ type, src, title }) {
       modalTitle.textContent = title || 'Preview';
       modalOpenLink.href = src;
-
-      // clear
       modalBody.innerHTML = '';
-
       if (type === 'pdf') {
         const iframe = document.createElement('iframe');
-        // toolbar=1 so it's actually usable inside the modal
         iframe.src = src + '#toolbar=1&navpanes=0&view=FitH';
         iframe.title = title || 'PDF Preview';
         iframe.loading = 'eager';
@@ -564,11 +571,9 @@
         img.alt = title || 'Image Preview';
         modalBody.appendChild(img);
       }
-
       modalBackdrop.setAttribute('data-open', 'true');
       modalShell.setAttribute('data-open', 'true');
       modalShell.setAttribute('aria-hidden', 'false');
-
       lockScroll();
     }
 
@@ -580,12 +585,10 @@
       unlockScroll();
     }
 
-    // Click outside panel to close
     modalShell.addEventListener('click', (e) => {
       if (e.target === modalShell) closeModal();
     });
     modalBackdrop.addEventListener('click', closeModal);
-
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modalShell.getAttribute('data-open') === 'true') closeModal();
     });
