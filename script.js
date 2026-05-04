@@ -372,6 +372,9 @@ function switchTab(tabName) {
     ? `${activeClass} border-emerald-500`
     : inactiveClass;
 
+  tabPersonal.setAttribute("aria-selected",   String(tabName === "personal"));
+  tabCoursework.setAttribute("aria-selected", String(tabName === "coursework"));
+
   grid.innerHTML = "";
 
   for (const [id, p] of Object.entries(PROJECTS)) {
@@ -471,6 +474,10 @@ function switchCoursework(view) {
   btnActive.className   = view === "active"   ? active : inactive;
   btnFall2026.className = view === "fall2026" ? active : inactive;
   btnHistory.className  = view === "history"  ? active : inactive;
+
+  btnActive.setAttribute("aria-selected",   String(view === "active"));
+  btnFall2026.setAttribute("aria-selected", String(view === "fall2026"));
+  btnHistory.setAttribute("aria-selected",  String(view === "history"));
 
   const rows = COURSEWORK[view] || COURSEWORK.active;
 
@@ -587,8 +594,11 @@ function initRadar() {
 ============================================================================= */
 function toggleInternshipMission() {
   const section = document.getElementById("internship-mission-details");
+  const trigger = document.getElementById("internship-toggle");
   const isOpen  = section.style.maxHeight && section.style.maxHeight !== "0px";
+
   section.style.maxHeight = isOpen ? "0px" : section.scrollHeight + "px";
+  trigger.setAttribute("aria-expanded", String(!isOpen));
 }
 
 /* =============================================================================
