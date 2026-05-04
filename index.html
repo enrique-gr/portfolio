@@ -511,7 +511,7 @@ function toggleInternshipMission(){
                     <div class="hero-mission-panel">
                         <div class="hero-mission-header flex justify-between items-center">
                             <h3 class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-widest">Mission Timeline</h3>
-                            <span class="text-[9px] font-mono text-gray-600">SYNCED: T-00:00</span>
+<span id="sync-counter" class="text-[9px] font-mono text-gray-600">SYNCED: --:--</span>
                         </div>
                         <div class="mission-scroll hero-mission-scroll relative">
                             <div class="hero-mission-list">
@@ -800,10 +800,10 @@ function toggleInternshipMission(){
 
     <div id="coursework-list" class="scrollbar-hide overflow-y-auto"></div>
 
-    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between text-[10px] text-gray-600">
-        <span>Mem: 4.2GB / 8GB</span>
-        <span class="animate-pulse text-emerald-500">● SYSTEM_OPTIMAL</span>
-    </div>
+<div class="mt-4 pt-4 border-t border-white/10 flex justify-between text-[10px] text-gray-600">
+    <span>CORE: MECH_ENG // SPEC: FMC</span>
+    <span class="animate-pulse text-emerald-500">● SYSTEM_OPTIMAL</span>
+</div>
 </div>
         </div>
 
@@ -945,11 +945,11 @@ function toggleInternshipMission(){
     <p class="text-white">&copy; 2026 ENRIQUE GARCIA // SYSTEM NOMINAL.</p>
     <p class="mt-1 text-gray-600">STL / KC — 38.6° N, 90.3° W</p>
 </div>
-        <div class="mt-8 md:mt-0 flex gap-12 border-l border-white/10 pl-12">
-            <div><span class="block text-gray-700 mb-1">SYS_LOAD</span><div class="w-24 h-1 bg-gray-900 overflow-hidden"><div class="h-full bg-blue-500 animate-pulse" style="width:45%"></div></div></div>
-            <div><span class="block text-gray-700 mb-1">MEM_USAGE</span><div class="w-24 h-1 bg-gray-900 overflow-hidden"><div class="h-full bg-emerald-500 animate-pulse" style="width:62%"></div></div></div>
-            <div><span class="block text-gray-700 mb-1">SESSION_TIME</span><p id="uptime-counter" class="text-gray-400">T+ 00:00:00</p></div>
-        </div>
+<div class="mt-8 md:mt-0 flex gap-12 border-l border-white/10 pl-12">
+    <div><span class="block text-gray-700 mb-1">SYS_LOAD</span><div class="w-24 h-1 bg-gray-900 overflow-hidden"><div id="sys-load-bar" class="h-full bg-blue-500 transition-all duration-1000" style="width:45%"></div></div></div>
+    <div><span class="block text-gray-700 mb-1">MEM_USAGE</span><div class="w-24 h-1 bg-gray-900 overflow-hidden"><div id="mem-usage-bar" class="h-full bg-emerald-500 transition-all duration-1000" style="width:62%"></div></div></div>
+    <div><span class="block text-gray-700 mb-1">SESSION_TIME</span><p id="uptime-counter" class="text-gray-400">T+ 00:00:00</p></div>
+</div>
     </div>
 </footer>
 
@@ -1322,17 +1322,42 @@ function triggerScan(){
 function closeModal(id){document.getElementById(id).classList.add('hidden');}
 
 /* ============= INIT ============= */
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', () => {
     renderHW();
     renderFeatured();
     switchTab('personal');
     switchCoursework('active');
     initRadar();
-    const start=Date.now();
-    setInterval(()=>{
-        const d=new Date(Date.now()-start);
-        document.getElementById('uptime-counter').innerText=`T+ 00:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
-    },1000);
+
+    // Session uptime counter
+    const start = Date.now();
+    setInterval(() => {
+        const elapsed = Math.floor((Date.now() - start) / 1000);
+        const h = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+        const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+        const s = String(elapsed % 60).padStart(2, '0');
+        document.getElementById('uptime-counter').innerText = `T+ ${h}:${m}:${s}`;
+    }, 1000);
+
+    // Live metrics bars
+    function updateMetrics() {
+        const sysLoad = 30 + Math.random() * 40;  // 30–70%
+        const memUsage = 50 + Math.random() * 30; // 50–80%
+        document.getElementById('sys-load-bar').style.width = sysLoad + '%';
+        document.getElementById('mem-usage-bar').style.width = memUsage + '%';
+    }
+    updateMetrics();
+    setInterval(updateMetrics, 2000);
+
+    // Sync clock
+    function updateSync() {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mm = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('sync-counter').innerText = `SYNCED: ${hh}:${mm}`;
+    }
+    updateSync();
+    setInterval(updateSync, 60000);
 });
 </script>
 </body>
