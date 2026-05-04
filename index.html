@@ -420,7 +420,7 @@ function toggleInternshipMission(){
             </div>
             <div class="flex flex-col">
                 <span class="font-mono font-bold text-white tracking-widest uppercase text-xs group-hover:text-blue-400 transition-colors">E.Garcia</span>
-                <span class="text-[9px] text-gray-600 font-mono tracking-tighter">ID: 8F3A-2C // MECH_ENG</span>
+                <span class="text-[9px] text-gray-600 font-mono tracking-tighter">ID: EGR-26 // MECH → AE</span>
             </div>
         </a>
         <div class="hidden md:flex space-x-8 text-[10px] font-mono font-bold tracking-widest uppercase text-gray-500 items-center">
@@ -706,58 +706,56 @@ function toggleInternshipMission(){
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 
-        <!-- LEFT: SKILLS -->
-        <div class="flex flex-col gap-5">
-            <p class="text-gray-400 leading-relaxed">
-               Building mechanical and aerospace systems through simulation, controls, testing, and hardware–software integration. Experience spans dynamic modeling, thermal-fluids analysis, embedded implementation, and experimental validation.
-                <span class="text-gray-600 font-mono text-xs ml-1">// Click any skill to inspect</span>
-            </p>
+<!-- LEFT: SKILLS -->
+<div class="flex flex-col gap-5">
+    <p class="text-gray-400 leading-relaxed">
+        Building mechanical and aerospace systems through simulation, controls, testing, and hardware–software integration. Experience spans dynamic modeling, embedded implementation, sensor fusion, and experimental validation.
+        <span class="text-gray-600 font-mono text-xs ml-1">// Click any skill to inspect</span>
+    </p>
 
-            <!-- Skill pill groups -->
-            <div class="space-y-4">
-                <div>
-                    <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Languages & Frameworks</div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="sp" onclick="showSkill(this,'cpp')">C++20</span>
-                        <span class="sp" onclick="showSkill(this,'python')">Python</span>
-                        <span class="sp" onclick="showSkill(this,'matlab')">MATLAB</span>
-                        <span class="sp" onclick="showSkill(this,'simulink')">Simulink</span>
-                        <span class="sp" onclick="showSkill(this,'js')">JavaScript</span>
-                    </div>
-                </div>
-                <div>
-                    <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Hardware & Embedded</div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="sp" onclick="showSkill(this,'teensy')">Teensy 4.1</span>
-                        <span class="sp" onclick="showSkill(this,'stm32')">STM32</span>
-                        <span class="sp" onclick="showSkill(this,'pixhawk')">Pixhawk 6C</span>
-                        <span class="sp" onclick="showSkill(this,'px4')">PX4</span>
-                        <span class="sp" onclick="showSkill(this,'ardupilot')">ArduPilot</span>
-                        <span class="sp" onclick="showSkill(this,'protocols')">I2C · SPI · UART</span>
-                    </div>
-                </div>
-                <div>
-                    <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">CAD / Simulation / Analysis</div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="sp" onclick="showSkill(this,'solidworks')">SolidWorks</span>
-                        <span class="sp" onclick="showSkill(this,'ansys')">ANSYS FEA</span>
-                        <span class="sp" onclick="showSkill(this,'cfx')">ANSYS CFX</span>
-                        <span class="sp" onclick="showSkill(this,'xflr5')">XFLR5</span>
-                        <span class="sp" onclick="showSkill(this,'opencv')">OpenCV</span>
-                    </div>
-                </div>
-                <div>
-                    <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Methods & Concepts</div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="sp" onclick="showSkill(this,'ekf')">EKF / UKF</span>
-                        <span class="sp" onclick="showSkill(this,'pid')">PID Control</span>
-                        <span class="sp" onclick="showSkill(this,'hil')">HIL Testing</span>
-                        <span class="sp" onclick="showSkill(this,'sixdof')">6-DOF Dynamics</span>
-                        <span class="sp" onclick="showSkill(this,'fusion')">Sensor Fusion</span>
-                        <span class="sp" onclick="showSkill(this,'dfm')">DFM</span>
-                    </div>
-                </div>
+    <div class="space-y-4">
+        <div>
+            <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Languages & Frameworks</div>
+            <div class="flex flex-wrap gap-2">
+                <span class="sp" onclick="showSkill(this,'python')">Python</span>
+                <span class="sp" onclick="showSkill(this,'matlab')">MATLAB</span>
+                <span class="sp" onclick="showSkill(this,'simulink')">Simulink</span>
+                <span class="sp" onclick="showSkill(this,'cpp')">C++</span>
+                <span class="sp" onclick="showSkill(this,'js')">JavaScript</span>
             </div>
+        </div>
+        <div>
+            <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Hardware & Embedded</div>
+            <div class="flex flex-wrap gap-2">
+                <span class="sp" onclick="showSkill(this,'teensy')">Teensy 4.0 / 4.1</span>
+                <span class="sp" onclick="showSkill(this,'stm32')">STM32</span>
+                <span class="sp" onclick="showSkill(this,'pixhawk')">Pixhawk 6C</span>
+                <span class="sp" onclick="showSkill(this,'px4')">PX4</span>
+                <span class="sp" onclick="showSkill(this,'protocols')">I2C · SPI · UART</span>
+            </div>
+        </div>
+        <div>
+            <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">CAD / Simulation / Analysis</div>
+            <div class="flex flex-wrap gap-2">
+                <span class="sp" onclick="showSkill(this,'solidworks')">SolidWorks</span>
+                <span class="sp" onclick="showSkill(this,'ansys')">ANSYS FEA</span>
+                <span class="sp" onclick="showSkill(this,'cfx')">ANSYS CFX</span>
+                <span class="sp" onclick="showSkill(this,'xflr5')">XFLR5</span>
+                <span class="sp" onclick="showSkill(this,'opencv')">OpenCV</span>
+            </div>
+        </div>
+        <div>
+            <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Methods & Concepts</div>
+            <div class="flex flex-wrap gap-2">
+                <span class="sp" onclick="showSkill(this,'ekf')">EKF / UKF</span>
+                <span class="sp" onclick="showSkill(this,'pid')">PID Control</span>
+                <span class="sp" onclick="showSkill(this,'hil')">HIL Testing</span>
+                <span class="sp" onclick="showSkill(this,'sixdof')">6-DOF Dynamics</span>
+                <span class="sp" onclick="showSkill(this,'fusion')">Sensor Fusion</span>
+                <span class="sp" onclick="showSkill(this,'dfm')">DFM</span>
+            </div>
+        </div>
+    </div>        
 
             <!-- Skill detail card — hidden until a pill is clicked -->
             <div id="skill-detail" class="skill-hidden border border-blue-500/30 bg-blue-500/5 p-4 font-mono text-xs text-gray-300 relative transition-all duration-300 overflow-hidden">
@@ -943,10 +941,10 @@ function toggleInternshipMission(){
 <!-- FOOTER -->
 <footer class="py-12 bg-black border-t border-white/10">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-600 text-[10px] font-mono tracking-widest uppercase">
-        <div>
-            <p class="text-white">&copy; 2026 ENRIQUE GARCIA // SYSTEM NOMINAL.</p>
-            <p class="mt-1 text-gray-600">LOC: 38.6488° N, 90.3108° W</p>
-        </div>
+<div>
+    <p class="text-white">&copy; 2026 ENRIQUE GARCIA // SYSTEM NOMINAL.</p>
+    <p class="mt-1 text-gray-600">STL / KC — 38.6° N, 90.3° W</p>
+</div>
         <div class="mt-8 md:mt-0 flex gap-12 border-l border-white/10 pl-12">
             <div><span class="block text-gray-700 mb-1">SYS_LOAD</span><div class="w-24 h-1 bg-gray-900 overflow-hidden"><div class="h-full bg-blue-500 animate-pulse" style="width:45%"></div></div></div>
             <div><span class="block text-gray-700 mb-1">MEM_USAGE</span><div class="w-24 h-1 bg-gray-900 overflow-hidden"><div class="h-full bg-emerald-500 animate-pulse" style="width:62%"></div></div></div>
@@ -1025,28 +1023,27 @@ function renderHW(){
 
 /* ============= SKILL DETAIL ============= */
 const skillData={
-    cpp:       {title:'C++20',           body:'Core language for all performance-critical engineering software: flight simulators, EKF state estimators, real-time CV pipelines. Heavy use of templates, RAII, and concurrency primitives.',     used:'Used in: Hyperion 6-DOF, Sentinel CV, EKF Nav'},
-    python:    {title:'Python',          body:'Rapid prototyping, data analysis, and sensor-fusion scripting. Primary language for MIRO Lab research pipelines and post-flight log processing.',                                               used:'Used in: MIRO Lab, GNC tooling, data analysis'},
-    matlab:    {title:'MATLAB',          body:'Mathematical modeling, control-loop design, and simulation scripting. Used alongside Simulink to build and validate plant models before hardware deployment.',                                  used:'Used in: Control Systems coursework, DBF analysis'},
-    simulink:  {title:'Simulink',        body:'Block-diagram modeling of dynamic systems. Built adaptive cruise control PID loops and verified VTOL attitude controller response before HIL validation.',                                     used:'Used in: Adaptive Cruise Control, VTOL controls'},
-    js:        {title:'JavaScript',      body:'Zero-dependency browser simulations and interactive engineering tools. WebTunnel CFD runs a full Navier-Stokes solver at 60 fps with no build tooling.',                                       used:'Used in: WebTunnel CFD, GNC Lander Sim'},
-    teensy:    {title:'Teensy 4.1',      body:'ARM Cortex-M7 at 600 MHz. Primary embedded platform for the 12-state EKF navigation system — handles sensor polling, state estimation, and telemetry in a single RTOS task loop.',           used:'Used in: EKF Nav board, sensor fusion prototyping'},
-    stm32:     {title:'STM32',           body:'STM32F4/F7 series for flight-critical embedded tasks. Experience with HAL drivers, DMA transfers, and real-time interrupt handling at >1 kHz update rates.',                                  used:'Used in: VTOL flight control stack'},
-    pixhawk:   {title:'Pixhawk 6C',      body:'Flight management unit for WashU VTOL. Responsible for full integration: ESC wiring, power distribution, GPS antenna placement, and all PX4 parameter tuning for stable hover.',             used:'Used in: WashU VTOL'},
-    px4:       {title:'PX4 Autopilot',   body:'Open-source flight stack running on Pixhawk 6C. Tuned attitude and position controllers, configured HIL simulation interface, and debugged MAVLink telemetry dropouts.',                      used:'Used in: WashU VTOL'},
-    ardupilot: {title:'ArduPilot',       body:'Alternate autopilot stack evaluated during VTOL hardware-in-loop comparison study. Compared parameter convergence and failsafe behavior against PX4.',                                        used:'Used in: VTOL HIL validation'},
-    protocols: {title:'I2C · SPI · UART',body:'Low-level embedded communication protocols. Experience debugging I2C noise coupling (VTOL-01 anomaly), configuring SPI for high-speed IMU polling, and parsing UART NMEA streams from GPS.', used:'Used in: All embedded projects'},
-    solidworks:{title:'SolidWorks',      body:'Primary CAD platform. Extensive experience with bottom-up assemblies, mates, design tables, and tolerance stack-up analysis. Largest assembly: 200+ part foosball table.',                    used:'Used in: Foosball CAD, landing gear design'},
-    ansys:     {title:'ANSYS FEA',       body:'Static structural analysis for flight-critical hardware. Validated nose landing gear under 3g hard-landing impact loads; topology optimization reduced part mass by 18%.',                     used:'Used in: Landing Gear FEA, DBF structural'},
-    cfx:       {title:'ANSYS CFX',       body:'CFD solver for viscous flow around airfoil geometries. Used to validate XFLR5 lift/drag polars and analyze wingtip vortex behavior on DBF competition aircraft.',                            used:'Used in: WashU DBF, wing section analysis'},
-    xflr5:     {title:'XFLR5',           body:'Panel-method aerodynamics tool for NACA-series wing design. Generated Cl/Cd polars across the full flight envelope and informed spar placement.',                                             used:'Used in: WashU DBF aerodynamics'},
-    opencv:    {title:'OpenCV',          body:'Real-time computer vision. Built the Sentinel CV pipeline: background subtraction, contour tracking, and bounding-box extraction feeding a Kalman filter state estimator at camera frame rate.',used:'Used in: Sentinel Computer Vision'},
-    ekf:       {title:'EKF / UKF',       body:'Extended and Unscented Kalman Filters for nonlinear state estimation. Implemented a 12-state EKF fusing IMU, GPS, and optical flow — handles sensor dropouts via covariance gating.',         used:'Used in: EKF Nav, MIRO Lab'},
-    pid:       {title:'PID Control',     body:'Classical feedback control design and tuning. Applied to VTOL attitude loops, adaptive cruise longitudinal control, and GNC lander thrust management.',                                         used:'Used in: VTOL, Cruise Control, GNC Sim'},
-    hil:       {title:'HIL Testing',     body:'Hardware-in-Loop validation methodology. Configured Gazebo/PX4 SITL for VTOL, enabling full autopilot parameter tuning and failure-mode testing before any physical flight.',                 used:'Used in: WashU VTOL'},
-    sixdof:    {title:'6-DOF Dynamics',  body:'Full rigid-body equations of motion (translation + rotation). Implemented in the Hyperion physics engine at 10 kHz with Runge-Kutta integration, validated against analytical benchmarks.',   used:'Used in: Hyperion Engine, GNC Sim'},
-    fusion:    {title:'Sensor Fusion',   body:'Multi-modal sensor integration. Combined IMU, GPS, optical flow, EMG, and camera data — always with probabilistic uncertainty propagation.',                                                  used:'Used in: EKF Nav, MIRO Lab, VTOL'},
-    dfm:       {title:'DFM',             body:'Design for Manufacturability applied from concept through fabrication. Considered tolerance stack-ups, composite layup constraints, and machining limits during DBF wing and foosball design.', used:'Used in: DBF, Foosball CAD'}
+    cpp:       {title:'C++',             body:'Used for performance-critical engineering projects: flight simulators, EKF state estimators, and embedded sensor platforms. Working knowledge with growing experience in real-time systems.',     used:'Used in: Hyperion 6-DOF, Sentinel, EKF Nav'},
+    python:    {title:'Python',          body:'Primary language for data analysis, sensor-fusion scripting, and rapid prototyping. Used for post-flight log processing and research data pipelines.',                                           used:'Used in: MIRO Lab, GNC tooling, data analysis'},
+    matlab:    {title:'MATLAB',          body:'Mathematical modeling, control-loop design, and simulation scripting. Used alongside Simulink to build and validate plant models.',                                                             used:'Used in: Control Systems coursework, DBF analysis'},
+    simulink:  {title:'Simulink',        body:'Block-diagram modeling of dynamic systems. Built adaptive cruise control PID loops and explored VTOL attitude controller response before HIL validation.',                                     used:'Used in: Adaptive Cruise Control, VTOL controls'},
+    js:        {title:'JavaScript',      body:'Browser-based simulations and interactive engineering tools. Built WebTunnel CFD as a personal project to explore fluid flow visualization.',                                                   used:'Used in: WebTunnel CFD, GNC Lander Sim'},
+    teensy:    {title:'Teensy 4.0 / 4.1',body:'Primary embedded platform for sensor fusion work at MIRO Lab and personal navigation projects. Handled synchronized IMU and EMG data acquisition at 1 kHz for robotics experiments.',        used:'Used in: MIRO Lab sensor platform, EKF Nav'},
+    stm32:     {title:'STM32',           body:'Exposure to STM32 series through VTOL avionics work. Familiar with basic peripheral configuration and interrupt-driven sensor polling.',                                                       used:'Used in: VTOL flight control stack'},
+    pixhawk:   {title:'Pixhawk 6C',      body:'Flight management unit for WashU VTOL. Responsible for full integration: ESC wiring, power distribution, GPS antenna placement, and PX4 parameter tuning for stable hover.',                 used:'Used in: WashU VTOL'},
+    px4:       {title:'PX4 Autopilot',   body:'Open-source flight stack running on Pixhawk 6C. Tuned attitude controllers, configured HIL simulation, and worked through telemetry and sensor integration issues.',                          used:'Used in: WashU VTOL'},
+    protocols: {title:'I2C · SPI · UART',body:'Embedded communication protocols used across sensor integration work. Experience debugging signal issues and configuring peripherals for IMU and GPS communication.',                          used:'Used in: All embedded projects'},
+    solidworks:{title:'SolidWorks',      body:'Primary CAD platform for mechanical design. Experience with part modeling, assemblies, and basic tolerance considerations. Used on DBF payload mechanisms and foosball table design.',          used:'Used in: Foosball CAD, DBF payload design'},
+    ansys:     {title:'ANSYS FEA',       body:'Structural analysis for flight hardware. Performed static analysis on wing spar geometry to verify load capacity under expected flight loading conditions.',                                   used:'Used in: DBF structural analysis'},
+    cfx:       {title:'ANSYS CFX',       body:'CFD solver used to explore airfoil flow behavior and cross-validate XFLR5 results on DBF wing sections.',                                                                                    used:'Used in: WashU DBF, wing section analysis'},
+    xflr5:     {title:'XFLR5',           body:'Panel-method aerodynamics tool for wing analysis. Generated lift and drag polars across flight conditions to support configuration selection on DBF aircraft.',                               used:'Used in: WashU DBF aerodynamics'},
+    opencv:    {title:'OpenCV',          body:'Computer vision library used in the Sentinel prototype for object tracking and contour detection feeding a state estimator.',                                                                  used:'Used in: Sentinel prototype'},
+    ekf:       {title:'EKF / UKF',       body:'Extended Kalman Filter for nonlinear state estimation. Implemented a navigation EKF fusing IMU, GPS, and barometer data as a personal project to understand sensor fusion in practice.',     used:'Used in: EKF Nav, MIRO Lab support'},
+    pid:       {title:'PID Control',     body:'Classical feedback control design and tuning. Applied to VTOL attitude loops, adaptive cruise longitudinal control, and GNC lander simulation.',                                               used:'Used in: VTOL, Cruise Control, GNC Sim'},
+    hil:       {title:'HIL Testing',     body:'Hardware-in-Loop validation using Gazebo and PX4 SITL for WashU VTOL. Enabled autopilot parameter tuning and failure-mode testing before physical flight.',                                  used:'Used in: WashU VTOL'},
+    sixdof:    {title:'6-DOF Dynamics',  body:'Rigid-body equations of motion implemented in the Hyperion orbital physics simulator as a personal project to study spacecraft dynamics and numerical integration.',                           used:'Used in: Hyperion Engine'},
+    fusion:    {title:'Sensor Fusion',   body:'Multi-sensor data integration combining IMU, GPS, EMG, and camera data. Experience building pipelines that handle noisy, asynchronous sensor streams.',                                       used:'Used in: EKF Nav, MIRO Lab, VTOL'},
+    dfm:       {title:'DFM',             body:'Design for Manufacturability considerations applied during DBF wing design and foosball table fabrication — tolerances, material constraints, and assembly fit.',                             used:'Used in: DBF, Foosball CAD'}
 };
 
 let activeSkillEl = null;
