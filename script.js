@@ -29,7 +29,7 @@ const PROJECTS = {
     dates: "Sept 2025 - Present",
     tags: ["Pixhawk 6C", "PX4", "HIL Testing"],
     summary: "Architected the avionics and control system for WashU's semi-autonomous VTOL aircraft.",
-    metric: "Outcome: Stable Autonomous Flight",
+    metric: "Outcome: Stable Flight",
     problem: "Need reliable autonomous transition/hover behavior on a student-built VTOL platform.",
     contribution: "Owned avionics architecture, PX4 configuration, wiring reliability, and HIL validation loop.",
     result: "Achieved repeatable stable hover envelope and reduced integration regressions before flight days.",
