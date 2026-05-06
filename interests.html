@@ -138,6 +138,7 @@
             transform: scaleX(1);
         }
 
+        /* ── Book cards ── */
         .book-card {
             transition: border-color 0.2s ease, transform 0.2s ease;
             will-change: transform;
@@ -147,6 +148,28 @@
             transform: translateY(-2px);
         }
         .book-card:hover .book-cover { opacity: 0.85; }
+
+        /* ── Film cards ── */
+        .film-card {
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            will-change: transform;
+        }
+        .film-card:hover {
+            border-color: rgba(168,85,247,0.35);
+            transform: translateY(-2px);
+        }
+        .film-card:hover img { opacity: 0.85; transition: opacity 0.2s ease; }
+
+        /* ── Mission cards ── */
+        .mission-card {
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            will-change: transform;
+        }
+        .mission-card:hover {
+            border-color: rgba(56,189,248,0.3);
+            transform: translateY(-2px);
+        }
+        .mission-card:hover img { opacity: 0.85; transition: opacity 0.2s ease; }
 
         @media (max-width: 768px) {
             .header-sword-shell { width: 72px; height: 112px; }
@@ -207,7 +230,8 @@
 
                 <div class="header-sword-shell">
                     <div class="header-sword-viewer">
-                        <model-viewer src="assets/models/anduril.glb" alt="Anduril sword" camera-controls interaction-prompt="none" disable-zoom shadow-intensity="0" environment-image="neutral" camera-orbit="0deg 88deg 110%" field-of-view="18deg" min-camera-orbit="auto 80deg auto" max-camera-orbit="auto 96deg auto" loading="eager"></model-viewer>
+                        <!-- CHANGED: removed disable-zoom, interaction-prompt="none", min-camera-orbit, max-camera-orbit for full 360° rotation -->
+                        <model-viewer src="assets/models/anduril.glb" alt="Anduril sword" camera-controls touch-action="pan-y" shadow-intensity="0" environment-image="neutral" camera-orbit="0deg 88deg 110%" field-of-view="18deg" loading="eager"></model-viewer>
                     </div>
                 </div>
 
@@ -438,25 +462,25 @@
                         <p>These missions shaped how I think about engineering under pressure: making decisions with incomplete data, building systems that tolerate failure, and staying calm when the margin for error is effectively zero.</p>
                     </div>
                     <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
+                        <article class="mission-card snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
                             <img src="assets/missions/apollo13.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Apollo 13" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-rocket text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Apollo 13</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Real-time systems engineering under pressure.</p>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Apollo 13</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">Real-time systems engineering: reconfiguring hardware, procedures, and checklists on the fly to bring a damaged spacecraft home safely.</p>
                         </article>
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
+                        <article class="mission-card snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
                             <img src="assets/missions/falcon9.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Falcon 9 First Landing" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-shuttle-space text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Falcon 9 First Landing</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Closed-loop control and telemetry-driven decision making.</p>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Falcon 9 First Landing</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Closed-loop control, iteration, and telemetry-driven decision-making—turning something that looked impossible into a repeatable, reliable system.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Closed-loop control, iteration, and telemetry-driven decision-making. Turning something that looked impossible into a repeatable, reliable system.</p>
                         </article>
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
+                        <article class="mission-card snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
                             <img src="assets/missions/perseverance_heli.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Perseverance and Ingenuity" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-robot text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Perseverance & Ingenuity</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Precision robotics in an untouchable environment.</p>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Perseverance & Ingenuity</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Precision robotics and control in an environment you can't touch—every gram, watt, and line of code has to earn its place.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Precision robotics and control in an environment you can't touch. Every gram, watt, and line of code has to earn its place.</p>
                         </article>
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
+                        <article class="mission-card snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
                             <img src="assets/missions/c_uas.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Counter-UAS" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-shield-halved text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Counter-UAS</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Sensor fusion and autonomy in dynamic airspace.</p>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Counter-UAS Field Exercise</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Sensor fusion, autonomy, and fast decision loops—treating the airspace as a dynamic system that has to be understood, not just observed.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Sensor fusion, autonomy, and fast decision loops. Treating the airspace as a dynamic system that has to be understood, not just observed.</p>
                         </article>
                     </div>
                 </section>
@@ -465,7 +489,7 @@
                 <section id="section-training">
                     <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Training & Movement</h3>
                     <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>Training has always felt similar to engineering work for me—set a clear target, define the constraints, and apply consistent effort. I'm drawn to simple movements performed with high intent, where progress comes from discipline rather than tricks.</p>
+                        <p>Training has always felt similar to engineering work for me. Set a clear target, define the constraints, and apply consistent effort. I'm drawn to simple movements performed with high intent, where progress comes from discipline rather than tricks.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="bg-black border border-white/10 p-6">
@@ -473,7 +497,7 @@
                                 <div><h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Calisthenics</h4><p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">Weighted pull-ups & dips</p></div>
                                 <i class="fas fa-person-running text-amber-300/80"></i>
                             </div>
-                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Weighted pull-ups and dips have become my primary strength movements. I focus on controlled execution, progressive overload, and keeping the work honest—no shortcuts, no wasted reps.</p>
+                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Weighted pull-ups and dips have become my primary strength movements. I focus on controlled execution, progressive overload, and keeping the work honest. No shortcuts, no wasted reps.</p>
                             <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400"><span>Style</span><span class="text-amber-300">Heavy, clean, controlled</span></div>
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400"><span>Why</span><span class="text-amber-300">Simple movements, high intent</span></div>
@@ -484,7 +508,7 @@
                                 <div><h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Strength Training</h4><p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">No reps left in reserve</p></div>
                                 <i class="fas fa-dumbbell text-emerald-300/80"></i>
                             </div>
-                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Most of my working sets are done at a high effort level—usually 0–1 RIR. It feels similar to tuning a control loop: push hard, observe the response, adjust, and build resilience over time.</p>
+                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Most of my working sets are done at a high effort level, usually 0–1 RIR. It feels similar to tuning a control loop: push hard, observe the response, adjust, and build resilience over time.</p>
                             <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400"><span>Philosophy</span><span class="text-emerald-300">Make top sets memorable</span></div>
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400"><span>Carryover</span><span class="text-emerald-300">Same mindset as debugging & EKF tuning</span></div>
@@ -500,25 +524,25 @@
                         <p>These films stand out for their atmosphere, pacing, and the way characters carry tension under pressure. Each has a strong sense of discipline, perspective, or control.</p>
                     </div>
                     <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                        <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/movies/no_country.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="No Country for Old Men" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>No Country for Old Men</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">No Country for Old Men</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">A masterclass in tension and control—quiet, precise, and driven by internal logic rather than spectacle.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">A masterclass in tension and control. Quiet, precise, and driven by internal logic rather than spectacle.</p>
                         </article>
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                        <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/movies/shawshank.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="Shawshank Redemption" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Shawshank Redemption</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">The Shawshank Redemption</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">A story about patience, discipline, and long-term persistence—even when progress feels invisible.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">A story about patience, discipline, and long-term persistence. Even when progress feels invisible.</p>
                         </article>
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                        <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/movies/taxi_driver.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="Taxi Driver" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Taxi Driver</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Taxi Driver</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">A character study with atmosphere and intensity—slow-burn storytelling that builds pressure deliberately.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">A character study with atmosphere and intensity. Slow-burn storytelling that builds pressure deliberately.</p>
                         </article>
-                        <article class="snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                        <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/movies/dark_knight.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Dark Knight" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Dark Knight</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">The Dark Knight</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Tight pacing, moral complexity, and precision in both storytelling and execution—an engineering mindset on screen.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Tight pacing, moral complexity, and precision in both storytelling and execution. An engineering mindset on screen.</p>
                         </article>
                     </div>
                 </section>
@@ -606,7 +630,7 @@
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Reading List</h3>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Favorite Books</h3>
                     <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
                         <div class="flex items-center justify-between"><span>Skunk Works</span><span class="text-sky-300">Ben R. Rich & Leo Janos</span></div>
                         <div class="flex items-center justify-between"><span>Stealth Warplanes</span><span class="text-purple-300">Doug Richardson</span></div>
@@ -634,11 +658,9 @@
         }
 
         function scrollToSection(id, btn) {
-            // Update active state
             document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // Scroll with offset for both navbars (80px main + 45px section nav)
             const el = document.getElementById(id);
             if (!el) return;
             const offset = 80 + 45 + 24;
@@ -646,7 +668,6 @@
             window.scrollTo({ top, behavior: 'smooth' });
         }
 
-        // Update active nav button on scroll
         const sections = [
             { id: 'section-aerospace', btn: 0 },
             { id: 'section-missions', btn: 1 },
