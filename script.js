@@ -200,8 +200,8 @@ const HW_ITEMS = [
   { type: "Firmware",   title: "EKF Navigation Board",             sub: "Teensy 4.1 · IMU · GPS",                             src: "images/hw_ekf_board.jpg",       date: "2025-10", status: "validated", link: "ekf-nav.html" },
   { type: "Vision",     title: "Sentinel CV Rig",                  sub: "OpenCV · Kalman Tracker",                            src: "images/hw_sentinel_rig.jpg",    date: "2025-12", status: "verified",  link: "sentinel.html" },
   { type: "Research",   title: "MIRO Wearable Sensor",             sub: "IMU Array · EMG Electrodes",                         src: "images/hw_miro_wearable.jpg",   date: "2025-08", status: "validated", link: "miro-lab.html" },
-  { type: "Simulation", title: "Hyperion Test Loop",               sub: "6-DOF · 10 kHz · C++20",                            src: "images/hw_hyperion_sim.jpg",    date: "2025-12", status: "verified",  link: "hyperion.html" },
-  { type: "CFD",        title: "Wing Section CFD",                 sub: "ANSYS CFX · Cp Distribution",                       src: "images/hw_cfd_result.jpg",      date: "2025-11", status: "validated", link: "washu-dbf.html" },
+  { type: "Simulation", title: "Hyperion Test Loop",               sub: "6-DOF · 10 kHz · C++20",                             src: "images/hw_hyperion_sim.jpg",    date: "2025-12", status: "verified",  link: "hyperion.html" },
+  { type: "CFD",        title: "Wing Section CFD",                 sub: "ANSYS CFX · Cp Distribution",                        src: "images/hw_cfd_result.jpg",      date: "2025-11", status: "validated", link: "washu-dbf.html" },
   { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up · Wiring Validation · Multimeter Test", src: "images/hw_vtol_test_bench.jpg", date: "2026-01", status: "verified",  link: "washu-vtol.html" }
 ];
 
@@ -211,47 +211,48 @@ const SKILL_DATA = {
   python:    { title: "Python",           body: "Primary language for data analysis, sensor-fusion scripting, and rapid prototyping. Used for post-flight log processing and research data pipelines.",                                            used: "Used in: MIRO Lab, GNC tooling, data analysis" },
   matlab:    { title: "MATLAB",           body: "Mathematical modeling, control-loop design, and simulation scripting. Used alongside Simulink to build and validate plant models.",                                                               used: "Used in: Control Systems coursework, DBF analysis" },
   simulink:  { title: "Simulink",         body: "Block-diagram modeling of dynamic systems. Built adaptive cruise control PID loops and explored VTOL attitude controller response before HIL validation.",                                       used: "Used in: Adaptive Cruise Control, VTOL controls" },
-  js:        { title: "JavaScript",       body: "Browser-based simulations and interactive engineering tools. Built WebTunnel CFD as a personal project to explore fluid flow visualization.",                                                    used: "Used in: WebTunnel CFD, GNC Lander Sim" },
+  js:        { title: "JavaScript",       body: "Browser-based simulations and interactive engineering tools. Built WebTunnel CFD as a personal project to explore fluid flow visualization.",                                                     used: "Used in: WebTunnel CFD, GNC Lander Sim" },
   teensy:    { title: "Teensy 4.0 / 4.1", body: "Primary embedded platform for sensor fusion work at MIRO Lab and personal navigation projects. Handled synchronized IMU and EMG data acquisition at 1 kHz for robotics experiments.",         used: "Used in: MIRO Lab sensor platform, EKF Nav" },
   stm32:     { title: "STM32",            body: "Exposure to STM32 series through VTOL avionics work. Familiar with basic peripheral configuration and interrupt-driven sensor polling.",                                                        used: "Used in: VTOL flight control stack" },
   pixhawk:   { title: "Pixhawk 6C",       body: "Flight management unit for WashU VTOL. Responsible for full integration: ESC wiring, power distribution, GPS antenna placement, and PX4 parameter tuning for stable hover.",                  used: "Used in: WashU VTOL" },
-  px4:       { title: "PX4 Autopilot",    body: "Open-source flight stack running on Pixhawk 6C. Tuned attitude controllers, configured HIL simulation, and worked through telemetry and sensor integration issues.",                           used: "Used in: WashU VTOL" },
+  px4:       { title: "PX4 Autopilot",    body: "Open-source flight stack running on Pixhawk 6C. Tuned attitude controllers, configured HIL simulation, and worked through telemetry and sensor integration issues.",                            used: "Used in: WashU VTOL" },
   protocols: { title: "I2C · SPI · UART", body: "Embedded communication protocols used across sensor integration work. Experience debugging signal issues and configuring peripherals for IMU and GPS communication.",                           used: "Used in: All embedded projects" },
   solidworks:{ title: "SolidWorks",       body: "Primary CAD platform for mechanical design. Experience with part modeling, assemblies, and basic tolerance considerations. Used on DBF payload mechanisms and foosball table design.",           used: "Used in: Foosball CAD, DBF payload design" },
   ansys:     { title: "ANSYS FEA",        body: "Structural analysis for flight hardware. Performed static analysis on wing spar geometry to verify load capacity under expected flight loading conditions.",                                    used: "Used in: DBF structural analysis" },
-  cfx:       { title: "ANSYS CFX",        body: "CFD solver used to explore airfoil flow behavior and cross-validate XFLR5 results on DBF wing sections.",                                                                                      used: "Used in: WashU DBF, wing section analysis" },
-  xflr5:     { title: "XFLR5",            body: "Panel-method aerodynamics tool for wing analysis. Generated lift and drag polars across flight conditions to support configuration selection on DBF aircraft.",                                used: "Used in: WashU DBF aerodynamics" },
+  cfx:       { title: "ANSYS CFX",        body: "CFD solver used to explore airfoil flow behavior and cross-validate XFLR5 results on DBF wing sections.",                                                                                       used: "Used in: WashU DBF, wing section analysis" },
+  xflr5:     { title: "XFLR5",            body: "Panel-method aerodynamics tool for wing analysis. Generated lift and drag polars across flight conditions to support configuration selection on DBF aircraft.",                               used: "Used in: WashU DBF aerodynamics" },
   opencv:    { title: "OpenCV",           body: "Computer vision library used in the Sentinel prototype for object tracking and contour detection feeding a state estimator.",                                                                   used: "Used in: Sentinel prototype" },
   ekf:       { title: "EKF / UKF",        body: "Extended Kalman Filter for nonlinear state estimation. Implemented a navigation EKF fusing IMU, GPS, and barometer data as a personal project to understand sensor fusion in practice.",      used: "Used in: EKF Nav, MIRO Lab support" },
   pid:       { title: "PID Control",      body: "Classical feedback control design and tuning. Applied to VTOL attitude loops, adaptive cruise longitudinal control, and GNC lander simulation.",                                               used: "Used in: VTOL, Cruise Control, GNC Sim" },
-  hil:       { title: "HIL Testing",      body: "Hardware-in-Loop validation using Gazebo and PX4 SITL for WashU VTOL. Enabled autopilot parameter tuning and failure-mode testing before physical flight.",                                   used: "Used in: WashU VTOL" },
-  sixdof:    { title: "6-DOF Dynamics",   body: "Rigid-body equations of motion implemented in the Hyperion orbital physics simulator as a personal project to study spacecraft dynamics and numerical integration.",                           used: "Used in: Hyperion Engine" },
+  hil:       { title: "HIL Testing",      body: "Hardware-in-Loop validation using Gazebo and PX4 SITL for WashU VTOL. Enabled autopilot parameter tuning and failure-mode testing before physical flight.",                                 used: "Used in: WashU VTOL" },
+  sixdof:    { title: "6-DOF Dynamics",   body: "Rigid-body equations of motion implemented in the Hyperion orbital physics simulator as a personal project to study spacecraft dynamics and numerical integration.",                          used: "Used in: Hyperion Engine" },
   fusion:    { title: "Sensor Fusion",    body: "Multi-sensor data integration combining IMU, GPS, EMG, and camera data. Experience building pipelines that handle noisy, asynchronous sensor streams.",                                       used: "Used in: EKF Nav, MIRO Lab, VTOL" },
-  dfm:       { title: "DFM",              body: "Design for Manufacturability considerations applied during DBF wing design and foosball table fabrication — tolerances, material constraints, and assembly fit.",                              used: "Used in: DBF, Foosball CAD" }
+  dfm:       { title: "DFM",              body: "Design for Manufacturability considerations applied during DBF wing design and foosball table fabrication — tolerances, material constraints, and assembly fit.",                               used: "Used in: DBF, Foosball CAD" }
 };
 
 /** Coursework terminal rows */
 const COURSEWORK = {
   active: [
-    { pid: "4320", name: "Modeling_Simulation_Control", status: "RUNNING" },
-    { pid: "3430", name: "Thermal_Systems_Design",       status: "RUNNING" },
-    { pid: "3420", name: "Heat_Transfer",                status: "RUNNING" },
-    { pid: "3110", name: "Machine_Elements",             status: "RUNNING" },
-    { pid: "3050", name: "Fluids_Heat_Lab",              status: "RUNNING" }
-  ],
-  fall2026: [
-    { pid: "5707", name: "Flight_Dynamics",           status: "QUEUED" },
-    { pid: "4050", name: "Vibrations_Lab",            status: "QUEUED" },
-    { pid: "4110", name: "Mechanical_Design_Project", status: "QUEUED" },
-    { pid: "4410", name: "Control_Systems",           status: "QUEUED" },
-    { pid: "5412", name: "Computational_Fluid_Dynamics", status: "QUEUED" }
+    { pid: "5707", name: "Flight_Dynamics",           status: "RUNNING" },
+    { pid: "4050", name: "Vibrations_Lab",            status: "RUNNING" },
+    { pid: "4110", name: "Mechanical_Design_Project", status: "RUNNING" },
+    { pid: "4410", name: "Control_Systems",           status: "RUNNING" },
+    { pid: "5501", name: "Mechanics_of_Continua",     status: "RUNNING" }
   ],
   history: [
-    { pid: "4310", name: "Vibrations",    status: "COMPLETE" },
-    { pid: "3400", name: "Thermodynamics", status: "COMPLETE" },
-    { pid: "3410", name: "Fluid_Mechanics", status: "COMPLETE" },
-    { pid: "3530", name: "Solid_Mechanics", status: "COMPLETE" },
-    { pid: "3280", name: "Prob_&_Stats",   status: "COMPLETE" }
+    { type: "header", label: ">_ SPRING 2026" },
+    { pid: "4320", name: "Modeling_Simulation_Control", status: "COMPLETE" },
+    { pid: "3430", name: "Design_of_Thermal_Systems",      status: "COMPLETE" },
+    { pid: "3420", name: "Heat_Transfer",               status: "COMPLETE" },
+    { pid: "3110", name: "Machine_Elements",            status: "COMPLETE" },
+    { pid: "3050", name: "Fluids_Heat_Lab",             status: "COMPLETE" },
+    
+    { type: "header", label: ">_ FALL 2025" },
+    { pid: "4310", name: "Vibrations",                  status: "COMPLETE" },
+    { pid: "3400", name: "Thermodynamics",              status: "COMPLETE" },
+    { pid: "3410", name: "Fluid_Mechanics",             status: "COMPLETE" },
+    { pid: "3530", name: "Solid_Mechanics",             status: "COMPLETE" },
+    { pid: "3280", name: "Prob_&_Stats",                status: "COMPLETE" }
   ]
 };
 
@@ -463,33 +464,31 @@ function showSkill(el, key) {
    6. COURSEWORK TERMINAL
 ============================================================================= */
 function switchCoursework(view) {
-  const btnActive   = document.getElementById("btn-active");
-  const btnFall2026 = document.getElementById("btn-fall2026");
-  const btnHistory  = document.getElementById("btn-history");
-  const list        = document.getElementById("coursework-list");
+  const btnActive  = document.getElementById("btn-active");
+  const btnHistory = document.getElementById("btn-history");
+  const list       = document.getElementById("coursework-list");
 
   const active   = "tab-active px-2 py-1 uppercase tracking-wider transition-colors";
   const inactive = "tab-inactive px-2 py-1 uppercase tracking-wider transition-colors";
 
-  btnActive.className   = view === "active"   ? active : inactive;
-  btnFall2026.className = view === "fall2026" ? active : inactive;
-  btnHistory.className  = view === "history"  ? active : inactive;
+  btnActive.className  = view === "active"  ? active : inactive;
+  btnHistory.className = view === "history" ? active : inactive;
 
-  btnActive.setAttribute("aria-selected",   String(view === "active"));
-  btnFall2026.setAttribute("aria-selected", String(view === "fall2026"));
-  btnHistory.setAttribute("aria-selected",  String(view === "history"));
+  btnActive.setAttribute("aria-selected",  String(view === "active"));
+  btnHistory.setAttribute("aria-selected", String(view === "history"));
 
   const rows = COURSEWORK[view] || COURSEWORK.active;
 
   list.innerHTML = rows.map(r => {
-    // PID column color
-    const pidColor = view === "active"
-      ? "text-blue-500"
-      : view === "fall2026"
-        ? "text-amber-500"
-        : "text-gray-700";
+    if (r.type === "header") {
+      return `
+        <div class="text-[10px] font-mono text-gray-500 mt-4 mb-1 uppercase tracking-widest border-b border-gray-800 pb-1">
+          ${r.label}
+        </div>`;
+    }
 
-    // Status color
+    const pidColor = view === "active" ? "text-blue-500" : "text-gray-700";
+
     const statusColor = r.status === "RUNNING"
       ? "text-emerald-500"
       : r.status === "QUEUED"
