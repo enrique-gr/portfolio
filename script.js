@@ -81,7 +81,7 @@ const PROJECTS = {
   "miro-lab": {
     title: "Multiplatform Interactive Robotics Lab",
     category: "featured",
-    logoUrl: "images/mirolab.png",
+    logoUrl: "images/miro-lab.png",
     role: "Research Intern",
     dates: "Summer 2025",
     tags: ["Python", "MATLAB", "Sensor Fusion"],
