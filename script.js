@@ -1,5 +1,5 @@
 /* =============================================================================
-   ENRIQUE GARCIA — Main Site Script
+   Main Site Script
    Sections:
      1. Data — projects, hw items, skill descriptions, coursework
      2. Hardware Log Ticker
