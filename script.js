@@ -190,6 +190,16 @@ const PROJECTS = {
     summary: "Designing a nose landing gear built to withstand 3g impacts through focused structural modeling.",
     externalLink: "solid-mechanics.html",
     fileSize: "450 MB"
+  },
+  "who-is-responsible": {
+    title: "Who Is Responsible When an AI Kills?",
+    category: "coursework",
+    logoUrl: "images/x62_vista.png",
+    role: "Technical Writing & Policy Analysis",
+    tags: ["Autonomous Systems", "AI Ethics", "Defense Policy"],
+    summary: "A magazine-style technical writing piece examining the accountability gap in autonomous weapons systems, from the X-62A VISTA's live AI dogfight to the absence of binding international law.",
+    externalLink: "who-is-responsible.html",
+    fileSize: "14 pp."
   }
 };
 
@@ -202,7 +212,16 @@ const HW_ITEMS = [
   { type: "Research",   title: "MIRO Wearable Sensor",             sub: "IMU Array · EMG Electrodes",                         src: "images/hw_miro_wearable.jpg",   date: "2025-08", status: "validated", link: "miro-lab.html" },
   { type: "Simulation", title: "Hyperion Test Loop",               sub: "6-DOF · 10 kHz · C++20",                             src: "images/hw_hyperion_sim.jpg",    date: "2025-12", status: "verified",  link: "hyperion.html" },
   { type: "CFD",        title: "Wing Section CFD",                 sub: "ANSYS CFX · Cp Distribution",                        src: "images/hw_cfd_result.jpg",      date: "2025-11", status: "validated", link: "washu-dbf.html" },
-  { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up · Wiring Validation · Multimeter Test", src: "images/hw_vtol_test_bench.jpg", date: "2026-01", status: "verified",  link: "washu-vtol.html" }
+  { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up · Wiring Validation · Multimeter Test", src: "images/hw_vtol_test_bench.jpg", date: "2026-01", status: "verified",  link: "washu-vtol.html" },
+  {
+    type: "Writing",
+    title: "Autonomous Weapons Analysis",
+    sub: "LAWS · X-62A VISTA · Accountability Gap",
+    src: "images/x62_vista.png",
+    date: "2026-05",
+    status: "published",
+    link: "who-is-responsible.html"
+  }
 ];
 
 /** Skill detail content indexed by pill key */
@@ -246,7 +265,7 @@ const COURSEWORK = {
     { pid: "3420", name: "Heat_Transfer",               status: "COMPLETE" },
     { pid: "3110", name: "Machine_Elements",            status: "COMPLETE" },
     { pid: "3050", name: "Fluids_Heat_Lab",             status: "COMPLETE" },
-    
+    { pid: "3100", name: "Technical_Writing",           status: "COMPLETE" },
     { type: "header", label: ">_ FALL 2025" },
     { pid: "4310", name: "Vibrations",                  status: "COMPLETE" },
     { pid: "3400", name: "Thermodynamics",              status: "COMPLETE" },
