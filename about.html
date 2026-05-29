@@ -17,7 +17,6 @@
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #e2e8f0;
-            /* REMOVED: will-change on body — too broad, causes GPU memory bloat */
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
@@ -33,22 +32,18 @@
         .reveal {
             opacity: 0;
             transform: translateY(14px);
-            /* Use will-change only on elements that animate */
             will-change: opacity, transform;
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
-            /* Remove will-change after animation completes */
             will-change: auto;
         }
 
         .info-card {
             background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
-            /* Only transition compositable properties */
             transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-            /* Promote to own layer for smooth hover */
             will-change: transform;
         }
         .info-card:hover {
@@ -68,7 +63,6 @@
             transform: translateY(-2px);
             box-shadow: 0 0 16px rgba(16,185,129,0.06);
         }
-        /* Use CSS variables for color changes instead of transitioning text color */
         .stat-box:hover .stat-label { color: rgba(16,185,129,0.7); }
         .stat-box:hover .stat-value { color: #a7f3d0; }
 
@@ -76,7 +70,6 @@
 
         .tab-button {
             transition: color 0.2s, border-color 0.2s, transform 0.15s;
-            /* Removed background-color from transition — use opacity instead */
         }
         .tab-button:hover:not(.active) {
             color: #d1d5db;
@@ -106,7 +99,6 @@
         .focus-card:hover {
             border-color: rgba(16,185,129,0.25);
             transform: translateY(-2px);
-            /* Removed background-color transition — use box-shadow instead */
             box-shadow: inset 0 0 0 9999px rgba(16,185,129,0.04);
         }
 
@@ -175,29 +167,21 @@
                 linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 20px 20px;
-            /* Promote gridline element to own layer to avoid repaint on parent hover */
             transform: translateZ(0);
         }
 
-        /* FIXED: Replaced padding-left transition with translateX — no layout reflow */
         .snapshot-row {
             transition: background 0.15s ease;
             border-radius: 2px;
         }
-        .snapshot-row:hover {
-            background: rgba(255,255,255,0.03);
-        }
+        .snapshot-row:hover { background: rgba(255,255,255,0.03); }
 
-        /* FIXED: Replaced padding-left with translateX — no layout reflow */
         .aim-item {
             transition: color 0.2s ease, transform 0.2s ease;
             cursor: default;
             will-change: transform;
         }
-        .aim-item:hover {
-            color: #d1fae5;
-            transform: translateX(6px);
-        }
+        .aim-item:hover { color: #d1fae5; transform: translateX(6px); }
         .aim-item:hover .aim-bullet { color: #34d399; }
 
         .pulse-dot {
@@ -231,16 +215,12 @@
             transform: translateY(-1px);
         }
 
-        /* FIXED: Use translateX instead of padding-left */
         .stack-item {
             transition: color 0.2s ease, transform 0.2s ease;
             cursor: default;
             will-change: transform;
         }
-        .stack-item:hover {
-            color: #a7f3d0;
-            transform: translateX(4px);
-        }
+        .stack-item:hover { color: #a7f3d0; transform: translateX(4px); }
 
         .has-tip { position: relative; cursor: default; }
         .has-tip .tip {
@@ -261,10 +241,7 @@
             z-index: 100;
             will-change: opacity, transform;
         }
-        .has-tip:hover .tip {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+        .has-tip:hover .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         .progress-bar {
             height: 2px;
@@ -282,17 +259,8 @@
             will-change: transform;
         }
 
-        .body-copy {
-            color: #c4cad5;
-            line-height: 1.8;
-            letter-spacing: 0.01em;
-        }
-
-        .panel-text {
-            color: #b8bec8;
-            line-height: 1.75;
-            font-size: 0.875rem;
-        }
+        .body-copy { color: #c4cad5; line-height: 1.8; letter-spacing: 0.01em; }
+        .panel-text { color: #b8bec8; line-height: 1.75; font-size: 0.875rem; }
     </style>
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
@@ -348,7 +316,7 @@
                                 I am most drawn to work where mechanical systems, sensing, controls, and software have to behave reliably together. I like reducing problems to constraints first, then making the system clear by defining assumptions, tightening interfaces, and tracing behavior back to data.
                             </p>
                             <p>
-                                As I prepare for graduate study in aerospace engineering—focusing on flight mechanics and control—I am looking to contribute to demanding aerospace and robotics teams through robust design, hardware integration, and calm decision-making under pressure.
+                                As I prepare for graduate study—with interests in flight mechanics and control as well as robotics—I am looking to contribute to demanding aerospace and robotics teams through robust design, hardware integration, and calm decision-making under pressure.
                             </p>
                         </div>
                     </div>
@@ -367,16 +335,16 @@
                             <span class="text-gray-200 text-right">St. Louis, MO / Kansas City, MO</span>
                         </div>
                         <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Degree Path</span>
+                            <span class="text-gray-500">Degree</span>
                             <span class="text-gray-200 text-right">B.S. Mechanical Engineering</span>
                         </div>
                         <div class="snapshot-row flex justify-between gap-4 py-1">
                             <span class="text-gray-500">Graduation</span>
-                            <span class="text-gray-200 text-right">December 2026</span>
+                            <span class="text-gray-200 text-right">May 2027</span>
                         </div>
                         <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Focus</span>
-                            <span class="text-gray-200 text-right">Flight Mechanics and Control</span>
+                            <span class="text-gray-500">Graduate Interest</span>
+                            <span class="text-gray-200 text-right">Flight Mechanics · Robotics</span>
                         </div>
                         <div class="snapshot-row flex justify-between gap-4 py-1">
                             <span class="text-gray-500">Interest Areas</span>
@@ -408,9 +376,9 @@
                 <div class="text-white text-sm stat-value transition-colors duration-200">Flight Systems</div>
             </div>
             <div class="stat-box border border-white/10 p-4 has-tip">
-                <div class="tip">Parallel domain interest</div>
-                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Secondary Lane</div>
-                <div class="text-white text-sm stat-value transition-colors duration-200">Robotics</div>
+                <div class="tip">Graduate study interest</div>
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Grad Interest</div>
+                <div class="text-white text-sm stat-value transition-colors duration-200">FMC · Robotics</div>
             </div>
             <div class="stat-box border border-white/10 p-4 has-tip">
                 <div class="tip">How decisions get made</div>
@@ -684,7 +652,7 @@
                 </li>
                 <li class="aim-item flex gap-3 text-gray-300">
                     <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
-                    <span>Grow into a systems minded engineer who can simplify complexity, stay calm under pressure, and make sound decisions with incomplete information.</span>
+                    <span>Grow into a systems-minded engineer who can simplify complexity, stay calm under pressure, and make sound decisions with incomplete information.</span>
                 </li>
             </ul>
         </section>
@@ -706,30 +674,19 @@
             setTimeout(() => { window.location.href = url; }, 400);
         }
 
-        // MERGED: Single IntersectionObserver handles both reveal and progress bars
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (!entry.isIntersecting) return;
-
                 const el = entry.target;
-
-                // Handle reveal animation
-                if (el.classList.contains('reveal')) {
-                    el.classList.add('visible');
-                }
-
-                // Handle progress bars
+                if (el.classList.contains('reveal')) el.classList.add('visible');
                 el.querySelectorAll('.progress-fill').forEach(fill => {
                     const w = parseFloat(fill.dataset.width);
                     if (w) fill.style.transform = `scaleX(${w})`;
                 });
-
-                // Unobserve after triggering — no need to watch anymore
                 observer.unobserve(el);
             });
         }, { threshold: 0.08 });
 
-        // Single pass — observe all reveal sections
         document.querySelectorAll('.reveal').forEach((el, i) => {
             el.style.transitionDelay = `${i * 0.05}s`;
             observer.observe(el);
