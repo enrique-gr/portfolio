@@ -3,6 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Pre-paint return: lock scroll restoration so Return/back never flashes the hero then jumps. -->
+  <script>
+    (function () {
+      try {
+        if (sessionStorage.getItem("eg-portfolio-returning") !== "1") return;
+        document.documentElement.classList.add("nav-returning");
+        document.documentElement.classList.remove("scroll-smooth");
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        var y = sessionStorage.getItem("eg-portfolio-index-scroll");
+        if (y === null) return;
+        var n = parseInt(y, 10);
+        if (isNaN(n)) return;
+        var apply = function () { window.scrollTo(0, n); };
+        apply();
+        document.addEventListener("DOMContentLoaded", apply);
+        window.addEventListener("load", apply);
+      } catch (e) { /* private mode */ }
+    })();
+  </script>
 
  <!-- Basic metadata -->
 <meta name="robots" content="noindex, nofollow">

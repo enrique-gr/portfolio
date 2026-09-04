@@ -48,7 +48,7 @@
                1. Links to index.html?hub=coursework#collections (COURSEWORK)
                2. onclick triggers smoothExit() animation
             -->
-            <a href="index.html?hub=coursework#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+            <a href="index.html?hub=coursework" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                 <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                 <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
             </a>
@@ -268,21 +268,6 @@
         </div>
     </main>
 
-<script>
-    function smoothExit(e, url) {
-        e.preventDefault(); // Stop instant jump
-        
-        // 1. Animate out (Fade + slight shrink for depth)
-        document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
-        document.body.style.opacity = "0";
-        document.body.style.transform = "scale(0.98)"; 
-        
-        // 2. Wait for animation, then go
-        setTimeout(() => {
-            window.location.href = url;
-        }, 400);
-    }
-</script>
-
+  <script src="js/nav-persist.js"></script>
 </body>
 </html>

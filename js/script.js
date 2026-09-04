@@ -828,58 +828,102 @@ function initNav() {
 
 /** Restore scroll / skip entrance animations after back or Return */
 function initScrollRestore() {
-  const hash = window.location.hash;
-  let returning = false;
-  let savedY = null;
+  const SECTION_KEY = "eg-portfolio-return-section";
 
-  try {
-    returning = sessionStorage.getItem(NAV_RETURN_KEY) === "1";
-    savedY = sessionStorage.getItem(NAV_SCROLL_KEY);
-    if (returning) {
+  const readReturnState = () => {
+    let returning = false;
+    let savedY = null;
+    let sectionId = null;
+    let hub = null;
+    try {
+      returning = sessionStorage.getItem(NAV_RETURN_KEY) === "1";
+      savedY = sessionStorage.getItem(NAV_SCROLL_KEY);
+      sectionId = sessionStorage.getItem(SECTION_KEY);
+      hub = sessionStorage.getItem(NAV_HUB_KEY);
+    } catch (_) { /* ignore */ }
+    return { returning, savedY, sectionId, hub };
+  };
+
+  const scrollInstant = (y) => {
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, Math.max(0, y));
+  };
+
+  const consumeFlags = () => {
+    try {
       sessionStorage.removeItem(NAV_RETURN_KEY);
-      document.documentElement.classList.add("nav-returning");
-      const hub = sessionStorage.getItem(NAV_HUB_KEY);
-      if (hub && typeof switchTab === "function") {
-        switchTab(hub === "coursework" ? "coursework" : "personal");
-        sessionStorage.removeItem(NAV_HUB_KEY);
-      }
-    }
-  } catch (_) { /* ignore */ }
+      sessionStorage.removeItem(SECTION_KEY);
+      sessionStorage.removeItem(NAV_HUB_KEY);
+    } catch (_) { /* ignore */ }
+  };
 
-  const restore = () => {
+  const restore = (opts = {}) => {
+    const fromBfcache = !!opts.fromBfcache;
+    const { returning, savedY, sectionId, hub } = readReturnState();
+
     document.documentElement.classList.remove("page-exit");
     document.body.style.opacity = "";
     document.body.style.transform = "";
 
-    if (hash && document.querySelector(hash)) {
-      // Hash targets (e.g. #miro-lab): let the browser/hash win; skip hero stagger only
+    if (returning) {
+      document.documentElement.classList.add("nav-returning");
+      document.documentElement.classList.remove("scroll-smooth");
+      try { history.scrollRestoration = "manual"; } catch (_) { /* ignore */ }
+      if (hub && typeof switchTab === "function") {
+        switchTab(hub === "coursework" ? "coursework" : "personal");
+      }
+    }
+
+    // bfcache already restored scroll — don't fight it unless we have savedY.
+    if (fromBfcache && savedY === null) {
+      if (returning) consumeFlags();
       return;
     }
+
     if (returning && savedY !== null) {
       const y = parseInt(savedY, 10);
       if (!Number.isNaN(y)) {
-        window.scrollTo(0, y);
-        try { sessionStorage.removeItem(NAV_SCROLL_KEY); } catch (_) { /* ignore */ }
+        scrollInstant(y);
+        if (window.location.hash) {
+          try { history.replaceState(null, "", window.location.pathname + window.location.search); } catch (_) { /* ignore */ }
+        }
+        // Keep SCROLL_KEY until load so late layout (featured/hw render) can re-apply once.
+        if (opts.clearScroll) {
+          try { sessionStorage.removeItem(NAV_SCROLL_KEY); } catch (_) { /* ignore */ }
+          consumeFlags();
+        }
+        return;
       }
     }
+
+    const targetId = sectionId || (window.location.hash || "").replace(/^#/, "");
+    if (returning && targetId) {
+      const el = document.getElementById(targetId);
+      if (el) {
+        scrollInstant(el.getBoundingClientRect().top + window.scrollY - 80);
+        try { history.replaceState(null, "", window.location.pathname + window.location.search); } catch (_) { /* ignore */ }
+      }
+      consumeFlags();
+      return;
+    }
+
+    if (returning) consumeFlags();
   };
 
-  // Instant restore before paint when possible
-  if (returning && !hash) {
-    restore();
+  restore();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => restore(), { once: true });
   }
+  window.addEventListener("load", () => restore({ clearScroll: true }), { once: true });
 
   window.addEventListener("pageshow", (e) => {
     document.documentElement.classList.remove("page-exit");
     document.body.style.opacity = "1";
     document.body.style.transform = "none";
-    if (e.persisted) {
-      document.documentElement.classList.add("nav-returning");
-    }
-    restore();
+    if (e.persisted) document.documentElement.classList.add("nav-returning");
+    restore({ fromBfcache: e.persisted });
   });
 
-  // Hash changes (in-page): update active nav without replaying entrances
   window.addEventListener("hashchange", () => {
     document.documentElement.classList.add("nav-returning");
   });

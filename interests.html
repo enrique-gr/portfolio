@@ -647,17 +647,8 @@
             SYSTEM ID: INTERESTS-FLT-STR // END OF FILE
         </div>
     </footer>
-
-    <script>
-        function smoothExit(e, url) {
-            e.preventDefault();
-            document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
-            document.body.style.opacity = "0";
-            document.body.style.transform = "scale(0.98)";
-            setTimeout(() => { window.location.href = url; }, 400);
-        }
-
-        function scrollToSection(id, btn) {
+  <script>
+function scrollToSection(id, btn) {
             document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
@@ -694,8 +685,7 @@
             const el = document.getElementById(s.id);
             if (el) scrollObserver.observe(el);
         });
-    </script>
-
-    <script src="js/nav-persist.js"></script>
+</script>
+  <script src="js/nav-persist.js"></script>
 </body>
 </html>

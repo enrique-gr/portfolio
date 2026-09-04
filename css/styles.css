@@ -51,6 +51,9 @@ html.nav-returning .hero-stagger > * {
 html.nav-returning .animate-fade-in {
   animation: none !important;
 }
+html.nav-returning {
+  scroll-behavior: auto !important;
+}
 
 body {
   font-family: 'Inter', sans-serif;
