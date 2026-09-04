@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Enrique Garcia</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+.project-card {
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+  background: var(--content-bg);
+}
+.project-card-header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.project-card-header h3 {
+  font-family: var(--serif-disp);
+  font-size: 1.15rem;
+  font-weight: normal;
+  margin: 0;
+  color: var(--text);
+}
+.project-card-header .proj-code {
+  font-family: var(--mono);
+  font-size: 0.643rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+.project-card-header .proj-status {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.643rem;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border: 1px solid;
+}
+.status-active  { color: var(--green-live);  border-color: var(--green-live);  }
+.status-complete{ color: var(--text-muted);   border-color: var(--border);      }
+.status-personal{ color: var(--accent);       border-color: var(--accent);      }
+
+.project-card-body { padding: 12px 14px; }
+.project-card-body p { font-size: 0.9rem; margin-bottom: 0.6em; }
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.75rem;
+}
+.meta-chip {
+  font-family: var(--mono);
+  font-size: 0.686rem;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid #b8d0ee;
+}
+.project-card table.wikitable { margin-top: 0.75rem; }
+</style>
+</head>
+<body>
+
+<div id="site-banner">
+  <strong>[ SEEKING ]</strong> Summer 2026 internship — Aerospace · Autonomous Systems · Avionics · Controls &nbsp;|&nbsp; <a href="mailto:e.garciarivera@wustl.edu">e.garciarivera@wustl.edu</a>
+</div>
+
+<div id="site-header">
+  <div class="header-inner">
+    <a id="eg-logo" href="index.html">
+      <svg class="eg-mark" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="38" fill="#1a4a8a"/>
+        <rect x="6" y="8" width="10" height="2" fill="white"/>
+        <rect x="6" y="14" width="8" height="2" fill="white"/>
+        <rect x="6" y="20" width="10" height="2" fill="white"/>
+        <rect x="6" y="8" width="2" height="14" fill="white"/>
+        <rect x="20" y="8" width="10" height="2" fill="white"/>
+        <rect x="20" y="20" width="10" height="2" fill="white"/>
+        <rect x="20" y="8" width="2" height="14" fill="white"/>
+        <rect x="28" y="14" width="2" height="8" fill="white"/>
+        <rect x="25" y="14" width="5" height="2" fill="white"/>
+        <rect x="6" y="26" width="24" height="1" fill="#9cc4ff" opacity="0.6"/>
+      </svg>
+      <div class="eg-wordmark">
+        <span class="eg-name">Enrique Garcia</span>
+        <span class="eg-title">Mechanical Engineer · WashU</span>
+      </div>
+    </a>
+    <nav id="site-nav">
+      <div class="nav-item"><a href="index.html">Home</a></div>
+      <div class="nav-item active"><a href="projects.html">Projects</a></div>
+      <div class="nav-item"><a href="skills.html">Skills</a></div>
+      <div class="nav-item"><a href="coursework.html">Coursework</a></div>
+      <div class="nav-item"><a href="incident-log.html">Incident Log</a></div>
+      <div class="nav-item"><a href="resume.html">Résumé ↗</a></div>
+      <a class="nav-contact" href="mailto:e.garciarivera@wustl.edu">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div id="page-wrap">
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h3>Navigate</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html" class="current">Projects</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="coursework.html">Coursework</a></li>
+        <li><a href="incident-log.html">Incident Log</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>On this page</h3>
+      <ul>
+        <li><a href="#team">Team Projects</a></li>
+        <li><a href="#vtol">WashU VTOL</a></li>
+        <li><a href="#dbf">Design/Build/Fly</a></li>
+        <li><a href="#sentinel">Sentinel CV</a></li>
+        <li><a href="#miro">MIRO Lab</a></li>
+        <li><a href="#personal">Personal Projects</a></li>
+        <li><a href="#ekf">EKF Nav</a></li>
+        <li><a href="#hyperion">Hyperion Engine</a></li>
+        <li><a href="#webtunnel">WebTunnel CFD</a></li>
+        <li><a href="#lander">GNC Lander</a></li>
+        <li><a href="#faultline">FAULTLINE</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>External</h3>
+      <ul>
+        <li><a href="https://linkedin.com/in/enrique-gr" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>Status</h3>
+      <div class="status-live"><span class="live-dot"></span>Active · Spring 2026</div>
+    </div>
+  </div>
+
+  <div id="content">
+    <div class="body-text">
+
+      <h1 class="page-heading">Projects</h1>
+      <span class="heading-meta">ARTICLE :: EG-PROJ-002 &nbsp;·&nbsp; LAST EDITED: 16 APR 2026</span>
+
+      <p>
+        My project work spans team-based engineering programs and independent builds. Each entry has a defined scope,
+        measurable outcomes, and documented anomalies where applicable.
+        See <a href="incident-log.html">Incident Log</a> for resolved anomalies.
+      </p>
+
+      <!-- TEAM PROJECTS -->
+      <h2 class="section-h2" id="team">Team Projects <span class="section-code">§ 1.0</span></h2>
+
+      <!-- VTOL -->
+      <div class="project-card" id="vtol">
+        <div class="project-card-header">
+          <h3>WashU VTOL</h3>
+          <span class="proj-code">PROJ-T01</span>
+          <span class="proj-status status-active">● ACTIVE</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            I serve as Avionics &amp; Systems Integration Lead for WashU VTOL — a student-built semi-autonomous
+            vertical takeoff and landing aircraft. My job is owning the entire avionics stack: Pixhawk 6C flight
+            management unit, PX4 autopilot, ESC wiring, power distribution, and all sensor integration.
+          </p>
+          <p>
+            The most impactful thing I built was a hardware-in-the-loop (HIL) validation workflow using Gazebo/PX4
+            SITL. This let us tune autopilot parameters exhaustively and test failure modes before putting the
+            aircraft in the air — which is exactly the kind of shift-left validation that matters for flight-critical software.
+          </p>
+          <p>
+            I also tracked down and resolved a persistent I2C noise fault (see <a href="incident-log.html#vtol01">Incident VTOL-01</a>)
+            that was causing intermittent sensor dropouts during bench testing. Root cause was motor wiring EMI on
+            unshielded I2C lines; resolution was re-routing, shielding, and pull-up resistor additions.
+          </p>
+          <table class="wikitable">
+            <tr><th>Attribute</th><th>Detail</th></tr>
+            <tr><td>Period</td><td>September 2025 – Present</td></tr>
+            <tr><td>Role</td><td>Avionics &amp; Systems Integration Lead</td></tr>
+            <tr><td>Flight Stack</td><td>PX4 on Pixhawk 6C</td></tr>
+            <tr><td>Validation</td><td>Gazebo / PX4 SITL hardware-in-the-loop</td></tr>
+            <tr><td>Protocols</td><td>I2C, UART, PWM, MAVLink</td></tr>
+            <tr><td>Key Outcome</td><td>Stable autonomous hover envelope; reduced integration regressions</td></tr>
+          </table>
+          <div class="project-meta">
+            <span class="meta-chip">PX4</span><span class="meta-chip">Pixhawk 6C</span>
+            <span class="meta-chip">MAVLink</span><span class="meta-chip">HIL Testing</span>
+            <span class="meta-chip">I2C/UART</span><span class="meta-chip">STM32</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DBF -->
+      <div class="project-card" id="dbf">
+        <div class="project-card-header">
+          <h3>WashU Design/Build/Fly</h3>
+          <span class="proj-code">PROJ-T02</span>
+          <span class="proj-status status-complete">COMPLETE</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            During 2024–2025 I was the Aerodynamics &amp; Payload Engineer for WashU's AIAA Design/Build/Fly
+            competition team. My primary responsibility was validating the wing geometry across the full operating
+            envelope before we committed to manufacturing.
+          </p>
+          <p>
+            I ran iterative XFLR5 panel-method sweeps to generate Cl/Cd polars for a set of NACA-series candidate
+            profiles, then cross-checked the most promising geometries in ANSYS CFX to catch viscous effects XFLR5
+            misses. I also did a 2.5 g structural load analysis that directly informed spar placement and composite
+            layup — the resulting wing configuration passed all load cases.
+          </p>
+          <table class="wikitable">
+            <tr><th>Attribute</th><th>Detail</th></tr>
+            <tr><td>Period</td><td>September 2024 – January 2026</td></tr>
+            <tr><td>Role</td><td>Aerodynamics &amp; Payload Engineer</td></tr>
+            <tr><td>Tools</td><td>XFLR5, ANSYS CFX, SolidWorks</td></tr>
+            <tr><td>Load Analysis</td><td>2.5g structural envelope, composite layup decisions</td></tr>
+          </table>
+          <div class="project-meta">
+            <span class="meta-chip">XFLR5</span><span class="meta-chip">ANSYS CFX</span>
+            <span class="meta-chip">SolidWorks</span><span class="meta-chip">Aerodynamics</span>
+            <span class="meta-chip">DFM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SENTINEL -->
+      <div class="project-card" id="sentinel">
+        <div class="project-card-header">
+          <h3>Sentinel Computer Vision</h3>
+          <span class="proj-code">PROJ-T03</span>
+          <span class="proj-status status-complete">COMPLETE</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            Sentinel CV is a real-time computer vision pipeline I built for autonomous target tracking and
+            intercept prediction. The system chains background subtraction, contour-based detection, and a
+            Kalman filter state estimator, implemented in C++ with OpenCV.
+          </p>
+          <p>
+            It runs at camera frame rate with latency low enough for closed-loop guidance simulation. The
+            Kalman filter handles occlusion and detection dropout gracefully by coasting on predicted state
+            until measurements resume.
+          </p>
+          <div class="project-meta">
+            <span class="meta-chip">C++</span><span class="meta-chip">OpenCV</span>
+            <span class="meta-chip">Kalman Filter</span><span class="meta-chip">Real-Time CV</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MIRO -->
+      <div class="project-card" id="miro">
+        <div class="project-card-header">
+          <h3>MIRO Lab — Undergraduate Researcher</h3>
+          <span class="proj-code">PROJ-T04</span>
+          <span class="proj-status status-complete">COMPLETE</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            During Summer 2025 I worked at the Multiplatform Interactive Robotics Lab at WashU. I developed a
+            wearable sensor fusion pipeline that combined IMU, electromyography (EMG) sensors, and a visual
+            tracking camera into temporally synchronized motion signatures for human–robot interaction research.
+          </p>
+          <p>
+            The challenge was getting three modalities — very different sample rates, latencies, and noise
+            profiles — into a single coherent stream. I built the synchronization and calibration pipeline in
+            Python, with probabilistic uncertainty propagation throughout.
+          </p>
+          <div class="project-meta">
+            <span class="meta-chip">Python</span><span class="meta-chip">Sensor Fusion</span>
+            <span class="meta-chip">IMU</span><span class="meta-chip">EMG</span>
+            <span class="meta-chip">EKF</span><span class="meta-chip">HRI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSONAL -->
+      <h2 class="section-h2" id="personal">Personal Projects <span class="section-code">§ 2.0</span></h2>
+
+      <!-- EKF NAV -->
+      <div class="project-card" id="ekf">
+        <div class="project-card-header">
+          <h3>Multi-Sensor Flight Navigation (EKF Nav)</h3>
+          <span class="proj-code">PROJ-P01</span>
+          <span class="proj-status status-personal">PERSONAL</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            A real-time 12-state Extended Kalman Filter fusing IMU, GPS, and optical flow data, running on a
+            Teensy 4.1 (ARM Cortex-M7 at 600 MHz). The filter state covers 3D position, velocity, attitude
+            quaternion, and IMU bias terms.
+          </p>
+          <p>
+            Covariance gating handles sensor dropout — if a measurement's innovation exceeds a statistical
+            threshold, it's rejected rather than corrupting the state estimate. This makes the system resilient
+            to GPS outages and IMU glitches without a full reset.
+          </p>
+          <div class="project-meta">
+            <span class="meta-chip">C++</span><span class="meta-chip">Teensy 4.1</span>
+            <span class="meta-chip">EKF</span><span class="meta-chip">IMU</span>
+            <span class="meta-chip">GPS</span><span class="meta-chip">Embedded</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HYPERION -->
+      <div class="project-card" id="hyperion">
+        <div class="project-card-header">
+          <h3>Hyperion 6-DOF Physics Engine</h3>
+          <span class="proj-code">PROJ-P02</span>
+          <span class="proj-status status-personal">PERSONAL</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            A high-frequency (10 kHz) rigid-body physics engine for validating flight software. It implements
+            the full 6-DOF translational and rotational equations of motion with Runge-Kutta 4th-order
+            integration, validated against analytical benchmarks for conservation of energy and momentum.
+          </p>
+          <p>
+            The engine is multithreaded — a physics thread runs the integration loop while a telemetry thread
+            samples state for logging. An incident (HYPERION-01) taught me the hard way about thread
+            contention: competing mutex locks were introducing timing jitter that corrupted the integration
+            step. I resolved it with a double-buffered state handoff.
+          </p>
+          <div class="project-meta">
+            <span class="meta-chip">C++20</span><span class="meta-chip">Multithreading</span>
+            <span class="meta-chip">RK4</span><span class="meta-chip">6-DOF Dynamics</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEBTUNNEL -->
+      <div class="project-card" id="webtunnel">
+        <div class="project-card-header">
+          <h3>WebTunnel CFD</h3>
+          <span class="proj-code">PROJ-P03</span>
+          <span class="proj-status status-personal">PERSONAL</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            A zero-dependency real-time fluid simulation running in the browser. It implements a Navier-Stokes
+            solver operating at 60 fps with no build tooling — just a single HTML file. The goal was making
+            CFD intuitive and interactive for anyone, without needing to install anything.
+          </p>
+          <div class="project-meta">
+            <span class="meta-chip">JavaScript</span><span class="meta-chip">Navier-Stokes</span>
+            <span class="meta-chip">Browser Physics</span><span class="meta-chip">WebGL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LANDER -->
+      <div class="project-card" id="lander">
+        <div class="project-card-header">
+          <h3>GNC Lander Simulation</h3>
+          <span class="proj-code">PROJ-P04</span>
+          <span class="proj-status status-personal">PERSONAL</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            An interactive rocket landing simulator with real-time PID tuning. I built it to explore
+            guidance, navigation, and control in a hands-on way — you can adjust PID gains live and watch
+            how the control law responds to thrust management under gravity.
+          </p>
+          <div class="project-meta">
+            <span class="meta-chip">JavaScript</span><span class="meta-chip">PID Control</span>
+            <span class="meta-chip">GNC</span><span class="meta-chip">Simulation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAULTLINE -->
+      <div class="project-card" id="faultline">
+        <div class="project-card-header">
+          <h3>FAULTLINE</h3>
+          <span class="proj-code">PROJ-P05</span>
+          <span class="proj-status status-personal">PERSONAL</span>
+        </div>
+        <div class="project-card-body">
+          <p>
+            A deterministic fault-detection console for robotic subsystems. FAULTLINE implements state
+            machine-based diagnostic logic for embedded system monitoring — it watches subsystem telemetry,
+            classifies faults, and outputs structured diagnostics.
+          </p>
+          <div class="project-meta">
+            <span class="meta-chip">State Machines</span><span class="meta-chip">Embedded Diagnostics</span>
+            <span class="meta-chip">C++</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="catlinks">
+        <ul class="cat-list">
+          <li><a href="#">Avionics</a></li>
+          <li><a href="#">Autonomous Systems</a></li>
+          <li><a href="#">Embedded C++</a></li>
+          <li><a href="#">Computer Vision</a></li>
+          <li><a href="#">Aerodynamics</a></li>
+          <li><a href="#">Control Theory</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="site-footer">
+  <div class="footer-row">
+    <span>EG-PROJ-002 · last edited 16 Apr 2026</span>
+    <a href="resume.html">Résumé ↗</a>
+    <a href="https://www.linkedin.com/in/enrique-gr/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="mailto:e.garciarivera@wustl.edu">Email ↗</a>
+  </div>
+</div>
+<div id="toast"></div>
+</body>
+</html>

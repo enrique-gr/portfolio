@@ -1,8 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
-
+    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WashU VTOL | Enrique Garcia</title>
@@ -12,12 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        html { background-color: #000000; }
+        html { background-color: #000000; scroll-behavior: smooth; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #e2e8f0;
-            /* IMPORTANT: do NOT will-change transform on body; breaks fixed modals in some browsers */
         }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         .tech-highlight { color: #60a5fa; font-weight: 600; }
@@ -27,18 +25,57 @@
         ::-webkit-scrollbar-thumb { background: #3f3f46; }
         ::-webkit-scrollbar-thumb:hover { background: #71717a; }
 
-        /* FIGURE CARD */
+        /* SECTION NAV */
+        .section-nav {
+            position: sticky;
+            top: 80px;
+            z-index: 40;
+            background: rgba(5,5,5,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .section-nav-btn {
+            position: relative;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #6b7280;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+            background: none;
+            border: none;
+        }
+        .section-nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 16px;
+            right: 16px;
+            height: 1px;
+            background: #3b82f6;
+            transform: scaleX(0);
+            transition: transform 0.2s ease;
+            transform-origin: left;
+        }
+        .section-nav-btn:hover { color: #d1d5db; }
+        .section-nav-btn.active { color: #e5e7eb; }
+        .section-nav-btn.active::after { transform: scaleX(1); }
+
         .fig-card {
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.10);
             background: rgba(255,255,255,0.03);
-            transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+            transition: transform 180ms ease, border-color 180ms ease;
+            will-change: transform;
         }
         .fig-card:hover {
             transform: translateY(-2px);
             border-color: rgba(96,165,250,0.55);
-            background: rgba(255,255,255,0.05);
         }
         .fig-badge {
             position: absolute;
@@ -56,7 +93,6 @@
             box-shadow: 0 0 0 1px rgba(59,130,246,0.20), 0 0 28px rgba(59,130,246,0.18);
         }
 
-        /* ===== MODAL ===== */
         .modal-backdrop {
             position: fixed;
             inset: 0;
@@ -84,7 +120,7 @@
             display: flex;
             flex-direction: column;
             width: min(1100px, 100%);
-            height: min(900px, 92vh); /* stable modal height */
+            height: min(900px, 92vh);
             border: 1px solid rgba(255,255,255,0.12);
             background: rgba(10,10,12,0.97);
             backdrop-filter: blur(10px);
@@ -101,7 +137,6 @@
             background: rgba(0,0,0,0.35);
         }
 
-        /* Allow internal scroll if needed; still centers when it fits */
         .modal-img-wrap {
             flex: 1 1 auto;
             min-height: 0;
@@ -109,7 +144,7 @@
             align-items: center;
             justify-content: center;
             background: #000;
-            overflow: auto; /* was hidden — can cause perceived clipping in some situations */
+            overflow: auto;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -144,130 +179,163 @@
 
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
-    <!-- Wrap page content so smoothExit animates wrapper, not body -->
     <div id="pageWrap">
 
-        <!-- NAV -->
+        <!-- MAIN NAV -->
         <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
             <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
                 <a href="index.html#washu-vtol" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                     <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                     <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
                 </a>
-                <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#ef4444] drop-shadow-[0_0_6px_rgba(239,68,68,0.6)]">
-                    <span class="hidden md:inline font-bold">Mission Critical – Active</span>
-                    <span class="w-2 h-2 rounded-full bg-[#ef4444] animate-pulse"></span>
+                <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#10b981] drop-shadow-[0_0_6px_rgba(16,185,129,0.5)]">
+                    <span class="hidden md:inline font-bold">Operational · Season Complete</span>
+                    <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
                 </div>
             </div>
         </nav>
 
+        <!-- SECTION NAV -->
+        <div class="section-nav">
+            <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+                <div class="flex items-center gap-0">
+                    <button class="section-nav-btn active" onclick="scrollToSection('section-methodology', this)">Methodology</button>
+                    <button class="section-nav-btn" onclick="scrollToSection('section-media', this)">Media & Artifacts</button>
+                    <button class="section-nav-btn" onclick="scrollToSection('section-flighttest', this)">Flight Test</button>
+                    <button class="section-nav-btn" onclick="scrollToSection('section-avionics', this)">Avionics Topology</button>
+                </div>
+            </div>
+        </div>
+
         <!-- MAIN -->
-        <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
-                <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-                    <img src="images/washu_vtol.png" alt="WashU VTOL Logo" class="h-full w-full object-cover"
+        <main class="pt-44 pb-20 px-6 max-w-7xl mx-auto">
+
+            <!-- HEADER -->
+            <div class="flex flex-col md:flex-row items-start gap-8 mb-8 border-b border-white/10 pb-10">
+                <div class="h-24 w-24 bg-white border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                    <img src="assets/images/washu_vtol_logo.jpg" alt="WashU VTOL Logo" class="h-full w-full object-cover"
                          onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-plane-up text-4xl text-white\'></i>'">
                 </div>
-                <div>
+                <div class="flex-1">
                     <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">WashU VTOL</h1>
                     <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Avionics &amp; Systems Integration Lead</p>
-                    <div class="mt-4 text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">
-                        Sept 2025 - Present
+                    <div class="flex flex-wrap gap-3 mt-4">
+                        <div class="text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">Sept 2025 – Present</div>
+                        <div class="text-[10px] font-mono text-emerald-500 border border-emerald-500/30 px-2 py-1 uppercase inline-block">WashU's Newest Engr Design Team</div>
+                        <div class="text-[10px] font-mono text-blue-400 border border-blue-400/30 px-2 py-1 uppercase inline-block">VFS DBVF 2025–2026</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- TEAM PHOTO -->
+            <div class="mb-12">
+                <div class="relative overflow-hidden border border-white/10">
+                    <div class="absolute top-3 left-3 z-10 text-[10px] font-mono uppercase tracking-widest px-2 py-1 bg-black/70 border border-white/10 text-gray-300">
+                        Team · 2025/2026 Season
+                    </div>
+                    <img src="assets/images/vtol_team.png" alt="WashU VTOL Team Photo"
+                         class="w-full object-contain"
+                         onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center text-gray-600 font-mono text-xs uppercase tracking-widest\'>Team photo: vtol_team.png</div>'">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
                 <!-- LEFT / MAIN COLUMN -->
                 <div class="lg:col-span-2">
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Mission &amp; Engineering Methodology</h3>
-                    <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
-                        <p>
-                            As a founding member and Avionics &amp; Systems Integration Lead, I am responsible for the end-to-end development
-                            of the electrical and control systems for a hybrid-electric VTOL aircraft. My approach
-                            centers on four key engineering pillars:
-                        </p>
-                        <ul class="space-y-4 list-disc list-inside border-l-2 border-blue-500/30 pl-4">
-                            <li>
-                                <strong class="text-white uppercase font-mono text-sm tracking-wider">Architecture &amp; Systems Thinking:</strong>
-                                Defined the complete avionics topology, specifying interfaces between
-                                Pixhawk 6C, onboard compute, and power subsystems to ensure
-                                <span class="tech-highlight">redundancy and fault tolerance</span>.
-                            </li>
-                            <li>
-                                <strong class="text-white uppercase font-mono text-sm tracking-wider">Flight Control (GNC):</strong>
-                                Configured PX4 firmware mixing for VTOL and fixed-wing modes. Performed
-                                <span class="tech-highlight">PID gain tuning</span> and implemented fail-safe
-                                logic for autonomous recovery.
-                            </li>
-                            <li>
-                                <strong class="text-white uppercase font-mono text-sm tracking-wider">Hardware Implementation:</strong>
-                                Designed wiring harnesses, sensor mounts, and electrical isolation strategies
-                                to mitigate <span class="tech-highlight">high-current EMI</span> affecting avionics.
-                            </li>
-                            <li>
-                                <strong class="text-white uppercase font-mono text-sm tracking-wider">Testing &amp; Validation:</strong>
-                                Built a V-model testing pipeline using
-                                <span class="tech-highlight">Hardware-in-the-Loop (HIL)</span>, PX4 logs, and
-                                bench-level component diagnostics.
-                            </li>
-                        </ul>
+
+                    <!-- METHODOLOGY -->
+                    <div id="section-methodology">
+                        <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Mission &amp; Engineering Methodology</h3>
+                        <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                            <p>
+                                WashU VTOL is Washington University's newest engineering design team, founded in Fall 2025.
+                                As a founding member and Avionics &amp; Systems Integration Lead, I am responsible for the
+                                end-to-end development of the electrical and flight control systems for a hybrid-electric
+                                VTOL aircraft competing in the VFS Design-Build-Vertical Flight competition. Our approach
+                                is iteration-driven (build, test, diagnose, and refine), centered on four key engineering pillars:
+                            </p>
+                            <ul class="space-y-4 list-disc list-inside border-l-2 border-blue-500/30 pl-4">
+                                <li>
+                                    <strong class="text-white uppercase font-mono text-sm tracking-wider">Architecture &amp; Systems Thinking:</strong>
+                                    Defined the complete avionics topology, specifying interfaces between
+                                    Pixhawk 6C, onboard compute, and power subsystems to ensure
+                                    <span class="tech-highlight">redundancy and fault tolerance</span>.
+                                </li>
+                                <li>
+                                    <strong class="text-white uppercase font-mono text-sm tracking-wider">Flight Control &amp; Tuning:</strong>
+                                    Configured PX4 firmware for VTOL and fixed-wing modes. Performed
+                                    <span class="tech-highlight">PID gain tuning</span>, implemented fail-safe
+                                    logic, and validated autonomous recovery behaviors.
+                                </li>
+                                <li>
+                                    <strong class="text-white uppercase font-mono text-sm tracking-wider">Hardware Implementation:</strong>
+                                    Contributed to sensor mounts and electrical isolation strategies to mitigate <span class="tech-highlight">high-current EMI</span> affecting avionics.
+                                </li>
+                                <li>
+                                    <strong class="text-white uppercase font-mono text-sm tracking-wider">Testing &amp; Validation:</strong>
+                                    Executed a staged validation pipeline: bench testing, HIL simulation,
+                                    hover trials, and <span class="tech-highlight">full VTOL-to-fixed-wing transition</span>,
+                                    iterating on each phase before proceeding to the next.
+                                </li>
+                            </ul>
+                            <p>
+                                This season marked several key milestones for the team: our first successful hover test,
+                                a complete VTOL-to-fixed-wing transition, and validated manual payload delivery operations.
+                                Autonomous navigation refinement is currently ongoing.
+                            </p>
+                        </div>
                     </div>
 
                     <!-- MEDIA & ARTIFACTS -->
-                    <section class="mb-12">
+                    <section id="section-media" class="mb-12">
                         <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
                             <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest">Media &amp; Artifacts</h3>
                             <span class="text-[10px] font-mono uppercase tracking-widest text-gray-500">Click any figure to zoom</span>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Aircraft Assembly -->
                             <button class="fig-card fig-glow text-left" type="button"
-                                onclick="openModal('images/vtol_aircraft_assembly.png','Aircraft Assembly — Initial Hex Platform Integration')">
+                                onclick="openModal('assets/images/vtol_aircraft_assembly.png','Aircraft Assembly: Initial Hex Platform Integration')">
                                 <span class="fig-badge font-mono text-gray-200">Aircraft Assembly</span>
-                                <img src="images/vtol_aircraft_assembly.png" alt="WashU VTOL aircraft assembly"
+                                <img src="assets/images/vtol_aircraft_assembly.png" alt="WashU VTOL aircraft assembly"
                                      class="w-full h-64 object-cover"
-                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Aircraft Assembly</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Missing image: images/vtol_aircraft_assembly.png</div></div>'">
+                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Aircraft Assembly</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Missing image</div></div>'">
                                 <div class="p-4 border-t border-white/10">
                                     <div class="text-white font-mono text-xs uppercase tracking-widest">Assembly &amp; Integration</div>
                                     <div class="text-gray-400 text-sm mt-1">Frame build + early avionics/power routing coordination.</div>
                                 </div>
                             </button>
 
-                            <!-- Wiring Diagram -->
                             <button class="fig-card text-left" type="button"
-                                onclick="openModal('images/vtol_wiring_diagram.png','Embedded Wiring Diagram — Power Domains &amp; Signal Routing')">
+                                onclick="openModal('assets/images/vtol_wiring_diagram.png','Embedded Wiring Diagram: Power Domains &amp; Signal Routing')">
                                 <span class="fig-badge font-mono text-gray-200">Wiring Diagram</span>
-                                <img src="images/vtol_wiring_diagram.png" alt="WashU VTOL wiring diagram"
+                                <img src="assets/images/vtol_wiring_diagram.png" alt="WashU VTOL wiring diagram"
                                      class="w-full h-64 object-cover"
-                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Wiring Diagram</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Missing image: images/vtol_wiring_diagram.png</div></div>'">
+                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Wiring Diagram</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Missing image</div></div>'">
                                 <div class="p-4 border-t border-white/10">
                                     <div class="text-white font-mono text-xs uppercase tracking-widest">Architecture Reference</div>
                                     <div class="text-gray-400 text-sm mt-1">Isolated propulsion vs avionics, comms cutoff, payload rail.</div>
                                 </div>
                             </button>
 
-                            <!-- Test Bench 1 -->
                             <button class="fig-card text-left" type="button"
-                                onclick="openModal('images/vtol_test_bench_1.png','Test Bench — Power Bring-Up &amp; Component Validation (1/2)')">
+                                onclick="openModal('assets/images/vtol_test_bench_1.png','Test Bench: Power Bring-Up &amp; Component Validation (1/2)')">
                                 <span class="fig-badge font-mono text-gray-200">Test Bench</span>
-                                <img src="images/vtol_test_bench_1.png" alt="WashU VTOL test bench 1"
+                                <img src="assets/images/vtol_test_bench_1.png" alt="WashU VTOL test bench 1"
                                      class="w-full h-64 object-cover"
-                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Test Bench</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Missing image: images/vtol_test_bench_1.png</div></div>'">
+                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Test Bench</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Missing image</div></div>'">
                                 <div class="p-4 border-t border-white/10">
                                     <div class="text-white font-mono text-xs uppercase tracking-widest">Bench-Level Validation</div>
                                     <div class="text-gray-400 text-sm mt-1">Rail verification, connector sanity checks, safe first power-on workflow.</div>
                                 </div>
                             </button>
 
-                            <!-- Test Bench 2 -->
                             <button class="fig-card text-left" type="button"
-                                onclick="openModal('images/vtol_test_bench_2.png','Test Bench — Flight Controller / Companion Compute Integration (2/2)')">
+                                onclick="openModal('assets/images/vtol_test_bench_2.png','Test Bench: Flight Controller / Companion Compute Integration (2/2)')">
                                 <span class="fig-badge font-mono text-gray-200">Test Bench</span>
-                                <img src="images/vtol_test_bench_2.png" alt="WashU VTOL test bench 2"
+                                <img src="assets/images/vtol_test_bench_2.png" alt="WashU VTOL test bench 2"
                                      class="w-full h-64 object-cover"
-                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Test Bench</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Missing image: images/vtol_test_bench_2.png</div></div>'">
+                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Test Bench</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Missing image</div></div>'">
                                 <div class="p-4 border-t border-white/10">
                                     <div class="text-white font-mono text-xs uppercase tracking-widest">Integration Bring-Up</div>
                                     <div class="text-gray-400 text-sm mt-1">Iterative wiring + diagnostics to de-risk full-airframe integration.</div>
@@ -275,59 +343,90 @@
                             </button>
                         </div>
 
-                        <!-- FTR PDF EMBED (UNCHANGED) -->
+                        <!-- FLIGHT TEST MEDIA -->
+                        <div id="section-flighttest" class="mt-10 bg-black border border-white/10 p-6">
+                            <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                                <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Flight Test Media</h3>
+                                <i class="fas fa-photo-film text-gray-600"></i>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed text-sm mb-6 font-light">
+                                Selected flight-test footage from WashU VTOL development and field operations.
+                            </p>
+                            <div class="border border-blue-500/20 bg-blue-900/5 rounded-sm overflow-hidden">
+                                <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-black/30">
+                                    <div class="text-[10px] font-mono uppercase tracking-widest text-blue-400">Flight Test Video</div>
+                                    <div class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">MOV</div>
+                                </div>
+                                <div class="p-4">
+                                    <video class="w-full border border-white/10 bg-black/40"
+                                           controls playsinline preload="metadata"
+                                           poster="assets/images/vtol_team.png">
+                                        <source src="assets/videos/vtol_test_flight.MOV" type="video/quicktime">
+                                        <source src="assets/videos/vtol_test_flight.MOV" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FTR PDF -->
                         <div class="mt-10 bg-black border border-white/10">
                             <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
                                 <div>
                                     <div class="text-white font-mono text-xs uppercase tracking-widest">Final Technical Report (FTR)</div>
-                                    <div class="text-gray-500 text-[11px] font-mono mt-1 uppercase tracking-widest">
-                                        Embedded preview — March 2, 2026
-                                    </div>
+                                    <div class="text-gray-500 text-[11px] font-mono mt-1 uppercase tracking-widest">Embedded preview · March 2, 2026</div>
                                 </div>
                                 <a href="docs/WashU_VTOL_FTR.pdf" target="_blank"
                                    class="text-xs font-mono uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors">
                                     Open Fullscreen <i class="fas fa-arrow-up-right-from-square ml-2"></i>
                                 </a>
                             </div>
-                            <iframe
-                                src="docs/WashU_VTOL_FTR.pdf#view=FitH"
+                            <iframe src="docs/WashU_VTOL_FTR.pdf#view=FitH"
                                 title="WashU VTOL Final Technical Report"
-                                class="w-full"
-                                style="height: 720px; border: 0;"
-                            ></iframe>
+                                class="w-full" style="height: 720px; border: 0;"></iframe>
                             <div class="px-6 py-4 border-t border-white/10 text-gray-500 text-[11px] font-mono">
                                 If the PDF doesn't render in your browser, use the "Open Fullscreen" link above.
                             </div>
                         </div>
                     </section>
 
-                    <!-- AVIONICS TOPOLOGY (UNCHANGED) -->
-                    <div class="bg-black border border-white/10 p-6">
+                    <!-- AVIONICS TOPOLOGY -->
+                    <div id="section-avionics" class="bg-black border border-white/10 p-6">
                         <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
-                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
-                                Avionics Topology &amp; Readiness
-                            </h3>
+                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Avionics Topology &amp; Operational Status</h3>
                             <i class="fas fa-network-wired text-gray-600"></i>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
                             <div>
-                                <h4 class="text-gray-500 mb-4 uppercase tracking-wider">&gt;&gt; Mission Readiness Protocol</h4>
+                                <h4 class="text-gray-500 mb-4 uppercase tracking-wider">&gt;&gt; Season Milestones</h4>
                                 <div class="space-y-2">
                                     <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                        <span>[SYS_ARCH] Topology Definition</span>
+                                        <span>[SYS_ARCH] Avionics Architecture</span>
                                         <span class="text-emerald-500">COMPLETE</span>
                                     </div>
                                     <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                        <span>[HW_INT] Power Distribution</span>
-                                        <span class="text-emerald-500">INTEGRATED</span>
+                                        <span>[HW_INT] Power &amp; Wiring</span>
+                                        <span class="text-emerald-500">COMPLETE</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                        <span>[HIL_VAL] HIL Simulation</span>
+                                        <span class="text-emerald-500">COMPLETE</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                        <span>[FLT_001] First Hover Test</span>
+                                        <span class="text-emerald-500">COMPLETE</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                        <span>[FLT_002] VTOL Transition</span>
+                                        <span class="text-emerald-500">COMPLETE</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                        <span>[PAY_OPS] Manual Payload Ops</span>
+                                        <span class="text-emerald-500">COMPLETE</span>
                                     </div>
                                     <div class="flex justify-between p-2 bg-white/5 border-l-2 border-blue-400 animate-pulse">
-                                        <span>[GNC_VAL] HIL Simulation</span>
+                                        <span>[AUTO_NAV] Autonomous Navigation</span>
                                         <span class="text-blue-400">IN PROGRESS</span>
-                                    </div>
-                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-gray-700 opacity-50">
-                                        <span>[FLT_TEST] Transition Flights</span>
-                                        <span>PENDING</span>
                                     </div>
                                 </div>
                             </div>
@@ -335,21 +434,15 @@
                             <div class="relative p-4 border border-blue-500/20 bg-blue-900/5 rounded-sm">
                                 <h4 class="text-blue-400 mb-6 text-center uppercase tracking-wider">Core Data Bus</h4>
                                 <div class="flex flex-col items-center gap-4 relative z-10">
-                                    <div class="w-32 py-2 text-center border border-white/40 bg-[#0f0f10] rounded">
-                                        RTK GPS &amp; COMPASS
-                                    </div>
+                                    <div class="w-32 py-2 text-center border border-white/40 bg-[#0f0f10] rounded">GPS &amp; COMPASS</div>
                                     <div class="h-4 w-0.5 bg-blue-500/50"></div>
                                     <div class="w-40 py-3 text-center border-2 border-blue-400 font-bold bg-[#0f0f10] rounded relative shadow-[0_0_15px_rgba(59,130,246,0.3)]">
                                         PIXHAWK 6C (FMU)
                                         <div class="absolute -left-16 top-1/2 -translate-y-1/2 w-14 h-0.5 bg-blue-500/30"></div>
                                         <div class="absolute -right-16 top-1/2 -translate-y-1/2 w-14 h-0.5 bg-blue-500/30"></div>
                                     </div>
-                                    <div class="absolute left-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">
-                                        POWER MODULE
-                                    </div>
-                                    <div class="absolute right-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">
-                                        TELEMETRY RADIO
-                                    </div>
+                                    <div class="absolute left-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">POWER MODULE</div>
+                                    <div class="absolute right-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">TELEMETRY RADIO</div>
                                     <div class="h-4 w-0.5 bg-blue-500/50"></div>
                                     <div class="w-48 py-2 text-center border border-white/40 bg-[#0f0f10] rounded flex justify-around">
                                         <span>ESC 1-6 (VTOL)</span>
@@ -371,9 +464,7 @@
                             <span class="text-xs font-bold text-white font-mono uppercase tracking-widest group-hover:text-blue-400 transition-colors">VFS Competition</span>
                             <i class="fas fa-external-link-alt text-gray-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-transform"></i>
                         </div>
-                        <p class="text-[10px] text-gray-400 font-mono leading-relaxed">
-                            Official Vertical Flight Society Student Competition resources and regulations.
-                        </p>
+                        <p class="text-[10px] text-gray-400 font-mono leading-relaxed">Official Vertical Flight Society Student Competition resources and regulations.</p>
                     </a>
 
                     <div>
@@ -382,16 +473,19 @@
                             <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Pixhawk 6C</span>
                             <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">PX4 Autopilot</span>
                             <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">HIL Simulation</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Gazebo</span>
                             <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Sensor Fusion</span>
                             <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">EMI Mitigation</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">QGroundControl</span>
                         </div>
                     </div>
 
                     <div class="p-8 bg-blue-500/5 border border-blue-500/20">
                         <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">Key Outcome</h4>
                         <p class="text-sm text-blue-100/80 leading-relaxed">
-                            Architected and validated a robust, fault-tolerant avionics suite for hybrid flight, bridging
-                            high-level GNC algorithms with physical hardware implementation.
+                            As a founding member of WashU's newest engineering design team, built and validated
+                            a full avionics suite from the ground up, achieving first hover, successful VTOL
+                            transition, and manual payload operations within a single competition season.
                         </p>
                     </div>
 
@@ -401,8 +495,11 @@
                             <a href="docs/WashU_VTOL_FTR.pdf" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
                                 <i class="fas fa-file-pdf mr-2"></i>Final Technical Report (PDF)
                             </a>
-                            <a href="images/vtol_wiring_diagram.png" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
+                            <a href="assets/images/vtol_wiring_diagram.png" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
                                 <i class="fas fa-diagram-project mr-2"></i>Wiring Diagram (PNG)
+                            </a>
+                            <a href="assets/videos/vtol_test_flight.MOV" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
+                                <i class="fas fa-video mr-2"></i>Flight Test Video
                             </a>
                         </div>
                     </div>
@@ -418,14 +515,13 @@
 
     </div><!-- /#pageWrap -->
 
-    <!-- ===== MODAL (kept OUTSIDE pageWrap so transforms can never affect it) ===== -->
+    <!-- MODAL -->
     <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true"></div>
     <div id="modalShell" class="modal-shell" role="dialog" aria-modal="true" aria-label="Figure Preview" aria-hidden="true">
         <div class="modal-panel" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div id="modalTitle" class="text-xs font-mono uppercase tracking-widest text-gray-200">Figure</div>
-                <button class="modal-close px-3 py-1.5 text-xs font-mono uppercase tracking-widest"
-                        onclick="closeModal()">
+                <button class="modal-close px-3 py-1.5 text-xs font-mono uppercase tracking-widest" onclick="closeModal()">
                     Close <i class="fas fa-xmark ml-2"></i>
                 </button>
             </div>
@@ -452,6 +548,39 @@
         setTimeout(function() { window.location.href = url; }, 400);
     }
 
+    function scrollToSection(id, btn) {
+        document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const el = document.getElementById(id);
+        if (!el) return;
+        const offset = 80 + 45 + 24;
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+    }
+
+    const vtolSections = [
+        { id: 'section-methodology', btn: 0 },
+        { id: 'section-media', btn: 1 },
+        { id: 'section-flighttest', btn: 2 },
+        { id: 'section-avionics', btn: 3 },
+    ];
+    const navBtns = document.querySelectorAll('.section-nav-btn');
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const match = vtolSections.find(s => s.id === entry.target.id);
+                if (match) {
+                    navBtns.forEach(b => b.classList.remove('active'));
+                    navBtns[match.btn].classList.add('active');
+                }
+            }
+        });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    vtolSections.forEach(s => {
+        const el = document.getElementById(s.id);
+        if (el) scrollObserver.observe(el);
+    });
+
     var modalBackdrop = document.getElementById('modalBackdrop');
     var modalShell    = document.getElementById('modalShell');
 
@@ -467,16 +596,12 @@
     function openModal(src, title) {
         var img = document.getElementById('modalImg');
         img.src = '';
-
         document.getElementById('modalTitle').textContent = title || 'Figure';
         document.getElementById('modalOpenNew').href = src;
-
         img.src = src;
-
         modalBackdrop.setAttribute('data-open', 'true');
         modalShell.setAttribute('data-open', 'true');
         modalShell.setAttribute('aria-hidden', 'false');
-
         lockScroll();
     }
 
@@ -492,11 +617,11 @@
         if (e.target === modalShell) closeModal();
     });
     modalBackdrop.addEventListener('click', closeModal);
-
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && modalShell.getAttribute('data-open') === 'true') closeModal();
     });
     </script>
 
+    <script src="js/nav-persist.js"></script>
 </body>
 </html>

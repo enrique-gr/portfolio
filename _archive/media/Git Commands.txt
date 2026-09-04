@@ -1,0 +1,4 @@
+Git Commands
+
+git config --global user.name "Enrique Garcia"
+git config --global user.email "enriqueg816.10@gmail.com"

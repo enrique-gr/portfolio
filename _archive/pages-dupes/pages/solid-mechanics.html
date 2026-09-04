@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Gear Analysis | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* SMOOTH TRANSITION BASE */
+        html { background-color: #000000; } /* Prevents white flash */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #e2e8f0; 
+            will-change: opacity, transform; /* Optimize animation */
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+        }
+
+        .tech-highlight { color: #22d3ee; font-weight: 600; } /* cyan-400 */
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    </style>
+</head>
+
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            
+            <!-- 
+               UPDATED RETURN MECHANISM:
+               1. Links to index.html?hub=coursework#collections (COURSEWORK)
+               2. onclick triggers smoothExit() animation
+            -->
+            <a href="index.html?hub=coursework#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+            </a>
+
+            <div class="flex items-center gap-3 text-xs font-mono text-emerald-400 uppercase tracking-widest">
+                <span class="hidden md:inline">Coursework Project</span>
+                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        
+        <!-- HEADER / HERO (matches ACC layout) -->
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                <img 
+                    src="images/solids.png" 
+                    alt="Solid Mechanics Project Icon" 
+                    class="h-full w-full object-contain p-2"
+                    onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';"
+                >
+            </div>
+
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Landing Gear Analysis</h1>
+                <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">Coursework (Team Project - Fall 2025)</p>
+            </div>
+        </div>
+
+        <!-- MAIN GRID (matches ACC structure) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            
+            <!-- LEFT: MAIN CONTENT -->
+            <div class="lg:col-span-2">
+
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                    Solid Mechanics Design & Failure Analysis
+                </h3>
+
+                <!-- OVERVIEW + BULLETS (matches ACC tone/format) -->
+                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                    <p>
+                        This project designed and analyzed a simplified nose landing gear assembly under a hard-landing load case.
+                        The goal was to build a mechanically defensible load path across at least four load-bearing components, then
+                        compute stresses, compare failure modes, and verify the design using both hand analysis and FEA.
+                        My contributions included:
+                    </p>
+
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-cyan-500/30 pl-4">
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">System Simplification:</strong> 
+                            Reduced the geometry into analyzable primitives: modeled the main strut as a beam in bending/compression,
+                            and the axle as a shaft under combined shear/bending to apply <span class="tech-highlight">beam theory</span> and
+                            <span class="tech-highlight">combined loading</span>.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Loading & Assumptions:</strong> 
+                            Built a conservative "hard landing" scenario using a <span class="tech-highlight">3g impact load</span>. Converted the
+                            external ground reaction into internal forces/moments through a clean load path, with fixed support at the trunnion
+                            and point loads at the wheel/axle interface.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Material Selection:</strong> 
+                            Selected <span class="tech-highlight">Al 7075-T6</span> for the strut and <span class="tech-highlight">4340 Steel</span> for the axle,
+                            then assigned properties and allowable stress limits from standard engineering tables.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Failure Criteria & Safety Factor:</strong> 
+                            Evaluated yielding using <span class="tech-highlight">Von Mises</span>, checked critical pins/bolts in
+                            <span class="tech-highlight">pure shear</span>, and verified buckling risk zones on the strut. Computed safety factors
+                            for each critical component and identified the governing failure mode.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">FEA Validation:</strong> 
+                            Built an <span class="tech-highlight">ANSYS</span> model to validate peak stress locations and confirm that hand-calculation
+                            assumptions were conservative, especially at the axle–strut interface and geometric discontinuities.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- SPECS / DIAGRAM PANEL (mirrors ACC "Control Loop & Simulation Specs") -->
+                <div class="bg-black border border-white/10 p-6 mb-12">
+                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Load Path & Analysis Specs</h3>
+                        <i class="fas fa-sitemap text-gray-600"></i>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
+                        
+                        <!-- LEFT: CONSTRAINTS / SPECS LIST -->
+                        <div>
+                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">>> Design / Analysis Constraints</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-cyan-500">
+                                    <span>[CASE] Hard Landing</span>
+                                    <span class="text-cyan-400">3g Impact</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-cyan-500">
+                                    <span>[MODEL] Primary Strut</span>
+                                    <span class="text-cyan-400">Beam + Compression</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-cyan-500">
+                                    <span>[MODEL] Wheel Axle</span>
+                                    <span class="text-cyan-400">Shear + Bending</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-yellow-500">
+                                    <span>[CHECK] Failure Criteria</span>
+                                    <span class="text-yellow-500">Von Mises / Shear</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT: SIMPLE FLOW DIAGRAM (matches ACC "Feedback Loop") -->
+                        <div class="relative p-4 border border-cyan-500/20 bg-cyan-900/5 rounded-sm flex flex-col items-center justify-center gap-3">
+                            <h4 class="text-cyan-400 mb-2 text-center uppercase tracking-wider">Force Transmission</h4>
+
+                            <div class="w-full p-2 text-center border border-white/20 bg-[#0f0f10] text-[10px]">
+                                <div class="text-white font-bold">GROUND REACTION</div>
+                                <div class="text-gray-500">3G IMPACT LOAD</div>
+                            </div>
+
+                            <i class="fas fa-arrow-up text-gray-600 text-[10px]"></i>
+
+                            <div class="w-full flex justify-center gap-2">
+                                <div class="w-3/4 p-2 text-center border border-white/40 bg-[#0f0f10] text-[10px]">
+                                    <div class="text-cyan-300 font-bold">AXLE</div>
+                                    <div class="text-gray-500">BENDING + SHEAR</div>
+                                </div>
+                            </div>
+
+                            <i class="fas fa-arrow-up text-gray-600 text-[10px]"></i>
+
+                            <div class="w-full p-3 text-center border-2 border-cyan-500/50 bg-[#0f0f10] text-[10px] relative shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                                <div class="text-white font-bold">MAIN STRUT</div>
+                                <div class="text-gray-500">COMBINED LOADING</div>
+                                <div class="text-cyan-400/50 text-[8px] font-bold mt-1">CHECK: YIELD / BUCKLING</div>
+                            </div>
+
+                            <div class="w-full flex justify-between gap-2 mt-2">
+                                <i class="fas fa-arrow-up text-gray-600 text-[10px] w-1/2 text-center"></i>
+                                <i class="fas fa-arrow-up text-gray-600 text-[10px] w-1/2 text-center"></i>
+                            </div>
+
+                            <div class="w-full flex justify-between gap-2">
+                                <div class="w-1/2 p-2 text-center border border-white/20 bg-[#0f0f10] text-[9px]">
+                                    <span class="text-white">TRUNNION</span><br>
+                                    <span class="text-gray-600">SUPPORT</span>
+                                </div>
+                                <div class="w-1/2 p-2 text-center border border-white/20 bg-[#0f0f10] text-[9px]">
+                                    <span class="text-white">DRAG BRACE</span><br>
+                                    <span class="text-gray-600">TENSION</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STANDARDIZED PDF PREVIEW -->
+                <div class="mt-12">
+                    <div class="bg-black border border-white/10 p-1">
+                        <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
+                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Technical Documentation</h3>
+                            <div class="flex gap-4">
+                                <a href="docs/LandingGear_Report.pdf" target="_blank" class="flex items-center gap-2 group transition-colors">
+                                    <span class="text-[10px] text-gray-500 font-mono group-hover:text-white transition-colors">OPEN NEW TAB</span>
+                                    <i class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors text-xs"></i>
+                                </a>
+                                <a href="docs/LandingGear_Report.pdf" download class="flex items-center gap-2 group transition-colors">
+                                    <span class="text-[10px] text-gray-500 font-mono group-hover:text-cyan-400 transition-colors">DOWNLOAD</span>
+                                    <i class="fas fa-download text-gray-500 group-hover:text-cyan-400 transition-colors text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="w-full h-[600px] bg-[#151515] relative">
+                             <iframe src="docs/LandingGear_Report.pdf" class="w-full h-full border-none" title="Project Report PDF">
+                                <div class="flex flex-col items-center justify-center h-full text-gray-400 gap-4">
+                                    <p class="text-sm font-mono">Unable to display PDF file directly.</p>
+                                    <a href="docs/LandingGear_Report.pdf" class="px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs hover:bg-cyan-500/20 transition-all rounded-sm">
+                                        Download Report (.pdf)
+                                    </a>
+                                </div>
+                             </iframe>
+                        </div>
+                        <div class="text-[10px] font-mono text-gray-600 text-center py-2 border-t border-white/5 bg-[#0a0a0a]">
+                            OFFICIAL REPORT // PDF FORMAT
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: SIDEBAR (Tech Stack + Outcome like ACC) -->
+            <div class="space-y-10">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">ANSYS</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Solid Mechanics</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Material Science</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Failure Criteria</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Beam Theory</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Von Mises</span>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-emerald-500/5 border border-emerald-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">Outcome</h4>
+                    <p class="text-sm text-emerald-100/80 leading-relaxed">
+                        Delivered a complete landing gear load-path analysis with safety factors for each critical component,
+                        plus an ANSYS validation model confirming conservative hand-calculation assumptions.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+<script>
+    function smoothExit(e, url) {
+        e.preventDefault(); // Stop instant jump
+        
+        // 1. Animate out (Fade + slight shrink for depth)
+        document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+        document.body.style.opacity = "0";
+        document.body.style.transform = "scale(0.98)"; 
+        
+        // 2. Wait for animation, then go
+        setTimeout(() => {
+            window.location.href = url;
+        }, 400);
+    }
+</script>
+
+</body>
+</html>

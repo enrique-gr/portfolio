@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Mechanics & Control — Enrique Garcia</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg:    #050505;
+            --bg2:   #0a0a0a;
+            --b:     rgba(255,255,255,0.07);
+            --b2:    rgba(255,255,255,0.12);
+            --text:  #e2e0db;
+            --muted: #6b7280;
+            --dim:   #374151;
+        }
+        html { font-size: 90%; background: var(--bg); }
+        body { font-family: 'Inter', sans-serif; color: var(--text); overflow-x: hidden; }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #222; }
+
+        #sp { position: fixed; top: 0; left: 0; height: 1px; background: rgba(255,255,255,.3); z-index: 200; width: 0; }
+
+        /* NAV */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(5,5,5,.97); backdrop-filter: blur(12px); z-index: 100; border-bottom: 1px solid var(--b); }
+        .ni { max-width: 1200px; margin: 0 auto; padding: 0 40px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+        .nl { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nl-img { width: 28px; height: 28px; border: 1px solid rgba(255,255,255,.12); background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .nl-img img { width: 100%; height: 100%; object-fit: contain; opacity: .75; }
+        .nl-id { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #fff; letter-spacing: .14em; text-transform: uppercase; }
+        .nl-sub { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--dim); }
+        .nlinks { display: flex; gap: 28px; }
+        .nlinks a { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .15s; }
+        .nlinks a:hover, .nlinks a.on { color: #fff; }
+        .ncta { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; border: 1px solid rgba(255,255,255,.18); color: #fff; padding: 6px 14px; text-decoration: none; transition: background .15s, color .15s; }
+        .ncta:hover { background: #fff; color: #000; }
+        @media(max-width:768px){ .nlinks, .ncta { display: none; } }
+
+        /* HERO */
+        .hero { min-height: 90vh; display: flex; align-items: center; padding: 120px 40px 80px; position: relative; border-bottom: 1px solid var(--b); overflow: hidden; }
+        .hero-c { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+
+        /* Sparse grid */
+        .hgrid { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .022;
+            background-image: linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px);
+            background-size: 72px 72px; }
+
+        /* Big faint logo watermark right side */
+        .hwm { position: absolute; right: -40px; top: 50%; transform: translateY(-50%); width: 480px; height: 480px; opacity: .04; pointer-events: none; z-index: 1; }
+        .hwm img { width: 100%; height: 100%; object-fit: contain; filter: invert(1); }
+
+        @media(max-width:900px){ .hwm { width: 300px; height: 300px; right: -20px; opacity: .03; } }
+
+        /* Badge */
+        .badge { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--b); padding: 6px 12px 6px 8px; background: rgba(255,255,255,.02); margin-bottom: 28px; }
+        .badge img { width: 18px; height: 18px; object-fit: contain; filter: invert(1); opacity: .6; }
+        .badge span { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--dim); letter-spacing: .18em; text-transform: uppercase; }
+
+        /* Hero title */
+        .htitle { font-family: 'Anton', sans-serif; font-size: clamp(48px, 8vw, 100px); letter-spacing: .03em; text-transform: uppercase; color: #fff; line-height: .94; margin-bottom: 32px; }
+        .htitle .dim { color: rgba(255,255,255,.18); }
+
+        /* Hero desc */
+        .hdesc { max-width: 500px; font-size: 14px; color: #6b7280; font-weight: 300; line-height: 1.75; border-left: 1px solid var(--b); padding-left: 20px; margin-bottom: 32px; }
+
+        /* Domain tags */
+        .dtags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .dtag { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: #2a2a2c; border: 1px solid #1a1a1c; padding: 6px 12px; }
+
+        /* SECTION WRAPPER */
+        .sec { max-width: 1200px; margin: 0 auto; padding: 96px 40px; border-bottom: 1px solid var(--b); }
+        .sec:last-of-type { border-bottom: none; }
+        @media(max-width:768px){ .sec { padding: 64px 24px; } }
+
+        /* Section rule */
+        .sr { display: flex; align-items: center; gap: 20px; margin-bottom: 52px; }
+        .sr-n { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #1f2937; letter-spacing: .2em; }
+        .sr-line { flex: 1; height: 1px; background: var(--b); }
+        .sr-lbl { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--dim); letter-spacing: .2em; text-transform: uppercase; }
+
+        /* Two-col */
+        .two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+        @media(max-width:768px){ .two { grid-template-columns: 1fr; gap: 40px; } }
+
+        /* Sub-label */
+        .sublbl { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--dim); letter-spacing: .2em; text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+        .sublbl::before { content: ''; width: 2px; height: 14px; background: rgba(255,255,255,.12); display: inline-block; flex-shrink: 0; }
+
+        /* Body text */
+        .body { font-size: 13px; color: #6b7280; line-height: 1.8; font-weight: 300; }
+        .body strong { color: var(--text); font-weight: 500; }
+        .body + .body { margin-top: 14px; }
+
+        /* LOOP BAR */
+        .loop { display: flex; border: 1px solid var(--b); overflow: hidden; margin-top: 0; }
+        .li { flex: 1; padding: 20px 16px; border-right: 1px solid var(--b); position: relative; background: var(--bg2); }
+        .li:last-child { border-right: none; }
+        .li-n { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--dim); letter-spacing: .18em; margin-bottom: 8px; }
+        .li-t { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fff; letter-spacing: .04em; margin-bottom: 6px; }
+        .li-d { font-size: 10px; color: #4b5563; line-height: 1.55; }
+        .li-arr { position: absolute; right: -7px; top: 50%; transform: translateY(-50%); font-size: 7px; color: #1f2937; z-index: 3; background: var(--bg2); padding: 2px 0; }
+        @media(max-width:600px){ .loop { flex-direction: column; } .li { border-right: none; border-bottom: 1px solid var(--b); } .li:last-child { border-bottom: none; } .li-arr { display: none; } }
+
+        /* AREA GRID */
+        .ag { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--b); border: 1px solid var(--b); }
+        .ac { background: var(--bg); padding: 28px 22px 22px; transition: background .2s; }
+        .ac:hover { background: var(--bg2); }
+        .ac-n { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #1f2937; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; }
+        .ac-t { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 10px; letter-spacing: .01em; }
+        .ac-b { font-size: 11px; color: #4b5563; line-height: 1.7; }
+        .ac-tags { margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #1f2937; letter-spacing: .14em; text-transform: uppercase; border-top: 1px solid var(--b); padding-top: 12px; }
+
+        /* PREP ROWS */
+        .pr { display: grid; grid-template-columns: 80px 1fr 68px; align-items: baseline; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--b); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+        .pr:last-child { border-bottom: none; }
+        .pr-c { color: #1f2937; font-size: 8px; letter-spacing: .1em; }
+        .pr-n { color: var(--text); font-weight: 500; font-size: 11px; }
+        .pr-s { text-align: right; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; }
+        .s-r { color: #6ee7b7; }
+        .s-q { color: #fbbf24; }
+        .s-d { color: #1f2937; }
+
+        /* PROJECT REFS */
+        .pref { display: flex; align-items: flex-start; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--b); }
+        .pref:last-child { border-bottom: none; }
+        .pmark { width: 2px; height: 36px; background: rgba(255,255,255,.1); flex-shrink: 0; margin-top: 3px; }
+        .pt { font-size: 12px; font-weight: 500; color: #fff; }
+        .pd { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #374151; letter-spacing: .06em; margin-top: 4px; }
+
+        /* DIRECTION ITEMS */
+        .di { padding: 18px 0 18px 22px; border-left: 1px solid var(--b); margin-bottom: 2px; transition: border-color .2s; }
+        .di:hover { border-color: rgba(255,255,255,.22); }
+        .di-t { font-size: 12px; font-weight: 500; color: #fff; margin-bottom: 6px; }
+        .di-b { font-size: 11px; color: #4b5563; line-height: 1.7; }
+
+        /* CHIPS */
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+        .chip { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; border: 1px solid var(--b2); color: #4b5563; padding: 7px 14px; transition: border-color .15s, color .15s; }
+        .chip:hover { border-color: rgba(255,255,255,.28); color: var(--text); }
+
+        /* FOOTER */
+        footer { background: #000; border-top: 1px solid var(--b); padding: 40px; }
+        .fi { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .flogo { width: 26px; height: 26px; opacity: .14; flex-shrink: 0; }
+        .flogo img { width: 100%; height: 100%; object-fit: contain; filter: invert(1); }
+        .ftxt { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #1f2937; letter-spacing: .16em; text-transform: uppercase; }
+        .flinks { display: flex; gap: 24px; }
+        .flinks a { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #1f2937; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; transition: color .15s; }
+        .flinks a:hover { color: #6b7280; }
+
+        /* Fade up */
+        @keyframes fu { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fu { animation: fu .5s ease forwards; opacity: 0; }
+        .d1 { animation-delay: .04s; }
+        .d2 { animation-delay: .10s; }
+        .d3 { animation-delay: .17s; }
+        .d4 { animation-delay: .24s; }
+    </style>
+</head>
+<body>
+
+<div id="sp"></div>
+
+    <!-- NAV -->
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">RETURN</span>
+            </a>
+
+            <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
+                <span class="hidden md:inline">FMC</span>
+                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+        </div>
+    </nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hgrid"></div>
+    <div class="hwm"><img src="images/fmc_logo.png" alt=""></div>
+
+    <div class="hero-c">
+        <div class="badge fu d1">
+            <img src="images/fmc_logo.png" alt="FMC mark">
+            <span>Technical Focus Area &nbsp;·&nbsp; M.S. Direction</span>
+        </div>
+
+        <h1 class="htitle fu d2">
+            Flight<br>Mechanics<br><span class="dim">&amp;</span> Control
+        </h1>
+
+        <p class="hdesc fu d3">
+            The discipline governing how vehicles move through air and space — and how to shape
+            that motion through rigid body dynamics, feedback control theory, state estimation,
+            and onboard autonomy. This is my primary technical direction.
+        </p>
+
+        <div class="dtags fu d4">
+            <span class="dtag">Dynamics</span>
+            <span class="dtag">Control Theory</span>
+            <span class="dtag">Estimation</span>
+            <span class="dtag">Autonomous Systems</span>
+            <span class="dtag">Simulation</span>
+        </div>
+    </div>
+</div>
+
+<!-- 01 — FMC AT A GLANCE -->
+<div class="sec" id="overview">
+    <div class="sr">
+        <span class="sr-n">01</span>
+        <div class="sr-line"></div>
+        <span class="sr-lbl">FMC at a Glance</span>
+    </div>
+
+    <div class="two">
+        <div>
+            <p class="body">
+                Flight mechanics and control addresses the full problem of vehicle motion: how a body
+                moves through a fluid environment under forces and moments, how that motion is sensed and
+                estimated from noisy measurements, and how feedback control laws drive the vehicle
+                toward desired behavior.
+            </p>
+            <p class="body">
+                The field is mathematically precise and physically grounded. It requires fluency in
+                <strong>rigid body dynamics</strong>, <strong>linear and nonlinear control theory</strong>,
+                <strong>probability and estimation</strong>, and <strong>embedded real-time systems</strong>.
+                At the applied level, it is the core of how aircraft, spacecraft, and autonomous vehicles
+                are designed to behave reliably under uncertainty.
+            </p>
+        </div>
+
+        <div>
+            <div class="sublbl" style="margin-bottom:20px;">Core problem loop</div>
+            <div class="loop">
+                <div class="li">
+                    <div class="li-arr">→</div>
+                    <div class="li-n">01</div>
+                    <div class="li-t">Dynamics</div>
+                    <div class="li-d">6-DOF equations of motion. Forces, moments, state evolution.</div>
+                </div>
+                <div class="li">
+                    <div class="li-arr">→</div>
+                    <div class="li-n">02</div>
+                    <div class="li-t">Estimation</div>
+                    <div class="li-d">State reconstruction from noisy, incomplete sensor data.</div>
+                </div>
+                <div class="li">
+                    <div class="li-arr">→</div>
+                    <div class="li-n">03</div>
+                    <div class="li-t">Control</div>
+                    <div class="li-d">Feedback law driving state toward reference trajectory.</div>
+                </div>
+                <div class="li">
+                    <div class="li-n">04</div>
+                    <div class="li-t">Autonomy</div>
+                    <div class="li-d">Onboard GNC, mission execution, closed-loop operation.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 02 — CORE AREAS -->
+<div class="sec" id="areas">
+    <div class="sr">
+        <span class="sr-n">02</span>
+        <div class="sr-line"></div>
+        <span class="sr-lbl">Core Areas</span>
+    </div>
+
+    <div class="ag">
+        <div class="ac">
+            <div class="ac-n">01 — Dynamics</div>
+            <div class="ac-t">Flight Dynamics</div>
+            <div class="ac-b">Equations of motion for rigid bodies in atmosphere and exoatmosphere. Linearization about trim, stability derivatives, longitudinal and lateral-directional modes. The mathematical foundation everything else depends on.</div>
+            <div class="ac-tags">6-DOF &nbsp;·&nbsp; Trim &nbsp;·&nbsp; Stability Modes &nbsp;·&nbsp; Linearization</div>
+        </div>
+        <div class="ac">
+            <div class="ac-n">02 — Control</div>
+            <div class="ac-t">Control Systems</div>
+            <div class="ac-b">Classical and modern feedback control design. Root locus, Bode, state-space formulations. LQR, pole placement, robustness analysis. Autopilot architecture and control law implementation on embedded hardware.</div>
+            <div class="ac-tags">State-Space &nbsp;·&nbsp; LQR &nbsp;·&nbsp; Stability Margins &nbsp;·&nbsp; Autopilot</div>
+        </div>
+        <div class="ac">
+            <div class="ac-n">03 — Estimation</div>
+            <div class="ac-t">Estimation / Sensor Fusion</div>
+            <div class="ac-b">State estimation under measurement noise and uncertainty. Extended and Unscented Kalman Filters, multi-sensor architectures. Reconstructing full vehicle state in real time from IMU, GPS, and optical data.</div>
+            <div class="ac-tags">EKF &nbsp;·&nbsp; UKF &nbsp;·&nbsp; IMU+GPS &nbsp;·&nbsp; Covariance Gating</div>
+        </div>
+        <div class="ac">
+            <div class="ac-n">04 — Simulation</div>
+            <div class="ac-t">Simulation / Validation</div>
+            <div class="ac-b">High-fidelity numerical simulation of vehicle dynamics and control loops. Hardware-in-loop and software-in-loop testing. Building environments accurate enough to trust before physical flight.</div>
+            <div class="ac-tags">HIL &nbsp;·&nbsp; SITL &nbsp;·&nbsp; 6-DOF Engine &nbsp;·&nbsp; RK4</div>
+        </div>
+        <div class="ac">
+            <div class="ac-n">05 — Autonomy</div>
+            <div class="ac-t">Autonomous Systems</div>
+            <div class="ac-b">Guidance, navigation, and control for unmanned vehicles. Waypoint following, hover stabilization, multi-mode flight management, and closed-loop mission execution without continuous human input.</div>
+            <div class="ac-tags">GNC &nbsp;·&nbsp; UAV &nbsp;·&nbsp; Mission Autonomy &nbsp;·&nbsp; VTOL</div>
+        </div>
+    </div>
+</div>
+
+<!-- 03 — PREPARATION -->
+<div class="sec" id="preparation">
+    <div class="sr">
+        <span class="sr-n">03</span>
+        <div class="sr-line"></div>
+        <span class="sr-lbl">Preparation</span>
+    </div>
+
+    <div class="two">
+        <!-- Coursework -->
+        <div>
+            <div class="sublbl">Academic Coursework</div>
+            <div class="pr"><span class="pr-c">ME 5707</span><span class="pr-n">Flight Dynamics</span><span class="pr-s s-q">Queued</span></div>
+            <div class="pr"><span class="pr-c">ME 4410</span><span class="pr-n">Control Systems</span><span class="pr-s s-q">Queued</span></div>
+            <div class="pr"><span class="pr-c">ME 4320</span><span class="pr-n">Modeling, Simulation & Control</span><span class="pr-s s-r">Active</span></div>
+            <div class="pr"><span class="pr-c">ME 4310</span><span class="pr-n">Vibrations</span><span class="pr-s s-d">Complete</span></div>
+            <div class="pr"><span class="pr-c">ME 5412</span><span class="pr-n">Computational Fluid Dynamics</span><span class="pr-s s-q">Queued</span></div>
+            <div class="pr"><span class="pr-c">ME 3410</span><span class="pr-n">Fluid Mechanics</span><span class="pr-s s-d">Complete</span></div>
+            <div class="pr"><span class="pr-c">ME 3530</span><span class="pr-n">Solid Mechanics</span><span class="pr-s s-d">Complete</span></div>
+            <div class="pr"><span class="pr-c">ME 4050</span><span class="pr-n">Vibrations Lab</span><span class="pr-s s-q">Queued</span></div>
+        </div>
+
+        <!-- Projects -->
+        <div>
+            <div class="sublbl">Applied Projects</div>
+            <div class="pref">
+                <div class="pmark"></div>
+                <div>
+                    <div class="pt">WashU VTOL — Avionics & Systems Lead</div>
+                    <div class="pd">Pixhawk 6C · PX4 · attitude control tuning · HIL · 6-DOF hover stabilization</div>
+                </div>
+            </div>
+            <div class="pref">
+                <div class="pmark"></div>
+                <div>
+                    <div class="pt">Hyperion — 6-DOF Physics Engine</div>
+                    <div class="pd">10 kHz rigid body integration · RK4 · real-time multithreaded simulation in C++20</div>
+                </div>
+            </div>
+            <div class="pref">
+                <div class="pmark"></div>
+                <div>
+                    <div class="pt">Multi-Sensor EKF Navigation</div>
+                    <div class="pd">12-state EKF · IMU + GPS + optical flow · covariance gating · C++ embedded</div>
+                </div>
+            </div>
+            <div class="pref">
+                <div class="pmark"></div>
+                <div>
+                    <div class="pt">GNC Lander Simulation</div>
+                    <div class="pd">Guidance · navigation · real-time PID thrust management · interactive simulation</div>
+                </div>
+            </div>
+            <div class="pref">
+                <div class="pmark"></div>
+                <div>
+                    <div class="pt">WashU DBF — Aerodynamics</div>
+                    <div class="pd">XFLR5 + ANSYS CFX · NACA wing polars · lift/drag iteration · structural coupling</div>
+                </div>
+            </div>
+            <div class="pref">
+                <div class="pmark"></div>
+                <div>
+                    <div class="pt">Adaptive Cruise Control</div>
+                    <div class="pd">Longitudinal vehicle dynamics · PID loop design · MATLAB / Simulink</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 04 — DIRECTION -->
+<div class="sec" id="direction">
+    <div class="sr">
+        <span class="sr-n">04</span>
+        <div class="sr-line"></div>
+        <span class="sr-lbl">Technical Direction</span>
+    </div>
+
+    <div class="two">
+        <div>
+            <div class="sublbl">Problems I want to work on</div>
+            <div class="di">
+                <div class="di-t">Autonomous flight in uncertain environments</div>
+                <div class="di-b">Vehicles that maintain stable, precise flight under wind, sensor noise, and incomplete state information — without continuous operator input.</div>
+            </div>
+            <div class="di">
+                <div class="di-t">State estimation under degraded sensing</div>
+                <div class="di-b">Reconstructing full vehicle state when sensors fail, disagree, or drop out. Fault-tolerant estimation and graceful degradation in navigation pipelines.</div>
+            </div>
+            <div class="di">
+                <div class="di-t">Simulation for validation — closing the sim-to-real gap</div>
+                <div class="di-b">Building simulation environments accurate enough to trust. HIL and SITL methodology as a core part of control law development, not an afterthought.</div>
+            </div>
+            <div class="di">
+                <div class="di-t">VTOL and transition flight dynamics</div>
+                <div class="di-b">Hybrid vehicles transitioning between hover and fixed-wing modes, where plant dynamics shift and control authority redistributes between actuator sets.</div>
+            </div>
+            <div class="di">
+                <div class="di-t">Embedded control and flight software</div>
+                <div class="di-b">Real-time implementation of estimation and control on constrained embedded hardware — where timing and computational limits are hard constraints, not soft preferences.</div>
+            </div>
+        </div>
+
+        <div>
+            <div class="sublbl">What kind of work I want to do</div>
+            <p class="body" style="margin-bottom:14px;">
+                I want to work on systems where the physics of motion and the mathematics of control are
+                both taken seriously — research environments, advanced engineering teams, and organizations
+                building vehicles that need to perform reliably in the real world.
+            </p>
+            <p class="body">
+                My preference is work that spans theory and implementation: designing a control law,
+                implementing it on embedded hardware, validating it through simulation and test, and
+                understanding the failure modes. Not one step in isolation — the full chain.
+            </p>
+
+            <div class="sublbl" style="margin-top:40px; padding-top:28px; border-top: 1px solid var(--b);">Target environments</div>
+            <div class="chips">
+                <span class="chip">Aerospace R&D</span>
+                <span class="chip">Defense Tech</span>
+                <span class="chip">Unmanned Systems</span>
+                <span class="chip">Flight Software</span>
+                <span class="chip">Academic Research</span>
+                <span class="chip">GNC Engineering</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="fi">
+        <div style="display:flex; align-items:center; gap:14px;">
+            <div class="flogo"><img src="images/fmc_logo.png" alt=""></div>
+            <div>
+                <div class="ftxt">Enrique Garcia &nbsp;·&nbsp; Flight Mechanics & Control</div>
+                <div class="ftxt" style="margin-top:3px; color:#111;">WashU · Mechanical Engineering · 2026</div>
+            </div>
+        </div>
+        <div class="flinks">
+            <a href="../">← Main Site</a>
+            <a href="../#featured">Projects</a>
+            <a href="mailto:e.garciarivera@wustl.edu">Contact</a>
+            <a href="../resume.html" target="_blank">Resume</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+    document.getElementById('sp').style.width =
+        (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+}, { passive: true });
+</script>
+</body>
+</html>

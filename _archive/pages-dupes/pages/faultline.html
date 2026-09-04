@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faultline | Enrique Garcia</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* SMOOTH TRANSITION BASE */
+        html { background-color: #000000; } /* Prevents white flash */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f0f10; 
+            color: #e5e7eb; 
+            will-change: opacity, transform; /* Optimize animation */
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Custom Scrollbar */
+        .console-scroll::-webkit-scrollbar { width: 6px; }
+        .console-scroll::-webkit-scrollbar-track { background: #1a1a1a; }
+        .console-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        .console-scroll::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        /* Animations */
+        .cursor-blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Architecture Block States */
+        .arch-block { transition: all 0.3s ease; }
+        .arch-active { border-color: #38bdf8; background-color: rgba(56, 189, 248, 0.1); box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
+        .arch-warn { border-color: #eab308; background-color: rgba(234, 179, 8, 0.1); box-shadow: 0 0 15px rgba(234, 179, 8, 0.2); }
+        .arch-fault { border-color: #ef4444; background-color: rgba(239, 68, 68, 0.15); box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen selection:bg-sky-500/30 selection:text-sky-200">
+
+<!-- NAV -->
+<nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+         <!-- 
+            UPDATED RETURN MECHANISM:
+            1. Links to index.html?hub=personal#collections
+            2. onclick triggers smoothExit() animation
+         -->
+         <a href="index.html?hub=personal#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+            <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+            <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+        </a>
+
+         <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
+                <span class="hidden md:inline">Personal Project</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]"></span>
+            </div>
+    </div>
+</nav>
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+    <!-- HEADER BLOCK -->
+    <div class="flex items-start gap-6 mb-12 border-b border-white/10 pb-10">
+       <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+            <img 
+                src="images/faultline.png" 
+                alt="FAULTLINE Project Icon"
+                class="h-full w-full object-contain p-2"
+                onerror="this.onerror=null; this.style.display='none';"
+            >
+        </div>
+
+        <div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight">
+                FAULTLINE
+            </h1>
+            <p class="text-sky-400 font-mono text-sm uppercase tracking-widest mt-2">
+                Robotic System State & Fault Awareness
+            </p>
+        </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+        <!-- LEFT COLUMN (Content) -->
+        <div class="lg:col-span-2 space-y-12">
+
+            <!-- 01. EXPLICIT ASSUMPTIONS (PHASE 1) -->
+            <section class="border-l-2 border-sky-500/50 pl-6">
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">
+                    01. Explicit Engineering Assumptions
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-400 font-light">
+                    <div>
+                        <strong class="text-gray-200 block text-xs uppercase tracking-wider mb-1">Scope</strong>
+                        <ul class="list-disc list-outside ml-4 space-y-1">
+                            <li>Single Actuator (1 DOF)</li>
+                            <li>Open-Loop Monitoring Only</li>
+                            <li>Fixed Telemetry Rate (5Hz)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong class="text-gray-200 block text-xs uppercase tracking-wider mb-1">Constraints</strong>
+                        <ul class="list-disc list-outside ml-4 space-y-1">
+                            <li>Bounded Gaussian Noise (&plusmn;0.2&deg;)</li>
+                            <li>Fail-Safe Priority Logic</li>
+                            <li>Conservative Yield Thresholds</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 02. SYSTEM ARCHITECTURE (PHASE 4) -->
+            <section class="bg-black border border-white/10 p-6">
+                <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-3">
+                    <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
+                        02. System Data Flow
+                    </h3>
+                    <i class="fas fa-diagram-project text-gray-600"></i>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-7 gap-2 font-mono text-xs items-center text-center">
+                    <!-- Telemetry Block -->
+                    <div id="arch-telemetry" class="arch-block md:col-span-2 border border-white/20 bg-white/5 p-3 rounded">
+                        <div class="text-sky-400 mb-1">TELEMETRY</div>
+                        <span class="text-gray-500 text-[10px]">Sensors & Noise</span>
+                    </div>
+
+                    <i class="fas fa-arrow-right text-gray-600 hidden md:block"></i>
+                    <i class="fas fa-arrow-down text-gray-600 md:hidden py-2"></i>
+
+                    <!-- Logic Block -->
+                    <div id="arch-logic" class="arch-block md:col-span-2 border border-white/20 bg-white/5 p-3 rounded">
+                        <div class="text-white mb-1">FAULT RULES</div>
+                        <span class="text-gray-500 text-[10px]">Detection Engine</span>
+                    </div>
+
+                    <i class="fas fa-arrow-right text-gray-600 hidden md:block"></i>
+                    <i class="fas fa-arrow-down text-gray-600 md:hidden py-2"></i>
+
+                    <!-- State Block -->
+                    <div id="arch-state" class="arch-block md:col-span-1 border border-white/20 bg-white/5 p-3 rounded">
+                        <div class="text-white mb-1">STATE</div>
+                        <span class="text-gray-500 text-[10px]">Latch Logic</span>
+                    </div>
+                    
+                    <!-- Operator Block -->
+                    <div class="md:col-span-1 border-l border-white/10 pl-2 ml-2 text-left hidden md:block">
+                        <span class="text-[9px] text-gray-500 uppercase block">Trust</span>
+                        <span class="text-gray-300">Operator</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LIVE CONSOLE & CHART -->
+            <section class="bg-[#151515] border border-white/10 rounded-sm overflow-hidden shadow-2xl flex flex-col md:flex-row h-[420px]">
+                
+                <!-- Left: Text Console (PHASE 3: OPERATOR TRUST) -->
+                <div class="w-full md:w-1/2 flex flex-col border-r border-white/10">
+                    <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center shrink-0">
+                        <span class="text-[10px] font-mono text-gray-400">mission_control.log</span>
+                        <div class="flex items-center gap-2">
+                            <span id="sys-status-indicator" class="w-2 h-2 rounded-full bg-green-500"></span>
+                            <span id="sys-status-text" class="text-[10px] font-mono text-green-500 font-bold">ONLINE</span>
+                        </div>
+                    </div>
+                    <pre id="console-output" class="console-scroll p-4 text-xs font-mono leading-relaxed text-gray-300 overflow-y-auto whitespace-pre-wrap flex-grow"></pre>
+                </div>
+
+                <!-- Right: Visualization -->
+                <div class="w-full md:w-1/2 flex flex-col bg-[#0e0e0e]">
+                    <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center shrink-0">
+                        <span class="text-[10px] font-mono text-gray-400">position_tracking.dat</span>
+                        <span class="text-[10px] font-mono text-sky-400">LIVE PLOT</span>
+                    </div>
+                    <div class="relative flex-grow w-full h-full p-4">
+                        <canvas id="telemetry-chart" class="w-full h-full block"></canvas>
+                        <!-- Chart Legend -->
+                        <div class="absolute top-6 right-6 flex flex-col gap-1 pointer-events-none bg-black/50 p-2 rounded border border-white/5 backdrop-blur-sm">
+                             <div class="flex items-center gap-2">
+                                <span class="w-3 h-0.5 bg-sky-400"></span>
+                                <span class="text-[9px] font-mono text-gray-400 uppercase">CMD (Ref)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-0.5 bg-white opacity-50"></span>
+                                <span class="text-[9px] font-mono text-gray-400 uppercase">MEAS (Sens)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Event History Log -->
+            <div class="bg-black border border-white/10 p-2 font-mono text-[10px] text-gray-500 h-32 overflow-y-auto console-scroll" id="event-log">
+                <div class="px-2 py-1 border-b border-white/5">System Boot Sequence Initiated...</div>
+                <div class="px-2 py-1 border-b border-white/5">Telemetry Stream: ACQUIRED</div>
+            </div>
+
+            <!-- 03. TRACEABILITY MATRIX (PHASE 2) -->
+            <section>
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                    03. Fault Traceability & Response Logic
+                </h3>
+                
+                <div class="overflow-x-auto border border-white/10">
+                    <table class="w-full text-left text-sm text-gray-400">
+                        <thead class="bg-white/5 font-mono text-xs uppercase text-gray-200">
+                            <tr>
+                                <th class="px-4 py-3 border-b border-white/10">Fault Condition</th>
+                                <th class="px-4 py-3 border-b border-white/10">Severity</th>
+                                <th class="px-4 py-3 border-b border-white/10">System Action</th>
+                                <th class="px-4 py-3 border-b border-white/10">Latch Policy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5 text-xs font-mono">
+                            <tr>
+                                <td class="px-4 py-3">Thermal Warning (>50&deg;C)</td>
+                                <td class="px-4 py-3 text-yellow-400">WARN</td>
+                                <td class="px-4 py-3">Decay Confidence</td>
+                                <td class="px-4 py-3 text-gray-500">Auto-Clear</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Thermal Critical (>75&deg;C)</td>
+                                <td class="px-4 py-3 text-red-400">FAULT</td>
+                                <td class="px-4 py-3">Enter SAFE MODE (Halt)</td>
+                                <td class="px-4 py-3 text-white">LATCHED</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Actuator Stall (>3.0A)</td>
+                                <td class="px-4 py-3 text-red-400">FAULT</td>
+                                <td class="px-4 py-3">Current Clamp / Freeze</td>
+                                <td class="px-4 py-3 text-white">LATCHED</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Position Error (>5.0&deg;)</td>
+                                <td class="px-4 py-3 text-red-400">FAULT</td>
+                                <td class="px-4 py-3">Enter SAFE MODE (No Trust)</td>
+                                <td class="px-4 py-3 text-white">LATCHED</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- RIGHT COLUMN (Sidebar) -->
+        <div class="space-y-10 sticky top-24 h-fit">
+
+            <!-- TEST HARNESS (PHASE 4) -->
+            <div class="p-6 bg-[#0a0a0a] border border-white/10 shadow-lg">
+                <h4 class="font-bold mb-4 text-xs font-mono uppercase tracking-widest text-sky-400 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></span>
+                    Test Harness
+                </h4>
+                <p class="text-[11px] text-gray-500 mb-6 leading-relaxed">
+                    Inject faults to validate state logic. <br>
+                    <span class="text-red-400">Red faults</span> latch and require manual reset to demonstrate safety protocols.
+                </p>
+                
+                <div class="space-y-3">
+                    <button onclick="sim.reset()" class="w-full py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-white uppercase transition-colors text-left flex justify-between group">
+                        <span>Reset System / Clear Latch</span>
+                        <i class="fas fa-rotate-right text-gray-500 group-hover:text-white"></i>
+                    </button>
+                    
+                    <div class="h-px bg-white/10 my-3"></div>
+
+                    <button onclick="sim.injectFault('THERMAL_WARN')" class="w-full py-2 px-4 bg-yellow-900/10 hover:bg-yellow-900/20 border border-yellow-700/30 text-[10px] font-mono text-yellow-500 uppercase transition-colors text-left flex justify-between">
+                        <span>Inject: Warm (Transient)</span>
+                        <i class="fas fa-thermometer-half"></i>
+                    </button>
+
+                    <button onclick="sim.injectFault('THERMAL_CRIT')" class="w-full py-2 px-4 bg-red-900/10 hover:bg-red-900/20 border border-red-700/30 text-[10px] font-mono text-red-500 uppercase transition-colors text-left flex justify-between">
+                        <span>Inject: Overheat (Latch)</span>
+                        <i class="fas fa-fire"></i>
+                    </button>
+
+                    <button onclick="sim.injectFault('STALL')" class="w-full py-2 px-4 bg-red-900/10 hover:bg-red-900/20 border border-red-700/30 text-[10px] font-mono text-red-500 uppercase transition-colors text-left flex justify-between">
+                        <span>Inject: Motor Stall (Latch)</span>
+                        <i class="fas fa-gears"></i>
+                    </button>
+
+                    <button onclick="sim.injectFault('POS_ERROR')" class="w-full py-2 px-4 bg-red-900/10 hover:bg-red-900/20 border border-red-700/30 text-[10px] font-mono text-red-500 uppercase transition-colors text-left flex justify-between">
+                        <span>Inject: Sensor Drift (Latch)</span>
+                        <i class="fas fa-crosshairs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 04. SAFE MODE DEFINITION (PHASE 1) -->
+             <section class="border border-white/10 p-5 bg-white/5">
+                <h3 class="text-xs font-bold text-gray-400 font-mono uppercase tracking-widest mb-3">
+                    04. Safe Mode Behavior
+                </h3>
+                <p class="text-[11px] text-gray-400 leading-relaxed mb-3">
+                    SAFE MODE is not just a UI state. It triggers specific hardware protection constraints:
+                </p>
+                <ul class="text-[11px] font-mono space-y-2 text-gray-300">
+                    <li class="flex items-center gap-2">
+                        <i class="fas fa-lock text-red-400 text-[10px]"></i>
+                        <span>Motion Command: FROZEN</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i class="fas fa-bolt text-red-400 text-[10px]"></i>
+                        <span>Motor Current: CLAMPED</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i class="fas fa-eye-slash text-red-400 text-[10px]"></i>
+                        <span>State Estimator: HALTED</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i class="fas fa-hand-paper text-red-400 text-[10px]"></i>
+                        <span>Faults: LATCHED</span>
+                    </li>
+                </ul>
+            </section>
+
+             <!-- 05. CONFIDENCE PHYSICS (PHASE 3) -->
+             <section>
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-3">
+                    05. Confidence Physics
+                </h3>
+                <p class="text-[11px] text-gray-400 leading-relaxed">
+                    System trust is modeled with inertia. It decays slowly on warning, drops instantly on fault, and recovers linearly only after stability is proven.
+                </p>
+            </section>
+
+        </div>
+
+    </div>
+</main>
+
+<script>
+/**
+ * FAULTLINE SIMULATION ENGINE v4.0 ("Undeniable" Edition)
+ * * CORE SYSTEMS:
+ * 1. Physics Engine (Open-Loop Actuator Model)
+ * 2. Fault Monitor (Rule-Based Detection)
+ * 3. State Machine (Active -> Degraded -> Fault -> Safe)
+ * 4. Safety Interlock (Latching Logic)
+ */
+
+const sim = {
+    // Configuration
+    config: {
+        updateRate: 200, 
+        historySize: 100, 
+        limits: {
+            posErrorWarn: 2.0,
+            posErrorFault: 5.0,
+            tempWarn: 50.0,
+            tempFault: 75.0,
+            currentStall: 3.0
+        },
+        // Confidence Physics
+        decayRate: 0.05,
+        recoveryRate: 0.02
+    },
+
+    // Simulation State
+    state: {
+        mode: 'ACTIVE', // ACTIVE, DEGRADED, FAULT
+        latched: false,
+        latchReason: null, // Stores the cause of the latch for diagnostics
+        confidence: 1.0,
+        time: 0,
+        
+        // Physics
+        cmdPos: 45.0,
+        measPos: 45.0,
+        current: 1.2,
+        temp: 42.0,
+        
+        // Active Injections
+        injectedFault: null,
+        
+        // History for Charting
+        historyCmd: [],
+        historyMeas: [],
+        
+        lastMode: 'ACTIVE'
+    },
+
+    init() {
+        this.canvas = document.getElementById('telemetry-chart');
+        this.ctx = this.canvas.getContext('2d');
+        this.resizeCanvas();
+        window.addEventListener('resize', () => this.resizeCanvas());
+
+        // Fill history with zeros for clean startup
+        for(let i=0; i<this.config.historySize; i++) {
+            this.state.historyCmd.push(45);
+            this.state.historyMeas.push(45);
+        }
+
+        this.renderConsole();
+        this.interval = setInterval(() => this.tick(), this.config.updateRate);
+        this.logEvent('INFO', 'System Boot. Watchdog Timer Active.');
+    },
+
+    resizeCanvas() {
+        this.canvas.width = this.canvas.parentElement.clientWidth;
+        this.canvas.height = this.canvas.parentElement.clientHeight;
+    },
+
+    tick() {
+        this.state.time++;
+        this.updatePhysics();
+        this.evaluateLogic();
+        this.updateConfidence();
+        this.updateHistory();
+        this.renderConsole();
+        this.renderChart();
+        this.updateArchitectureUI();
+    },
+
+    // 1. Physics Engine with SAFE MODE Constraints
+    updatePhysics() {
+        const s = this.state;
+        const t = s.time;
+        
+        // SAFE MODE CHECK: If latched, physics changes (Hardware Interlock)
+        if (s.latched) {
+            // In Safe Mode, command is frozen at last known good or zero
+            // We keep cmdPos constant (frozen)
+            s.current = 0.0; // Clamped current (Power Cut)
+            
+            // Temperature behaves naturally (cools down) if power removed
+            if(s.temp > 42) s.temp -= 0.5;
+            
+            // If the fault was mechanical (Stall), position remains stuck
+            return; 
+        }
+
+        // --- NORMAL OPERATION PHYSICS ---
+        
+        // Sine wave motion
+        s.cmdPos = 45 + Math.sin(t * 0.05) * 30;
+        
+        let noise = (Math.random() * 0.4 - 0.2);
+
+        // Fault Injection Physics
+        if (s.injectedFault === 'POS_ERROR') {
+            s.measPos = s.cmdPos + 12.5 + noise; 
+        } else if (s.injectedFault === 'STALL') {
+             s.measPos = s.measPos; // Stuck
+             s.current = 4.2 + (Math.random() * 0.5); // Spike
+        } else {
+            // Nominal
+            s.measPos = s.cmdPos + noise;
+            s.current = 1.2 + (Math.abs(Math.cos(t * 0.05)) * 0.5);
+        }
+
+        // Thermal Physics
+        if (s.injectedFault === 'THERMAL_CRIT') {
+            if(s.temp < 85) s.temp += 2.0;
+        } else if (s.injectedFault === 'THERMAL_WARN') {
+             // Hover around 60 degrees
+             if(s.temp < 60) s.temp += 1.0;
+             else s.temp += (Math.random() * 2 - 1);
+        } else {
+            // Passive cooling
+            if(s.temp > 42) s.temp -= 0.5;
+            else s.temp = 42 + (Math.random() * 0.5);
+        }
+    },
+
+    // 2. Logic & Latching Policy (PHASE 2)
+    evaluateLogic() {
+        const s = this.state;
+        const limits = this.config.limits;
+        
+        let activeFaults = [];
+        let instantaneousMode = 'ACTIVE';
+        let latchTrigger = null;
+        let transitionReason = null;
+
+        // Check 1: Position Error
+        const posErr = Math.abs(s.cmdPos - s.measPos);
+        if (posErr > limits.posErrorFault) {
+            const msg = `Pos Delta ${posErr.toFixed(1)}° > Limit`;
+            activeFaults.push({ id: 'POS_ERR', level: 'FAULT', msg: msg });
+            instantaneousMode = 'FAULT';
+            latchTrigger = 'POS_ERR';
+            transitionReason = msg;
+        }
+
+        // Check 2: Stall
+        if (s.current > limits.currentStall) {
+            const msg = `Current ${s.current.toFixed(1)}A > Limit`;
+            activeFaults.push({ id: 'STALL', level: 'FAULT', msg: msg });
+            instantaneousMode = 'FAULT';
+            latchTrigger = 'STALL';
+            transitionReason = msg;
+        }
+
+        // Check 3: Thermal (Two-Stage)
+        if (s.temp > limits.tempFault) {
+            const msg = `Temp ${s.temp.toFixed(1)}C Critical`;
+            activeFaults.push({ id: 'OVERHEAT', level: 'FAULT', msg: msg });
+            instantaneousMode = 'FAULT';
+            latchTrigger = 'OVERHEAT';
+            transitionReason = msg;
+        } else if (s.temp > limits.tempWarn) {
+            const msg = `Temp ${s.temp.toFixed(1)}C > Warning`;
+            activeFaults.push({ id: 'TEMP_WARN', level: 'WARN', msg: msg });
+            if (instantaneousMode !== 'FAULT') {
+                instantaneousMode = 'DEGRADED';
+                transitionReason = msg;
+            }
+        }
+
+        // --- LATCHING LOGIC ---
+        // If we hit FAULT, we latch. DEGRADED is transient.
+        if (instantaneousMode === 'FAULT') {
+            if (!s.latched) {
+                s.latched = true;
+                s.latchReason = latchTrigger || 'UNKNOWN_FAULT';
+                this.logEvent('CRITICAL', `System LATCHED.\nREASON: ${transitionReason || s.latchReason}`);
+            }
+        }
+
+        // State Determination
+        if (s.latched) {
+            s.mode = 'FAULT'; 
+        } else {
+            s.mode = instantaneousMode;
+        }
+
+        s.activeFaults = activeFaults;
+
+        // Log State Transitions (PHASE 3: THE "WHY" LINE)
+        if (s.mode !== s.lastMode) {
+            // Only log downgrade reasons or recovery
+            if (s.mode !== 'ACTIVE') {
+                 this.logEvent('STATE', `TRANSITION: ${s.lastMode} → ${s.mode}\nREASON: ${transitionReason || 'Unknown'}`);
+            } else {
+                 this.logEvent('STATE', `TRANSITION: ${s.lastMode} → ${s.mode}\nREASON: Fault Cleared (Auto-Recovery)`);
+            }
+            s.lastMode = s.mode;
+        }
+    },
+
+    // 3. Dynamic Confidence Physics
+    updateConfidence() {
+        const s = this.state;
+        const cfg = this.config;
+
+        let target = 1.0;
+        
+        if (s.mode === 'FAULT') {
+            // Faults destroy confidence instantly
+            s.confidence = 0.0;
+            return;
+        } else if (s.mode === 'DEGRADED') {
+            target = 0.65;
+            // Decays slowly towards degraded target
+            if (s.confidence > target) s.confidence -= cfg.decayRate;
+        } else {
+            target = 1.0;
+            // Recovers slowly (Trust must be earned)
+            if (s.confidence < target) s.confidence += cfg.recoveryRate;
+        }
+
+        // Clamp
+        if(s.confidence < 0) s.confidence = 0;
+        if(s.confidence > 1) s.confidence = 1;
+    },
+
+    // 4. UI: Console
+    renderConsole() {
+        const s = this.state;
+        const output = document.getElementById('console-output');
+        const statusText = document.getElementById('sys-status-text');
+        const statusInd = document.getElementById('sys-status-indicator');
+
+        // Header Badge
+        statusText.innerText = s.mode;
+        let colorClass = s.mode === 'ACTIVE' ? 'bg-green-500 text-green-500' : s.mode === 'DEGRADED' ? 'bg-yellow-500 text-yellow-500' : 'bg-red-500 text-red-500';
+        statusInd.className = `w-2 h-2 rounded-full shadow-[0_0_8px] ${colorClass.split(' ')[0]} ${s.mode === 'FAULT' ? 'animate-pulse' : ''}`;
+        statusText.className = `text-[10px] font-mono font-bold ${colorClass.split(' ')[1]}`;
+
+        // Text Log
+        let log = `SYSTEM_CLK:    ${s.time}\n`;
+        log += `STATE:         ${s.mode} ${s.latched ? '[LATCHED]' : ''}\n`;
+        
+        // Confidence bar visualization
+        const confPct = Math.floor(s.confidence * 100);
+        const bars = Math.floor(confPct / 10);
+        const barStr = '█'.repeat(bars) + '░'.repeat(10-bars);
+        log += `CONFIDENCE:    ${barStr} ${confPct}%\n\n`;
+        
+        log += `POS_CMD:       ${s.cmdPos.toFixed(1).padStart(6)} deg\n`;
+        log += `POS_MEAS:      ${s.measPos.toFixed(1).padStart(6)} deg\n`;
+        log += `CURRENT:       ${s.current.toFixed(2).padStart(6)} A\n`;
+        log += `TEMP:          ${s.temp.toFixed(1).padStart(6)} C\n\n`;
+
+        if (s.activeFaults && s.activeFaults.length > 0) {
+            log += `--- DIAGNOSTICS ---\n`;
+            s.activeFaults.forEach(f => {
+                log += `[${f.level}] ${f.id}\n    ${f.msg}\n`;
+            });
+        }
+        
+        if (s.latched) {
+             log += `\n*** SAFETY INTERLOCK ACTIVE ***\n   CAUSE: ${s.latchReason}\n   1. Motion Halted\n   2. Current Clamped\n   3. Manual Reset Required`;
+        } else if (s.mode === 'ACTIVE') {
+            log += `>> SYSTEM NOMINAL.`;
+        }
+
+        log += `<span class="cursor-blink">_</span>`;
+        output.innerHTML = log;
+    },
+
+    // 5. UI: Chart
+    updateHistory() {
+        this.state.historyCmd.push(this.state.cmdPos);
+        this.state.historyMeas.push(this.state.measPos);
+        if (this.state.historyCmd.length > this.config.historySize) {
+            this.state.historyCmd.shift();
+            this.state.historyMeas.shift();
+        }
+    },
+
+    renderChart() {
+        const ctx = this.ctx;
+        const w = this.canvas.width;
+        const h = this.canvas.height;
+        const pad = 10;
+        
+        ctx.fillStyle = '#0e0e0e';
+        ctx.fillRect(0, 0, w, h);
+        
+        // Grid
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for(let i=0; i<w; i+=w/10) { ctx.moveTo(i,0); ctx.lineTo(i,h); }
+        for(let i=0; i<h; i+=h/4) { ctx.moveTo(0,i); ctx.lineTo(w,i); }
+        ctx.stroke();
+
+        const mapY = (val) => h - ((val / 100) * h) - pad;
+        const stepX = w / this.config.historySize;
+
+        // Draw CMD (Reference)
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        this.state.historyCmd.forEach((val, i) => {
+            const x = i * stepX;
+            const y = mapY(val);
+            if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        });
+        ctx.stroke();
+
+        // Draw MEAS (Sensor)
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([2, 2]);
+        ctx.beginPath();
+        this.state.historyMeas.forEach((val, i) => {
+            const x = i * stepX;
+            const y = mapY(val);
+            if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        });
+        ctx.stroke();
+        ctx.setLineDash([]); 
+    },
+
+    // 6. Reactive UI & Logging
+    updateArchitectureUI() {
+        ['arch-telemetry', 'arch-logic', 'arch-state'].forEach(id => {
+            document.getElementById(id).className = "arch-block border border-white/20 bg-white/5 p-3 rounded md:col-span-2";
+            if(id === 'arch-state') document.getElementById(id).className = "arch-block border border-white/20 bg-white/5 p-3 rounded md:col-span-1";
+        });
+
+        const s = this.state;
+        const telEl = document.getElementById('arch-telemetry');
+        const logicEl = document.getElementById('arch-logic');
+        const stateEl = document.getElementById('arch-state');
+
+        telEl.classList.add('arch-active');
+        if (s.injectedFault) telEl.classList.add('arch-warn'); 
+
+        if (s.activeFaults.length > 0) {
+            logicEl.classList.add(s.mode === 'FAULT' ? 'arch-fault' : 'arch-warn');
+        } else {
+            logicEl.classList.add('arch-active');
+        }
+
+        stateEl.classList.add(s.mode === 'FAULT' ? 'arch-fault' : s.mode === 'DEGRADED' ? 'arch-warn' : 'arch-active');
+    },
+
+    logEvent(type, msg) {
+        const log = document.getElementById('event-log');
+        const line = document.createElement('div');
+        const timeStr = new Date().toLocaleTimeString('en-US', {hour12:false});
+        
+        let color = 'text-gray-400';
+        if (type === 'CRITICAL' || type === 'FAULT') color = 'text-red-400';
+        if (type === 'WARN') color = 'text-yellow-400';
+        if (type === 'STATE') color = 'text-sky-400';
+
+        line.className = `px-2 py-1 border-b border-white/5 ${color} whitespace-pre-wrap`;
+        line.innerText = `${timeStr} [${type}] ${msg}`;
+        
+        log.insertBefore(line, log.firstChild);
+        
+        // Memory Limit: Keep only last 50 events
+        if (log.children.length > 50) {
+            log.removeChild(log.lastChild);
+        }
+    },
+
+    injectFault(type) {
+        this.state.injectedFault = type;
+        this.logEvent('USER', `Injecting: ${type}`);
+    },
+
+    reset() {
+        this.state.injectedFault = null;
+        this.state.latched = false;
+        this.state.latchReason = null;
+        this.state.mode = 'ACTIVE';
+        this.state.temp = 42.0; 
+        this.state.confidence = 1.0;
+        this.logEvent('USER', 'Manual Reset Executed. Latch Cleared.');
+    }
+};
+
+window.onload = () => sim.init();
+
+// --- SMOOTH EXIT FUNCTION ---
+function smoothExit(e, url) {
+    e.preventDefault(); // Stop instant jump
+    
+    // 1. Animate out (Fade + slight shrink for depth)
+    document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+    document.body.style.opacity = "0";
+    document.body.style.transform = "scale(0.98)"; 
+    
+    // 2. Wait for animation, then go
+    setTimeout(() => {
+        window.location.href = url;
+    }, 400);
+}
+</script>
+
+</body>
+</html>

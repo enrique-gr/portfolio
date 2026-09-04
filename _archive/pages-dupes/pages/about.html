@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Enrique Garcia</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        html { background-color: #000000; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #e2e8f0;
+            will-change: opacity, transform;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+        /* ── Page load fade-in ── */
+        body { opacity: 0; animation: fadeInPage 0.5s ease forwards; }
+        @keyframes fadeInPage { to { opacity: 1; } }
+
+        /* ── Staggered section reveals ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Info cards ── */
+        .info-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+            transition: border-color 0.25s ease, transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .info-card:hover {
+            border-color: rgba(255,255,255,0.16);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        /* ── Stat boxes with hover glow ── */
+        .stat-box {
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            transition: border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+            cursor: default;
+        }
+        .stat-box:hover {
+            border-color: rgba(16,185,129,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 0 16px rgba(16,185,129,0.06);
+        }
+        .stat-box:hover .stat-label { color: rgba(16,185,129,0.7); }
+        .stat-box:hover .stat-value { color: #a7f3d0; }
+
+        .soft-divider { border-color: rgba(255,255,255,0.08); }
+
+        /* ── Tab buttons ── */
+        .tab-button {
+            transition: color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.15s;
+        }
+        .tab-button:hover:not(.active) {
+            color: #d1d5db;
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
+        }
+        .tab-button.active {
+            color: #e5e7eb;
+            border-color: rgba(16,185,129,0.45);
+            background: rgba(16,185,129,0.08);
+        }
+
+        /* ── Focus / Principle panels ── */
+        .focus-panel, .principle-panel {
+            display: none;
+            animation: panelIn 0.3s ease;
+        }
+        .focus-panel.active, .principle-panel.active {
+            display: block;
+        }
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Focus sub-cards ── */
+        .focus-card {
+            transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+        }
+        .focus-card:hover {
+            border-color: rgba(16,185,129,0.25);
+            transform: translateY(-2px);
+            background: rgba(16,185,129,0.04);
+        }
+
+        /* ── Workflow steps ── */
+        .workflow-step {
+            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .workflow-step::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: rgba(16,185,129,0.5);
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+            transform-origin: left;
+        }
+        .workflow-step:hover::after,
+        .workflow-step.active::after { transform: scaleX(1); }
+
+        .workflow-step:hover,
+        .workflow-step.active {
+            transform: translateY(-2px);
+            border-color: rgba(16,185,129,0.35);
+            background: rgba(16,185,129,0.06);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+        .workflow-step.active .step-num { color: #6ee7b7; }
+        .workflow-step.active .step-label { color: #a7f3d0; }
+
+        /* ── Accordion ── */
+        .accordion-btn {
+            transition: color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.15s;
+        }
+        .accordion-btn:hover:not(.active) {
+            border-color: rgba(255,255,255,0.18);
+            transform: translateX(2px);
+        }
+        .accordion-btn.active {
+            border-color: rgba(16,185,129,0.35);
+            background: rgba(16,185,129,0.06);
+            color: #e5e7eb;
+        }
+        .accordion-btn .acc-icon {
+            transition: transform 0.3s ease, color 0.2s;
+        }
+        .accordion-btn.active .acc-icon {
+            transform: rotate(45deg);
+            color: rgba(16,185,129,0.8);
+        }
+
+        .accordion-content {
+            display: none;
+            overflow: hidden;
+            animation: accordionOpen 0.3s ease;
+        }
+        .accordion-content.active { display: block; }
+        @keyframes accordionOpen {
+            from { opacity: 0; transform: translateY(-4px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Gridline background ── */
+        .gridline-bg {
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* ── Snapshot rows ── */
+        .snapshot-row {
+            transition: background 0.15s ease, padding 0.15s ease;
+            border-radius: 2px;
+        }
+        .snapshot-row:hover {
+            background: rgba(255,255,255,0.03);
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        /* ── Closing list items ── */
+        .aim-item {
+            transition: color 0.2s ease, padding-left 0.2s ease;
+            cursor: default;
+        }
+        .aim-item:hover {
+            color: #d1fae5;
+            padding-left: 6px;
+        }
+        .aim-item:hover .aim-bullet { color: #34d399; }
+
+        /* ── Pulse dot ── */
+        .pulse-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #34d399;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(52,211,153,0.4); }
+            50% { opacity: 0.7; transform: scale(1.1); box-shadow: 0 0 0 4px rgba(52,211,153,0); }
+        }
+
+        /* ── Keyword chips ── */
+        .kw-chip {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #6ee7b7;
+            background: rgba(16,185,129,0.08);
+            border: 1px solid rgba(16,185,129,0.2);
+            padding: 2px 7px;
+            margin: 2px 3px 2px 0;
+            transition: background 0.15s, border-color 0.15s, transform 0.15s;
+            cursor: default;
+        }
+        .kw-chip:hover {
+            background: rgba(16,185,129,0.16);
+            border-color: rgba(16,185,129,0.45);
+            transform: translateY(-1px);
+        }
+
+        /* ── Stack item hover ── */
+        .stack-item {
+            transition: color 0.2s ease, padding-left 0.2s ease;
+            cursor: default;
+        }
+        .stack-item:hover { color: #a7f3d0; padding-left: 4px; }
+
+        /* ── Tooltip ── */
+        .has-tip { position: relative; cursor: default; }
+        .has-tip .tip {
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            background: #18181b;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #d1d5db;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+            padding: 4px 8px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 100;
+        }
+        .has-tip:hover .tip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ── Progress bars ── */
+        .progress-bar {
+            height: 2px;
+            background: rgba(255,255,255,0.05);
+            overflow: hidden;
+            border-radius: 1px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(16,185,129,0.5), rgba(16,185,129,0.9));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1.2s cubic-bezier(0.4,0,0.2,1);
+            border-radius: 1px;
+        }
+        .progress-fill.animate { transform: scaleX(1); }
+
+        /* ── Header copy text legibility ── */
+        .body-copy {
+            color: #c4cad5;
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+        }
+
+        /* ── Panel description text legibility ── */
+        .panel-text {
+            color: #b8bec8;
+            line-height: 1.75;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center relative">
+            <a href="index.html" onclick="smoothExit(event, this.href)"
+               class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors z-10 cursor-pointer">
+                <i class="fas fa-arrow-left text-sm group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">RETURN</span>
+            </a>
+
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block text-center">
+                <span class="font-mono text-xs text-gray-500 italic tracking-widest uppercase hover:text-emerald-400 transition-colors duration-500 cursor-default">
+                    "Failure is not an option"
+                </span>
+            </div>
+
+            <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest z-10">
+                <span class="hidden md:inline">About</span>
+                <span class="pulse-dot"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+        <!-- HEADER -->
+        <section class="reveal mb-10 border-b border-white/10 pb-10">
+            <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
+
+                <!-- LEFT -->
+                <div class="flex items-start gap-8">
+                    <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                        <img
+                            src="assets/images/about_icon.png"
+                            alt="About Icon"
+                            class="object-contain w-full h-full"
+                            onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-user text-4xl text-white\'></i>'"
+                        />
+                    </div>
+
+                    <div>
+                        <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">About</h1>
+
+                        <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">
+                            Systems · Engineering · Steady Work
+                        </p>
+
+<div class="mt-5 space-y-4 text-sm md:text-base body-copy font-light max-w-3xl">
+    <p>
+        I am currently pursuing a B.S. in Mechanical Engineering with minors in Robotics and Mechatronics. I may pursue an M.S. in Mechanical or Aerospace Engineering. I am interested in aerospace and autonomous systems, with a focus on hardware integration, test, and controls, and I am most drawn to work where mechanical systems, sensing, controls, and software all have to behave reliably together.
+    </p>
+    <p>
+        I like reducing problems to constraints first. From there, I focus on making the system clear: define assumptions, tighten interfaces, trace behavior back to data, and build only what can be tested honestly.
+    </p>
+    <p>
+        I want to become a systems minded engineer who can contribute meaningfully to demanding aerospace and robotics teams through design, integration, validation, and calm decision making under pressure.
+    </p>
+</div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Snapshot -->
+                <aside class="info-card border border-white/10 p-5 gridline-bg">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-gray-500 uppercase tracking-widest text-xs font-mono">Snapshot</span>
+                        <span class="pulse-dot"></span>
+                    </div>
+
+                    <div class="space-y-2 text-[11px] font-mono">
+                        <div class="snapshot-row flex justify-between gap-4 py-1">
+                            <span class="text-gray-500">Location</span>
+                            <span class="text-gray-200 text-right">St. Louis, MO</span>
+                        </div>
+                        <div class="snapshot-row flex justify-between gap-4 py-1">
+    <span class="text-gray-500">Degree Path</span>
+    <span class="text-gray-200 text-right">B.S. Mechanical Engineering</span>
+</div>
+<div class="snapshot-row flex justify-between gap-4 py-1">
+    <span class="text-gray-500">Pursuing</span>
+    <span class="text-gray-200 text-right">M.S. Aerospace Engineering</span>
+</div>
+                        <div class="snapshot-row flex justify-between gap-4 py-1">
+                            <span class="text-gray-500">Minors</span>
+                            <span class="text-gray-200 text-right">Robotics and Mechatronics</span>
+                        </div>
+                        <div class="snapshot-row flex justify-between gap-4 py-1">
+                            <span class="text-gray-500">Interest Areas</span>
+                            <span class="text-emerald-300 text-right">Systems · Robotics · Flight Hardware</span>
+                        </div>
+                        <div class="snapshot-row flex justify-between gap-4 py-1">
+                            <span class="text-gray-500">Active Missions</span>
+                            <span class="text-gray-200 text-right">WashU VTOL</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-t soft-divider text-[11px] text-gray-400 leading-relaxed">
+                        I aim to be the kind of engineer who takes ownership, stays grounded in data, and makes the system clearer for everyone around him.
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="reveal grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-box border border-white/10 p-4 has-tip">
+                <div class="tip">Primary reasoning mode</div>
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Core Mode</div>
+                <div class="text-white text-sm stat-value transition-colors duration-200">Systems Thinking</div>
+            </div>
+            <div class="stat-box border border-white/10 p-4 has-tip">
+                <div class="tip">Current active focus</div>
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Current Lane</div>
+                <div class="text-white text-sm stat-value transition-colors duration-200">Flight Systems</div>
+            </div>
+            <div class="stat-box border border-white/10 p-4 has-tip">
+                <div class="tip">Parallel domain interest</div>
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Secondary Lane</div>
+                <div class="text-white text-sm stat-value transition-colors duration-200">Robotics</div>
+            </div>
+            <div class="stat-box border border-white/10 p-4 has-tip">
+                <div class="tip">How decisions get made</div>
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Approach</div>
+                <div class="text-white text-sm stat-value transition-colors duration-200">Data Before Ego</div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE FOCUS -->
+        <section class="reveal info-card border border-white/10 p-6 md:p-7 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">
+                        Focus Areas
+                    </h2>
+                    <p class="mt-2 text-sm text-gray-400 max-w-2xl">
+                        The parts of engineering I naturally move toward most.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                    <button class="tab-button active px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('flight', this)">
+                        Flight Systems
+                    </button>
+                    <button class="tab-button px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('robotics', this)">
+                        Robotics
+                    </button>
+                    <button class="tab-button px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('validation', this)">
+                        Validation
+                    </button>
+                </div>
+            </div>
+
+            <div id="focus-flight" class="focus-panel active">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-2">What draws me in</div>
+                        <p class="panel-text">Architectures where sensors, power, control, telemetry, and software all have to agree under real constraints.</p>
+                    </div>
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-2">What I like doing</div>
+                        <p class="panel-text">Clarifying interfaces, integrating subsystems, reading behavior from data, and reducing ambiguity before flight or test.</p>
+                    </div>
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-3">Keywords</div>
+                        <div>
+                            <span class="kw-chip">PX4</span>
+                            <span class="kw-chip">avionics</span>
+                            <span class="kw-chip">telemetry</span>
+                            <span class="kw-chip">flight control</span>
+                            <span class="kw-chip">integration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="focus-robotics" class="focus-panel">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-2">What draws me in</div>
+                        <p class="panel-text">Systems that sense, estimate, and respond in the real world instead of only inside theory.</p>
+                    </div>
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-2">What I like doing</div>
+                        <p class="panel-text">Working at the boundary between embedded systems, state estimation, control logic, and physical behavior.</p>
+                    </div>
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-3">Keywords</div>
+                        <div>
+                            <span class="kw-chip">Sensors</span>
+                            <span class="kw-chip">estimation</span>
+                            <span class="kw-chip">autonomy</span>
+                            <span class="kw-chip">feedback</span>
+                            <span class="kw-chip">embedded</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="focus-validation" class="focus-panel">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-2">What draws me in</div>
+                        <p class="panel-text">The moment when ideas have to face reality and the system either proves itself or teaches you where it is weak.</p>
+                    </div>
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-2">What I like doing</div>
+                        <p class="panel-text">Turning assumptions into checks, connecting logs back to behavior, and making sure design claims survive contact with test data.</p>
+                    </div>
+                    <div class="focus-card border border-white/10 p-4">
+                        <div class="text-[11px] font-mono uppercase tracking-widest text-gray-500 mb-3">Keywords</div>
+                        <div>
+                            <span class="kw-chip">Verification</span>
+                            <span class="kw-chip">telemetry</span>
+                            <span class="kw-chip">instrumentation</span>
+                            <span class="kw-chip">checks</span>
+                            <span class="kw-chip">root cause</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SYSTEMS WORKFLOW -->
+        <section class="reveal info-card border border-white/10 p-6 md:p-7 mb-8">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">
+                        Systems Workflow
+                    </h2>
+                    <p class="mt-2 text-sm text-gray-400 max-w-2xl">
+                        Click through the way I usually move from problem framing to refinement.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                <button class="workflow-step active border border-white/10 p-4 text-left" onclick="showWorkflow('constraints', this)">
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">01</div>
+                    <div class="text-sm text-white step-label transition-colors duration-200">Constraints</div>
+                </button>
+                <button class="workflow-step border border-white/10 p-4 text-left" onclick="showWorkflow('interfaces', this)">
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">02</div>
+                    <div class="text-sm text-white step-label transition-colors duration-200">Interfaces</div>
+                </button>
+                <button class="workflow-step border border-white/10 p-4 text-left" onclick="showWorkflow('test', this)">
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">03</div>
+                    <div class="text-sm text-white step-label transition-colors duration-200">Test</div>
+                </button>
+                <button class="workflow-step border border-white/10 p-4 text-left" onclick="showWorkflow('data', this)">
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">04</div>
+                    <div class="text-sm text-white step-label transition-colors duration-200">Data</div>
+                </button>
+                <button class="workflow-step border border-white/10 p-4 text-left" onclick="showWorkflow('refine', this)">
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">05</div>
+                    <div class="text-sm text-white step-label transition-colors duration-200">Refine</div>
+                </button>
+            </div>
+
+            <div id="workflow-constraints" class="principle-panel active border border-white/10 p-5">
+                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Constraints</div>
+                <p class="panel-text">
+                    Start by identifying what must be true. Weight, power, geometry, timing, sensing, communication, and safety boundaries usually define the real problem before any detailed solution does.
+                </p>
+            </div>
+            <div id="workflow-interfaces" class="principle-panel border border-white/10 p-5">
+                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Interfaces</div>
+                <p class="panel-text">
+                    Most systems become clearer once interfaces are explicit. I try to define what talks to what, what assumptions each subsystem is making, and where failure can hide between components.
+                </p>
+            </div>
+            <div id="workflow-test" class="principle-panel border border-white/10 p-5">
+                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Test</div>
+                <p class="panel-text">
+                    Before scaling effort, I want a small honest check. A simple bench test, simulation check, logging pass, or hardware integration step can expose bad assumptions early.
+                </p>
+            </div>
+            <div id="workflow-data" class="principle-panel border border-white/10 p-5">
+                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Data</div>
+                <p class="panel-text">
+                    Once the system runs, I care about what the logs and measurements actually say. Data keeps the mental model honest and helps separate intuition from reality.
+                </p>
+            </div>
+            <div id="workflow-refine" class="principle-panel border border-white/10 p-5">
+                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Refine</div>
+                <p class="panel-text">
+                    After that, refinement becomes targeted. Improve the weak interface, simplify the noisy part, tighten the assumption, or redesign the piece that keeps violating expectations.
+                </p>
+            </div>
+        </section>
+
+        <!-- ENGINEERING STACK -->
+        <section class="reveal grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+            <div class="info-card border border-white/10 p-5">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Languages</h2>
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="stack-item text-sm text-gray-300">Python</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" data-width="0.9"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="stack-item text-sm text-gray-300">C++</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" data-width="0.7"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="stack-item text-sm text-gray-300">MATLAB</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" data-width="0.75"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card border border-white/10 p-5">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Embedded / Control</h2>
+                <div class="space-y-2 text-sm text-gray-300">
+                    <div class="stack-item">Pixhawk</div>
+                    <div class="stack-item">PX4</div>
+                    <div class="stack-item">Teensy</div>
+                    <div class="stack-item">Raspberry Pi</div>
+                </div>
+            </div>
+
+            <div class="info-card border border-white/10 p-5">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Design / Analysis</h2>
+                <div class="space-y-2 text-sm text-gray-300">
+                    <div class="stack-item">SolidWorks</div>
+                    <div class="stack-item">ANSYS</div>
+                    <div class="stack-item">Simulink</div>
+                    <div class="stack-item">XFLR5</div>
+                </div>
+            </div>
+
+            <div class="info-card border border-white/10 p-5">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Current Missions</h2>
+                <div class="space-y-2 text-sm text-gray-300">
+                    <div class="stack-item">WashU VTOL</div>
+                    <div class="stack-item">Design Build Fly</div>
+                    <div class="stack-item">Systems Integration</div>
+                    <div class="stack-item">Validation Workflow</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENGINEERING PRINCIPLES -->
+        <section class="reveal info-card border border-white/10 p-6 md:p-7 mb-8">
+            <div class="mb-6">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">
+                    Engineering Principles
+                </h2>
+                <p class="mt-2 text-sm text-gray-400 max-w-2xl">
+                    Expand the principles that matter most to how I work.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <button class="accordion-btn active w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-1', this)">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-white">Start from first principles</span>
+                        <i class="fas fa-plus text-xs text-gray-500 acc-icon"></i>
+                    </div>
+                </button>
+                <div id="principle-1" class="accordion-content active border border-white/10 border-t-0 p-4">
+                    <p class="panel-text">
+                        I try to understand what the system is actually being asked to do before jumping into tools, opinions, or complexity. That usually makes better decisions possible much earlier.
+                    </p>
+                </div>
+
+                <button class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-2', this)">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-white">Make assumptions visible</span>
+                        <i class="fas fa-plus text-xs text-gray-500 acc-icon"></i>
+                    </div>
+                </button>
+                <div id="principle-2" class="accordion-content border border-white/10 border-t-0 p-4">
+                    <p class="panel-text">
+                        Hidden assumptions create fragile systems. I would rather expose them early, write them down clearly, and let testing decide whether they survive.
+                    </p>
+                </div>
+
+                <button class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-3', this)">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-white">Stay close to data</span>
+                        <i class="fas fa-plus text-xs text-gray-500 acc-icon"></i>
+                    </div>
+                </button>
+                <div id="principle-3" class="accordion-content border border-white/10 border-t-0 p-4">
+                    <p class="panel-text">
+                        Logs, measurements, and behavior matter more than what the design was supposed to do. Staying close to data keeps the work honest and cuts through ego quickly.
+                    </p>
+                </div>
+
+                <button class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-4', this)">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-white">Reduce friction for the team</span>
+                        <i class="fas fa-plus text-xs text-gray-500 acc-icon"></i>
+                    </div>
+                </button>
+                <div id="principle-4" class="accordion-content border border-white/10 border-t-0 p-4">
+                    <p class="panel-text">
+                        Good engineering is not only about solving your own part well. It is also about making interfaces cleaner, documentation clearer, and collaboration easier for everyone else.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLOSING -->
+        <section class="reveal info-card border border-white/10 p-6 md:p-7">
+            <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">
+                What I am aiming for
+            </h2>
+            <ul class="space-y-3 text-sm leading-relaxed">
+                <li class="aim-item flex gap-3 text-gray-300">
+                    <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
+                    <span>Contribute to aerospace and robotics teams that turn ambitious goals into testable engineering steps.</span>
+                </li>
+                <li class="aim-item flex gap-3 text-gray-300">
+                    <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
+                    <span>Build tools, documentation, and integration workflows that reduce friction for the rest of the team.</span>
+                </li>
+                <li class="aim-item flex gap-3 text-gray-300">
+                    <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
+                    <span>Stay close to hardware, telemetry, and validation so design choices stay tied to real system behavior.</span>
+                </li>
+                <li class="aim-item flex gap-3 text-gray-300">
+                    <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
+                    <span>Grow into a systems minded engineer who can simplify complexity, stay calm under pressure, and make sound decisions with incomplete information.</span>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="py-12 border-t border-white/10 bg-black">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+            SYSTEM ID: ABOUT CFG // END OF FILE
+        </div>
+    </footer>
+
+    <script>
+        /* ── Page exit ── */
+        function smoothExit(e, url) {
+            e.preventDefault();
+            document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+            document.body.style.opacity = "0";
+            document.body.style.transform = "scale(0.98)";
+            setTimeout(() => { window.location.href = url; }, 400);
+        }
+
+        /* ── Scroll reveal ── */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transitionDelay = `${i * 0.06}s`;
+            revealObserver.observe(el);
+        });
+
+        /* ── Progress bar animation on scroll ── */
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.progress-fill').forEach(fill => {
+                        const w = parseFloat(fill.dataset.width);
+                        fill.style.transform = `scaleX(${w})`;
+                    });
+                    barObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.info-card').forEach(card => {
+            if (card.querySelector('.progress-fill')) barObserver.observe(card);
+        });
+
+        /* ── Focus tabs ── */
+        function showFocus(target, btn) {
+            document.querySelectorAll('.focus-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById('focus-' + target).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        /* ── Workflow steps ── */
+        function showWorkflow(target, btn) {
+            document.querySelectorAll('.principle-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.workflow-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('workflow-' + target).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        /* ── Accordion ── */
+        function toggleAccordion(target, btn) {
+            const content = document.getElementById(target);
+            const isActive = content.classList.contains('active');
+
+            document.querySelectorAll('.accordion-content').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.accordion-btn').forEach(i => i.classList.remove('active'));
+
+            if (!isActive) {
+                content.classList.add('active');
+                btn.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>

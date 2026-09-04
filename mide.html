@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDE | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        html { background-color: #000000; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #e2e8f0;
+            will-change: opacity, transform;
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        .bg-grid-pattern {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+        }
+
+        .tech-highlight { color: #4ade80; font-weight: 600; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+        /* Phase timeline */
+        .phase-bar {
+            height: 3px;
+            background: linear-gradient(90deg, #4ade80, #16a34a);
+            transform-origin: left;
+            animation: growBar 1s ease forwards;
+            animation-delay: var(--delay, 0s);
+            transform: scaleX(0);
+        }
+        @keyframes growBar {
+            to { transform: scaleX(1); }
+        }
+
+        /* Scanline overlay on the header block */
+        .scanline-overlay {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.08) 2px,
+                rgba(0,0,0,0.08) 4px
+            );
+            pointer-events: none;
+        }
+
+        /* Subtle blink on "ACTIVE" */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .blink { animation: blink 2s step-end infinite; }
+
+        /* Team card hover */
+        .team-card {
+            transition: border-color 0.25s, background 0.25s;
+        }
+        .team-card:hover {
+            border-color: rgba(74, 222, 128, 0.4);
+            background: rgba(74, 222, 128, 0.04);
+        }
+    </style>
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+            </a>
+
+            <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-emerald-400 drop-shadow-[0_0_3px_rgba(74,222,128,0.25)]">
+                <span class="hidden md:inline font-semibold">May – Aug 2026 · Complete</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div class="h-24 w-24 bg-white border border-white/10 p-2 flex items-center justify-center overflow-hidden shrink-0">
+                <img src="assets/images/mide_logo.png" alt="MIDE Logo" class="h-full w-full object-contain"
+                     onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-rocket text-4xl text-green-400\'></i>'">
+            </div>
+
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border-l-2 border-green-500 mb-3">
+                    <span class="font-mono font-bold text-green-400 text-xs tracking-wider uppercase">UAS Engineering Intern</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Missouri Institute for Defense and Energy</h1>
+                <p class="text-green-400 font-mono text-sm uppercase tracking-widest mt-1">UAS systems · Flight test · Hardware integration</p>
+                <p class="text-gray-500 font-mono text-xs mt-2">Kansas City · Deputy Director: Dr. Travis Fields</p>
+                <div class="mt-4 text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">May 2026 – Aug 2026</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+            <!-- Main content -->
+            <div class="lg:col-span-2 space-y-14">
+
+                <!-- Overview -->
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">>> Overview</h3>
+                    <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
+                        <p>
+                            The Missouri Institute for Defense and Energy is a multidisciplinary research institute that bridges academia and industry to tackle complex defense and energy challenges. With over 80 researchers spanning engineering, physics, and beyond, MIDE collaborates with the Department of Defense, the Office of Naval Research, and the National Science Foundation across a wide range of programs.
+                        </p>
+                        <p class="text-gray-400 text-base">
+                            At MIDE I worked experimental unmanned aircraft as systems. I helped return vehicles to test-ready after structural work, supported flight-test operations, and used flight data to understand how configuration affected whether an aircraft was ready to fly. I also brought platforms up from hardware through calibration and bench checks, and verified that sensing, estimation, and actuation hung together on the vehicle. I did not write a new controller.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- What I Did -->
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">>> What I Did</h3>
+
+                    <div class="space-y-3">
+
+                        <div class="bg-black border border-white/10 p-5 team-card">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-green-500/10 border border-green-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fas fa-wrench text-green-400 text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">01 · Repair &amp; Test-Readiness</h4>
+                                        <span class="font-mono text-[10px] text-green-400 uppercase">Ops</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Supported experimental UAS through repair after structural work, flight-test operations, and returning platforms to a test-ready state.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-black border border-white/10 p-5 team-card">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-green-500/10 border border-green-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fas fa-chart-line text-green-400 text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 · Flight Data → Readiness</h4>
+                                        <span class="font-mono text-[10px] text-green-400 uppercase">Analysis</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Used flight data to relate vehicle configuration to whether an aircraft was ready to test, grounding go/no-go judgment in measured behavior rather than assumption.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-black border border-white/10 p-5 team-card">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-green-500/10 border border-green-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fas fa-microchip text-green-400 text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">03 · Systems Bring-Up</h4>
+                                        <span class="font-mono text-[10px] text-green-400 uppercase">Integration</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Brought unmanned platforms up as integrated systems (hardware through calibration and bench checks) and verified the sense-to-actuate path on the vehicle.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Scope note -->
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+                        <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Scope · Summer 2026</h4>
+                        <i class="fas fa-info-circle text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Focus stayed on experimental UAS as hardware systems: readiness, integration, and flight-test support.
+                        Controller design was out of scope for this internship.
+                    </p>
+                    <div class="mt-5 pt-4 border-t border-white/5 text-[10px] text-gray-600 flex justify-between font-mono">
+                        <span>SYSTEM: MIDE // UAS // MAY–AUG 2026</span>
+                        <span class="text-emerald-400">● COMPLETE</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-10">
+
+                <!-- Lab website link card -->
+                <div>
+                    <p class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-3">External Link</p>
+                    <a href="https://info.umkc.edu/mide/research-staging/"
+                       target="_blank" rel="noopener noreferrer"
+                       class="group block border border-white/10 hover:border-green-400/50 bg-black transition-all duration-300">
+
+                        <div class="px-4 pt-4 pb-3 border-b border-white/5">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i class="fas fa-globe text-green-400 text-xs"></i>
+                                <span class="font-mono text-[10px] text-green-400 uppercase tracking-widest font-bold">Official Lab Website</span>
+                            </div>
+                            <p class="text-white font-semibold text-sm leading-tight">Missouri Institute for Defense and Energy</p>
+                            <p class="text-gray-500 text-[11px] font-mono mt-1">University of Missouri – Kansas City</p>
+                        </div>
+
+                        <div class="relative overflow-hidden bg-[#080808]">
+                            <img src="assets/images/mide_website.png"
+                                 alt="MIDE Research Lab website screenshot"
+                                 class="w-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-[1.02] transition-all duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+                        </div>
+
+                        <div class="px-4 py-3 flex items-center justify-between border-t border-white/5 bg-white/[0.02]">
+                            <span class="font-mono text-[10px] text-gray-500 truncate">info.umkc.edu/mide</span>
+                            <i class="fas fa-arrow-up-right-from-square text-green-400 text-[11px] shrink-0 ml-2 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Focus Areas -->
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">My Focus Areas</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Experimental UAS</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Test-Readiness</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Flight Test</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Systems Bring-Up</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Calibration</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Sense-to-Actuate</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Flight Data</span>
+                    </div>
+                </div>
+
+                <!-- Alignment -->
+                <div class="p-8 bg-green-500/5 border border-green-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-green-400">Alignment</h4>
+                    <p class="text-sm text-green-100/80 leading-relaxed">
+                        Treating aircraft as integrated systems, from hardware bring-up through flight data, is how I want to keep working in aerospace: close to the vehicle, honest about readiness, and grounded in measurement.
+                    </p>
+                </div>
+
+                <!-- Mission Status -->
+                <div class="border border-white/10 bg-[#080808] p-5 font-mono text-xs space-y-3">
+                    <div class="text-[10px] text-gray-600 uppercase tracking-widest border-b border-white/5 pb-2 mb-3">Mission Status</div>
+                    <div class="flex justify-between gap-4">
+                        <span class="text-gray-500">Role</span>
+                        <span class="text-white text-right">UAS Engineering Intern</span>
+                    </div>
+                    <div class="flex justify-between gap-4">
+                        <span class="text-gray-500">Location</span>
+                        <span class="text-white text-right">Kansas City, MO</span>
+                    </div>
+                    <div class="flex justify-between gap-4">
+                        <span class="text-gray-500">Deputy Director</span>
+                        <span class="text-white text-right">Dr. Travis Fields</span>
+                    </div>
+                    <div class="flex justify-between gap-4">
+                        <span class="text-gray-500">Timeline</span>
+                        <span class="text-white text-right">May – Aug 2026</span>
+                    </div>
+                    <div class="flex justify-between gap-4">
+                        <span class="text-gray-500">Focus</span>
+                        <span class="text-white text-right">Systems · Flight Test</span>
+                    </div>
+                    <div class="flex justify-between gap-4">
+                        <span class="text-gray-500">Status</span>
+                        <span class="text-emerald-400">● Complete</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-white/10 bg-black">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+            SYSTEM ID: MIDE-2026 // END OF FILE
+        </div>
+    </footer>
+
+    <script>
+    function smoothExit(e, url) {
+        e.preventDefault();
+        document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+        document.body.style.opacity = "0";
+        document.body.style.transform = "scale(0.98)";
+        setTimeout(() => { window.location.href = url; }, 400);
+    }
+    </script>
+    <script src="js/nav-persist.js"></script>
+
+</body>
+</html>

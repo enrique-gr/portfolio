@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enrique Garcia — Mechanical Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Linux+Libertine+Display&family=Linux+Libertine:ital,wght@0,400;0,600;1,400&family=Linux+Biolinum:wght@400;700&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f8f9fa;
+  --content-bg: #ffffff;
+  --border: #a2a9b1;
+  --border-light: #eaecf0;
+  --link: #0645ad;
+  --link-visited: #0b0080;
+  --text: #202122;
+  --text-muted: #54595d;
+  --accent: #3366aa;
+  --accent-light: #cee0f2;
+  --header-bg: #ffffff;
+  --infobox-bg: #f8f9fa;
+  --toc-bg: #f8f9fa;
+  --table-header: #eaecf0;
+  --timeline-blue: #3680b0;
+}
+
+html { font-size: 14px; background: var(--bg); }
+
+body {
+  font-family: 'Linux Libertine', 'Georgia', serif;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ============================================================
+   TOP SITE BANNER (replaces wiki sitenotice)
+   ============================================================ */
+#site-banner {
+  background: var(--accent);
+  color: #fff;
+  text-align: center;
+  padding: 5px 1rem;
+  font-family: 'Linux Biolinum', sans-serif;
+  font-size: 0.857rem;
+  letter-spacing: 0.01em;
+}
+#site-banner a { color: #cde; }
+#site-banner strong { font-weight: 700; }
+
+/* ============================================================
+   HEADER — logo + horizontal nav
+   ============================================================ */
+#site-header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 54px;
+  gap: 1.5rem;
+}
+
+#site-wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+#site-wordmark:hover { text-decoration: none; }
+
+.wordmark-name {
+  font-family: 'Linux Libertine Display', 'Linux Libertine', serif;
+  font-size: 1.5rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.wordmark-sub {
+  font-family: 'Linux Biolinum', sans-serif;
+  font-size: 0.714rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* HORIZONTAL NAV */
+#site-nav {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: 54px;
+  font-family: 'Linux Biolinum', sans-serif;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-item > a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 14px;
+  color: var(--text);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.15s, color 0.15s;
+}
+.nav-item > a:hover {
+  text-decoration: none;
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+.nav-item.active > a {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* dropdown */
+.nav-item:hover .nav-dropdown { display: block; }
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  min-width: 160px;
+  z-index: 200;
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.12);
+}
+.nav-dropdown a {
+  display: block;
+  padding: 7px 14px;
+  color: var(--text);
+  font-size: 0.857rem;
+  font-family: 'Linux Biolinum', sans-serif;
+  border-bottom: 1px solid var(--border-light);
+}
+.nav-dropdown a:last-child { border-bottom: none; }
+.nav-dropdown a:hover { background: var(--bg); text-decoration: none; color: var(--accent); }
+
+/* contact button */
+#nav-contact-btn {
+  margin-left: 8px;
+  background: var(--accent);
+  color: #fff !important;
+  border-radius: 2px;
+  padding: 6px 14px !important;
+  font-size: 0.857rem;
+  height: auto !important;
+  border-bottom: none !important;
+  align-self: center;
+  font-family: 'Linux Biolinum', sans-serif;
+  font-weight: 700;
+}
+#nav-contact-btn:hover { background: #224e88 !important; text-decoration: none !important; }
+
+/* ============================================================
+   PAGE LAYOUT
+   ============================================================ */
+#page-wrap {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  gap: 0;
+}
+
+/* SIDEBAR */
+#sidebar {
+  width: 180px;
+  flex-shrink: 0;
+  padding-top: 1.25rem;
+  font-family: 'Linux Biolinum', sans-serif;
+  border-right: 1px solid var(--border-light);
+  padding-right: 1rem;
+}
+
+.sidebar-section { margin-bottom: 1.1rem; }
+.sidebar-section h3 {
+  font-size: 0.714rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 5px;
+}
+.sidebar-section ul { list-style: none; padding: 0; }
+.sidebar-section ul li { padding: 2px 0; }
+.sidebar-section ul li a {
+  font-size: 0.857rem;
+  color: var(--link);
+  display: block;
+  padding: 1px 0;
+}
+.sidebar-section ul li a:hover { text-decoration: underline; }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.786rem;
+  color: #2e7d32;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #2e7d32;
+  display: inline-block;
+}
+
+.sidebar-links { margin-top: 0.75rem; }
+.sidebar-links a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.857rem;
+  color: var(--link);
+  padding: 2px 0;
+}
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+#content {
+  flex: 1;
+  min-width: 0;
+  background: var(--content-bg);
+  padding: 1.25rem 1.5rem 3rem;
+  border-left: 1px solid var(--border-light);
+}
+
+#firstHeading {
+  font-family: 'Linux Libertine Display', 'Linux Libertine', serif;
+  font-size: 2rem;
+  font-weight: normal;
+  line-height: 1.2;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+  margin-bottom: 0.6rem;
+  color: var(--text);
+}
+
+/* ============================================================
+   INFOBOX
+   ============================================================ */
+.infobox {
+  float: right;
+  clear: right;
+  margin: 0 0 1.5em 1.5em;
+  border: 1px solid var(--border);
+  background: var(--infobox-bg);
+  font-size: 0.857rem;
+  line-height: 1.5;
+  width: 270px;
+  font-family: 'Linux Biolinum', sans-serif;
+}
+.infobox-title {
+  background: var(--accent-light);
+  text-align: center;
+  font-weight: bold;
+  padding: 6px 8px;
+  font-family: 'Linux Libertine', serif;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.infobox-image {
+  text-align: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+.infobox-image img {
+  max-width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+}
+.infobox-caption {
+  font-size: 0.786rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-style: italic;
+}
+.infobox table { width: 100%; border-collapse: collapse; }
+.infobox tr td {
+  padding: 3px 8px;
+  vertical-align: top;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.857rem;
+}
+.infobox tr td:first-child {
+  font-weight: bold;
+  width: 40%;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.infobox-subheader {
+  background: #dce3ef;
+  text-align: center;
+  font-weight: bold;
+  padding: 3px 8px;
+  font-size: 0.857rem;
+}
+
+/* ============================================================
+   NOTICE BOX
+   ============================================================ */
+.notice-box {
+  border-left: 5px solid var(--accent);
+  background: #eaf3fb;
+  padding: 8px 12px;
+  margin-bottom: 1em;
+  font-family: 'Linux Biolinum', sans-serif;
+  font-size: 0.857rem;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.notice-box .icon { font-size: 1.3em; line-height: 1.4; flex-shrink: 0; }
+.notice-box strong { display: block; margin-bottom: 2px; }
+
+/* ============================================================
+   ARTICLE BODY
+   ============================================================ */
+#content-body p {
+  margin-bottom: 0.8em;
+  font-size: 0.929rem;
+  line-height: 1.65;
+}
+
+#content-body h2 {
+  font-family: 'Linux Libertine Display', 'Linux Libertine', serif;
+  font-size: 1.5rem;
+  font-weight: normal;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  margin: 1.6em 0 0.6em;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+#content-body h3 {
+  font-family: 'Linux Libertine', serif;
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin: 1.2em 0 0.4em;
+}
+
+/* ============================================================
+   MISSION TIMELINE
+   ============================================================ */
+.mw-timeline {
+  position: relative;
+  padding-left: 2em;
+  border-left: 3px solid var(--accent-light);
+  margin: 0.5em 0 1.2em 0.5em;
+}
+.mw-timeline-item {
+  position: relative;
+  margin-bottom: 1.2em;
+  font-size: 0.929rem;
+  font-family: 'Linux Biolinum', sans-serif;
+}
+.mw-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.45em;
+  top: 5px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: white;
+}
+.mw-timeline-item.active::before { background: var(--accent); }
+.mw-timeline-item.target::before { background: #f4c430; border-color: #c8960c; }
+.mw-timeline-date { font-size: 0.786rem; color: var(--text-muted); font-style: italic; }
+.mw-timeline-title { font-weight: bold; }
+.mw-timeline-desc { color: var(--text-muted); font-size: 0.857rem; }
+
+/* ============================================================
+   WIKITABLE
+   ============================================================ */
+.wikitable {
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  background: var(--content-bg);
+  font-size: 0.857rem;
+  margin-bottom: 1em;
+  font-family: 'Linux Biolinum', sans-serif;
+}
+.wikitable th {
+  background: var(--table-header);
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  font-weight: bold;
+  text-align: left;
+}
+.wikitable td {
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  vertical-align: top;
+}
+.wikitable tr:nth-child(even) td { background: #f8f9fa; }
+.incident-resolved td { background: #f0fff0 !important; }
+.incident-id { font-weight: bold; color: var(--text-muted); white-space: nowrap; }
+
+/* ============================================================
+   SKILL TAGS
+   ============================================================ */
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0.4em 0 0.8em; }
+.mw-skill-tag {
+  font-family: 'Linux Biolinum', sans-serif;
+  font-size: 0.814rem;
+  color: var(--link);
+  cursor: pointer;
+  padding: 2px 0;
+}
+.mw-skill-tag:hover { text-decoration: underline; }
+.mw-skill-tag::before { content: '[['; color: var(--text-muted); }
+.mw-skill-tag::after  { content: ']]'; color: var(--text-muted); }
+
+.skill-sep { color: var(--text-muted); font-family: 'Linux Biolinum', sans-serif; align-self: center; }
+
+#skill-detail {
+  background: var(--toc-bg);
+  border: 1px solid var(--border);
+  padding: 9px 13px;
+  font-size: 0.857rem;
+  font-family: 'Linux Biolinum', sans-serif;
+  margin: 0.3em 0 0.8em;
+  display: none;
+  border-left: 4px solid var(--accent);
+}
+#skill-detail.visible { display: block; }
+#sd-title { font-weight: bold; margin-bottom: 4px; font-size: 0.929rem; }
+#sd-used { margin-top: 6px; font-style: italic; color: var(--text-muted); font-size: 0.829rem; }
+
+/* ============================================================
+   RADAR CHART
+   ============================================================ */
+.chart-figure {
+  float: right;
+  clear: right;
+  margin: 0 0 1em 1.5em;
+  border: 1px solid var(--border);
+  background: var(--infobox-bg);
+  padding: 8px;
+  width: 250px;
+  text-align: center;
+}
+.chart-figure figcaption {
+  font-size: 0.771rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 4px;
+  font-family: 'Linux Biolinum', sans-serif;
+}
+canvas#skillsChart { width: 234px !important; height: 210px !important; }
+
+/* ============================================================
+   PROJECT LIST
+   ============================================================ */
+.mw-project-list { margin-bottom: 1em; }
+.mw-project-list dt {
+  font-weight: bold;
+  margin-top: 0.8em;
+  font-size: 0.929rem;
+  font-family: 'Linux Biolinum', sans-serif;
+}
+.mw-project-list dt a { color: var(--link); }
+.mw-project-list dd {
+  margin-left: 1.6em;
+  font-size: 0.857rem;
+  font-family: 'Linux Biolinum', sans-serif;
+}
+.mw-project-list dd.tags { color: var(--text-muted); font-style: italic; font-size: 0.814rem; }
+
+/* ============================================================
+   CATEGORIES
+   ============================================================ */
+#catlinks {
+  background: var(--infobox-bg);
+  border: 1px solid var(--border);
+  border-top: none;
+  padding: 6px 12px;
+  font-size: 0.857rem;
+  font-family: 'Linux Biolinum', sans-serif;
+  clear: both;
+  margin-top: 2em;
+}
+#catlinks::before { content: 'Categories: '; font-weight: bold; }
+#catlinks a { color: var(--link); margin-right: 4px; }
+.cat-list { display: inline; list-style: none; padding: 0; }
+.cat-list li { display: inline; }
+.cat-list li::after { content: ' · '; color: var(--text-muted); }
+.cat-list li:last-child::after { content: ''; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+#site-footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding: 1rem 1.5rem;
+  font-family: 'Linux Biolinum', sans-serif;
+  font-size: 0.786rem;
+  color: var(--text-muted);
+  max-width: 1140px;
+  margin: 0 auto;
+}
+.footer-row { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin-bottom: 3px; }
+.footer-row a { color: var(--link); }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+#toast {
+  display: none;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  font-family: 'Linux Biolinum', sans-serif;
+  font-size: 0.857rem;
+  z-index: 999;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.15);
+}
+#toast.show { display: block; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 860px) {
+  #sidebar { display: none; }
+  #content { border-left: none; }
+  #site-nav { display: none; }
+}
+@media (max-width: 600px) {
+  .infobox { float: none; width: 100%; margin: 0 0 1em; }
+  .chart-figure { float: none; width: 100%; margin: 0 0 1em; }
+  #firstHeading { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div id="site-banner">
+  <strong>Open to opportunities:</strong> Seeking Summer 2026 internships in Aerospace · Autonomous Systems · Avionics
+</div>
+
+<!-- HEADER -->
+<div id="site-header">
+  <div class="header-inner">
+    <a id="site-wordmark" href="#">
+      <span class="wordmark-name">Enrique Garcia</span>
+      <span class="wordmark-sub">Mechanical Engineer · WashU</span>
+    </a>
+
+    <nav id="site-nav">
+      <div class="nav-item active">
+        <a href="#">About</a>
+      </div>
+      <div class="nav-item">
+        <a href="#career">Projects ▾</a>
+        <div class="nav-dropdown">
+          <a href="#washu-vtol">WashU VTOL</a>
+          <a href="#washu-dbf">Design/Build/Fly</a>
+          <a href="#sentinel-cv">Sentinel CV</a>
+          <a href="#miro-lab">MIRO Lab</a>
+          <a href="#personal-projects">Personal Projects</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#capabilities">Skills</a>
+      </div>
+      <div class="nav-item">
+        <a href="#academic">Coursework</a>
+      </div>
+      <div class="nav-item">
+        <a href="#incidents">Incident Log</a>
+      </div>
+      <div class="nav-item">
+        <a href="resume.html">Résumé ↗</a>
+      </div>
+      <a id="nav-contact-btn" href="mailto:e.garciarivera@wustl.edu">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<!-- PAGE BODY -->
+<div id="page-wrap">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h3>On this page</h3>
+      <ul>
+        <li><a href="#career">Projects</a></li>
+        <li><a href="#capabilities">Skills</a></li>
+        <li><a href="#academic">Coursework</a></li>
+        <li><a href="#incidents">Incident Log</a></li>
+        <li><a href="#personal-projects">Personal Work</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>External</h3>
+      <ul>
+        <li><a href="https://linkedin.com/in/enrique-gr" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="resume.html">Résumé ↗</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Status</h3>
+      <div class="status-badge"><span class="status-dot"></span>Active — Spring 2026</div>
+      <p style="font-size:0.786rem;color:var(--text-muted);margin-top:4px;font-family:'Linux Biolinum',sans-serif;">Seeking Summer 2026 internship</p>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Contact</h3>
+      <ul>
+        <li><a href="#" onclick="copyEmail();return false;">Copy email ↗</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content">
+
+    <h1 id="firstHeading">Enrique Garcia</h1>
+
+    <div id="content-body">
+
+      <!-- NOTICE -->
+      <div class="notice-box">
+        <div class="icon">🔍</div>
+        <div>
+          <strong>Seeking Summer 2026 Internship</strong>
+          Interested in Aerospace Systems, Autonomous Systems, Avionics, and Controls Engineering.
+          <a href="mailto:e.garciarivera@wustl.edu">Reach out →</a>
+        </div>
+      </div>
+
+      <!-- INFOBOX -->
+      <table class="infobox">
+        <tr><td colspan="2" class="infobox-title">Enrique Garcia<br><span style="font-weight:normal;font-size:0.857rem;">Mechanical Engineer</span></td></tr>
+        <tr><td colspan="2" class="infobox-image">
+          <img src="images/pfpv2.png" alt="Enrique Garcia" style="width:180px;height:200px;object-fit:cover;">
+          <div class="infobox-caption">Washington University in St. Louis, 2025</div>
+        </td></tr>
+        <tr><td colspan="2" class="infobox-subheader">Personal</td></tr>
+        <tr><td>Nationality</td><td>American</td></tr>
+        <tr><td>Education</td><td>Washington University in St. Louis<br><i>B.S. Mechanical Engineering</i></td></tr>
+        <tr><td colspan="2" class="infobox-subheader">Professional</td></tr>
+        <tr><td>Role</td><td>Avionics &amp; Systems Lead, WashU VTOL</td></tr>
+        <tr><td>Location</td><td>St. Louis, Missouri, U.S.</td></tr>
+        <tr><td>Status</td><td><span style="color:#2e7d32;">● Active</span></td></tr>
+        <tr><td colspan="2" class="infobox-subheader">Contact</td></tr>
+        <tr><td>Email</td><td><a href="#" onclick="copyEmail();return false;">e.garciarivera@wustl.edu</a></td></tr>
+        <tr><td>LinkedIn</td><td><a href="https://linkedin.com/in/enrique-gr" target="_blank" rel="noopener">enrique-gr ↗</a></td></tr>
+        <tr><td>GitHub</td><td><a href="https://github.com/enrique-gr" target="_blank" rel="noopener">enrique-gr ↗</a></td></tr>
+      </table>
+
+      <p>
+        <b>Enrique Garcia</b> is an American mechanical engineering student at Washington University in St. Louis (WashU),
+        focused on aerospace systems, robotics, and high-reliability autonomy. He currently serves as the
+        Avionics &amp; Systems Integration Lead for WashU VTOL, a student-run program developing semi-autonomous
+        vertical takeoff and landing aircraft.
+      </p>
+      <p>
+        His work spans embedded firmware, control systems, computer vision, and aerodynamic analysis.
+        Garcia's engineering philosophy centers on building the interface between hardware and software
+        through first-principles design, rigorous hardware-in-the-loop testing, and measurable, validated outcomes.
+      </p>
+
+      <!-- ── CAREER ── -->
+      <h2 id="career">Career and projects</h2>
+
+      <p>
+        Garcia's project work is organized around a mission timeline — a structured log of engineering
+        commitments from current internship pursuit back through foundational undergraduate work. Each entry
+        represents a discrete systems engineering effort with defined ownership and documented outcomes.
+      </p>
+
+      <div class="mw-timeline">
+        <div class="mw-timeline-item target">
+          <div class="mw-timeline-date">Summer 2026 — Target</div>
+          <div class="mw-timeline-title">Engineering Internship (sought)</div>
+          <div class="mw-timeline-desc">Aerospace Systems · Autonomous Systems · Avionics · Controls Engineering</div>
+        </div>
+        <div class="mw-timeline-item active">
+          <div class="mw-timeline-date">September 2025 – Present — Active</div>
+          <div class="mw-timeline-title">WashU VTOL</div>
+          <div class="mw-timeline-desc">Avionics &amp; Systems Integration Lead</div>
+        </div>
+        <div class="mw-timeline-item">
+          <div class="mw-timeline-date">September 2024 – January 2026 — Complete</div>
+          <div class="mw-timeline-title">WashU Design/Build/Fly</div>
+          <div class="mw-timeline-desc">Aerodynamics &amp; Payload Engineer</div>
+        </div>
+        <div class="mw-timeline-item">
+          <div class="mw-timeline-date">Winter 2025 — Complete</div>
+          <div class="mw-timeline-title">Sentinel Computer Vision</div>
+          <div class="mw-timeline-desc">Algorithm Engineer</div>
+        </div>
+        <div class="mw-timeline-item">
+          <div class="mw-timeline-date">Summer 2025 — Complete</div>
+          <div class="mw-timeline-title">MIRO Lab — Undergraduate Researcher</div>
+          <div class="mw-timeline-desc">Multiplatform Interactive Robotics Lab, WashU</div>
+        </div>
+      </div>
+
+      <h3 id="washu-vtol">WashU VTOL</h3>
+      <p>
+        Garcia serves as Avionics &amp; Systems Integration Lead for WashU VTOL, a student-built semi-autonomous
+        vertical takeoff and landing aircraft. He architected the full avionics stack, including Pixhawk 6C
+        flight management unit integration, PX4 autopilot configuration, and all wiring and power distribution.
+      </p>
+      <p>
+        A key contribution was establishing a hardware-in-the-loop (HIL) validation workflow using Gazebo/PX4 SITL,
+        enabling comprehensive autopilot parameter tuning and failure-mode testing before physical flight. Garcia also
+        resolved a persistent I2C noise fault caused by motor wiring interference (see <a href="#incidents">Incident VTOL-01</a>).
+      </p>
+      <table class="wikitable">
+        <tr><th>Attribute</th><th>Detail</th></tr>
+        <tr><td>Role</td><td>Avionics &amp; Systems Integration Lead</td></tr>
+        <tr><td>Period</td><td>September 2025 – Present</td></tr>
+        <tr><td>Flight Stack</td><td>PX4 on Pixhawk 6C</td></tr>
+        <tr><td>Key Outcome</td><td>Stable autonomous hover envelope; reduced integration regressions</td></tr>
+        <tr><td>Protocols</td><td>I2C, UART, PWM, MAVLink</td></tr>
+        <tr class="incident-resolved"><td>Anomaly Resolved</td><td><a href="#incidents">VTOL-01</a> — I2C sensor dropout</td></tr>
+      </table>
+
+      <h3 id="washu-dbf">WashU Design/Build/Fly</h3>
+      <p>
+        During 2024–2025, Garcia contributed to WashU Design/Build/Fly (DBF), an AIAA-affiliated competition
+        team. His responsibilities covered aerodynamic analysis and payload system design.
+      </p>
+      <p>
+        Garcia ran iterative XFLR5 panel-method sweeps and ANSYS CFX cross-checks to validate NACA-series wing
+        geometry across the full operating envelope. He also performed 2.5 g structural load analysis that
+        informed spar placement and composite layup decisions.
+      </p>
+
+      <h3 id="sentinel-cv">Sentinel Computer Vision</h3>
+      <p>
+        <i>Sentinel CV</i> is an independent real-time computer vision pipeline for autonomous target tracking and
+        intercept prediction, developed in Winter 2025. The system implements background subtraction,
+        contour-based detection, and a Kalman filter state estimator in C++ using OpenCV, operating at camera
+        frame rate with low-latency output suitable for closed-loop guidance simulation.
+      </p>
+
+      <h3 id="miro-lab">MIRO Lab</h3>
+      <p>
+        During Summer 2025, Garcia worked as an undergraduate researcher at the Multiplatform Interactive Robotics
+        Lab (MIRO Lab) at WashU. He developed a wearable sensor fusion pipeline combining IMU, EMG sensors, and a
+        visual tracking camera, producing temporally synchronized motion signatures used in ongoing human–robot
+        interaction research.
+      </p>
+
+      <!-- ── CAPABILITIES ── -->
+      <h2 id="capabilities">Technical capabilities</h2>
+
+      <p>
+        Garcia's technical toolkit bridges mechanical engineering fundamentals with embedded systems and autonomous
+        software development. Click any entry to view contextual detail.
+      </p>
+
+      <figure class="chart-figure">
+        <canvas id="skillsChart"></canvas>
+        <figcaption>Fig. 1 — Competency distribution across core engineering domains.</figcaption>
+      </figure>
+
+      <h3>Languages and frameworks</h3>
+      <div class="skill-tags">
+        <span class="mw-skill-tag" onclick="showSkill('cpp')">C++20</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('python')">Python</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('matlab')">MATLAB</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('simulink')">Simulink</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('js')">JavaScript</span>
+      </div>
+
+      <div id="skill-detail"></div>
+
+      <h3>Hardware and embedded systems</h3>
+      <div class="skill-tags">
+        <span class="mw-skill-tag" onclick="showSkill('teensy')">Teensy 4.1</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('stm32')">STM32</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('pixhawk')">Pixhawk 6C</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('px4')">PX4</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('ardupilot')">ArduPilot</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('protocols')">I2C · SPI · UART</span>
+      </div>
+
+      <h3>CAD, simulation and analysis</h3>
+      <div class="skill-tags">
+        <span class="mw-skill-tag" onclick="showSkill('solidworks')">SolidWorks</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('ansys')">ANSYS FEA</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('cfx')">ANSYS CFX</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('xflr5')">XFLR5</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('opencv')">OpenCV</span>
+      </div>
+
+      <h3>Methods and concepts</h3>
+      <div class="skill-tags">
+        <span class="mw-skill-tag" onclick="showSkill('ekf')">EKF / UKF</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('pid')">PID Control</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('hil')">HIL Testing</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('sixdof')">6-DOF Dynamics</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('fusion')">Sensor Fusion</span>
+        <span class="skill-sep">·</span>
+        <span class="mw-skill-tag" onclick="showSkill('dfm')">DFM</span>
+      </div>
+
+      <!-- ── ACADEMIC ── -->
+      <h2 id="academic">Academic record</h2>
+      <p>Mechanical engineering coursework at Washington University in St. Louis.</p>
+      <table class="wikitable">
+        <tr><th>Course ID</th><th>Course Name</th><th>Status</th></tr>
+        <tr><td>ME 4320</td><td>Modeling, Simulation &amp; Control</td><td style="color:#2e7d32;">Running</td></tr>
+        <tr><td>ME 3430</td><td>Thermal Systems Design</td><td style="color:#2e7d32;">Running</td></tr>
+        <tr><td>ME 3420</td><td>Heat Transfer</td><td style="color:#2e7d32;">Running</td></tr>
+        <tr><td>ME 3110</td><td>Machine Elements</td><td style="color:#2e7d32;">Running</td></tr>
+        <tr><td>ME 3050</td><td>Fluids &amp; Heat Lab</td><td style="color:#2e7d32;">Running</td></tr>
+        <tr><td>ME 4310</td><td>Vibrations</td><td>Complete</td></tr>
+        <tr><td>ME 3400</td><td>Thermodynamics</td><td>Complete</td></tr>
+        <tr><td>ME 3410</td><td>Fluid Mechanics</td><td>Complete</td></tr>
+        <tr><td>ME 3530</td><td>Solid Mechanics</td><td>Complete</td></tr>
+        <tr><td>ME 3280</td><td>Probability &amp; Statistics</td><td>Complete</td></tr>
+      </table>
+
+      <!-- ── INCIDENTS ── -->
+      <h2 id="incidents">Engineering incidents and resolutions</h2>
+      <p>
+        A public log of engineering anomalies encountered across projects, their root causes, and implemented resolutions.
+      </p>
+      <table class="wikitable" style="width:100%;">
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Root Cause</th>
+          <th>Resolution</th>
+          <th>Status</th>
+        </tr>
+        <tr class="incident-resolved">
+          <td class="incident-id">VTOL-01</td>
+          <td>Sensor Dropouts on Bench Test</td>
+          <td>Motor wiring EMI interfering with I2C lines</td>
+          <td>Re-routed and shielded avionics wiring; added pull-up resistors</td>
+          <td style="color:#2e7d32;">Resolved</td>
+        </tr>
+        <tr class="incident-resolved">
+          <td class="incident-id">HYPERION-01</td>
+          <td>Thread Contention Jitter</td>
+          <td>Physics and telemetry threads competing for mutex</td>
+          <td>Implemented double-buffered state handoff to eliminate blocking</td>
+          <td style="color:#2e7d32;">Resolved</td>
+        </tr>
+        <tr class="incident-resolved">
+          <td class="incident-id">PROP-09</td>
+          <td>Igniter Continuity False Positive</td>
+          <td>ADC float voltage on sense pin read as continuity high</td>
+          <td>Hardware pulldown resistor + debounce logic in MCU firmware</td>
+          <td style="color:#2e7d32;">Resolved</td>
+        </tr>
+        <tr class="incident-resolved">
+          <td class="incident-id">DBF-01</td>
+          <td>Pitch Stability Hunting</td>
+          <td>CG shifted aft due to battery placement, reduced static margin</td>
+          <td>Shifted mass forward and increased tail authority</td>
+          <td style="color:#2e7d32;">Resolved</td>
+        </tr>
+      </table>
+
+      <!-- ── PERSONAL PROJECTS ── -->
+      <h2 id="personal-projects">Personal projects</h2>
+      <p>
+        Independent engineering projects spanning flight simulation, embedded navigation, computer vision,
+        and browser-based physics tools.
+      </p>
+      <dl class="mw-project-list">
+        <dt><a href="ekf-nav.html">Multi-Sensor Flight Navigation (EKF Nav)</a></dt>
+        <dd>Real-time 12-state Extended Kalman Filter fusing IMU, GPS, and vision data. Implemented on Teensy 4.1 (ARM Cortex-M7 at 600 MHz). Handles sensor dropouts via covariance gating.</dd>
+        <dd class="tags">C++ · Embedded · EKF</dd>
+
+        <dt><a href="webtunnel-cfd.html">WebTunnel CFD</a></dt>
+        <dd>Zero-dependency real-time fluid simulation running in the browser. Full Navier-Stokes solver at 60 fps with no build tooling.</dd>
+        <dd class="tags">JavaScript · Navier-Stokes · Physics</dd>
+
+        <dt><a href="hyperion.html">Hyperion 6-DOF Engine</a></dt>
+        <dd>High-frequency (10 kHz) rigid body physics engine for flight software validation. Full translational and rotational equations of motion with Runge-Kutta integration, validated against analytical benchmarks.</dd>
+        <dd class="tags">C++20 · Multithreading</dd>
+
+        <dt><a href="lander.html">GNC Lander Simulation</a></dt>
+        <dd>Interactive rocket landing simulator with real-time PID tuning. Applies classical feedback control design to thrust management in a GNC context.</dd>
+        <dd class="tags">Control Theory · PID</dd>
+
+        <dt><a href="faultline.html">FAULTLINE</a></dt>
+        <dd>Deterministic fault-detection console for robotic subsystems. State machine-based diagnostic logic for embedded system monitoring.</dd>
+        <dd class="tags">State Machines · Diagnostics</dd>
+      </dl>
+
+      <!-- ── COURSEWORK ── -->
+      <h2 id="coursework-projects">Coursework projects</h2>
+      <dl class="mw-project-list">
+        <dt><a href="cad-foosball.html">Regulation Foosball Table</a></dt>
+        <dd>Bottom-up CAD assembly of a fully playable regulation foosball table. 200+ part assembly with tolerance stack-up analysis and DFM review.</dd>
+        <dd class="tags">SolidWorks · DFM</dd>
+
+        <dt><a href="cruise-control.html">Adaptive Cruise Control System</a></dt>
+        <dd>Simulated longitudinal vehicle control using PID loops and radar-based headway logic in MATLAB/Simulink. Validated plant model response across a range of operating conditions.</dd>
+        <dd class="tags">MATLAB · Simulink</dd>
+
+        <dt><a href="ambulance-system.html">RF Priority System</a></dt>
+        <dd>Wireless traffic preemption system for emergency vehicles using Arduino and RF communications. Multi-node signaling protocol with fail-safe fallback.</dd>
+        <dd class="tags">Arduino · RF Comms</dd>
+
+        <dt><a href="solid-mechanics.html">Landing Gear FEA</a></dt>
+        <dd>Structural analysis of a nose landing gear designed to withstand 3 g hard-landing impact loads using ANSYS. Topology optimization reduced component mass by 18%.</dd>
+        <dd class="tags">ANSYS · FEA</dd>
+      </dl>
+
+      <!-- CATEGORIES -->
+      <div id="catlinks">
+        <ul class="cat-list">
+          <li><a href="#">Mechanical engineers</a></li>
+          <li><a href="#">Aerospace engineering students</a></li>
+          <li><a href="#">Embedded systems engineers</a></li>
+          <li><a href="#">Robotics researchers</a></li>
+          <li><a href="#">Washington University in St. Louis</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /content-body -->
+  </div><!-- /content -->
+
+</div><!-- /page-wrap -->
+
+<!-- FOOTER -->
+<footer>
+<div id="site-footer">
+  <div class="footer-row">
+    <span>This page was last edited 16 April 2026.</span>
+    <a href="resume.html">Download Résumé</a>
+    <a href="https://linkedin.com/in/enrique-gr" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:e.garciarivera@wustl.edu">Email</a>
+  </div>
+  <div class="footer-row" style="margin-top:2px;">
+    <span>Enrique Garcia · Washington University in St. Louis · Mechanical Engineering</span>
+  </div>
+</div>
+</footer>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+/* SKILL DETAIL */
+const skillData = {
+  cpp:       {title:'C++20',            body:'Core language for all performance-critical engineering software: flight simulators, EKF state estimators, real-time CV pipelines. Heavy use of templates, RAII, and concurrency primitives.',     used:'Used in: Hyperion 6-DOF, Sentinel CV, EKF Nav'},
+  python:    {title:'Python',           body:'Rapid prototyping, data analysis, and sensor-fusion scripting. Primary language for MIRO Lab research pipelines and post-flight log processing.',                                                used:'Used in: MIRO Lab, GNC tooling, data analysis'},
+  matlab:    {title:'MATLAB',           body:'Mathematical modeling, control-loop design, and simulation scripting. Used alongside Simulink to build and validate plant models before hardware deployment.',                                   used:'Used in: Control Systems coursework, DBF analysis'},
+  simulink:  {title:'Simulink',         body:'Block-diagram modeling of dynamic systems. Built adaptive cruise control PID loops and verified VTOL attitude controller response before HIL validation.',                                      used:'Used in: Adaptive Cruise Control, VTOL controls'},
+  js:        {title:'JavaScript',       body:'Zero-dependency browser simulations and interactive engineering tools. WebTunnel CFD runs a full Navier-Stokes solver at 60 fps with no build tooling.',                                        used:'Used in: WebTunnel CFD, GNC Lander Sim'},
+  teensy:    {title:'Teensy 4.1',       body:'ARM Cortex-M7 at 600 MHz. Primary embedded platform for the 12-state EKF navigation system — handles sensor polling, state estimation, and telemetry in a single RTOS task loop.',            used:'Used in: EKF Nav board, sensor fusion prototyping'},
+  stm32:     {title:'STM32',            body:'STM32F4/F7 series for flight-critical embedded tasks. Experience with HAL drivers, DMA transfers, and real-time interrupt handling at >1 kHz update rates.',                                   used:'Used in: VTOL flight control stack'},
+  pixhawk:   {title:'Pixhawk 6C',       body:'Flight management unit for WashU VTOL. Full integration: ESC wiring, power distribution, GPS antenna placement, and PX4 parameter tuning for stable hover.',              used:'Used in: WashU VTOL'},
+  px4:       {title:'PX4 Autopilot',    body:'Open-source flight stack running on Pixhawk 6C. Tuned attitude and position controllers, configured HIL simulation interface, and debugged MAVLink telemetry dropouts.',                       used:'Used in: WashU VTOL'},
+  ardupilot: {title:'ArduPilot',        body:'Alternate autopilot stack evaluated during VTOL hardware-in-loop comparison study. Compared parameter convergence and failsafe behavior against PX4.',                                         used:'Used in: VTOL HIL validation'},
+  protocols: {title:'I2C · SPI · UART', body:'Low-level embedded communication protocols. Experience debugging I2C noise coupling (VTOL-01), configuring SPI for high-speed IMU polling, and parsing UART NMEA streams.',                  used:'Used in: All embedded projects'},
+  solidworks:{title:'SolidWorks',       body:'Primary CAD platform. Extensive experience with bottom-up assemblies, mates, design tables, and tolerance stack-up analysis. Largest assembly: 200+ part foosball table.',                     used:'Used in: Foosball CAD, landing gear design'},
+  ansys:     {title:'ANSYS FEA',        body:'Static structural analysis for flight-critical hardware. Validated nose landing gear under 3g hard-landing impact loads; topology optimization reduced part mass by 18%.',                      used:'Used in: Landing Gear FEA, DBF structural'},
+  cfx:       {title:'ANSYS CFX',        body:'CFD solver for viscous flow around airfoil geometries. Used to validate XFLR5 lift/drag polars and analyze wingtip vortex behavior on DBF aircraft.',                             used:'Used in: WashU DBF, wing section analysis'},
+  xflr5:     {title:'XFLR5',            body:'Panel-method aerodynamics tool for NACA-series wing design. Generated Cl/Cd polars across the full flight envelope and informed spar placement.',                                              used:'Used in: WashU DBF aerodynamics'},
+  opencv:    {title:'OpenCV',           body:'Real-time computer vision. Built the Sentinel CV pipeline: background subtraction, contour tracking, and bounding-box extraction feeding a Kalman filter state estimator at camera frame rate.', used:'Used in: Sentinel Computer Vision'},
+  ekf:       {title:'EKF / UKF',        body:'Extended and Unscented Kalman Filters for nonlinear state estimation. Implemented a 12-state EKF fusing IMU, GPS, and optical flow — handles sensor dropouts via covariance gating.',          used:'Used in: EKF Nav, MIRO Lab'},
+  pid:       {title:'PID Control',      body:'Classical feedback control design and tuning. Applied to VTOL attitude loops, adaptive cruise longitudinal control, and GNC lander thrust management.',                                          used:'Used in: VTOL, Cruise Control, GNC Sim'},
+  hil:       {title:'HIL Testing',      body:'Hardware-in-Loop validation methodology. Configured Gazebo/PX4 SITL for VTOL, enabling full autopilot parameter tuning and failure-mode testing before physical flight.',                  used:'Used in: WashU VTOL'},
+  sixdof:    {title:'6-DOF Dynamics',   body:'Full rigid-body equations of motion (translation + rotation). Implemented in the Hyperion physics engine at 10 kHz with Runge-Kutta integration, validated against analytical benchmarks.',    used:'Used in: Hyperion Engine, GNC Sim'},
+  fusion:    {title:'Sensor Fusion',    body:'Multi-modal sensor integration. Combined IMU, GPS, optical flow, EMG, and camera data — always with probabilistic uncertainty propagation.',                                                   used:'Used in: EKF Nav, MIRO Lab, VTOL'},
+  dfm:       {title:'DFM',              body:'Design for Manufacturability from concept through fabrication. Considered tolerance stack-ups, composite layup constraints, and machining limits during DBF wing and foosball design.',  used:'Used in: DBF, Foosball CAD'}
+};
+
+let activeSkill = null;
+function showSkill(key) {
+  const panel = document.getElementById('skill-detail');
+  if (activeSkill === key) { panel.classList.remove('visible'); activeSkill = null; return; }
+  activeSkill = key;
+  const d = skillData[key]; if (!d) return;
+  panel.innerHTML = `<div id="sd-title">${d.title}</div><div>${d.body}</div><div id="sd-used">${d.used}</div>`;
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* RADAR CHART */
+window.addEventListener('load', function () {
+  const ctx = document.getElementById('skillsChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Aerodynamics', 'Embedded C++', 'Control Theory', 'CAD / DFM', 'Circuit Design', 'Simulation'],
+      datasets: [{
+        label: 'Competency',
+        data: [82, 76, 78, 85, 74, 86],
+        backgroundColor: 'rgba(54, 128, 176, 0.12)',
+        borderColor: '#3680b0',
+        borderWidth: 1.5,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#3680b0',
+        pointBorderWidth: 1.5,
+        pointRadius: 4
+      }]
+    },
+    options: {
+      layout: { padding: 10 },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          angleLines: { color: 'rgba(0,0,0,0.1)' },
+          grid: { color: 'rgba(0,0,0,0.08)' },
+          pointLabels: { color: '#54595d', font: { size: 10, family: "'Linux Biolinum', sans-serif" } },
+          ticks: { display: false, stepSize: 25, backdropColor: 'transparent' }
+        }
+      },
+      plugins: { legend: { display: false } },
+      maintainAspectRatio: false
+    }
+  });
+});
+
+/* EMAIL COPY */
+function copyEmail() {
+  navigator.clipboard.writeText('e.garciarivera@wustl.edu');
+  const t = document.getElementById('toast');
+  t.textContent = 'Email address copied to clipboard.';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ACTIVE NAV on scroll */
+const sections = document.querySelectorAll('h2[id]');
+const navItems = document.querySelectorAll('.nav-item');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+  navItems.forEach(n => {
+    n.classList.remove('active');
+    if (n.querySelector('a') && n.querySelector('a').getAttribute('href') === '#' + current) {
+      n.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>

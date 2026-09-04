@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enrique Garcia — Mechanical Engineer</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+/* ── HOME-SPECIFIC ───────────────────────────────────────────── */
+
+/* Hero strip — the unique touch: a thin "avionics tape" running behind the heading */
+.hero-tape {
+  font-family: var(--mono);
+  font-size: 0.643rem;
+  color: var(--border);
+  letter-spacing: 0.18em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Intro block with sidebar-style pull-quote */
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 1.5rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 700px) { .intro-grid { grid-template-columns: 1fr; } }
+
+.pull-stat {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  background: var(--bg);
+  padding: 10px 13px;
+  font-family: var(--mono);
+  margin-bottom: 0.8rem;
+}
+.pull-stat .ps-val {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--accent);
+  display: block;
+  line-height: 1;
+}
+.pull-stat .ps-label {
+  font-size: 0.643rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Skills interactive panel */
+.skills-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  margin: 0.5em 0 1em;
+}
+@media (max-width: 720px) { .skills-panel { grid-template-columns: 1fr; } }
+
+/* Radar chart container */
+.radar-wrap {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 12px;
+}
+.radar-wrap canvas { width: 100% !important; height: 230px !important; }
+.radar-wrap figcaption {
+  font-family: var(--mono);
+  font-size: 0.643rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 6px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Skill tag grid */
+.skill-group { margin-bottom: 1rem; }
+.skill-group-label {
+  font-family: var(--mono);
+  font-size: 0.643rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 3px;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.skill-tag {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  background: var(--content-bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.skill-tag:hover, .skill-tag.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+/* Skill detail popover — attached below the tags column */
+#skill-detail {
+  display: none;
+  border-left: 3px solid var(--accent);
+  background: #f0f5ff;
+  border: 1px solid var(--accent-light);
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  font-family: var(--sans);
+  font-size: 0.857rem;
+  margin-top: 0.75rem;
+  animation: fadeSlide 0.15s ease;
+}
+#skill-detail.visible { display: block; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#sd-title {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.829rem;
+  color: var(--accent);
+  margin-bottom: 5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+#sd-body { color: var(--text); line-height: 1.6; }
+#sd-used {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 0.714rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+/* Active nav pulse on home */
+.nav-item.home-active > a {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<div id="site-banner">
+  <strong>[ SEEKING ]</strong> Summer 2026 internship — Aerospace · Autonomous Systems · Avionics · Controls &nbsp;|&nbsp; <a href="mailto:e.garciarivera@wustl.edu">e.garciarivera@wustl.edu</a>
+</div>
+
+<div id="site-header">
+  <div class="header-inner">
+
+    <!-- EG LOGO -->
+    <a id="eg-logo" href="index.html">
+      <svg class="eg-mark" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="38" fill="#1a4a8a"/>
+        <!-- E -->
+        <rect x="6" y="8" width="10" height="2" fill="white"/>
+        <rect x="6" y="14" width="8" height="2" fill="white"/>
+        <rect x="6" y="20" width="10" height="2" fill="white"/>
+        <rect x="6" y="8" width="2" height="14" fill="white"/>
+        <!-- G -->
+        <rect x="20" y="8" width="10" height="2" fill="white"/>
+        <rect x="20" y="20" width="10" height="2" fill="white"/>
+        <rect x="20" y="8" width="2" height="14" fill="white"/>
+        <rect x="28" y="14" width="2" height="8" fill="white"/>
+        <rect x="25" y="14" width="5" height="2" fill="white"/>
+        <!-- baseline rule -->
+        <rect x="6" y="26" width="24" height="1" fill="#9cc4ff" opacity="0.6"/>
+      </svg>
+      <div class="eg-wordmark">
+        <span class="eg-name">Enrique Garcia</span>
+        <span class="eg-title">Mechanical Engineer · WashU</span>
+      </div>
+    </a>
+
+    <nav id="site-nav">
+      <div class="nav-item home-active"><a href="index.html">Home</a></div>
+      <div class="nav-item"><a href="projects.html">Projects</a></div>
+      <div class="nav-item"><a href="skills.html">Skills</a></div>
+      <div class="nav-item"><a href="coursework.html">Coursework</a></div>
+      <div class="nav-item"><a href="incident-log.html">Incident Log</a></div>
+      <div class="nav-item"><a href="resume.html">Résumé ↗</a></div>
+      <a class="nav-contact" href="mailto:e.garciarivera@wustl.edu">Contact</a>
+    </nav>
+
+  </div>
+</div>
+
+<!-- PAGE BODY -->
+<div id="page-wrap">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h3>Navigate</h3>
+      <ul>
+        <li><a href="index.html" class="current">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="coursework.html">Coursework</a></li>
+        <li><a href="incident-log.html">Incident Log</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>External</h3>
+      <ul>
+        <li><a href="https://linkedin.com/in/enrique-gr" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="resume.html">Résumé ↗</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>Status</h3>
+      <div class="status-live"><span class="live-dot"></span>Active · Spring 2026</div>
+      <p style="font-size:0.714rem;color:var(--text-muted);margin-top:5px;font-family:var(--mono);line-height:1.5;letter-spacing:0.02em;">Seeking Summer 2026<br>internship</p>
+    </div>
+    <div class="sidebar-section">
+      <h3>Contact</h3>
+      <ul>
+        <li><a href="#" onclick="copyEmail();return false;">Copy email ↗</a></li>
+        <li><a href="mailto:e.garciarivera@wustl.edu">Send email ↗</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content">
+    <div class="body-text">
+
+      <!-- Avionics-tape header decoration -->
+      <div class="hero-tape" aria-hidden="true">eg · mechanical engineering · washu · st. louis · 2026 · aerospace · autonomy · avionics · controls · eg ·</div>
+
+      <h1 class="page-heading">Enrique Garcia</h1>
+      <span class="heading-meta">ARTICLE :: EG-HOME-001 &nbsp;·&nbsp; LAST EDITED: 16 APR 2026 &nbsp;·&nbsp; STATUS: ACTIVE</span>
+
+      <!-- NOTICE -->
+      <div class="notice-box">
+        <div class="icon">📡</div>
+        <div>
+          <strong>Open to Opportunities</strong>
+          I'm actively looking for Summer 2026 internships in Aerospace, Autonomous Systems, Avionics, and Controls Engineering.
+          <a href="mailto:e.garciarivera@wustl.edu">Reach out →</a>
+        </div>
+      </div>
+
+      <!-- INFOBOX -->
+      <table class="infobox">
+        <tr><td colspan="2" class="infobox-title">Enrique Garcia</td></tr>
+        <tr><td colspan="2" class="infobox-image">
+          <img src="images/pfpv2.png" alt="Enrique Garcia">
+          <div class="infobox-caption">WashU · St. Louis · 2025</div>
+        </td></tr>
+        <tr><td colspan="2" class="infobox-subheader">Profile</td></tr>
+        <tr><td>school</td><td>Washington University in St. Louis</td></tr>
+        <tr><td>degree</td><td>B.S. Mechanical Engineering</td></tr>
+        <tr><td colspan="2" class="infobox-subheader">Current Role</td></tr>
+        <tr><td>title</td><td>Avionics &amp; Systems Lead</td></tr>
+        <tr><td>org</td><td>WashU VTOL</td></tr>
+        <tr><td>location</td><td>St. Louis, MO</td></tr>
+        <tr><td>status</td><td><span style="color:var(--green-live);font-family:var(--mono);font-size:0.786rem;">● ACTIVE</span></td></tr>
+        <tr><td colspan="2" class="infobox-subheader">Contact</td></tr>
+        <tr><td>email</td><td><a href="#" onclick="copyEmail();return false;">e.garciarivera@wustl.edu</a></td></tr>
+        <tr><td>linkedin</td><td><a href="https://www.linkedin.com/in/enrique-gr/" target="_blank" rel="noopener">enrique-gr ↗</a></td></tr>
+        <tr><td>github</td><td><a href="https://github.com/enrique-gr" target="_blank" rel="noopener">enrique-gr ↗</a></td></tr>
+      </table>
+
+      <!-- INTRO -->
+      <p>
+        I'm a mechanical engineering student at Washington University in St. Louis, focused on the space where hardware
+        meets software — embedded systems, control theory, and autonomous flight. Right now I'm leading avionics and
+        systems integration for <a href="projects.html#vtol">WashU VTOL</a>, where I'm responsible for the full flight stack
+        from firmware through hardware-in-the-loop validation.
+      </p>
+      <p>
+        My work tends to sit at the intersection of mechanical engineering fundamentals and real-time computing.
+        I care a lot about building things that actually work — which means thorough testing, documented failure modes,
+        and systems designed for the conditions they'll actually face.
+      </p>
+
+      <!-- STATS STRIP -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);margin:1.2em 0 1.5em;clear:both;">
+        <div class="pull-stat" style="border:none;border-right:1px solid var(--border);border-radius:0;">
+          <span class="ps-val">4+</span>
+          <span class="ps-label">Active Projects</span>
+        </div>
+        <div class="pull-stat" style="border:none;border-right:1px solid var(--border);border-radius:0;">
+          <span class="ps-val">12</span>
+          <span class="ps-label">State EKF Nav</span>
+        </div>
+        <div class="pull-stat" style="border:none;border-right:1px solid var(--border);border-radius:0;">
+          <span class="ps-val">10kHz</span>
+          <span class="ps-label">Physics Engine</span>
+        </div>
+        <div class="pull-stat" style="border:none;border-radius:0;">
+          <span class="ps-val">18%</span>
+          <span class="ps-label">FEA Mass Reduction</span>
+        </div>
+      </div>
+
+      <!-- WHAT I DO -->
+      <h2 class="section-h2">What I work on <span class="section-code">§ 1.0</span></h2>
+
+      <div class="timeline">
+        <div class="timeline-item target">
+          <div class="timeline-date">SUMMER 2026 — TARGET</div>
+          <div class="timeline-title">Engineering Internship (seeking)</div>
+          <div class="timeline-sub">Aerospace · Autonomous Systems · Avionics · Controls</div>
+        </div>
+        <div class="timeline-item active">
+          <div class="timeline-date">SEP 2025 – PRESENT — ACTIVE</div>
+          <div class="timeline-title"><a href="projects.html#vtol">WashU VTOL</a></div>
+          <div class="timeline-sub">Avionics &amp; Systems Integration Lead — full flight stack, HIL validation, PX4 on Pixhawk 6C</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">SEP 2024 – JAN 2026 — COMPLETE</div>
+          <div class="timeline-title"><a href="projects.html#dbf">WashU Design/Build/Fly</a></div>
+          <div class="timeline-sub">Aerodynamics &amp; Payload Engineer — XFLR5, ANSYS CFX, 2.5g structural analysis</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">WINTER 2025 — COMPLETE</div>
+          <div class="timeline-title"><a href="projects.html#sentinel">Sentinel Computer Vision</a></div>
+          <div class="timeline-sub">Algorithm Engineer — Kalman filter tracking pipeline in C++ / OpenCV</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">SUMMER 2025 — COMPLETE</div>
+          <div class="timeline-title"><a href="projects.html#miro">MIRO Lab — Undergraduate Researcher</a></div>
+          <div class="timeline-sub">Wearable sensor fusion: IMU + EMG + vision, WashU</div>
+        </div>
+      </div>
+
+      <!-- SKILLS OVERVIEW -->
+      <h2 class="section-h2">Technical capabilities <span class="section-code">§ 2.0</span></h2>
+      <p>I work across the full stack from aerodynamic simulation through embedded firmware. Click any tag below for context. <a href="skills.html">Full skills page →</a></p>
+
+      <div class="skills-panel">
+        <!-- LEFT: tags + detail -->
+        <div>
+          <div class="skill-group">
+            <div class="skill-group-label">Languages</div>
+            <div class="skill-tags">
+              <span class="skill-tag" data-key="cpp">C++20</span>
+              <span class="skill-tag" data-key="python">Python</span>
+              <span class="skill-tag" data-key="matlab">MATLAB</span>
+              <span class="skill-tag" data-key="simulink">Simulink</span>
+              <span class="skill-tag" data-key="js">JavaScript</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Embedded / Hardware</div>
+            <div class="skill-tags">
+              <span class="skill-tag" data-key="teensy">Teensy 4.1</span>
+              <span class="skill-tag" data-key="stm32">STM32</span>
+              <span class="skill-tag" data-key="pixhawk">Pixhawk 6C</span>
+              <span class="skill-tag" data-key="px4">PX4</span>
+              <span class="skill-tag" data-key="ardupilot">ArduPilot</span>
+              <span class="skill-tag" data-key="protocols">I2C/SPI/UART</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">CAD / Simulation</div>
+            <div class="skill-tags">
+              <span class="skill-tag" data-key="solidworks">SolidWorks</span>
+              <span class="skill-tag" data-key="ansys">ANSYS FEA</span>
+              <span class="skill-tag" data-key="cfx">ANSYS CFX</span>
+              <span class="skill-tag" data-key="xflr5">XFLR5</span>
+              <span class="skill-tag" data-key="opencv">OpenCV</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Methods</div>
+            <div class="skill-tags">
+              <span class="skill-tag" data-key="ekf">EKF/UKF</span>
+              <span class="skill-tag" data-key="pid">PID Control</span>
+              <span class="skill-tag" data-key="hil">HIL Testing</span>
+              <span class="skill-tag" data-key="sixdof">6-DOF Dynamics</span>
+              <span class="skill-tag" data-key="fusion">Sensor Fusion</span>
+              <span class="skill-tag" data-key="dfm">DFM</span>
+            </div>
+          </div>
+
+          <!-- Detail panel lives HERE, below the tags -->
+          <div id="skill-detail"></div>
+        </div>
+
+        <!-- RIGHT: radar -->
+        <div>
+          <figure class="radar-wrap">
+            <canvas id="skillsChart"></canvas>
+            <figcaption id="radar-caption">Hover a wedge to inspect · click to lock</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- PERSONAL PROJECTS TEASER -->
+      <h2 class="section-h2">Personal projects <span class="section-code">§ 3.0</span></h2>
+      <p>Independent work alongside team projects. <a href="projects.html">See all projects →</a></p>
+
+      <dl class="project-list">
+        <dt><a href="projects.html#ekf">Multi-Sensor Flight Navigation (EKF Nav)</a></dt>
+        <dd>Real-time 12-state Extended Kalman Filter fusing IMU, GPS, and vision on Teensy 4.1 (ARM Cortex-M7 @ 600 MHz). Covariance gating for sensor dropout resilience.</dd>
+        <dd class="tags">C++ · EKF · Embedded · Teensy 4.1</dd>
+
+        <dt><a href="projects.html#hyperion">Hyperion 6-DOF Engine</a></dt>
+        <dd>10 kHz rigid-body physics engine for flight software validation. Full translational and rotational equations of motion, Runge-Kutta integration, validated against analytical benchmarks.</dd>
+        <dd class="tags">C++20 · Multithreading · RK4</dd>
+
+        <dt><a href="projects.html#webtunnel">WebTunnel CFD</a></dt>
+        <dd>Zero-dependency, real-time Navier-Stokes fluid simulator running in the browser at 60 fps. No build tooling.</dd>
+        <dd class="tags">JavaScript · Navier-Stokes · Physics</dd>
+      </dl>
+
+      <!-- CATEGORIES -->
+      <div class="catlinks">
+        <ul class="cat-list">
+          <li><a href="#">Mechanical Engineering</a></li>
+          <li><a href="#">Aerospace Systems</a></li>
+          <li><a href="#">Embedded Systems</a></li>
+          <li><a href="#">Robotics</a></li>
+          <li><a href="#">Washington University in St. Louis</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /body-text -->
+  </div><!-- /content -->
+</div><!-- /page-wrap -->
+
+<div id="site-footer">
+  <div class="footer-row">
+    <span>EG-HOME-001 · last edited 16 Apr 2026</span>
+    <a href="resume.html">Résumé ↗</a>
+    <a href="https://www.linkedin.com/in/enrique-gr/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="mailto:e.garciarivera@wustl.edu">Email ↗</a>
+  </div>
+  <div class="footer-row" style="margin-top:3px;">
+    <span>Enrique Garcia · Washington University in St. Louis · Mechanical Engineering</span>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+/* ── SKILL DATA ─────────────────────────────────────────────── */
+const skillData = {
+  cpp:       {title:'C++20',            body:'My main language for anything performance-critical — flight simulators, EKF state estimators, real-time CV pipelines. Heavy use of templates, RAII, and concurrency primitives.',      used:'Hyperion 6-DOF · Sentinel CV · EKF Nav'},
+  python:    {title:'Python',           body:'Rapid prototyping, data analysis, and sensor-fusion scripting. Primary language for my MIRO Lab research pipelines and post-flight log processing.',                                   used:'MIRO Lab · GNC tooling · data analysis'},
+  matlab:    {title:'MATLAB',           body:'Mathematical modeling, control-loop design, and simulation scripting. I use it alongside Simulink to build and validate plant models before hardware deployment.',                     used:'Control Systems coursework · DBF analysis'},
+  simulink:  {title:'Simulink',         body:'Block-diagram modeling of dynamic systems. Built adaptive cruise control PID loops and verified VTOL attitude controller response before HIL validation.',                            used:'Adaptive Cruise Control · VTOL controls'},
+  js:        {title:'JavaScript',       body:'Zero-dependency browser simulations and interactive engineering tools. WebTunnel CFD runs a full Navier-Stokes solver at 60 fps with no build tooling.',                              used:'WebTunnel CFD · GNC Lander Sim'},
+  teensy:    {title:'Teensy 4.1',       body:'ARM Cortex-M7 at 600 MHz. My primary embedded platform for the 12-state EKF navigation system — handles sensor polling, state estimation, and telemetry in a single RTOS task loop.', used:'EKF Nav board · sensor fusion prototyping'},
+  stm32:     {title:'STM32',            body:'STM32F4/F7 series for flight-critical embedded tasks. HAL drivers, DMA transfers, and real-time interrupt handling at >1 kHz update rates.',                                         used:'VTOL flight control stack'},
+  pixhawk:   {title:'Pixhawk 6C',       body:'Flight management unit for WashU VTOL. I handled the full integration: ESC wiring, power distribution, GPS antenna placement, and all PX4 parameter tuning for stable hover.',       used:'WashU VTOL'},
+  px4:       {title:'PX4 Autopilot',    body:'Open-source flight stack on the Pixhawk 6C. Tuned attitude and position controllers, configured the HIL simulation interface, and debugged MAVLink telemetry dropouts.',             used:'WashU VTOL'},
+  ardupilot: {title:'ArduPilot',        body:'Alternate autopilot stack I evaluated during a VTOL hardware-in-loop comparison study. Compared parameter convergence and failsafe behavior against PX4.',                           used:'VTOL HIL validation'},
+  protocols: {title:'I2C / SPI / UART', body:'Low-level embedded comms. Experience debugging I2C noise coupling (incident VTOL-01), configuring SPI for high-speed IMU polling, and parsing UART NMEA from GPS.',                 used:'All embedded projects'},
+  solidworks:{title:'SolidWorks',       body:'Primary CAD platform. Bottom-up assemblies, mates, design tables, and tolerance stack-up analysis. Largest assembly: 200+ part foosball table at 128 MB.',                          used:'Foosball CAD · landing gear design'},
+  ansys:     {title:'ANSYS FEA',        body:'Static structural analysis for flight-critical hardware. Validated a nose landing gear under 3g hard-landing loads; topology optimization cut part mass by 18%.',                    used:'Landing Gear FEA · DBF structural'},
+  cfx:       {title:'ANSYS CFX',        body:'CFD solver for viscous flow around airfoil geometries. Used to validate XFLR5 lift/drag polars and analyze wingtip vortex behavior on DBF aircraft.',                               used:'WashU DBF · wing section analysis'},
+  xflr5:     {title:'XFLR5',            body:'Panel-method aerodynamics tool for NACA-series wing design. Generated Cl/Cd polars across the full flight envelope and informed spar placement.',                                    used:'WashU DBF aerodynamics'},
+  opencv:    {title:'OpenCV',           body:'Real-time computer vision. Built the Sentinel CV pipeline: background subtraction, contour tracking, and bounding-box extraction feeding a Kalman filter state estimator at frame rate.', used:'Sentinel Computer Vision'},
+  ekf:       {title:'EKF / UKF',        body:'Extended and Unscented Kalman Filters for nonlinear state estimation. My EKF Nav implementation is a 12-state filter fusing IMU, GPS, and optical flow with covariance gating.',     used:'EKF Nav · MIRO Lab'},
+  pid:       {title:'PID Control',      body:'Classical feedback control design and tuning. Applied to VTOL attitude loops, adaptive cruise longitudinal control, and GNC lander thrust management.',                               used:'VTOL · Cruise Control · GNC Sim'},
+  hil:       {title:'HIL Testing',      body:'Hardware-in-Loop validation methodology. Configured Gazebo/PX4 SITL for VTOL — full autopilot parameter tuning and failure-mode testing before any physical flight.',               used:'WashU VTOL'},
+  sixdof:    {title:'6-DOF Dynamics',   body:'Full rigid-body equations of motion (translation + rotation). Implemented in Hyperion at 10 kHz with Runge-Kutta integration, validated against analytical benchmarks.',             used:'Hyperion Engine · GNC Sim'},
+  fusion:    {title:'Sensor Fusion',    body:'Multi-modal sensor integration — IMU, GPS, optical flow, EMG, and camera data, always with probabilistic uncertainty propagation.',                                                   used:'EKF Nav · MIRO Lab · VTOL'},
+  dfm:       {title:'DFM',              body:'Design for Manufacturability from concept through fabrication. Considered tolerance stack-ups, composite layup constraints, and machining limits during DBF wing and foosball design.', used:'DBF · Foosball CAD'}
+};
+
+/* Radar axis → skill keys for interactive linking */
+const radarAxes = ['xflr5,cfx,ansys', 'cpp,teensy,stm32', 'pid,ekf,hil,sixdof', 'solidworks,dfm', 'protocols,stm32', 'simulink,matlab,hyperion'];
+const radarLabels = ['Aerodynamics','Embedded C++','Control Theory','CAD / DFM','Circuit Design','Simulation'];
+
+/* ── SKILL TAG INTERACTION ──────────────────────────────────── */
+let activeKey = null;
+document.querySelectorAll('.skill-tag').forEach(el => {
+  el.addEventListener('click', () => {
+    const key = el.dataset.key;
+    const panel = document.getElementById('skill-detail');
+    // toggle
+    if (activeKey === key) {
+      panel.classList.remove('visible');
+      el.classList.remove('active');
+      activeKey = null;
+      return;
+    }
+    // deactivate previous
+    document.querySelectorAll('.skill-tag.active').forEach(t => t.classList.remove('active'));
+    activeKey = key;
+    el.classList.add('active');
+    const d = skillData[key];
+    if (!d) return;
+    panel.innerHTML = `<div id="sd-title">${d.title}</div><div id="sd-body">${d.body}</div><div id="sd-used">USED IN: ${d.used}</div>`;
+    panel.classList.add('visible');
+  });
+});
+
+/* ── INTERACTIVE RADAR CHART ────────────────────────────────── */
+let lockedSegment = null;
+
+window.addEventListener('load', () => {
+  const ctx = document.getElementById('skillsChart').getContext('2d');
+  const defaultColors = radarLabels.map(() => 'rgba(26, 74, 138, 0.12)');
+  const hoverColors  = radarLabels.map(() => 'rgba(26, 74, 138, 0.28)');
+
+  const data = [82, 76, 78, 85, 74, 86];
+
+  const chart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: radarLabels,
+      datasets: [{
+        label: 'Competency',
+        data,
+        backgroundColor: defaultColors,
+        borderColor: '#1a4a8a',
+        borderWidth: 1.5,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#1a4a8a',
+        pointBorderWidth: 1.5,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      layout: { padding: 10 },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          angleLines: { color: 'rgba(0,0,0,0.08)' },
+          grid: { color: 'rgba(0,0,0,0.07)' },
+          pointLabels: {
+            color: '#5a6070',
+            font: { size: 10, family: "'JetBrains Mono', monospace" }
+          },
+          ticks: { display: false, stepSize: 25, backdropColor: 'transparent' }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      },
+      maintainAspectRatio: false,
+      onHover: (evt, elements) => {
+        if (lockedSegment !== null) return;
+        if (elements.length) {
+          const idx = elements[0].index;
+          highlightAxis(idx, chart, data);
+        } else {
+          resetHighlight(chart);
+        }
+      }
+    }
+  });
+
+  // Click to lock / unlock
+  document.getElementById('skillsChart').addEventListener('click', (evt) => {
+    const pts = chart.getElementsAtEventForMode(evt, 'point', { intersect: true }, false);
+    if (pts.length) {
+      const idx = pts[0].index;
+      if (lockedSegment === idx) {
+        lockedSegment = null;
+        resetHighlight(chart);
+        document.getElementById('radar-caption').textContent = 'Hover a wedge to inspect · click to lock';
+      } else {
+        lockedSegment = idx;
+        highlightAxis(idx, chart, data);
+      }
+    }
+  });
+
+  function highlightAxis(idx, chart, data) {
+    const bg = radarLabels.map((_, i) =>
+      i === idx ? 'rgba(196,125,0,0.25)' : 'rgba(26,74,138,0.06)');
+    chart.data.datasets[0].backgroundColor = bg;
+    chart.data.datasets[0].pointBackgroundColor = radarLabels.map((_, i) =>
+      i === idx ? '#c47d00' : '#fff');
+    chart.update('none');
+
+    // Show caption
+    const label = radarLabels[idx];
+    const val = data[idx];
+    document.getElementById('radar-caption').textContent =
+      `${label.toUpperCase()} · ${val}/100 ${lockedSegment === idx ? '· LOCKED' : ''}`;
+
+    // Optionally light up matching skill tags
+    const keys = (radarAxes[idx] || '').split(',');
+    document.querySelectorAll('.skill-tag').forEach(t => {
+      t.style.borderColor = keys.includes(t.dataset.key) ? 'var(--amber)' : '';
+      t.style.color       = keys.includes(t.dataset.key) ? 'var(--amber)' : '';
+      t.style.background  = keys.includes(t.dataset.key) ? 'var(--amber-light)' : '';
+    });
+  }
+
+  function resetHighlight(chart) {
+    chart.data.datasets[0].backgroundColor = defaultColors;
+    chart.data.datasets[0].pointBackgroundColor = radarLabels.map(() => '#fff');
+    chart.update('none');
+    document.getElementById('radar-caption').textContent = 'Hover a wedge to inspect · click to lock';
+    document.querySelectorAll('.skill-tag').forEach(t => {
+      t.style.borderColor = '';
+      t.style.color = '';
+      t.style.background = '';
+    });
+  }
+});
+
+/* ── EMAIL COPY ─────────────────────────────────────────────── */
+function copyEmail() {
+  navigator.clipboard.writeText('e.garciarivera@wustl.edu');
+  const t = document.getElementById('toast');
+  t.textContent = '✓ EMAIL COPIED';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

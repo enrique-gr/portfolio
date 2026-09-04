@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>GNC Icon Generator — Flight Systems (Pro)</title>
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg0:#000;
+    --bg1:#050505;
+    --fg:#ffffff;
+    --muted:rgba(255,255,255,0.55);
+    --faint:rgba(255,255,255,0.10);
+    --fainter:rgba(255,255,255,0.06);
+    --red:#dc2626;
+  }
+
+  body{
+    background: radial-gradient(circle at 50% 30%, #0c0c0c, #000);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    margin:0;
+    font-family:"JetBrains Mono", monospace;
+    color:var(--fg);
+  }
+
+  .wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:22px;
+  }
+
+  canvas{
+    width:560px;
+    height:560px;
+    border-radius:50%;
+    background:var(--bg1);
+    border:1px solid rgba(255,255,255,0.12);
+    box-shadow:
+      0 0 70px rgba(255,255,255,0.05),
+      0 0 140px rgba(220,38,38,0.10);
+  }
+
+  button{
+    background:var(--red);
+    color:#fff;
+    border:none;
+    padding:14px 30px;
+    font-weight:700;
+    letter-spacing:0.16em;
+    font-size:12px;
+    cursor:pointer;
+    text-transform:uppercase;
+    border-radius:10px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+  }
+
+  button:hover{
+    background:#fff;
+    color:#000;
+  }
+
+  .note{
+    font-size:12px;
+    color:rgba(255,255,255,0.6);
+    letter-spacing:0.06em;
+    margin-top:-8px;
+    user-select:none;
+  }
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- Higher internal resolution for crisp export; displayed at 560x560 -->
+    <canvas id="genCanvas" width="1400" height="1400"></canvas>
+    <button onclick="download()">Generate GNC PNG</button>
+    <div class="note">Safe margins • No cutoff • Circular PNG with transparent corners</div>
+  </div>
+
+<script>
+  const canvas = document.getElementById('genCanvas');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
+
+  // ---------- palette ----------
+  const C_BG = '#050505';
+  const C_FG = '#ffffff';
+  const C_RED = '#dc2626';
+  const C_MUTED = 'rgba(255,255,255,0.55)';
+  const C_FAINT = 'rgba(255,255,255,0.10)';
+  const C_FAINTER = 'rgba(255,255,255,0.06)';
+
+  // ---------- geometry helpers ----------
+  const cx = w / 2;
+  const cy = h / 2;
+
+  // Safe margins so NOTHING gets cut off (even with ring/ticks)
+  const OUTER_BORDER_W = 12;
+  const SAFE_MARGIN = 78;                 // generous for text + ticks
+  const R_CLIP = Math.min(cx, cy) - 2;    // clip radius
+  const R_DRAW = R_CLIP - SAFE_MARGIN;    // content stays within this
+
+  function clipCircle() {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, R_CLIP, 0, Math.PI * 2);
+    ctx.clip();
+  }
+
+  function drawVignette() {
+    const v = ctx.createRadialGradient(cx, cy, 0, cx, cy, R_CLIP * 1.02);
+    v.addColorStop(0, 'rgba(255,255,255,0.02)');
+    v.addColorStop(0.6, 'rgba(0,0,0,0.0)');
+    v.addColorStop(1, 'rgba(0,0,0,0.65)');
+    ctx.fillStyle = v;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  function drawRangeRings() {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.setLineDash([14, 14]);
+    ctx.lineWidth = 3;
+
+    // Rings stop before the border/ticks area
+    const rMax = R_CLIP - 70;
+    const step = 160;
+
+    for (let r = step; r <= rMax; r += step) {
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.strokeStyle = (r % (step * 2) === 0) ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.05)';
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  function drawRimTicks() {
+    ctx.save();
+    ctx.translate(cx, cy);
+
+    const R = R_CLIP - 24; // keep inside clip
+    for (let i = 0; i < 120; i++) {
+      const a = (i / 120) * Math.PI * 2;
+      const major = (i % 10 === 0);
+      const len = major ? 26 : 14;
+
+      ctx.beginPath();
+      ctx.moveTo(Math.cos(a) * (R - len), Math.sin(a) * (R - len));
+      ctx.lineTo(Math.cos(a) * R, Math.sin(a) * R);
+      ctx.lineWidth = major ? 4 : 3;
+      ctx.strokeStyle = major ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.12)';
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Falcon-ish booster silhouette (simple, clean, professional)
+  function drawBooster(x, y, scale = 1) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(scale, scale);
+
+    // Body
+    ctx.fillStyle = C_FG;
+    ctx.beginPath();
+    ctx.moveTo(-26, 110);
+    ctx.lineTo(26, 110);
+    ctx.lineTo(26, -86);
+    ctx.bezierCurveTo(16, -126, -16, -126, -26, -86);
+    ctx.closePath();
+    ctx.fill();
+
+    // Interstage band (subtle)
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.fillRect(-26, -10, 52, 10);
+
+    // Grid fins (minimal lines)
+    ctx.strokeStyle = C_FG;
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-26, -50); ctx.lineTo(-52, -68); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(26, -50);  ctx.lineTo(52, -68);  ctx.stroke();
+
+    // Landing legs (clean)
+    ctx.beginPath(); ctx.moveTo(-26, 92); ctx.lineTo(-66, 152); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(26, 92);  ctx.lineTo(66, 152);  ctx.stroke();
+
+    // Engine plume (red, minimal)
+    ctx.fillStyle = C_RED;
+    ctx.beginPath();
+    ctx.moveTo(-14, 110);
+    ctx.lineTo(14, 110);
+    ctx.lineTo(0, 172);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  function drawTargetMarker(x, y) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+    ctx.lineWidth = 4;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 26, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x - 44, y);
+    ctx.lineTo(x + 44, y);
+    ctx.stroke();
+
+    // small vertical tick
+    ctx.beginPath();
+    ctx.moveTo(x, y - 16);
+    ctx.lineTo(x, y + 16);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawTrajectory() {
+    // Keep trajectory within safe content radius
+    const x0 = cx + R_DRAW * 0.55;
+    const y0 = cy - R_DRAW * 0.95;
+    const x1 = cx + R_DRAW * 0.52;
+    const y1 = cy - R_DRAW * 0.10;
+    const x2 = cx + R_DRAW * 0.10;
+    const y2 = cy + R_DRAW * 0.18;
+    const x3 = cx;
+    const y3 = cy + R_DRAW * 0.52;
+
+    ctx.save();
+    ctx.strokeStyle = C_RED;
+    ctx.lineWidth = 7;
+    ctx.lineCap = 'round';
+    ctx.setLineDash([22, 16]);
+
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+    ctx.restore();
+
+    return { endX: x3, endY: y3 };
+  }
+
+  function drawHeaderText() {
+    // Dynamic sizing + safe placement to avoid cutoff
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+
+    // Big "GNC"
+    ctx.fillStyle = C_FG;
+    ctx.font = '700 150px "JetBrains Mono", monospace';
+    const yGNC = cy - R_DRAW * 0.62;
+    ctx.fillText('GNC', cx, yGNC);
+
+    // Subtitle
+    ctx.fillStyle = C_RED;
+    ctx.font = '700 44px "JetBrains Mono", monospace';
+    const subtitle = 'GUIDANCE / NAV / CONTROL';
+    const ySub = yGNC + 62;
+    ctx.fillText(subtitle, cx, ySub);
+
+    ctx.restore();
+  }
+
+  function drawFooterTelemetry() {
+    ctx.save();
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+
+    ctx.fillStyle = C_MUTED;
+    ctx.font = '34px "JetBrains Mono", monospace';
+
+    // Fit within the circle: indent + keep text above bottom safe zone
+    const leftX = cx - R_DRAW * 0.82;
+    const y1 = cy + R_DRAW * 0.82;
+    const y2 = y1 + 50;
+
+    ctx.fillText('AUTOPILOT: ACTIVE', leftX, y1);
+    ctx.fillText('DESCENT MODE: HOVERSLAM', leftX, y2);
+
+    ctx.restore();
+  }
+
+  function drawOuterBorder() {
+    ctx.save();
+    ctx.lineWidth = OUTER_BORDER_W;
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, R_CLIP - OUTER_BORDER_W / 2 - 2, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function render() {
+    // IMPORTANT: clear to transparent so PNG has transparent corners
+    ctx.clearRect(0, 0, w, h);
+
+    clipCircle();
+
+    // Background
+    ctx.fillStyle = C_BG;
+    ctx.fillRect(0, 0, w, h);
+    drawVignette();
+
+    // Rings + subtle structure
+    drawRangeRings();
+
+    // Main content
+    const end = drawTrajectory();
+    drawBooster(cx, cy + R_DRAW * 0.18, 1.0);
+
+    // Target marker placed lower than booster but inside safe area
+    const targetX = cx;
+    const targetY = cy + R_DRAW * 0.70;
+    drawTargetMarker(targetX, targetY);
+
+    // Text + telemetry (kept within safe bounds)
+    drawHeaderText();
+    drawFooterTelemetry();
+
+    // Rim ticks + border last
+    drawRimTicks();
+    drawOuterBorder();
+
+    // End clip
+    ctx.restore();
+  }
+
+  function download() {
+    // Ensure up-to-date render before export
+    render();
+
+    const a = document.createElement('a');
+    a.download = 'GNC_Flight_Systems_Icon_PRO.png';
+
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      a.href = url;
+      a.click();
+      URL.revokeObjectURL(url);
+    }, 'image/png', 1.0);
+  }
+
+  // Render after fonts load for correct text metrics
+  document.fonts.ready.then(render);
+</script>
+</body>
+</html>
