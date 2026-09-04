@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills — Enrique Garcia</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+/* Skills page layout */
+.skills-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 700px) { .skills-layout { grid-template-columns: 1fr; } }
+
+.skills-sticky {
+  position: sticky;
+  top: 70px;
+}
+
+/* Radar */
+.radar-wrap {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 14px;
+  margin-bottom: 1rem;
+}
+.radar-wrap canvas { width: 100% !important; height: 260px !important; }
+.radar-caption {
+  font-family: var(--mono);
+  font-size: 0.643rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 7px;
+  letter-spacing: 0.05em;
+  min-height: 1.4em;
+}
+
+/* Skill detail card — in sticky column */
+#skill-detail-full {
+  display: none;
+  border: 1px solid var(--accent-light);
+  border-left: 3px solid var(--accent);
+  background: #f0f5ff;
+  padding: 12px 14px;
+  font-family: var(--sans);
+  font-size: 0.857rem;
+  animation: fadeSlide 0.18s ease;
+}
+#skill-detail-full.visible { display: block; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#sdf-title {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.814rem;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+#sdf-body { color: var(--text); line-height: 1.6; margin-bottom: 8px; }
+#sdf-used {
+  font-family: var(--mono);
+  font-size: 0.686rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  border-top: 1px solid var(--border-light);
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+/* Skill group table */
+.skill-group {
+  margin-bottom: 1.5rem;
+}
+.skill-group-label {
+  font-family: var(--mono);
+  font-size: 0.643rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.skill-group-label span {
+  font-size: 0.714rem;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-family: var(--mono);
+}
+
+.skill-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.skill-row:last-child { border-bottom: none; }
+.skill-row:hover { background: #f5f7ff; }
+.skill-row.active { background: var(--accent-light); }
+
+.skill-row-name {
+  font-family: var(--mono);
+  font-size: 0.786rem;
+  color: var(--text);
+  width: 130px;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+.skill-row.active .skill-row-name { color: var(--accent); font-weight: 600; }
+
+.skill-bar-outer {
+  flex: 1;
+  height: 6px;
+  background: var(--border-light);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.skill-bar-inner {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+.skill-row.active .skill-bar-inner { background: var(--amber); }
+
+.skill-row-val {
+  font-family: var(--mono);
+  font-size: 0.643rem;
+  color: var(--text-muted);
+  width: 30px;
+  text-align: right;
+  letter-spacing: 0.04em;
+}
+</style>
+</head>
+<body>
+
+<div id="site-banner">
+  <strong>[ SEEKING ]</strong> Summer 2026 internship — Aerospace · Autonomous Systems · Avionics · Controls &nbsp;|&nbsp; <a href="mailto:e.garciarivera@wustl.edu">e.garciarivera@wustl.edu</a>
+</div>
+
+<div id="site-header">
+  <div class="header-inner">
+    <a id="eg-logo" href="index.html">
+      <svg class="eg-mark" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="38" fill="#1a4a8a"/>
+        <rect x="6" y="8" width="10" height="2" fill="white"/>
+        <rect x="6" y="14" width="8" height="2" fill="white"/>
+        <rect x="6" y="20" width="10" height="2" fill="white"/>
+        <rect x="6" y="8" width="2" height="14" fill="white"/>
+        <rect x="20" y="8" width="10" height="2" fill="white"/>
+        <rect x="20" y="20" width="10" height="2" fill="white"/>
+        <rect x="20" y="8" width="2" height="14" fill="white"/>
+        <rect x="28" y="14" width="2" height="8" fill="white"/>
+        <rect x="25" y="14" width="5" height="2" fill="white"/>
+        <rect x="6" y="26" width="24" height="1" fill="#9cc4ff" opacity="0.6"/>
+      </svg>
+      <div class="eg-wordmark">
+        <span class="eg-name">Enrique Garcia</span>
+        <span class="eg-title">Mechanical Engineer · WashU</span>
+      </div>
+    </a>
+    <nav id="site-nav">
+      <div class="nav-item"><a href="index.html">Home</a></div>
+      <div class="nav-item"><a href="projects.html">Projects</a></div>
+      <div class="nav-item active"><a href="skills.html">Skills</a></div>
+      <div class="nav-item"><a href="coursework.html">Coursework</a></div>
+      <div class="nav-item"><a href="incident-log.html">Incident Log</a></div>
+      <div class="nav-item"><a href="resume.html">Résumé ↗</a></div>
+      <a class="nav-contact" href="mailto:e.garciarivera@wustl.edu">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div id="page-wrap">
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h3>Navigate</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="skills.html" class="current">Skills</a></li>
+        <li><a href="coursework.html">Coursework</a></li>
+        <li><a href="incident-log.html">Incident Log</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>On this page</h3>
+      <ul>
+        <li><a href="#languages">Languages</a></li>
+        <li><a href="#hardware">Hardware</a></li>
+        <li><a href="#cad">CAD &amp; Simulation</a></li>
+        <li><a href="#methods">Methods</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>External</h3>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/enrique-gr/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="content">
+    <div class="body-text">
+
+      <h1 class="page-heading">Technical Capabilities</h1>
+      <span class="heading-meta">ARTICLE :: EG-SKILL-003 &nbsp;·&nbsp; LAST EDITED: 16 APR 2026</span>
+
+      <p>
+        My toolkit bridges mechanical engineering fundamentals with embedded systems and autonomous software.
+        Click any skill row to see where I've used it. The radar chart reflects my honest self-assessment
+        across six domains — hover or click to explore.
+      </p>
+
+      <div class="skills-layout">
+        <!-- LEFT: skill rows -->
+        <div>
+
+          <h2 class="section-h2" id="languages">Languages &amp; Frameworks <span class="section-code">§ 1.0</span></h2>
+          <div class="skill-group">
+            <div class="skill-group-label">Languages</div>
+            <div class="skill-row" data-key="cpp">
+              <span class="skill-row-name">C++20</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:76%"></div></div>
+              <span class="skill-row-val">76</span>
+            </div>
+            <div class="skill-row" data-key="python">
+              <span class="skill-row-name">Python</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:72%"></div></div>
+              <span class="skill-row-val">72</span>
+            </div>
+            <div class="skill-row" data-key="matlab">
+              <span class="skill-row-name">MATLAB</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:75%"></div></div>
+              <span class="skill-row-val">75</span>
+            </div>
+            <div class="skill-row" data-key="simulink">
+              <span class="skill-row-name">Simulink</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:70%"></div></div>
+              <span class="skill-row-val">70</span>
+            </div>
+            <div class="skill-row" data-key="js">
+              <span class="skill-row-name">JavaScript</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:68%"></div></div>
+              <span class="skill-row-val">68</span>
+            </div>
+          </div>
+
+          <h2 class="section-h2" id="hardware">Hardware &amp; Embedded <span class="section-code">§ 2.0</span></h2>
+          <div class="skill-group">
+            <div class="skill-group-label">Microcontrollers</div>
+            <div class="skill-row" data-key="teensy">
+              <span class="skill-row-name">Teensy 4.1</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:78%"></div></div>
+              <span class="skill-row-val">78</span>
+            </div>
+            <div class="skill-row" data-key="stm32">
+              <span class="skill-row-name">STM32</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:70%"></div></div>
+              <span class="skill-row-val">70</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Flight Stacks</div>
+            <div class="skill-row" data-key="pixhawk">
+              <span class="skill-row-name">Pixhawk 6C</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:80%"></div></div>
+              <span class="skill-row-val">80</span>
+            </div>
+            <div class="skill-row" data-key="px4">
+              <span class="skill-row-name">PX4</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:78%"></div></div>
+              <span class="skill-row-val">78</span>
+            </div>
+            <div class="skill-row" data-key="ardupilot">
+              <span class="skill-row-name">ArduPilot</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:60%"></div></div>
+              <span class="skill-row-val">60</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Protocols</div>
+            <div class="skill-row" data-key="protocols">
+              <span class="skill-row-name">I2C / SPI / UART</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:74%"></div></div>
+              <span class="skill-row-val">74</span>
+            </div>
+          </div>
+
+          <h2 class="section-h2" id="cad">CAD &amp; Simulation <span class="section-code">§ 3.0</span></h2>
+          <div class="skill-group">
+            <div class="skill-group-label">CAD</div>
+            <div class="skill-row" data-key="solidworks">
+              <span class="skill-row-name">SolidWorks</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:85%"></div></div>
+              <span class="skill-row-val">85</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Analysis / CFD</div>
+            <div class="skill-row" data-key="ansys">
+              <span class="skill-row-name">ANSYS FEA</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:78%"></div></div>
+              <span class="skill-row-val">78</span>
+            </div>
+            <div class="skill-row" data-key="cfx">
+              <span class="skill-row-name">ANSYS CFX</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:74%"></div></div>
+              <span class="skill-row-val">74</span>
+            </div>
+            <div class="skill-row" data-key="xflr5">
+              <span class="skill-row-name">XFLR5</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:82%"></div></div>
+              <span class="skill-row-val">82</span>
+            </div>
+            <div class="skill-row" data-key="opencv">
+              <span class="skill-row-name">OpenCV</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:72%"></div></div>
+              <span class="skill-row-val">72</span>
+            </div>
+          </div>
+
+          <h2 class="section-h2" id="methods">Methods &amp; Concepts <span class="section-code">§ 4.0</span></h2>
+          <div class="skill-group">
+            <div class="skill-row" data-key="ekf">
+              <span class="skill-row-name">EKF / UKF</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:80%"></div></div>
+              <span class="skill-row-val">80</span>
+            </div>
+            <div class="skill-row" data-key="pid">
+              <span class="skill-row-name">PID Control</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:82%"></div></div>
+              <span class="skill-row-val">82</span>
+            </div>
+            <div class="skill-row" data-key="hil">
+              <span class="skill-row-name">HIL Testing</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:78%"></div></div>
+              <span class="skill-row-val">78</span>
+            </div>
+            <div class="skill-row" data-key="sixdof">
+              <span class="skill-row-name">6-DOF Dynamics</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:75%"></div></div>
+              <span class="skill-row-val">75</span>
+            </div>
+            <div class="skill-row" data-key="fusion">
+              <span class="skill-row-name">Sensor Fusion</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:80%"></div></div>
+              <span class="skill-row-val">80</span>
+            </div>
+            <div class="skill-row" data-key="dfm">
+              <span class="skill-row-name">DFM</span>
+              <div class="skill-bar-outer"><div class="skill-bar-inner" style="width:76%"></div></div>
+              <span class="skill-row-val">76</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: sticky radar + detail -->
+        <div class="skills-sticky">
+          <figure class="radar-wrap">
+            <canvas id="skillsChart"></canvas>
+            <div class="radar-caption" id="radar-caption">Hover or click to explore</div>
+          </figure>
+          <div id="skill-detail-full"></div>
+        </div>
+      </div>
+
+      <div class="catlinks">
+        <ul class="cat-list">
+          <li><a href="#">C++</a></li>
+          <li><a href="#">PX4</a></li>
+          <li><a href="#">EKF</a></li>
+          <li><a href="#">SolidWorks</a></li>
+          <li><a href="#">ANSYS</a></li>
+          <li><a href="#">Sensor Fusion</a></li>
+          <li><a href="#">HIL Testing</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="site-footer">
+  <div class="footer-row">
+    <span>EG-SKILL-003 · last edited 16 Apr 2026</span>
+    <a href="resume.html">Résumé ↗</a>
+    <a href="https://www.linkedin.com/in/enrique-gr/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="mailto:e.garciarivera@wustl.edu">Email ↗</a>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+const skillData = {
+  cpp:       {title:'C++20',            body:'My main language for anything performance-critical — flight simulators, EKF state estimators, real-time CV pipelines. Heavy use of templates, RAII, and concurrency primitives.',      used:'Hyperion 6-DOF · Sentinel CV · EKF Nav'},
+  python:    {title:'Python',           body:'Rapid prototyping, data analysis, and sensor-fusion scripting. Primary language for my MIRO Lab research pipelines and post-flight log processing.',                                   used:'MIRO Lab · GNC tooling · data analysis'},
+  matlab:    {title:'MATLAB',           body:'Mathematical modeling, control-loop design, and simulation scripting. I use it alongside Simulink to build and validate plant models before hardware deployment.',                     used:'Control Systems coursework · DBF analysis'},
+  simulink:  {title:'Simulink',         body:'Block-diagram modeling of dynamic systems. Built adaptive cruise control PID loops and verified VTOL attitude controller response before HIL validation.',                            used:'Adaptive Cruise Control · VTOL controls'},
+  js:        {title:'JavaScript',       body:'Zero-dependency browser simulations. WebTunnel CFD runs a full Navier-Stokes solver at 60 fps with no build tooling.',                                                               used:'WebTunnel CFD · GNC Lander Sim'},
+  teensy:    {title:'Teensy 4.1',       body:'ARM Cortex-M7 at 600 MHz. My primary embedded platform for the 12-state EKF navigation system — sensor polling, state estimation, and telemetry in a single RTOS task loop.',       used:'EKF Nav board · sensor fusion prototyping'},
+  stm32:     {title:'STM32',            body:'STM32F4/F7 series for flight-critical embedded tasks. HAL drivers, DMA transfers, real-time interrupt handling at >1 kHz.',                                                          used:'VTOL flight control stack'},
+  pixhawk:   {title:'Pixhawk 6C',       body:'Flight management unit for WashU VTOL. Full integration: ESC wiring, power distribution, GPS antenna placement, and all PX4 parameter tuning for stable hover.',                    used:'WashU VTOL'},
+  px4:       {title:'PX4 Autopilot',    body:'Open-source flight stack. Tuned attitude and position controllers, configured HIL simulation interface, debugged MAVLink telemetry dropouts.',                                       used:'WashU VTOL'},
+  ardupilot: {title:'ArduPilot',        body:'Evaluated during a VTOL HIL comparison study. Compared parameter convergence and failsafe behavior against PX4.',                                                                    used:'VTOL HIL validation'},
+  protocols: {title:'I2C / SPI / UART', body:'Low-level embedded comms — debugging I2C noise coupling (incident VTOL-01), SPI for high-speed IMU polling, UART NMEA from GPS.',                                                  used:'All embedded projects'},
+  solidworks:{title:'SolidWorks',       body:'Primary CAD platform. Bottom-up assemblies, mates, design tables, tolerance stack-up analysis. Largest: 200+ part foosball table at 128 MB.',                                       used:'Foosball CAD · landing gear design'},
+  ansys:     {title:'ANSYS FEA',        body:'Static structural analysis. Validated a nose landing gear under 3g impact loads; topology optimization cut part mass by 18%.',                                                       used:'Landing Gear FEA · DBF structural'},
+  cfx:       {title:'ANSYS CFX',        body:'CFD solver for viscous flow around airfoils. Validated XFLR5 lift/drag polars and analyzed wingtip vortex behavior.',                                                               used:'WashU DBF · wing section analysis'},
+  xflr5:     {title:'XFLR5',            body:'Panel-method aerodynamics for NACA-series wing design. Generated Cl/Cd polars across the full flight envelope, informed spar placement.',                                            used:'WashU DBF aerodynamics'},
+  opencv:    {title:'OpenCV',           body:'Real-time CV. Built the Sentinel pipeline: background subtraction, contour tracking, bounding-box extraction feeding a Kalman filter at frame rate.',                                used:'Sentinel Computer Vision'},
+  ekf:       {title:'EKF / UKF',        body:'12-state EKF fusing IMU, GPS, and optical flow with covariance gating for sensor dropout resilience.',                                                                               used:'EKF Nav · MIRO Lab'},
+  pid:       {title:'PID Control',      body:'Applied to VTOL attitude loops, adaptive cruise longitudinal control, and GNC lander thrust management.',                                                                            used:'VTOL · Cruise Control · GNC Sim'},
+  hil:       {title:'HIL Testing',      body:'Configured Gazebo/PX4 SITL for VTOL — full autopilot tuning and failure-mode testing before any physical flight.',                                                                  used:'WashU VTOL'},
+  sixdof:    {title:'6-DOF Dynamics',   body:'Full rigid-body equations of motion, Runge-Kutta integration, validated against analytical benchmarks at 10 kHz.',                                                                  used:'Hyperion Engine · GNC Sim'},
+  fusion:    {title:'Sensor Fusion',    body:'IMU, GPS, optical flow, EMG, and camera data — always with probabilistic uncertainty propagation.',                                                                                  used:'EKF Nav · MIRO Lab · VTOL'},
+  dfm:       {title:'DFM',              body:'Design for Manufacturability from concept through fabrication — tolerance stack-ups, composite layup constraints, machining limits.',                                                 used:'DBF · Foosball CAD'}
+};
+
+const radarLabels = ['Aerodynamics','Embedded C++','Control Theory','CAD / DFM','Circuit Design','Simulation'];
+const radarData   = [82, 76, 78, 85, 74, 86];
+const radarAxes   = ['xflr5,cfx,ansys','cpp,teensy,stm32','pid,ekf,hil,sixdof','solidworks,dfm','protocols,stm32','simulink,matlab'];
+
+let activeKey = null;
+let lockedSeg = null;
+
+/* Skill row click */
+document.querySelectorAll('.skill-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const key = row.dataset.key;
+    const panel = document.getElementById('skill-detail-full');
+    if (activeKey === key) {
+      panel.classList.remove('visible');
+      row.classList.remove('active');
+      activeKey = null;
+      return;
+    }
+    document.querySelectorAll('.skill-row.active').forEach(r => r.classList.remove('active'));
+    activeKey = key;
+    row.classList.add('active');
+    const d = skillData[key];
+    if (!d) return;
+    panel.innerHTML = `<div id="sdf-title">${d.title}</div><div id="sdf-body">${d.body}</div><div id="sdf-used">USED IN: ${d.used}</div>`;
+    panel.classList.add('visible');
+    panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  });
+});
+
+/* Radar */
+window.addEventListener('load', () => {
+  const ctx = document.getElementById('skillsChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: radarLabels,
+      datasets: [{
+        data: radarData,
+        backgroundColor: 'rgba(26,74,138,0.1)',
+        borderColor: '#1a4a8a',
+        borderWidth: 1.5,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#1a4a8a',
+        pointBorderWidth: 1.5,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      layout: { padding: 8 },
+      scales: {
+        r: {
+          min:0, max:100,
+          angleLines: { color:'rgba(0,0,0,0.07)' },
+          grid: { color:'rgba(0,0,0,0.06)' },
+          pointLabels: { color:'#5a6070', font:{ size:9.5, family:"'JetBrains Mono',monospace" } },
+          ticks: { display:false, backdropColor:'transparent' }
+        }
+      },
+      plugins: { legend:{display:false}, tooltip:{enabled:false} },
+      maintainAspectRatio: false,
+      onHover: (evt, els) => {
+        if (lockedSeg !== null) return;
+        if (els.length) highlightSeg(els[0].index, chart, false);
+        else resetRadar(chart);
+      }
+    }
+  });
+
+  document.getElementById('skillsChart').addEventListener('click', evt => {
+    const pts = chart.getElementsAtEventForMode(evt,'point',{intersect:true},false);
+    if (pts.length) {
+      const idx = pts[0].index;
+      lockedSeg = lockedSeg === idx ? null : idx;
+      if (lockedSeg === null) resetRadar(chart);
+      else highlightSeg(idx, chart, true);
+    }
+  });
+
+  function highlightSeg(idx, chart, locked) {
+    const bg = radarLabels.map((_,i) => i===idx ? 'rgba(196,125,0,0.25)' : 'rgba(26,74,138,0.05)');
+    chart.data.datasets[0].backgroundColor = bg;
+    chart.data.datasets[0].pointBackgroundColor = radarLabels.map((_,i) => i===idx ? '#c47d00' : '#fff');
+    chart.update('none');
+    document.getElementById('radar-caption').textContent =
+      `${radarLabels[idx].toUpperCase()} · ${radarData[idx]}/100${locked?' · LOCKED':''}`;
+    const keys = (radarAxes[idx]||'').split(',');
+    document.querySelectorAll('.skill-row').forEach(r => {
+      r.style.background = keys.includes(r.dataset.key) ? 'var(--amber-light)' : '';
+    });
+  }
+
+  function resetRadar(chart) {
+    chart.data.datasets[0].backgroundColor = 'rgba(26,74,138,0.1)';
+    chart.data.datasets[0].pointBackgroundColor = radarLabels.map(()=>'#fff');
+    chart.update('none');
+    document.getElementById('radar-caption').textContent = 'Hover or click to explore';
+    document.querySelectorAll('.skill-row').forEach(r => r.style.background='');
+  }
+});
+
+function copyEmail(){
+  navigator.clipboard.writeText('e.garciarivera@wustl.edu');
+  const t=document.getElementById('toast');
+  t.textContent='✓ EMAIL COPIED'; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+</script>
+</body>
+</html>

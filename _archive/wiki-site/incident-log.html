@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident Log — Enrique Garcia</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+/* The incident log is the most distinctive page — full terminal/flight-log aesthetic */
+.log-header-strip {
+  background: var(--accent);
+  color: #9cc4ff;
+  font-family: var(--mono);
+  font-size: 0.657rem;
+  letter-spacing: 0.12em;
+  padding: 6px 10px;
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.log-header-strip .blink {
+  color: #ffd080;
+  animation: blink 1.4s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+.incident-entry {
+  border: 1px solid var(--border);
+  margin-bottom: 1.2rem;
+  background: var(--content-bg);
+  position: relative;
+}
+.incident-entry.resolved { border-left: 3px solid var(--green-live); }
+.incident-entry.open     { border-left: 3px solid var(--amber); }
+
+.incident-entry-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 8px 12px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-light);
+  flex-wrap: wrap;
+}
+
+.inc-id {
+  font-family: var(--mono);
+  font-size: 0.786rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.inc-title {
+  font-family: var(--serif-disp);
+  font-size: 1.05rem;
+  font-weight: normal;
+  color: var(--text);
+  flex: 1;
+}
+
+.inc-badge {
+  font-family: var(--mono);
+  font-size: 0.629rem;
+  letter-spacing: 0.07em;
+  padding: 2px 7px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.badge-resolved { color: var(--green-live); border-color: var(--green-live); }
+.badge-open     { color: var(--amber);      border-color: var(--amber);      }
+
+.incident-entry-body { padding: 11px 13px; }
+
+.inc-meta-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--border-light);
+  margin-bottom: 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.714rem;
+}
+@media (max-width: 560px) { .inc-meta-row { grid-template-columns: 1fr; } }
+
+.inc-meta-cell {
+  padding: 6px 10px;
+  border-right: 1px solid var(--border-light);
+}
+.inc-meta-cell:last-child { border-right: none; }
+.inc-meta-label { color: var(--text-muted); font-size: 0.614rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; }
+.inc-meta-val { color: var(--text); font-size: 0.757rem; margin-top: 2px; }
+
+.inc-section-label {
+  font-family: var(--mono);
+  font-size: 0.629rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  margin-top: 0.7rem;
+}
+.incident-entry-body p { font-size: 0.9rem; margin-bottom: 0.5em; line-height: 1.65; }
+.inc-resolution {
+  background: #f0fff4;
+  border-left: 2px solid var(--green-live);
+  padding: 7px 10px;
+  font-size: 0.886rem;
+  margin-top: 0.5rem;
+  font-family: var(--sans);
+}
+
+/* Log stats strip */
+.log-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+  font-family: var(--mono);
+}
+.log-stat {
+  padding: 10px 12px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.log-stat:last-child { border-right: none; }
+.log-stat-val { font-size: 1.5rem; font-weight: 600; color: var(--accent); display: block; line-height: 1; }
+.log-stat-label { font-size: 0.614rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 3px; }
+</style>
+</head>
+<body>
+
+<div id="site-banner">
+  <strong>[ SEEKING ]</strong> Summer 2026 internship — Aerospace · Autonomous Systems · Avionics · Controls &nbsp;|&nbsp; <a href="mailto:e.garciarivera@wustl.edu">e.garciarivera@wustl.edu</a>
+</div>
+
+<div id="site-header">
+  <div class="header-inner">
+    <a id="eg-logo" href="index.html">
+      <svg class="eg-mark" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="38" fill="#1a4a8a"/>
+        <rect x="6" y="8" width="10" height="2" fill="white"/>
+        <rect x="6" y="14" width="8" height="2" fill="white"/>
+        <rect x="6" y="20" width="10" height="2" fill="white"/>
+        <rect x="6" y="8" width="2" height="14" fill="white"/>
+        <rect x="20" y="8" width="10" height="2" fill="white"/>
+        <rect x="20" y="20" width="10" height="2" fill="white"/>
+        <rect x="20" y="8" width="2" height="14" fill="white"/>
+        <rect x="28" y="14" width="2" height="8" fill="white"/>
+        <rect x="25" y="14" width="5" height="2" fill="white"/>
+        <rect x="6" y="26" width="24" height="1" fill="#9cc4ff" opacity="0.6"/>
+      </svg>
+      <div class="eg-wordmark">
+        <span class="eg-name">Enrique Garcia</span>
+        <span class="eg-title">Mechanical Engineer · WashU</span>
+      </div>
+    </a>
+    <nav id="site-nav">
+      <div class="nav-item"><a href="index.html">Home</a></div>
+      <div class="nav-item"><a href="projects.html">Projects</a></div>
+      <div class="nav-item"><a href="skills.html">Skills</a></div>
+      <div class="nav-item"><a href="coursework.html">Coursework</a></div>
+      <div class="nav-item active"><a href="incident-log.html">Incident Log</a></div>
+      <div class="nav-item"><a href="resume.html">Résumé ↗</a></div>
+      <a class="nav-contact" href="mailto:e.garciarivera@wustl.edu">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div id="page-wrap">
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h3>Navigate</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="coursework.html">Coursework</a></li>
+        <li><a href="incident-log.html" class="current">Incident Log</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>Entries</h3>
+      <ul>
+        <li><a href="#vtol01">VTOL-01</a></li>
+        <li><a href="#hyperion01">HYPERION-01</a></li>
+        <li><a href="#prop09">PROP-09</a></li>
+        <li><a href="#dbf01">DBF-01</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>External</h3>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/enrique-gr/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="content">
+    <div class="body-text">
+
+      <h1 class="page-heading">Engineering Incident Log</h1>
+      <span class="heading-meta">ARTICLE :: EG-INCL-005 &nbsp;·&nbsp; LAST EDITED: 16 APR 2026</span>
+
+      <div class="log-header-strip">
+        <span>EG-INCLOG · REV 4 · 16 APR 2026 · ALL TIMES UTC</span>
+        <span class="blink">■ LIVE</span>
+      </div>
+
+      <p>
+        I keep a log of engineering anomalies — the problems that required actual debugging, root-cause analysis,
+        and a deliberate fix. I find these more useful to document than things that worked on the first try,
+        because they're where the real learning happens.
+      </p>
+
+      <div class="log-stats">
+        <div class="log-stat">
+          <span class="log-stat-val">4</span>
+          <span class="log-stat-label">Total Entries</span>
+        </div>
+        <div class="log-stat">
+          <span class="log-stat-val" style="color:var(--green-live);">4</span>
+          <span class="log-stat-label">Resolved</span>
+        </div>
+        <div class="log-stat">
+          <span class="log-stat-val" style="color:var(--amber);">0</span>
+          <span class="log-stat-label">Open</span>
+        </div>
+        <div class="log-stat">
+          <span class="log-stat-val">3</span>
+          <span class="log-stat-label">Projects Covered</span>
+        </div>
+      </div>
+
+      <!-- VTOL-01 -->
+      <div class="incident-entry resolved" id="vtol01">
+        <div class="incident-entry-header">
+          <span class="inc-id">VTOL-01</span>
+          <span class="inc-title">Sensor Dropouts on Bench Test</span>
+          <span class="inc-badge badge-resolved">✓ RESOLVED</span>
+        </div>
+        <div class="incident-entry-body">
+          <div class="inc-meta-row">
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Project</span>
+              <span class="inc-meta-val">WashU VTOL</span>
+            </div>
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Domain</span>
+              <span class="inc-meta-val">Embedded / Avionics</span>
+            </div>
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Protocol</span>
+              <span class="inc-meta-val">I2C</span>
+            </div>
+          </div>
+
+          <div class="inc-section-label">Symptom</div>
+          <p>
+            During bench testing with motors spinning, the Pixhawk 6C was intermittently losing telemetry
+            from I2C sensors — barometer and magnetometer dropouts occurring inconsistently, with no pattern
+            tied to throttle level or duration.
+          </p>
+
+          <div class="inc-section-label">Root Cause</div>
+          <p>
+            Electrical noise from the motor power wiring was coupling onto the I2C signal lines through
+            proximity and insufficient shielding. The I2C bus is particularly susceptible to this — the
+            long pull-up rise times make the logic edges soft and easy to corrupt under EMI. The unshielded
+            sense lines were routed parallel to the high-current motor runs for about 15 cm.
+          </p>
+
+          <div class="inc-section-label">Resolution</div>
+          <div class="inc-resolution">
+            Re-routed all avionics signal wiring away from motor power runs and added twisted-pair shielding
+            on the I2C lines. Also added hardware pull-up resistors (2.2 kΩ) to tighten rise times. Sensor
+            dropout issue did not recur across subsequent bench tests.
+          </div>
+        </div>
+      </div>
+
+      <!-- HYPERION-01 -->
+      <div class="incident-entry resolved" id="hyperion01">
+        <div class="incident-entry-header">
+          <span class="inc-id">HYPERION-01</span>
+          <span class="inc-title">Thread Contention Jitter in Physics Loop</span>
+          <span class="inc-badge badge-resolved">✓ RESOLVED</span>
+        </div>
+        <div class="incident-entry-body">
+          <div class="inc-meta-row">
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Project</span>
+              <span class="inc-meta-val">Hyperion 6-DOF Engine</span>
+            </div>
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Domain</span>
+              <span class="inc-meta-val">Concurrent C++</span>
+            </div>
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Symptom Type</span>
+              <span class="inc-meta-val">Timing jitter</span>
+            </div>
+          </div>
+
+          <div class="inc-section-label">Symptom</div>
+          <p>
+            The physics integration loop was running at a nominal 10 kHz, but profiling showed irregular
+            step intervals — some steps taking 2–3× longer than expected. This was introducing integration
+            error that caused the simulated trajectory to drift from analytical benchmarks.
+          </p>
+
+          <div class="inc-section-label">Root Cause</div>
+          <p>
+            The physics thread and the telemetry logging thread were both acquiring the same mutex to access
+            shared state. When the logger thread held the lock, the physics thread blocked and missed its
+            timing window. Since the logger ran on no fixed schedule, the block duration was unpredictable.
+          </p>
+
+          <div class="inc-section-label">Resolution</div>
+          <div class="inc-resolution">
+            Replaced the shared-mutex pattern with a double-buffered state handoff. The physics thread writes
+            to one buffer while the logger reads from the other; a single atomic pointer swap transfers
+            ownership with no blocking. Integration jitter dropped to within timing resolution, and the
+            trajectory now tracks analytical benchmarks within acceptable tolerance.
+          </div>
+        </div>
+      </div>
+
+      <!-- PROP-09 -->
+      <div class="incident-entry resolved" id="prop09">
+        <div class="incident-entry-header">
+          <span class="inc-id">PROP-09</span>
+          <span class="inc-title">Igniter Continuity False Positive</span>
+          <span class="inc-badge badge-resolved">✓ RESOLVED</span>
+        </div>
+        <div class="incident-entry-body">
+          <div class="inc-meta-row">
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Project</span>
+              <span class="inc-meta-val">Propulsion Test Stand</span>
+            </div>
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Domain</span>
+              <span class="inc-meta-val">Embedded / Safety Systems</span>
+            </div>
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Symptom Type</span>
+              <span class="inc-meta-val">ADC false read</span>
+            </div>
+          </div>
+
+          <div class="inc-section-label">Symptom</div>
+          <p>
+            The igniter continuity check was reporting "continuity present" even with no igniter connected.
+            This was a safety-critical false positive — the system would have allowed a fire command
+            believing the igniter circuit was intact.
+          </p>
+
+          <div class="inc-section-label">Root Cause</div>
+          <p>
+            The ADC sense pin was left floating when no igniter was connected. The MCU's internal
+            pull-up was insufficient to hold the pin cleanly low — the floating voltage settled in
+            the threshold region and was inconsistently interpreted as logic high by the firmware.
+          </p>
+
+          <div class="inc-section-label">Resolution</div>
+          <div class="inc-resolution">
+            Added a hardware pulldown resistor (10 kΩ) on the sense pin to ensure a clean logic-low
+            default. Also added software debounce logic requiring five consecutive consistent reads
+            before reporting continuity state, eliminating transient misreads. False positive did not recur.
+          </div>
+        </div>
+      </div>
+
+      <!-- DBF-01 -->
+      <div class="incident-entry resolved" id="dbf01">
+        <div class="incident-entry-header">
+          <span class="inc-id">DBF-01</span>
+          <span class="inc-title">Pitch Stability Hunting in Flight</span>
+          <span class="inc-badge badge-resolved">✓ RESOLVED</span>
+        </div>
+        <div class="incident-entry-body">
+          <div class="inc-meta-row">
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Project</span>
+              <span class="inc-meta-val">WashU Design/Build/Fly</span>
+            </div>
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Domain</span>
+              <span class="inc-meta-val">Aerodynamics / Stability</span>
+            </div>
+            <div class="inc-meta-cell">
+              <span class="inc-meta-label">Symptom Type</span>
+              <span class="inc-meta-val">Longitudinal instability</span>
+            </div>
+          </div>
+
+          <div class="inc-section-label">Symptom</div>
+          <p>
+            The aircraft exhibited persistent pitch oscillation in flight — a phugoid-like hunting around
+            the trim pitch angle rather than converging to steady level flight. This was degrading payload
+            mission accuracy.
+          </p>
+
+          <div class="inc-section-label">Root Cause</div>
+          <p>
+            CG had shifted aft from the design position due to battery placement during final assembly.
+            The reduced static margin pushed the aircraft toward neutral stability — any pitch perturbation
+            was not being restored by the tail, causing the oscillation instead of damping it.
+          </p>
+
+          <div class="inc-section-label">Resolution</div>
+          <div class="inc-resolution">
+            Shifted battery pack forward to recover static margin. Also increased horizontal tail chord
+            to improve pitch authority and damping. Aircraft demonstrated stable pitch response in
+            subsequent flight tests.
+          </div>
+        </div>
+      </div>
+
+      <div class="catlinks">
+        <ul class="cat-list">
+          <li><a href="#">Avionics</a></li>
+          <li><a href="#">Embedded Systems</a></li>
+          <li><a href="#">C++ Concurrency</a></li>
+          <li><a href="#">Flight Safety</a></li>
+          <li><a href="#">Aerodynamics</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="site-footer">
+  <div class="footer-row">
+    <span>EG-INCL-005 · last edited 16 Apr 2026</span>
+    <a href="resume.html">Résumé ↗</a>
+    <a href="https://www.linkedin.com/in/enrique-gr/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://github.com/enrique-gr" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="mailto:e.garciarivera@wustl.edu">Email ↗</a>
+  </div>
+</div>
+<div id="toast"></div>
+</body>
+</html>

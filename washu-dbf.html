@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WashU DBF | Enrique Garcia</title>
@@ -239,7 +239,7 @@
     <main class="pt-44 pb-20 px-6 max-w-7xl mx-auto">
       <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
         <div class="h-24 w-24 bg-white border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-          <img src="images/washu_dbf.jpg" alt="WashU DBF Logo" class="h-full w-full object-cover"
+          <img src="assets/images/washu_dbf.jpg" alt="WashU DBF Logo" class="h-full w-full object-cover"
                onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-paper-plane text-4xl text-white\'></i>'">
         </div>
         <div>
@@ -332,8 +332,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
                 <button class="block w-full text-left" type="button"
-                        onclick="openModal({type:'image', src:'images/dbf_field_1.png', title:'DBF Field Session \u2014 Aircraft Prep'})">
-                  <img src="images/dbf_field_1.png" alt="DBF field session aircraft image 1" class="w-full h-56 object-cover">
+                        onclick="openModal({type:'image', src:'assets/images/dbf_field_1.png', title:'DBF Field Session \u2014 Aircraft Prep'})">
+                  <img src="assets/images/dbf_field_1.png" alt="DBF field session aircraft image 1" class="w-full h-56 object-cover">
                   <figcaption class="p-4">
                     <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Field Session</div>
                     <div class="text-xs text-gray-300 mt-1">Aircraft prep + configuration checks</div>
@@ -343,8 +343,8 @@
               </figure>
               <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
                 <button class="block w-full text-left" type="button"
-                        onclick="openModal({type:'image', src:'images/dbf_field_2.png', title:'DBF Field Session \u2014 Taxi / Systems'})">
-                  <img src="images/dbf_field_2.png" alt="DBF field session aircraft image 2" class="w-full h-56 object-cover">
+                        onclick="openModal({type:'image', src:'assets/images/dbf_field_2.png', title:'DBF Field Session \u2014 Taxi / Systems'})">
+                  <img src="assets/images/dbf_field_2.png" alt="DBF field session aircraft image 2" class="w-full h-56 object-cover">
                   <figcaption class="p-4">
                     <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Field Session</div>
                     <div class="text-xs text-gray-300 mt-1">Taxi + systems verification</div>
@@ -361,9 +361,8 @@
               <div class="p-4">
                 <video class="w-full border border-white/10 bg-black/40"
                        controls playsinline preload="metadata"
-                       poster="images/dbf_video_poster.png">
-                  <source src="videos/dbf_test_flight.mp4" type="video/mp4">
-                  <source src="videos/dbf_test_flight.webm" type="video/webm">
+                       poster="assets/images/dbf_field_1.png">
+                  <source src="assets/videos/dbf_test_flight.mp4" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
               </div>
@@ -464,7 +463,7 @@
               <a href="docs/2026DBF_Washington_University_in_St_Louis_DESIGN_REPORT.pdf" target="_blank" rel="noopener noreferrer" class="block text-emerald-400 hover:text-emerald-300 transition-colors">
                 <i class="fas fa-file-pdf mr-2"></i>Design Report (PDF)
               </a>
-              <a href="videos/dbf_test_flight.mp4" target="_blank" rel="noopener noreferrer" class="block text-emerald-400 hover:text-emerald-300 transition-colors">
+              <a href="assets/videos/dbf_test_flight.mp4" target="_blank" rel="noopener noreferrer" class="block text-emerald-400 hover:text-emerald-300 transition-colors">
                 <i class="fas fa-video mr-2"></i>Test Flight Video
               </a>
             </div>
@@ -593,5 +592,6 @@
       if (e.key === 'Escape' && modalShell.getAttribute('data-open') === 'true') closeModal();
     });
   </script>
+  <script src="js/nav-persist.js"></script>
 </body>
 </html>

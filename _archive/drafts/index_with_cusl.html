@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enrique Garcia | Website</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+  <!-- Vendor CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Tailwind (utility layer — kept for layout utilities used throughout) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Site stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="antialiased relative bg-[#050505] selection:bg-blue-500/30 selection:text-white">
+
+  <!-- Scroll progress indicator -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Toast notification -->
+  <div id="toast" role="status" aria-live="polite">
+    <div class="flex items-center justify-center gap-3">
+      <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" aria-hidden="true"></span>
+      <span id="toast-message">DATA_PACKET_RECEIVED</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       NAVIGATION
+  ====================================================================== -->
+  <nav class="fixed top-0 w-full bg-[#050505]/95 backdrop-blur-md z-50 border-b border-white/5" aria-label="Site navigation">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+
+      <!-- Logo / identity -->
+      <a href="#" class="flex items-center gap-3 group" aria-label="Home">
+        <div class="h-8 w-8 bg-black border border-white/20 flex items-center justify-center overflow-hidden">
+          <img src="EG.png" alt="EG monogram" class="h-full w-full object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+        </div>
+        <div class="flex flex-col">
+          <span class="font-mono font-bold text-white tracking-widest uppercase text-xs group-hover:text-blue-400 transition-colors">E.Garcia</span>
+          <span class="text-[9px] text-gray-600 font-mono tracking-tighter">ID: EGR-26 // MECH → AE</span>
+        </div>
+      </a>
+
+      <!-- Primary links -->
+      <div class="hidden md:flex space-x-8 text-[10px] font-mono font-bold tracking-widest uppercase text-gray-500 items-center">
+        <a href="about.html" class="flex items-center gap-2 text-emerald-400 hover:text-white transition-all mr-4">
+          [00] About
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
+          <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60" aria-hidden="true"></i>
+        </a>
+        <a href="#featured"     class="hover:text-white transition-colors">[01] PROJECTS</a>
+        <a href="#capabilities" class="hover:text-white transition-colors">[02] SKILLS</a>
+        <a href="#anomalies"    class="hover:text-white transition-colors">[03] CHALLENGES</a>
+        <a href="#collections"  class="hover:text-white transition-colors">[04] ARCHIVE</a>
+        <a href="interests.html" class="hover:text-blue-400 transition-colors flex items-center gap-1">
+          [05] INTERESTS
+          <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60" aria-hidden="true"></i>
+        </a>
+      </div>
+
+      <!-- CTA buttons -->
+      <div class="flex gap-3">
+        <a href="portfolio.html" target="_blank" rel="noopener noreferrer"
+           class="flex items-center px-4 py-1.5 border border-white/20 text-white text-[10px] font-mono uppercase font-bold hover:bg-white hover:text-black transition-all tracking-wide">
+          View Portfolio
+        </a>
+        <a href="resume.html" target="_blank" rel="noopener noreferrer"
+           class="flex items-center px-4 py-1.5 bg-white text-black text-[10px] font-mono uppercase font-bold hover:bg-blue-400 hover:text-white transition-all tracking-wide">
+          Download Resume
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =====================================================================
+       HERO — full-width video background
+  ====================================================================== -->
+  <div id="hero-section">
+
+    <!-- Background video -->
+    <div class="hero-video-bg" aria-hidden="true">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="videos/mission-control.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- Decorative overlays -->
+    <div class="hero-grid-overlay" aria-hidden="true"></div>
+    <div class="hero-scanbeam"     aria-hidden="true"></div>
+    <div class="hcorner tl"        aria-hidden="true"></div>
+    <div class="hcorner tr"        aria-hidden="true"></div>
+    <div class="hcorner bl"        aria-hidden="true"></div>
+    <div class="hcorner br"        aria-hidden="true"></div>
+
+    <!-- Hero content -->
+    <header id="about" class="pt-32 pb-20 md:pt-48 md:pb-32 relative z-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+          <!-- ---- LEFT: Identity + CTAs ---- -->
+          <div class="lg:col-span-7 flex flex-col justify-center hero-stagger">
+
+            <!-- Status badge -->
+            <div class="flex items-center gap-2 mb-8">
+              <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" aria-hidden="true"></span>
+              <span class="text-[10px] font-mono text-emerald-500 tracking-widest uppercase">System Status: Nominal</span>
+              <span class="text-[10px] font-mono text-gray-600 tracking-widest uppercase ml-2">Loc: WashU // St. Louis</span>
+            </div>
+
+            <!-- Profile photo + name -->
+            <div class="flex items-center gap-6 mb-8">
+              <div id="pfp-container"
+                   onclick="triggerScan()"
+                   role="button"
+                   tabindex="0"
+                   aria-label="Trigger identity scan"
+                   onkeydown="if(event.key==='Enter'||event.key===' ')triggerScan()"
+                   class="h-24 w-24 md:h-28 md:w-28 shrink-0 border border-white/20 p-1 bg-black/40 backdrop-blur-md relative cursor-pointer transition-all duration-300 hover:scale-105 hover:border-blue-400">
+                <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/50" aria-hidden="true"></div>
+                <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/50" aria-hidden="true"></div>
+                <img src="images/pfpv2.png" alt="Enrique Garcia profile photo" class="h-full w-full object-cover">
+              </div>
+
+              <div>
+                <h1 class="text-5xl md:text-7xl leading-none uppercase font-bold tracking-tight text-white mb-2">
+                  Enrique<br>Garcia
+                </h1>
+                <p class="text-xl md:text-2xl font-mono text-blue-400 mt-2">Dynamic. Model driven. Systems focused.</p>
+              </div>
+            </div>
+
+            <!-- Tagline -->
+            <p class="text-lg text-gray-400 leading-relaxed font-light max-w-2xl border-l border-white/10 pl-6">
+              Mechanical Engineering student building the interface between
+              <span class="text-white font-medium">physical systems and embedded logic</span>
+              — through dynamics, controls, simulation, and hardware validation.
+            </p>
+
+            <!-- Sub-role labels -->
+            <div class="mt-5 pl-6 flex flex-col gap-2 text-xs font-mono text-gray-500">
+              <div><span class="text-blue-400">Avionics & Systems Lead</span> · WashU VTOL</div>
+              <div class="uppercase tracking-widest">Aerospace · Estimation · Control · Flight Mechanics</div>
+            </div>
+
+            <!-- CTA buttons -->
+            <div class="pl-6 mt-7 flex flex-wrap gap-3">
+              <a href="#featured" class="hero-cta hero-cta-primary px-4 py-2 inline-flex items-center gap-2">
+                View Flagship Missions <i class="fas fa-arrow-right text-[9px]" aria-hidden="true"></i>
+              </a>
+              <a href="resume.html" target="_blank" class="hero-cta hero-cta-secondary px-4 py-2 inline-flex items-center gap-2">
+                Download Resume <i class="fas fa-file-arrow-down text-[9px]" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            <!-- Availability note -->
+            <p class="pl-6 mt-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">
+              Open to internships // Research · Summer 2026
+            </p>
+
+            <!-- Social links -->
+            <div class="flex gap-6 mt-10 text-xl text-gray-500 pl-6">
+              <a href="https://linkedin.com/in/enrique-gr" target="_blank" rel="noopener noreferrer"
+                 aria-label="LinkedIn profile"
+                 class="hover:text-blue-400 transition-colors">
+                <i class="fab fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a href="https://github.com/enrique-gr" target="_blank" rel="noopener noreferrer"
+                 aria-label="GitHub profile"
+                 class="hover:text-white transition-colors">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+              <button onclick="copyEmail()" aria-label="Copy email address"
+                      class="hover:text-emerald-400 transition-colors">
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div><!-- /LEFT -->
+
+          <!-- ---- RIGHT: Mission Timeline ---- -->
+          <div class="lg:col-span-5 relative">
+            <div class="hero-mission-panel">
+
+              <!-- Panel header -->
+              <div class="hero-mission-header flex justify-between items-center">
+                <h2 class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-widest">Mission Timeline</h2>
+                <span id="sync-counter" class="text-[9px] font-mono text-gray-600">SYNCED: --:--</span>
+              </div>
+
+              <!-- Scrollable timeline -->
+              <div class="mission-scroll hero-mission-scroll relative">
+                <ol class="hero-mission-list">
+
+                  <!-- Target: Summer internship -->
+                  <li class="hero-mission-item target flex items-start gap-4 cursor-pointer group"
+                      onclick="toggleInternshipMission()"
+                      role="button" tabindex="0" aria-expanded="false"
+                      onkeydown="if(event.key==='Enter'||event.key===' ')toggleInternshipMission()">
+                    <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-yellow-400 transition-all duration-500 z-10">
+                      <img src="images/fmc_logo.png" alt="FMC logo" class="h-full w-full object-contain">
+                    </div>
+                    <div class="w-full">
+                      <div class="text-[9px] font-mono text-yellow-500 mb-0.5 tracking-wider">SUMMER 2026 // TARGET</div>
+                      <h3 class="text-yellow-400 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering / Research Role</h3>
+                      <p class="text-xs text-gray-500">Click to view focus areas</p>
+
+                      <!-- Accordion body -->
+                      <div id="internship-mission-details"
+                           class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
+                        <div class="mt-6 p-5 bg-black/40 border border-yellow-500/20 backdrop-blur-sm text-sm text-gray-300 space-y-4">
+                          <p>
+                            Seeking an engineering or research role focused on physical systems, where I can apply modeling,
+                            controls, simulation, and experimental validation to real-world problems.
+                          </p>
+                          <p class="text-gray-400 text-sm">
+                            Particularly interested in work involving unmanned systems, estimation, control, and dynamics.
+                          </p>
+                          <p class="font-mono text-yellow-400 text-xs tracking-wider">&gt;&gt; TARGET CONTRIBUTIONS</p>
+                          <ul class="space-y-2 list-disc list-inside">
+                            <li>Support mechanical, aerospace, or electromechanical system design</li>
+                            <li>Build simulations to study dynamic, thermal, fluid, or control behavior</li>
+                            <li>Develop test setups, collect data, and validate system performance</li>
+                            <li>Work across mechanical, electrical, software, and research teams</li>
+                          </ul>
+                          <p class="font-mono text-yellow-400 text-xs tracking-wider">&gt;&gt; CURRENT FOUNDATION</p>
+                          <p class="text-gray-400">
+                            My background combines modeling and simulation, vibrations, thermal-fluids,
+                            mechanical design, controls, embedded implementation, and aerospace systems work.
+                            I am open to industry roles, R&amp;D teams, and research labs focused on complex engineered systems.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <!-- Active: WashU VTOL -->
+                  <li class="hero-mission-item active flex items-start gap-4 cursor-pointer group"
+                      onclick="document.getElementById('washu-vtol').scrollIntoView({behavior:'smooth'})"
+                      role="button" tabindex="0">
+                    <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-blue-400 transition-colors z-10">
+                      <img src="images/washu_vtol.jpg" alt="WashU VTOL" class="h-full w-full object-contain">
+                    </div>
+                    <div>
+                      <div class="text-[9px] font-mono text-blue-400 mb-0.5 tracking-wider">SEP 2025 - PRESENT // ACTIVE</div>
+                      <h3 class="text-white font-bold text-sm group-hover:text-blue-400 transition-colors">WashU VTOL</h3>
+                      <p class="text-xs text-gray-500">Avionics & Systems Integration Lead</p>
+                    </div>
+                  </li>
+
+                  <!-- Done: DBF -->
+                  <li class="hero-mission-item done flex items-start gap-4 cursor-pointer group opacity-75"
+                      onclick="document.getElementById('washu-dbf').scrollIntoView({behavior:'smooth'})"
+                      role="button" tabindex="0">
+                    <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
+                      <img src="images/washu_dbf.jpg" alt="WashU DBF" class="h-full w-full object-contain">
+                    </div>
+                    <div>
+                      <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">SEP 2024 - JAN 2026 // LEFT</div>
+                      <h3 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">WashU Design/Build/Fly</h3>
+                      <p class="text-xs text-gray-600">Aerodynamics & Payload</p>
+                    </div>
+                  </li>
+
+                  <!-- Done: Sentinel -->
+                  <li class="hero-mission-item done flex items-start gap-4 cursor-pointer group opacity-75"
+                      onclick="document.getElementById('sentinel-cv').scrollIntoView({behavior:'smooth'})"
+                      role="button" tabindex="0">
+                    <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
+                      <img src="images/sentinel_logo.png" alt="Sentinel" class="h-full w-full object-contain">
+                    </div>
+                    <div>
+                      <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">WINTER 2025 // COMPLETE</div>
+                      <h3 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">Sentinel CV Project</h3>
+                      <p class="text-xs text-gray-600">Computer Vision Tracking</p>
+                    </div>
+                  </li>
+
+                  <!-- Done: MIRO Lab -->
+                  <li class="hero-mission-item done flex items-start gap-4 cursor-pointer group opacity-75"
+                      onclick="document.getElementById('miro-lab').scrollIntoView({behavior:'smooth'})"
+                      role="button" tabindex="0">
+                    <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
+                      <img src="images/mirolab.ico" alt="MIRO Lab" class="h-full w-full object-contain">
+                    </div>
+                    <div>
+                      <div class="text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">SUMMER 2025 // COMPLETE</div>
+                      <h3 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">Multiplatform Interactive Robotics Lab</h3>
+                      <p class="text-xs text-gray-600">Research Intern</p>
+                    </div>
+                  </li>
+
+                </ol>
+              </div><!-- /hero-mission-scroll -->
+            </div><!-- /hero-mission-panel -->
+          </div><!-- /RIGHT -->
+
+        </div>
+      </div>
+    </header>
+  </div><!-- /hero-section -->
+
+  <!-- =====================================================================
+       HARDWARE LOG TICKER
+  ====================================================================== -->
+  <section id="hwlog" aria-label="Hardware evidence log">
+    <div class="hw-hdr">
+      <div class="hw-hdr-l">
+        <span>Hardware Log</span>
+        <span>Physical Evidence — Hover to pause · Click to explore</span>
+      </div>
+      <div class="hw-hdr-r">evidence/hw_*.jpg</div>
+    </div>
+    <div class="hw-outer">
+      <div class="hw-track" id="hwtrack" role="list"></div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       MAIN CONTENT
+  ====================================================================== -->
+  <main>
+
+    <!-- ===================================================================
+         SECTION 01 — FEATURED PROJECTS
+    =================================================================== -->
+    <section id="featured" aria-labelledby="featured-heading">
+      <div class="feat-inner">
+
+        <!-- Section header -->
+        <div class="flex items-end justify-between mb-20 border-b border-white/10 pb-6">
+          <div>
+            <h2 id="featured-heading" class="text-3xl font-bold text-white tracking-tight">Featured Engineering</h2>
+            <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Problem · Ownership · Stack · Measured Outcome</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xl font-mono text-white/20 block" aria-hidden="true">01</span>
+            <span class="text-[9px] font-mono text-gray-600 uppercase">Class: High Priority</span>
+          </div>
+        </div>
+
+        <!-- Populated by renderFeatured() in script.js -->
+        <div id="featured-container" class="flex flex-col gap-24"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SECTION 02 — CAPABILITIES
+    =================================================================== -->
+    <section id="capabilities" class="py-12 max-w-7xl mx-auto px-6 border-t border-white/5"
+             aria-labelledby="capabilities-heading">
+
+      <!-- Section header -->
+      <div class="flex items-end justify-between mb-8 border-b border-white/10 pb-6">
+        <div>
+          <h2 id="capabilities-heading" class="text-3xl font-bold text-white tracking-tight">System Capabilities</h2>
+          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Diagnostic & Academic Kernel</p>
+        </div>
+        <span class="text-xl font-mono text-white/20" aria-hidden="true">02</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+
+        <!-- ---- LEFT: Skill pills + terminal ---- -->
+        <div class="flex flex-col gap-5">
+
+          <p class="text-gray-400 leading-relaxed">
+            Building mechanical and aerospace systems through simulation, controls, testing, and hardware–software integration.
+            Experience spans dynamic modeling, embedded implementation, sensor fusion, and experimental validation.
+            <span class="text-gray-600 font-mono text-xs ml-1">// Click any skill to inspect</span>
+          </p>
+
+          <!-- Skill pills — grouped by category -->
+          <div class="space-y-4">
+
+            <div>
+              <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Languages & Frameworks</div>
+              <div class="flex flex-wrap gap-2">
+                <button class="sp" onclick="showSkill(this,'python')">Python</button>
+                <button class="sp" onclick="showSkill(this,'matlab')">MATLAB</button>
+                <button class="sp" onclick="showSkill(this,'simulink')">Simulink</button>
+                <button class="sp" onclick="showSkill(this,'cpp')">C++</button>
+                <button class="sp" onclick="showSkill(this,'js')">JavaScript</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Hardware & Embedded</div>
+              <div class="flex flex-wrap gap-2">
+                <button class="sp" onclick="showSkill(this,'teensy')">Teensy 4.0 / 4.1</button>
+                <button class="sp" onclick="showSkill(this,'stm32')">STM32</button>
+                <button class="sp" onclick="showSkill(this,'pixhawk')">Pixhawk 6C</button>
+                <button class="sp" onclick="showSkill(this,'px4')">PX4</button>
+                <button class="sp" onclick="showSkill(this,'protocols')">I2C · SPI · UART</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">CAD / Simulation / Analysis</div>
+              <div class="flex flex-wrap gap-2">
+                <button class="sp" onclick="showSkill(this,'solidworks')">SolidWorks</button>
+                <button class="sp" onclick="showSkill(this,'ansys')">ANSYS FEA</button>
+                <button class="sp" onclick="showSkill(this,'cfx')">ANSYS CFX</button>
+                <button class="sp" onclick="showSkill(this,'xflr5')">XFLR5</button>
+                <button class="sp" onclick="showSkill(this,'opencv')">OpenCV</button>
+              </div>
+            </div>
+
+            <div>
+              <div class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Methods & Concepts</div>
+              <div class="flex flex-wrap gap-2">
+                <button class="sp" onclick="showSkill(this,'ekf')">EKF / UKF</button>
+                <button class="sp" onclick="showSkill(this,'pid')">PID Control</button>
+                <button class="sp" onclick="showSkill(this,'hil')">HIL Testing</button>
+                <button class="sp" onclick="showSkill(this,'sixdof')">6-DOF Dynamics</button>
+                <button class="sp" onclick="showSkill(this,'fusion')">Sensor Fusion</button>
+                <button class="sp" onclick="showSkill(this,'dfm')">DFM</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skill detail card (hidden until a pill is clicked) -->
+          <div id="skill-detail"
+               class="skill-hidden border border-blue-500/30 bg-blue-500/5 p-4 font-mono text-xs text-gray-300 relative transition-all duration-300 overflow-hidden"
+               aria-live="polite">
+            <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-blue-500/50 pointer-events-none" aria-hidden="true"></div>
+            <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-blue-500/50 pointer-events-none" aria-hidden="true"></div>
+            <div class="text-[9px] text-blue-400 uppercase tracking-widest mb-2" id="sd-title">—</div>
+            <div id="sd-body" class="text-gray-400 leading-relaxed text-[11px]"></div>
+            <div id="sd-used" class="mt-2 text-[9px] text-gray-600 italic"></div>
+          </div>
+
+          <!-- Coursework terminal -->
+          <div class="border border-white/10 bg-[#080808] p-6 font-mono text-xs shadow-2xl flex flex-col">
+
+            <!-- Terminal title bar -->
+            <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4 text-gray-500 tracking-widest text-[10px]">
+              <span>root@washu-edu:~/academic_kernel</span>
+              <div class="flex gap-4">
+                <button onclick="switchCoursework('active')"   id="btn-active"   class="tab-active px-2 py-1 uppercase tracking-wider transition-colors">[ACTIVE_PROCESSES]</button>
+                <button onclick="switchCoursework('fall2026')" id="btn-fall2026" class="tab-inactive px-2 py-1 uppercase tracking-wider transition-colors">[FALL_2026_QUEUE]</button>
+                <button onclick="switchCoursework('history')"  id="btn-history"  class="tab-inactive px-2 py-1 uppercase tracking-wider transition-colors">[LOG_HISTORY]</button>
+              </div>
+            </div>
+
+            <!-- Column headers -->
+            <div class="grid grid-cols-4 gap-4 mb-2 text-[10px] text-gray-600 border-b border-white/5 pb-2">
+              <span>PID</span>
+              <span class="col-span-2">PROCESS_NAME</span>
+              <span>STATUS</span>
+            </div>
+
+            <!-- Rows populated by switchCoursework() -->
+            <div id="coursework-list" class="scrollbar-hide overflow-y-auto"></div>
+
+            <div class="mt-4 pt-4 border-t border-white/10 flex justify-between text-[10px] text-gray-600">
+              <span>CORE: MECH_ENG // SPEC: FMC</span>
+              <span class="animate-pulse text-emerald-500">● SYSTEM_OPTIMAL</span>
+            </div>
+          </div>
+        </div><!-- /LEFT -->
+
+        <!-- ---- RIGHT: Radar chart + roadmap ---- -->
+        <div class="flex flex-col justify-between gap-4 h-full">
+
+          <!-- Radar -->
+          <div class="relative w-full h-[260px] sm:h-[300px] md:h-[340px] lg:h-[380px] xl:h-[540px] flex items-center justify-center bg-[#0a0a0a] border border-white/10 p-4 overflow-hidden group"
+               aria-label="Engineering competency radar chart">
+            <div class="corner-bracket tl" aria-hidden="true"></div>
+            <div class="corner-bracket tr" aria-hidden="true"></div>
+            <div class="corner-bracket bl" aria-hidden="true"></div>
+            <div class="corner-bracket br" aria-hidden="true"></div>
+            <div class="absolute top-2 right-2 text-[8px] font-mono text-blue-500/50" aria-hidden="true">RADAR_SEQ_09</div>
+
+            <!-- Background grid lines -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20" aria-hidden="true">
+              <div class="w-full h-px bg-blue-500/50"></div>
+              <div class="h-full w-px bg-blue-500/50 absolute"></div>
+              <div class="absolute w-[40%] h-[40%] rounded-full border border-blue-500/20"></div>
+              <div class="absolute w-[60%] h-[60%] rounded-full border border-blue-500/20 border-dashed"></div>
+              <div class="absolute w-[80%] h-[80%] rounded-full border border-blue-500/20"></div>
+            </div>
+
+            <div class="radar-sweep-line" aria-hidden="true"></div>
+            <canvas id="skillsChart" class="relative z-10 w-full h-full"></canvas>
+          </div>
+
+          <!-- Roadmap -->
+          <div class="border border-white/10 bg-[#0f0f10] p-6 space-y-4 shrink-0">
+            <h3 class="text-sm font-mono text-gray-400 uppercase tracking-wider">Roadmap // Systems Focus</h3>
+            <div class="grid grid-cols-2 gap-4 text-xs text-gray-300">
+              <div class="border border-white/10 bg-black/20 p-3">
+                <div class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Current</div>
+                <ul class="space-y-1 list-disc list-inside">
+                  <li>Dynamic systems modeling</li>
+                  <li>Thermal-fluids analysis</li>
+                  <li>Mechanical design & testing</li>
+                </ul>
+              </div>
+              <div class="border border-white/10 bg-black/20 p-3">
+                <div class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Next Steps</div>
+                <ul class="space-y-1 list-disc list-inside">
+                  <li>Flight dynamics & controls</li>
+                  <li>CFD / aero-performance modeling</li>
+                  <li>Aeroelastic & nonlinear dynamics</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /RIGHT -->
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SECTION 03 — ENGINEERING CHALLENGES
+    =================================================================== -->
+    <section id="anomalies" class="py-20 max-w-7xl mx-auto px-6 border-t border-white/5"
+             aria-labelledby="anomalies-heading">
+
+      <!-- Section header -->
+      <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-6">
+        <div>
+          <h2 id="anomalies-heading" class="text-3xl font-bold text-white tracking-tight">Engineering Challenges</h2>
+          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Incident & Resolution Log // Anomalies</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex gap-1">
+            <button onclick="scrollAnomalies(-1)" aria-label="Scroll left"
+                    class="w-8 h-8 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors">
+              <i class="fas fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button onclick="scrollAnomalies(1)" aria-label="Scroll right"
+                    class="w-8 h-8 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors">
+              <i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="text-right hidden md:block ml-4">
+            <span class="text-xl font-mono text-white/20 block" aria-hidden="true">03</span>
+            <span class="text-[9px] font-mono text-gray-600 uppercase">CLASSIFIED: UNRESTRICTED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable anomaly cards -->
+      <div id="anomalies-scroll"
+           class="flex gap-6 overflow-x-auto pb-8 -mx-6 px-6 snap-x snap-mandatory cursor-grab scrollbar-hide scroll-smooth"
+           role="list">
+
+        <!-- VTOL-01 -->
+        <article class="snap-center bg-[#0a0a0a] border border-white/10 p-8 min-w-[320px] md:min-w-[400px] relative hover:border-red-500/30 transition-colors group" role="listitem">
+          <div class="corner-bracket tl" aria-hidden="true"></div><div class="corner-bracket tr" aria-hidden="true"></div>
+          <div class="corner-bracket bl" aria-hidden="true"></div><div class="corner-bracket br" aria-hidden="true"></div>
+          <div class="absolute top-0 right-0 px-3 py-1 bg-red-500/10 border-l border-b border-red-500/20 text-[9px] font-mono text-red-400 font-bold uppercase tracking-widest">Resolved</div>
+          <div class="mb-6">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fas fa-satellite-dish text-red-500" aria-hidden="true"></i>
+              <span class="font-mono text-xs text-red-400">INCIDENT #VTOL-01</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Sensor Dropouts on Bench Test</h3>
+          </div>
+          <div class="space-y-4 pl-4 border-l border-white/10">
+            <div><span class="text-[9px] font-bold text-gray-500 uppercase block tracking-widest">Root Cause</span><p class="text-gray-400 text-sm mt-1">Electrical noise from high-current motor wiring interfering with I2C lines.</p></div>
+            <div><span class="text-[9px] font-bold text-emerald-400 uppercase block tracking-widest">The Fix</span><p class="text-gray-300 text-sm mt-1">Re-routed and shielded avionics wiring; added pull-up resistors.</p></div>
+          </div>
+        </article>
+
+        <!-- HYPERION-01 -->
+        <article class="snap-center bg-[#0a0a0a] border border-white/10 p-8 min-w-[320px] md:min-w-[400px] relative hover:border-orange-500/30 transition-colors group" role="listitem">
+          <div class="corner-bracket tl" aria-hidden="true"></div><div class="corner-bracket tr" aria-hidden="true"></div>
+          <div class="corner-bracket bl" aria-hidden="true"></div><div class="corner-bracket br" aria-hidden="true"></div>
+          <div class="absolute top-0 right-0 px-3 py-1 bg-orange-500/10 border-l border-b border-orange-500/20 text-[9px] font-mono text-orange-400 font-bold uppercase tracking-widest">Resolved</div>
+          <div class="mb-6">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fas fa-microchip text-orange-500" aria-hidden="true"></i>
+              <span class="font-mono text-xs text-orange-400">INCIDENT #HYPERION-01</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Thread Contention Jitter</h3>
+          </div>
+          <div class="space-y-4 pl-4 border-l border-white/10">
+            <div><span class="text-[9px] font-bold text-gray-500 uppercase block tracking-widest">Root Cause</span><p class="text-gray-400 text-sm mt-1">Physics and telemetry threads competing for mutex, delaying integration steps.</p></div>
+            <div><span class="text-[9px] font-bold text-emerald-400 uppercase block tracking-widest">The Fix</span><p class="text-gray-300 text-sm mt-1">Implemented double-buffered state handoff to eliminate blocking.</p></div>
+          </div>
+        </article>
+
+        <!-- PROP-09 -->
+        <article class="snap-center bg-[#0a0a0a] border border-white/10 p-8 min-w-[320px] md:min-w-[400px] relative hover:border-rose-500/30 transition-colors group" role="listitem">
+          <div class="corner-bracket tl" aria-hidden="true"></div><div class="corner-bracket tr" aria-hidden="true"></div>
+          <div class="corner-bracket bl" aria-hidden="true"></div><div class="corner-bracket br" aria-hidden="true"></div>
+          <div class="absolute top-0 right-0 px-3 py-1 bg-rose-500/10 border-l border-b border-rose-500/20 text-[9px] font-mono text-rose-400 font-bold uppercase tracking-widest">Resolved</div>
+          <div class="mb-6">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fas fa-fire-burner text-rose-500" aria-hidden="true"></i>
+              <span class="font-mono text-xs text-rose-400">INCIDENT #PROP-09</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Igniter Continuity False Positive</h3>
+          </div>
+          <div class="space-y-4 pl-4 border-l border-white/10">
+            <div><span class="text-[9px] font-bold text-gray-500 uppercase block tracking-widest">Root Cause</span><p class="text-gray-400 text-sm mt-1">ADC float voltage on the sense pin was interpreted as a valid continuity high.</p></div>
+            <div><span class="text-[9px] font-bold text-emerald-400 uppercase block tracking-widest">The Fix</span><p class="text-gray-300 text-sm mt-1">Added hardware pulldown resistor and debounce logic to MCU firmware.</p></div>
+          </div>
+        </article>
+
+        <!-- DBF-01 -->
+        <article class="snap-center bg-[#0a0a0a] border border-white/10 p-8 min-w-[320px] md:min-w-[400px] relative hover:border-purple-500/30 transition-colors group" role="listitem">
+          <div class="corner-bracket tl" aria-hidden="true"></div><div class="corner-bracket tr" aria-hidden="true"></div>
+          <div class="corner-bracket bl" aria-hidden="true"></div><div class="corner-bracket br" aria-hidden="true"></div>
+          <div class="absolute top-0 right-0 px-3 py-1 bg-purple-500/10 border-l border-b border-purple-500/20 text-[9px] font-mono text-purple-400 font-bold uppercase tracking-widest">Resolved</div>
+          <div class="mb-6">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fas fa-plane text-purple-500" aria-hidden="true"></i>
+              <span class="font-mono text-xs text-purple-400">INCIDENT #DBF-01</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Pitch Stability Hunting</h3>
+          </div>
+          <div class="space-y-4 pl-4 border-l border-white/10">
+            <div><span class="text-[9px] font-bold text-gray-500 uppercase block tracking-widest">Root Cause</span><p class="text-gray-400 text-sm mt-1">CG shifted aft due to battery placement, reducing static margin.</p></div>
+            <div><span class="text-[9px] font-bold text-emerald-400 uppercase block tracking-widest">The Fix</span><p class="text-gray-300 text-sm mt-1">Shifted mass forward and increased tail authority.</p></div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SECTION 04 — PROJECT ARCHIVES
+    =================================================================== -->
+    <section id="collections" class="py-24 max-w-7xl mx-auto px-6 border-t border-white/5 min-h-[800px]"
+             aria-labelledby="archives-heading">
+
+      <!-- Section header -->
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <h2 id="archives-heading" class="text-3xl font-bold text-white tracking-tight">Project Archives</h2>
+          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Classified Logs & Documentation</p>
+        </div>
+        <span class="text-xl font-mono text-white/20" aria-hidden="true">04</span>
+      </div>
+
+      <!-- Tab bar -->
+      <div class="flex gap-8 mb-12 border-b border-white/10" role="tablist">
+        <button id="tab-personal"
+                role="tab" aria-selected="true" aria-controls="archive-grid"
+                onclick="switchTab('personal')"
+                class="pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-blue-500 text-white transition-all hover:text-blue-400">
+          <i class="fas fa-code mr-2" aria-hidden="true"></i>Personal_Logs
+        </button>
+        <button id="tab-coursework"
+                role="tab" aria-selected="false" aria-controls="archive-grid"
+                onclick="switchTab('coursework')"
+                class="pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-all">
+          <i class="fas fa-university mr-2" aria-hidden="true"></i>Coursework_Logs
+        </button>
+      </div>
+
+      <!-- Grid populated by switchTab() -->
+      <div id="archive-grid"
+           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in"
+           role="tabpanel"></div>
+
+    </section>
+
+  </main><!-- /main -->
+
+  <!-- =====================================================================
+       FOOTER
+  ====================================================================== -->
+  <footer class="py-12 bg-black border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-600 text-[10px] font-mono tracking-widest uppercase">
+
+      <div>
+        <p class="text-white">&copy; 2026 ENRIQUE GARCIA // SYSTEM NOMINAL.</p>
+        <p class="mt-1 text-gray-600">STL / KC — 38.6° N, 90.3° W</p>
+      </div>
+
+      <!-- Live system metrics -->
+      <div class="mt-8 md:mt-0 flex gap-12 border-l border-white/10 pl-12">
+        <div>
+          <span class="block text-gray-700 mb-1">SYS_LOAD</span>
+          <div class="w-24 h-1 bg-gray-900 overflow-hidden">
+            <div id="sys-load-bar" class="h-full bg-blue-500 transition-all duration-1000" style="width:45%"></div>
+          </div>
+        </div>
+        <div>
+          <span class="block text-gray-700 mb-1">MEM_USAGE</span>
+          <div class="w-24 h-1 bg-gray-900 overflow-hidden">
+            <div id="mem-usage-bar" class="h-full bg-emerald-500 transition-all duration-1000" style="width:62%"></div>
+          </div>
+        </div>
+        <div>
+          <span class="block text-gray-700 mb-1">SESSION_TIME</span>
+          <p id="uptime-counter" class="text-gray-400" aria-live="off">T+ 00:00:00</p>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       MODAL (project detail overlay)
+  ====================================================================== -->
+  <div id="project-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeModal('project-modal')"></div>
+    <!-- Content -->
+    <div class="absolute inset-0 overflow-y-auto pointer-events-none">
+      <div class="min-h-full flex items-center justify-center p-0 md:p-6 pointer-events-auto">
+        <div id="project-modal-content"
+             class="relative bg-[#0f0f10] w-full max-w-5xl shadow-2xl overflow-hidden modal-enter border border-white/10 min-h-screen md:min-h-0 md:rounded-sm">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       VENDOR SCRIPTS
+  ====================================================================== -->
+  <!-- Chart.js for radar -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+  <!-- Model Viewer (used on sub-pages; kept here for global availability) -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+  <!-- Site script (deferred until DOM is ready via DOMContentLoaded inside) -->
+  <script src="script.js"></script>
+
+</body>
+</html>

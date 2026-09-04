@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUSL Research | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        html { background-color: #000000; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #e2e8f0;
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .tech-highlight { color: #60a5fa; font-weight: 600; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+        ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+        .fig-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.10);
+            background: rgba(255,255,255,0.03);
+            transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+        }
+        .fig-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(96,165,250,0.55);
+            background: rgba(255,255,255,0.05);
+        }
+        .fig-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 6px 8px;
+            background: rgba(0,0,0,0.72);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(6px);
+        }
+        .fig-glow {
+            box-shadow: 0 0 0 1px rgba(59,130,246,0.20), 0 0 28px rgba(59,130,246,0.18);
+        }
+        .soft-grid {
+            background-image:
+                linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+            background-size: 38px 38px;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 9999;
+            display: none;
+        }
+        .modal-backdrop[data-open="true"] { display: block; }
+
+        .modal-shell {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transform: none !important;
+        }
+        .modal-shell[data-open="true"] { display: flex; }
+
+        .modal-panel {
+            display: flex;
+            flex-direction: column;
+            width: min(1100px, 100%);
+            height: min(900px, 92vh);
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(10,10,12,0.97);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            background: rgba(0,0,0,0.35);
+        }
+
+        .modal-img-wrap {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            margin: auto;
+        }
+
+        .modal-footer {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border-top: 1px solid rgba(255,255,255,0.10);
+        }
+
+        .modal-close {
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: #e2e8f0;
+            cursor: pointer;
+        }
+        .modal-close:hover { background: rgba(255,255,255,0.10); }
+    </style>
+</head>
+
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <div id="pageWrap">
+
+        <!-- NAV -->
+        <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+                <a href="index.html#cusl-research" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                    <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                    <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+                </a>
+                <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#10b981] drop-shadow-[0_0_6px_rgba(16,185,129,0.5)]">
+                    <span class="hidden md:inline font-bold">Research - Summer 2026</span>
+                    <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN -->
+        <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+            <!-- HEADER -->
+            <div class="flex flex-col md:flex-row items-start gap-8 mb-8 border-b border-white/10 pb-10">
+                <div class="h-24 w-24 bg-black border border-white/10 p-2 flex items-center justify-center overflow-hidden shrink-0">
+                    <img src="images/cusl.png" alt="CUSL Logo" class="h-full w-full object-contain"
+                         onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-network-wired text-4xl text-white\'></i>'">
+                </div>
+                <div class="flex-1">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">CUSL Research</h1>
+                    <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Cooperative Unmanned Systems Laboratory</p>
+                    <div class="flex flex-wrap gap-3 mt-4">
+                        <div class="text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">Summer 2026</div>
+                        <div class="text-[10px] font-mono text-emerald-500 border border-emerald-500/30 px-2 py-1 uppercase inline-block">University of Kansas</div>
+                        <div class="text-[10px] font-mono text-blue-400 border border-blue-400/30 px-2 py-1 uppercase inline-block">UAV Estimation / Control / Dynamics</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HERO BRIEF -->
+            <div class="mb-12">
+                <div class="relative overflow-hidden border border-white/10 bg-white/3 soft-grid">
+                    <div class="absolute top-3 left-3 z-10 text-[10px] font-mono uppercase tracking-widest px-2 py-1 bg-black/70 border border-white/10 text-gray-300">
+                        Research Brief - Unmanned Systems
+                    </div>
+                    <div class="min-h-[320px] flex items-center justify-center p-8 bg-gradient-to-br from-blue-500/10 via-transparent to-emerald-500/5">
+                        <div class="max-w-4xl text-center">
+                            <img src="images/cusl.png" alt="CUSL mark" class="h-24 w-24 object-contain mx-auto mb-8 opacity-90"
+                                 onerror="this.style.display='none'">
+                            <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-5">Estimation, Control, and Dynamics for Cooperative Unmanned Systems</h2>
+                            <p class="text-gray-300 leading-relaxed text-lg font-light max-w-3xl mx-auto">
+                                Research focus: unmanned vehicle systems with emphasis on UAV development, vision-aided navigation,
+                                wind and gust estimation, cooperative sensing, cooperative control, remote sensing, and experimental validation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+                <!-- LEFT / MAIN COLUMN -->
+                <div class="lg:col-span-2">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Research Direction &amp; Technical Alignment</h3>
+                    <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                        <p>
+                            CUSL is a multi-disciplinary research group focused on the design, development, and testing of
+                            teams of unmanned systems for cooperative sensing and cooperative control missions. The work sits
+                            at the intersection of <span class="tech-highlight">vehicle dynamics</span>,
+                            <span class="tech-highlight">state estimation</span>, <span class="tech-highlight">control theory</span>,
+                            sensing, and field validation.
+                        </p>
+
+                        <p>
+                            For my flight mechanics and control interests, this is a strong research environment because the
+                            technical problems are not purely software and not purely mechanical. They require an integrated
+                            understanding of physical vehicle behavior, uncertain sensor measurements, controller design, and
+                            how those models perform when placed on real unmanned aerial systems.
+                        </p>
+
+                        <ul class="space-y-4 list-disc list-inside border-l-2 border-blue-500/30 pl-4">
+                            <li>
+                                <strong class="text-white uppercase font-mono text-sm tracking-wider">Dynamics:</strong>
+                                Study how UAVs respond to wind, gusts, wake effects, vehicle geometry, and mission constraints.
+                            </li>
+                            <li>
+                                <strong class="text-white uppercase font-mono text-sm tracking-wider">Estimation:</strong>
+                                Support navigation and environmental awareness through filtering, vision-aided navigation,
+                                wind estimation, and cooperative sensing methods.
+                            </li>
+                            <li>
+                                <strong class="text-white uppercase font-mono text-sm tracking-wider">Control:</strong>
+                                Connect models and sensor estimates to control laws for single-vehicle and multi-agent
+                                unmanned systems.
+                            </li>
+                            <li>
+                                <strong class="text-white uppercase font-mono text-sm tracking-wider">Validation:</strong>
+                                Translate simulation and theory into testing workflows for UAV platforms, networked systems,
+                                and field research operations.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- RESEARCH ARTIFACTS -->
+                    <section class="mb-12">
+                        <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+                            <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest">Research Systems &amp; Workflows</h3>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-gray-500">Click any figure to zoom</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <button class="fig-card fig-glow text-left" type="button"
+                                onclick="openModal('images/cusl_uav_stack.png','UAV Systems Stack - Dynamics, Estimation, Control')">
+                                <span class="fig-badge font-mono text-gray-200">UAV Systems Stack</span>
+                                <img src="images/cusl_uav_stack.png" alt="CUSL UAV systems stack"
+                                     class="w-full h-64 object-cover"
+                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>UAV Systems Stack</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Suggested image: images/cusl_uav_stack.png</div></div>'">
+                                <div class="p-4 border-t border-white/10">
+                                    <div class="text-white font-mono text-xs uppercase tracking-widest">Vehicle-Level Integration</div>
+                                    <div class="text-gray-400 text-sm mt-1">Dynamics model, sensing layer, state estimator, controller, and validation loop.</div>
+                                </div>
+                            </button>
+
+                            <button class="fig-card text-left" type="button"
+                                onclick="openModal('images/cusl_estimation_pipeline.png','Estimation Pipeline - Vision, IMU, Wind, Cooperative Sensing')">
+                                <span class="fig-badge font-mono text-gray-200">Estimation Pipeline</span>
+                                <img src="images/cusl_estimation_pipeline.png" alt="CUSL estimation pipeline"
+                                     class="w-full h-64 object-cover"
+                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Estimation Pipeline</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Suggested image: images/cusl_estimation_pipeline.png</div></div>'">
+                                <div class="p-4 border-t border-white/10">
+                                    <div class="text-white font-mono text-xs uppercase tracking-widest">Navigation &amp; Sensing</div>
+                                    <div class="text-gray-400 text-sm mt-1">Vision-aided navigation, wind/gust estimation, and sensor uncertainty handling.</div>
+                                </div>
+                            </button>
+
+                            <button class="fig-card text-left" type="button"
+                                onclick="openModal('images/cusl_cooperative_systems.png','Cooperative Systems - Multi-Agent Sensing and Control')">
+                                <span class="fig-badge font-mono text-gray-200">Cooperative Systems</span>
+                                <img src="images/cusl_cooperative_systems.png" alt="CUSL cooperative unmanned systems"
+                                     class="w-full h-64 object-cover"
+                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Cooperative Systems</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Suggested image: images/cusl_cooperative_systems.png</div></div>'">
+                                <div class="p-4 border-t border-white/10">
+                                    <div class="text-white font-mono text-xs uppercase tracking-widest">Multi-Agent Control</div>
+                                    <div class="text-gray-400 text-sm mt-1">Teams of unmanned systems for cooperative sensing and cooperative control missions.</div>
+                                </div>
+                            </button>
+
+                            <button class="fig-card text-left" type="button"
+                                onclick="openModal('images/cusl_test_workflow.png','Experimental Workflow - Simulation, Bench Test, Field Validation')">
+                                <span class="fig-badge font-mono text-gray-200">Validation Workflow</span>
+                                <img src="images/cusl_test_workflow.png" alt="CUSL testing and validation workflow"
+                                     class="w-full h-64 object-cover"
+                                     onerror="this.parentElement.outerHTML='<div class=&quot;p-5 border border-white/10 bg-white/5&quot;><div class=&quot;text-sm text-white font-mono uppercase tracking-widest mb-2&quot;>Validation Workflow</div><div class=&quot;text-xs text-gray-400 font-mono&quot;>Suggested image: images/cusl_test_workflow.png</div></div>'">
+                                <div class="p-4 border-t border-white/10">
+                                    <div class="text-white font-mono text-xs uppercase tracking-widest">Experimentation</div>
+                                    <div class="text-gray-400 text-sm mt-1">Simulation, instrumentation, flight testing, data review, and model refinement.</div>
+                                </div>
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- RESEARCH PIPELINE -->
+                    <div class="bg-black border border-white/10 p-6 mb-12">
+                        <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Research Pipeline &amp; System View</h3>
+                            <i class="fas fa-diagram-project text-gray-600"></i>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
+                            <div>
+                                <h4 class="text-gray-500 mb-4 uppercase tracking-wider">&gt;&gt; Summer 2026 Workstreams</h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-500">
+                                        <span>[LIT_REV] Research Onboarding</span>
+                                        <span class="text-amber-500">QUEUED</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-500">
+                                        <span>[UAV_DEV] Platform Development</span>
+                                        <span class="text-amber-500">QUEUED</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-500">
+                                        <span>[EST_NAV] Estimation / Navigation</span>
+                                        <span class="text-amber-500">QUEUED</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-500">
+                                        <span>[CTRL] Cooperative Control</span>
+                                        <span class="text-amber-500">QUEUED</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-500">
+                                        <span>[WIND] Wind / Gust Modeling</span>
+                                        <span class="text-amber-500">QUEUED</span>
+                                    </div>
+                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-blue-400">
+                                        <span>[VAL] Field / Data Validation</span>
+                                        <span class="text-blue-400">PLANNED</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="relative p-4 border border-blue-500/20 bg-blue-900/5 rounded-sm">
+                                <h4 class="text-blue-400 mb-6 text-center uppercase tracking-wider">Autonomy Research Loop</h4>
+                                <div class="flex flex-col items-center gap-4 relative z-10">
+                                    <div class="w-44 py-2 text-center border border-white/40 bg-[#0f0f10] rounded">
+                                        VEHICLE DYNAMICS
+                                    </div>
+                                    <div class="h-4 w-0.5 bg-blue-500/50"></div>
+                                    <div class="w-52 py-3 text-center border-2 border-blue-400 font-bold bg-[#0f0f10] rounded relative shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                                        ESTIMATION + CONTROL
+                                        <div class="absolute -left-14 top-1/2 -translate-y-1/2 w-12 h-0.5 bg-blue-500/30"></div>
+                                        <div class="absolute -right-14 top-1/2 -translate-y-1/2 w-12 h-0.5 bg-blue-500/30"></div>
+                                    </div>
+                                    <div class="absolute left-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">
+                                        SENSORS
+                                    </div>
+                                    <div class="absolute right-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">
+                                        WIND FIELD
+                                    </div>
+                                    <div class="h-4 w-0.5 bg-blue-500/50"></div>
+                                    <div class="w-56 py-2 text-center border border-white/40 bg-[#0f0f10] rounded flex justify-around">
+                                        <span>SIMULATION</span>
+                                        <span>|</span>
+                                        <span>FLIGHT DATA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RESEARCH OBJECTIVES -->
+                    <div class="bg-black border border-white/10 p-6">
+                        <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Core Research Objectives</h3>
+                            <i class="fas fa-flask text-gray-600"></i>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 bg-white/5 border border-white/10">
+                                <div class="text-blue-400 font-mono text-xs uppercase tracking-widest mb-2">Autonomous Systems</div>
+                                <p class="text-sm text-gray-400 leading-relaxed">Develop and validate unmanned systems that connect sensing, onboard computation, decision logic, and control.</p>
+                            </div>
+                            <div class="p-5 bg-white/5 border border-white/10">
+                                <div class="text-blue-400 font-mono text-xs uppercase tracking-widest mb-2">Wind / Gust Sensing</div>
+                                <p class="text-sm text-gray-400 leading-relaxed">Study how UAVs can estimate and respond to wind, gusts, wake effects, and atmospheric disturbances.</p>
+                            </div>
+                            <div class="p-5 bg-white/5 border border-white/10">
+                                <div class="text-blue-400 font-mono text-xs uppercase tracking-widest mb-2">Cooperative Estimation</div>
+                                <p class="text-sm text-gray-400 leading-relaxed">Use multiple vehicles or distributed measurements to improve situational awareness and sensing quality.</p>
+                            </div>
+                            <div class="p-5 bg-white/5 border border-white/10">
+                                <div class="text-blue-400 font-mono text-xs uppercase tracking-widest mb-2">Cooperative Control</div>
+                                <p class="text-sm text-gray-400 leading-relaxed">Design control approaches for teams of unmanned systems operating in shared environments and mission constraints.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDEBAR -->
+                <div class="space-y-10">
+                    <a href="https://cusl.ku.edu/Main_Page"
+                       target="_blank" rel="noopener noreferrer"
+                       class="block p-5 border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400 transition-all group cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-white font-mono uppercase tracking-widest group-hover:text-blue-400 transition-colors">Official CUSL Site</span>
+                            <i class="fas fa-external-link-alt text-gray-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <p class="text-[10px] text-gray-400 font-mono leading-relaxed">
+                            Cooperative Unmanned Systems Laboratory at the University of Kansas.
+                        </p>
+                    </a>
+
+                    <div>
+                        <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Technical Focus</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">UAV Dynamics</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">State Estimation</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Control Systems</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Vision-Aided Nav</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Wind / Gust Est.</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Remote Sensing</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Cooperative Control</span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Flight Testing</span>
+                        </div>
+                    </div>
+
+                    <div class="p-8 bg-blue-500/5 border border-blue-500/20">
+                        <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">FMC Alignment</h4>
+                        <p class="text-sm text-blue-100/80 leading-relaxed">
+                            CUSL aligns directly with flight mechanics and control by connecting UAV dynamics,
+                            state estimation, controller design, wind/gust effects, cooperative sensing, and experimental validation.
+                        </p>
+                    </div>
+
+                    <div class="p-8 bg-emerald-500/5 border border-emerald-500/20">
+                        <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">What I Bring</h4>
+                        <p class="text-sm text-emerald-100/80 leading-relaxed">
+                            Background in mechanical systems, modeling and simulation, vibrations, controls preparation,
+                            embedded implementation, and sensor-driven project work. The goal is to contribute while building
+                            stronger research depth in estimation, control, and UAV system validation.
+                        </p>
+                    </div>
+
+                    <div class="p-5 border border-white/10 bg-white/5">
+                        <div class="text-xs font-bold text-white font-mono uppercase tracking-widest mb-3">Quick Links</div>
+                        <div class="space-y-2 text-xs font-mono">
+                            <a href="https://cusl.ku.edu/Main_Page" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
+                                <i class="fas fa-house mr-2"></i>CUSL Main Page
+                            </a>
+                            <a href="https://cusl.ku.edu/Research" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
+                                <i class="fas fa-magnifying-glass-chart mr-2"></i>CUSL Research Page
+                            </a>
+                            <a href="https://cusl.ku.edu/Publication" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
+                                <i class="fas fa-book-open mr-2"></i>Publications
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="p-5 border border-white/10 bg-black/40">
+                        <div class="text-xs font-bold text-white font-mono uppercase tracking-widest mb-3">Page Note</div>
+                        <p class="text-[11px] text-gray-500 font-mono leading-relaxed">
+                            This page is structured as a Summer 2026 research brief and will be updated with specific project artifacts,
+                            datasets, figures, and outcomes as the role develops.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="py-12 border-t border-white/10 bg-black">
+            <div class="max-w-7xl mx-auto px-6 text-center text-gray-600 text-xs font-mono">
+                SYSTEM ID: CUSL-RESEARCH-UAV // END OF FILE
+            </div>
+        </footer>
+
+    </div><!-- /#pageWrap -->
+
+    <!-- MODAL -->
+    <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true"></div>
+    <div id="modalShell" class="modal-shell" role="dialog" aria-modal="true" aria-label="Figure Preview" aria-hidden="true">
+        <div class="modal-panel" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div id="modalTitle" class="text-xs font-mono uppercase tracking-widest text-gray-200">Figure</div>
+                <button class="modal-close px-3 py-1.5 text-xs font-mono uppercase tracking-widest" onclick="closeModal()">
+                    Close <i class="fas fa-xmark ml-2"></i>
+                </button>
+            </div>
+            <div class="modal-img-wrap">
+                <img id="modalImg" class="modal-img" src="" alt="Expanded figure">
+            </div>
+            <div class="modal-footer">
+                <div class="text-[11px] font-mono text-gray-500 uppercase tracking-widest">Press ESC or click outside to close</div>
+                <a id="modalOpenNew" href="#" target="_blank" rel="noopener noreferrer"
+                   class="text-xs font-mono uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors">
+                    Open in New Tab <i class="fas fa-arrow-up-right-from-square ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function smoothExit(e, url) {
+        e.preventDefault();
+        var wrap = document.getElementById('pageWrap');
+        wrap.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+        wrap.style.opacity = "0";
+        wrap.style.transform = "scale(0.98)";
+        setTimeout(function() { window.location.href = url; }, 400);
+    }
+
+    var modalBackdrop = document.getElementById('modalBackdrop');
+    var modalShell    = document.getElementById('modalShell');
+
+    function lockScroll() {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+    }
+    function unlockScroll() {
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+    }
+
+    function openModal(src, title) {
+        var img = document.getElementById('modalImg');
+        img.src = '';
+        document.getElementById('modalTitle').textContent = title || 'Figure';
+        document.getElementById('modalOpenNew').href = src;
+        img.src = src;
+        modalBackdrop.setAttribute('data-open', 'true');
+        modalShell.setAttribute('data-open', 'true');
+        modalShell.setAttribute('aria-hidden', 'false');
+        lockScroll();
+    }
+
+    function closeModal() {
+        modalBackdrop.setAttribute('data-open', 'false');
+        modalShell.setAttribute('data-open', 'false');
+        modalShell.setAttribute('aria-hidden', 'true');
+        document.getElementById('modalImg').src = '';
+        unlockScroll();
+    }
+
+    modalShell.addEventListener('click', function(e) {
+        if (e.target === modalShell) closeModal();
+    });
+    modalBackdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modalShell.getAttribute('data-open') === 'true') closeModal();
+    });
+    </script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,7 @@
 <title>Enrique Garcia | Website</title>
 
 <meta name="description"
-      content="Portfolio and project work.">
+      content="Enrique Garcia: Mechanical Engineering student focused on aerospace and autonomous systems, hardware integration, test, and controls.">
 
 <meta name="theme-color"
       content="#050505">
@@ -22,11 +22,11 @@
       content="Enrique Garcia">
 
 <meta property="og:description"
-      content="Portfolio and project work.">
+      content="Aerospace and autonomous systems: hardware integration, test, and controls.">
 
   <!-- ── Favicon ───────────────────────────────────────────────────────── -->
-  <link rel="icon"            type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon"                 href="images/apple-touch-icon.png">
+  <link rel="icon"            type="image/png" href="assets/brand/favicon.png">
+  <link rel="apple-touch-icon"                 href="assets/brand/favicon.png">
 
   <!-- ── Font preconnect (before the font stylesheet) ─────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +40,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ── Site stylesheet ───────────────────────────────────────────────── -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    try {
+      if (sessionStorage.getItem("eg-portfolio-returning") === "1") {
+        document.documentElement.classList.add("nav-returning");
+      }
+    } catch (e) { /* ignore */ }
+  </script>
 </head>
 
 <body class="antialiased bg-[#050505] selection:bg-blue-500/30 selection:text-white">
@@ -65,15 +72,14 @@
   <!-- =====================================================================
        SITE NAVIGATION
   ====================================================================== -->
-  <nav aria-label="Site navigation"
+  <nav aria-label="Site navigation" id="site-nav"
        class="fixed top-0 w-full bg-[#050505]/95 backdrop-blur-md z-50 border-b border-white/5">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center gap-4">
 
       <!-- Logo -->
-      <a href="#" aria-label="Enrique Garcia — home" class="flex items-center gap-3 group">
-        <!-- Monogram image is purely decorative; the link text provides the accessible name -->
+      <a href="#about" aria-label="Enrique Garcia home" class="flex items-center gap-3 group shrink-0">
         <div class="h-8 w-8 bg-black border border-white/20 flex items-center justify-center overflow-hidden" aria-hidden="true">
-          <img src="EG.png" alt="" class="h-full w-full object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+          <img src="assets/brand/EG.png" alt="" class="h-full w-full object-contain opacity-80 group-hover:opacity-100 transition-opacity">
         </div>
         <div class="flex flex-col">
           <span class="font-mono font-bold text-white tracking-widest uppercase text-xs group-hover:text-blue-400 transition-colors">E.Garcia</span>
@@ -81,41 +87,61 @@
         </div>
       </a>
 
-      <!-- Primary nav links -->
-      <ul class="hidden md:flex space-x-8 text-[10px] font-mono font-bold tracking-widest uppercase text-gray-500 items-center list-none m-0 p-0">
+      <!-- Primary nav links (desktop) -->
+      <ul class="hidden lg:flex space-x-6 text-[10px] font-mono font-bold tracking-widest uppercase text-gray-500 items-center list-none m-0 p-0">
         <li>
-          <a href="about.html" class="flex items-center gap-2 text-emerald-400 hover:text-white transition-all mr-4">
-            <span>[00] About</span>
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
+          <a href="about.html"
+             class="nav-link flex items-center gap-2 hover:text-white transition-colors">
+            <span>About</span>
             <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60" aria-hidden="true"></i>
           </a>
         </li>
-        <li><a href="#featured"     class="hover:text-white transition-colors">[01] Projects</a></li>
-        <li><a href="#capabilities" class="hover:text-white transition-colors">[02] Skills</a></li>
-        <li><a href="#anomalies"    class="hover:text-white transition-colors">[03] Challenges</a></li>
-        <li><a href="#collections"  class="hover:text-white transition-colors">[04] Archive</a></li>
+        <li><a href="#featured"     data-nav-section="featured"     class="nav-link hover:text-white transition-colors">Projects</a></li>
+        <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link hover:text-white transition-colors">Skills</a></li>
+        <li><a href="#anomalies"    data-nav-section="anomalies"    class="nav-link hover:text-white transition-colors">Challenges</a></li>
+        <li><a href="#collections"  data-nav-section="collections"  class="nav-link hover:text-white transition-colors">Archive</a></li>
         <li>
-          <a href="interests.html" class="hover:text-blue-400 transition-colors flex items-center gap-1">
-            <span>[05] Interests</span>
+          <a href="interests.html" class="nav-link hover:text-blue-400 transition-colors flex items-center gap-1">
+            <span>Interests</span>
             <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60" aria-hidden="true"></i>
           </a>
         </li>
       </ul>
 
-      <!-- CTA buttons -->
-      <div class="flex gap-3">
-        <a href="portfolio.html"
-           target="_blank" rel="noopener noreferrer"
-           class="flex items-center px-4 py-1.5 border border-white/20 text-white text-[10px] font-mono uppercase font-bold hover:bg-white hover:text-black transition-all tracking-wide">
-          View Portfolio
-        </a>
+      <!-- CTA + mobile toggle -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         <a href="resume.html"
            target="_blank" rel="noopener noreferrer"
-           class="flex items-center px-4 py-1.5 bg-white text-black text-[10px] font-mono uppercase font-bold hover:bg-blue-400 hover:text-white transition-all tracking-wide">
-          Download Resume
+           class="hidden sm:flex items-center px-4 py-1.5 bg-white text-black text-[10px] font-mono uppercase font-bold hover:bg-blue-400 hover:text-white transition-all tracking-wide">
+          Resume
         </a>
+        <button type="button"
+                id="mobile-nav-toggle"
+                class="lg:hidden nav-burger"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobile-nav"
+                onclick="toggleMobileNav()">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
       </div>
 
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="mobile-nav" class="mobile-nav lg:hidden">
+      <ul class="list-none m-0 p-0 flex flex-col">
+        <li><a href="about.html" class="mobile-nav-link">About</a></li>
+        <li><a href="#featured" class="mobile-nav-link">Projects</a></li>
+        <li><a href="#capabilities" class="mobile-nav-link">Skills</a></li>
+        <li><a href="#anomalies" class="mobile-nav-link">Challenges</a></li>
+        <li><a href="#collections" class="mobile-nav-link">Archive</a></li>
+        <li><a href="interests.html" class="mobile-nav-link">Interests</a></li>
+        <li><a href="portfolio.html" target="_blank" rel="noopener noreferrer" class="mobile-nav-link">Portfolio PDF</a></li>
+        <li><a href="resume.html" target="_blank" rel="noopener noreferrer" class="mobile-nav-link mobile-nav-cta">Download Resume</a></li>
+      </ul>
     </div>
   </nav>
 
@@ -127,7 +153,7 @@
     <!-- Decorative video (hidden from assistive technology) -->
     <div class="hero-video-bg" aria-hidden="true">
       <video autoplay muted loop playsinline preload="none">
-        <source src="videos/mission-control.mp4" type="video/mp4">
+        <source src="assets/videos/mission-control.mp4" type="video/mp4">
       </video>
     </div>
 
@@ -164,7 +190,7 @@
                       class="h-24 w-24 md:h-28 md:w-28 shrink-0 border border-white/20 p-1 bg-black/40 backdrop-blur-md relative cursor-pointer transition-all duration-300 hover:scale-105 hover:border-blue-400">
                 <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/50" aria-hidden="true"></span>
                 <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/50" aria-hidden="true"></span>
-                <img src="images/pfpv2.png" alt="Enrique Garcia" class="h-full w-full object-cover">
+                <img src="assets/images/pfpv2.png" alt="Enrique Garcia" class="h-full w-full object-cover">
               </button>
 
               <div>
@@ -179,22 +205,25 @@
             <p class="text-lg text-gray-400 leading-relaxed font-light max-w-2xl border-l border-white/10 pl-6">
               Mechanical Engineering student building the interface between
               <strong class="text-white font-medium">physical systems and embedded logic</strong>
-              — through dynamics, controls, simulation, and hardware validation.
+              through dynamics, controls, simulation, and hardware validation.
             </p>
 
             <!-- Current roles -->
             <p class="mt-5 pl-6 text-xs font-mono text-gray-500">
+              <strong class="text-emerald-400 font-normal">UAS Engineering Intern</strong> · MIDE (May–Aug 2026)
+            </p>
+            <p class="pl-6 text-xs font-mono text-gray-500">
               <strong class="text-blue-400 font-normal">Avionics &amp; Systems Lead</strong> · WashU VTOL
             </p>
             <p class="pl-6 text-xs font-mono text-gray-500 uppercase tracking-widest mt-1">
-              Aerospace · Estimation · Control · Flight Mechanics
+              Aerospace · Hardware Integration · Test · Controls
             </p>
 
             <!-- Primary CTAs -->
             <div class="pl-6 mt-7 flex flex-wrap gap-3">
               <a href="#featured"
                  class="hero-cta hero-cta-primary px-4 py-2 inline-flex items-center gap-2">
-                View Flagship Missions
+                View Featured Work
                 <i class="fas fa-arrow-right text-[9px]" aria-hidden="true"></i>
               </a>
               <a href="resume.html"
@@ -207,7 +236,7 @@
 
             <!-- Availability -->
             <p class="pl-6 mt-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">
-              Open to internships // Research · Summer 2026
+              Open to opportunities // Research · Industry · Grad Study
             </p>
 
             <!-- Social links -->
@@ -215,7 +244,7 @@
               <li>
                 <a href="https://linkedin.com/in/enrique-gr"
                    target="_blank" rel="noopener noreferrer"
-                   aria-label="LinkedIn — Enrique Garcia"
+                   aria-label="LinkedIn profile for Enrique Garcia"
                    class="hover:text-blue-400 transition-colors">
                   <i class="fab fa-linkedin" aria-hidden="true"></i>
                 </a>
@@ -223,7 +252,7 @@
               <li>
                 <a href="https://github.com/enrique-gr"
                    target="_blank" rel="noopener noreferrer"
-                   aria-label="GitHub — enrique-gr"
+                   aria-label="GitHub profile for enrique-gr"
                    class="hover:text-white transition-colors">
                   <i class="fab fa-github" aria-hidden="true"></i>
                 </a>
@@ -252,60 +281,113 @@
               <div class="mission-scroll hero-mission-scroll">
                 <ol class="hero-mission-list">
 
-                  <!-- TARGET: Summer internship (accordion) -->
-                  <li class="hero-mission-item target flex items-start gap-4 group">
-                    <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-yellow-400 transition-all duration-500 z-10" aria-hidden="true">
-                      <img src="images/fmc_logo.png" alt="" class="h-full w-full object-contain">
+                  <!-- COMPLETE: MIDE internship -->
+                  <li class="hero-mission-item complete flex items-start gap-4 group">
+                    <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-emerald-400 transition-all duration-500 z-10" aria-hidden="true">
+                      <img src="assets/images/mide_logo.png" alt="" class="h-full w-full object-contain">
                     </div>
                     <div class="w-full">
-                      <!-- Accordion trigger -->
+                      <button type="button"
+                              id="mide-toggle"
+                              onclick="toggleMideMission()"
+                              aria-expanded="false"
+                              aria-controls="mide-mission-details"
+                              class="w-full text-left cursor-pointer">
+                        <span class="block text-[9px] font-mono text-emerald-400 mb-0.5 tracking-wider">MAY – AUG 2026 // COMPLETE</span>
+                        <span class="block text-white font-bold text-sm group-hover:text-emerald-400 transition-colors duration-300">Missouri Institute for Defense and Energy</span>
+                        <span class="block text-xs text-gray-500 mt-0.5">UAS Engineering Intern · Kansas City</span>
+                      </button>
+
+                      <div id="mide-mission-details"
+                           role="region"
+                           aria-labelledby="mide-toggle"
+                           class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
+                        <div class="mt-6 p-5 bg-black/40 border border-emerald-500/20 backdrop-blur-sm text-sm text-gray-300 space-y-4">
+                          <p>
+                            Worked experimental unmanned aircraft as systems. Helped return vehicles to test-ready after
+                            structural work, supported flight test, and used flight data to understand how configuration
+                            affected whether an aircraft was ready to fly. Brought platforms up from hardware through
+                            calibration and bench checks, and verified that sensing, estimation, and actuation hung
+                            together on the vehicle.
+                          </p>
+                          <p class="font-mono text-emerald-400 text-xs tracking-wider">&gt;&gt; IMPACT</p>
+                          <ul class="space-y-2 list-disc list-inside">
+                            <li>Supported experimental UAS through repair, flight-test operations, and test-readiness.</li>
+                            <li>Used flight data to relate vehicle configuration to whether an aircraft was ready to test.</li>
+                            <li>Brought unmanned platforms up as integrated systems and checked the sense-to-actuate path on hardware.</li>
+                          </ul>
+                          <p class="text-xs text-gray-500 font-mono">Deputy Director: Dr. Travis Fields</p>
+                          <div class="flex flex-wrap gap-2 mt-2">
+                            <a href="mide.html"
+                               data-nav-exit
+                               onclick="event.stopPropagation()"
+                               class="inline-flex items-center gap-2 text-[10px] font-mono text-emerald-400 hover:text-white transition-colors uppercase tracking-widest border border-emerald-500/30 px-3 py-1.5 hover:border-emerald-400">
+                              View Full Page <i class="fas fa-arrow-right text-[8px]"></i>
+                            </a>
+                            <a href="#mide"
+                               onclick="event.stopPropagation()"
+                               class="inline-flex items-center gap-2 text-[10px] font-mono text-blue-400 hover:text-white transition-colors uppercase tracking-widest border border-blue-500/30 px-3 py-1.5 hover:border-blue-400">
+                              Jump to Featured <i class="fas fa-arrow-down text-[8px]"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <!-- TARGET: Summer 2027 internship -->
+                  <li class="hero-mission-item target flex items-start gap-4 group">
+                    <div class="h-10 w-10 bg-black border border-dashed border-amber-400/50 p-1 shrink-0 group-hover:border-amber-400 transition-all duration-500 z-10 flex items-center justify-center" aria-hidden="true">
+                      <i class="fas fa-crosshairs text-amber-400/80 text-sm"></i>
+                    </div>
+                    <div class="w-full">
                       <button type="button"
                               id="internship-toggle"
                               onclick="toggleInternshipMission()"
                               aria-expanded="false"
                               aria-controls="internship-mission-details"
                               class="w-full text-left cursor-pointer">
-                        <span class="block text-[9px] font-mono text-yellow-500 mb-0.5 tracking-wider">SUMMER 2026 // TARGET</span>
-                        <span class="block text-yellow-400 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering / Research Role</span>
-                        <span class="block text-xs text-gray-500 mt-0.5">Click to view focus areas</span>
+                        <span class="block text-[9px] font-mono text-amber-400 mb-0.5 tracking-wider">SUMMER 2027 // TARGET</span>
+                        <span class="block text-amber-300 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering / Research Internship</span>
+                        <span class="block text-xs text-gray-500 mt-0.5">Hardware integration · Test · Controls</span>
                       </button>
 
-                      <!-- Accordion content -->
                       <div id="internship-mission-details"
                            role="region"
                            aria-labelledby="internship-toggle"
                            class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
-                        <div class="mt-6 p-5 bg-black/40 border border-yellow-500/20 backdrop-blur-sm text-sm text-gray-300 space-y-4">
+                        <div class="mt-6 p-5 bg-black/40 border border-dashed border-amber-500/25 backdrop-blur-sm text-sm text-gray-300 space-y-4">
                           <p>
-                            Seeking an engineering or research role focused on physical systems, where I can apply
-                            modeling, controls, simulation, and experimental validation to real-world problems.
+                            Seeking a Summer 2027 engineering or research role in aerospace or autonomous systems,
+                            with room to contribute on hardware integration, test, and controls.
                           </p>
                           <p class="text-gray-400">
-                            Particularly interested in work involving unmanned systems, estimation, control, and dynamics.
+                            Especially interested in work where sensing, actuation, and software have to behave
+                            reliably together on real platforms.
                           </p>
-                          <p class="font-mono text-yellow-400 text-xs tracking-wider">&gt;&gt; TARGET CONTRIBUTIONS</p>
+                          <p class="font-mono text-amber-400 text-xs tracking-wider">&gt;&gt; TARGET CONTRIBUTIONS</p>
                           <ul class="space-y-2 list-disc list-inside">
-                            <li>Support mechanical, aerospace, or electromechanical system design</li>
-                            <li>Build simulations to study dynamic, thermal, fluid, or control behavior</li>
-                            <li>Develop test setups, collect data, and validate system performance</li>
+                            <li>Support bring-up, calibration, and integration of electromechanical or unmanned systems</li>
+                            <li>Build or run tests, collect data, and close the loop between configuration and performance</li>
+                            <li>Contribute to controls, estimation, or validation workflows grounded in hardware</li>
                             <li>Work across mechanical, electrical, software, and research teams</li>
                           </ul>
-                          <p class="font-mono text-yellow-400 text-xs tracking-wider">&gt;&gt; CURRENT FOUNDATION</p>
+                          <p class="font-mono text-amber-400 text-xs tracking-wider">&gt;&gt; OPEN TO</p>
                           <p class="text-gray-400">
-                            My background combines modeling and simulation, vibrations, thermal-fluids, mechanical design,
-                            controls, embedded implementation, and aerospace systems work. Open to industry roles,
-                            R&amp;D teams, and research labs focused on complex engineered systems.
+                            Industry roles, R&amp;D teams, and research labs. Graduate path may be M.S. in Mechanical
+                            or Aerospace Engineering; interests stay centered on hardware integration, test, and controls
+                            rather than a single named subdiscipline.
                           </p>
                         </div>
                       </div>
                     </div>
                   </li>
 
-                  <!-- ACTIVE: WashU VTOL — anchor link replaces inline onclick -->
+                  <!-- ACTIVE: WashU VTOL -->
                   <li class="hero-mission-item active flex items-start gap-4 group">
                     <a href="#washu-vtol" class="contents" aria-label="Jump to WashU VTOL project">
                       <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-blue-400 transition-colors z-10">
-                        <img src="images/washu_vtol.jpg" alt="" class="h-full w-full object-contain">
+                        <img src="assets/images/washu_vtol_logo.jpg" alt="" class="h-full w-full object-contain">
                       </div>
                       <div>
                         <span class="block text-[9px] font-mono text-blue-400 mb-0.5 tracking-wider">SEP 2025 - PRESENT // ACTIVE</span>
@@ -319,7 +401,7 @@
                   <li class="hero-mission-item done flex items-start gap-4 group opacity-75">
                     <a href="#washu-dbf" class="contents" aria-label="Jump to WashU Design/Build/Fly project">
                       <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
-                        <img src="images/washu_dbf.jpg" alt="" class="h-full w-full object-contain">
+                        <img src="assets/images/washu_dbf.jpg" alt="" class="h-full w-full object-contain">
                       </div>
                       <div>
                         <span class="block text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">SEP 2024 - JAN 2026 // LEFT</span>
@@ -329,30 +411,16 @@
                     </a>
                   </li>
 
-                  <!-- DONE: Sentinel -->
-                  <li class="hero-mission-item done flex items-start gap-4 group opacity-75">
-                    <a href="#sentinel-cv" class="contents" aria-label="Jump to Sentinel CV project">
-                      <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
-                        <img src="images/sentinel_logo.png" alt="" class="h-full w-full object-contain">
-                      </div>
-                      <div>
-                        <span class="block text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">WINTER 2025 // COMPLETE</span>
-                        <h3 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">Sentinel CV Project</h3>
-                        <p class="text-xs text-gray-600">Computer Vision Tracking</p>
-                      </div>
-                    </a>
-                  </li>
-
                   <!-- DONE: MIRO Lab -->
                   <li class="hero-mission-item done flex items-start gap-4 group opacity-75">
                     <a href="#miro-lab" class="contents" aria-label="Jump to MIRO Lab project">
                       <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
-                        <img src="images/mirolab.ico" alt="" class="h-full w-full object-contain">
+                        <img src="assets/images/mirolab.ico" alt="" class="h-full w-full object-contain">
                       </div>
                       <div>
                         <span class="block text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">SUMMER 2025 // COMPLETE</span>
                         <h3 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">Multiplatform Interactive Robotics Lab</h3>
-                        <p class="text-xs text-gray-600">Research Intern | Robotics · Sensing · Interaction</p>
+                        <p class="text-xs text-gray-600">Research Intern · Advisor: Dr. Hee-Sup Shin</p>
                       </div>
                     </a>
                   </li>
@@ -374,7 +442,7 @@
     <div class="hw-hdr">
       <div class="hw-hdr-l">
         <h2 id="hwlog-heading">Hardware Log</h2>
-        <span>Physical Evidence — Hover to pause · Click to explore</span>
+        <span>Physical Evidence · Hover to pause · Click to explore</span>
       </div>
       <span class="hw-hdr-r" aria-hidden="true">evidence/hw_*.jpg</span>
     </div>
@@ -430,7 +498,7 @@
         <div class="flex flex-col gap-5">
 
           <p class="text-gray-400 leading-relaxed">
-            Building mechanical and aerospace systems through simulation, controls, testing, and hardware–software
+            Building mechanical and aerospace systems through simulation, controls, testing, and hardware-software
             integration. Experience spans dynamic modeling, embedded implementation, sensor fusion, and experimental
             validation.
             <span class="text-gray-600 font-mono text-xs ml-1" aria-hidden="true">// Click any skill to inspect</span>
@@ -493,7 +561,7 @@
                aria-atomic="true">
             <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-blue-500/50 pointer-events-none" aria-hidden="true"></span>
             <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-blue-500/50 pointer-events-none" aria-hidden="true"></span>
-            <p class="text-[9px] text-blue-400 uppercase tracking-widest mb-2" id="sd-title">—</p>
+            <p class="text-[9px] text-blue-400 uppercase tracking-widest mb-2" id="sd-title">SELECT</p>
             <p id="sd-body"  class="text-gray-400 leading-relaxed text-[11px]"></p>
             <p id="sd-used" class="mt-2 text-[9px] text-gray-600 italic"></p>
           </div>
@@ -551,7 +619,7 @@
                  class="scrollbar-hide overflow-y-auto"></div>
 
             <div class="mt-4 pt-4 border-t border-white/10 flex justify-between text-[10px] text-gray-600" aria-hidden="true">
-              <span>CORE: MECH_ENG // SPEC: FMC</span>
+              <span>CORE: MECH_ENG // FOCUS: INTEGRATION · TEST · CONTROLS</span>
               <span class="animate-pulse text-emerald-500">● SYSTEM_OPTIMAL</span>
             </div>
 
@@ -602,9 +670,9 @@
               <div class="border border-white/10 bg-black/20 p-3">
                 <h4 class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Next Steps</h4>
                 <ul class="space-y-1 list-disc list-inside">
-                  <li>Guidance, Navigation, and Control (GNC)</li>
-                  <li>Flight Mechanics & Vehicle Dynamics</li>
-                  <li>Continuous Mechanics & Structural Dynamics</li>
+                  <li>Hardware integration &amp; flight test</li>
+                  <li>Controls &amp; estimation on real platforms</li>
+                  <li>Aerospace / autonomous systems (ME or AeroE path)</li>
                 </ul>
               </div>
             </div>
@@ -653,7 +721,7 @@
         <!-- VTOL-01 -->
         <li class="snap-center shrink-0">
           <article class="bg-[#0a0a0a] border border-white/10 p-8 w-[320px] md:w-[400px] relative hover:border-red-500/30 transition-colors group"
-                   aria-label="Incident VTOL-01 — Resolved">
+                   aria-label="Incident VTOL-01, Resolved">
             <span class="corner-bracket tl" aria-hidden="true"></span><span class="corner-bracket tr" aria-hidden="true"></span>
             <span class="corner-bracket bl" aria-hidden="true"></span><span class="corner-bracket br" aria-hidden="true"></span>
             <div class="absolute top-0 right-0 px-3 py-1 bg-red-500/10 border-l border-b border-red-500/20 text-[9px] font-mono text-red-400 font-bold uppercase tracking-widest" aria-hidden="true">Resolved</div>
@@ -680,7 +748,7 @@
         <!-- HYPERION-01 -->
         <li class="snap-center shrink-0">
           <article class="bg-[#0a0a0a] border border-white/10 p-8 w-[320px] md:w-[400px] relative hover:border-orange-500/30 transition-colors group"
-                   aria-label="Incident HYPERION-01 — Resolved">
+                   aria-label="Incident HYPERION-01, Resolved">
             <span class="corner-bracket tl" aria-hidden="true"></span><span class="corner-bracket tr" aria-hidden="true"></span>
             <span class="corner-bracket bl" aria-hidden="true"></span><span class="corner-bracket br" aria-hidden="true"></span>
             <div class="absolute top-0 right-0 px-3 py-1 bg-orange-500/10 border-l border-b border-orange-500/20 text-[9px] font-mono text-orange-400 font-bold uppercase tracking-widest" aria-hidden="true">Resolved</div>
@@ -707,7 +775,7 @@
         <!-- PROP-09 -->
         <li class="snap-center shrink-0">
           <article class="bg-[#0a0a0a] border border-white/10 p-8 w-[320px] md:w-[400px] relative hover:border-rose-500/30 transition-colors group"
-                   aria-label="Incident PROP-09 — Resolved">
+                   aria-label="Incident PROP-09, Resolved">
             <span class="corner-bracket tl" aria-hidden="true"></span><span class="corner-bracket tr" aria-hidden="true"></span>
             <span class="corner-bracket bl" aria-hidden="true"></span><span class="corner-bracket br" aria-hidden="true"></span>
             <div class="absolute top-0 right-0 px-3 py-1 bg-rose-500/10 border-l border-b border-rose-500/20 text-[9px] font-mono text-rose-400 font-bold uppercase tracking-widest" aria-hidden="true">Resolved</div>
@@ -734,7 +802,7 @@
         <!-- DBF-01 -->
         <li class="snap-center shrink-0">
           <article class="bg-[#0a0a0a] border border-white/10 p-8 w-[320px] md:w-[400px] relative hover:border-purple-500/30 transition-colors group"
-                   aria-label="Incident DBF-01 — Resolved">
+                   aria-label="Incident DBF-01, Resolved">
             <span class="corner-bracket tl" aria-hidden="true"></span><span class="corner-bracket tr" aria-hidden="true"></span>
             <span class="corner-bracket bl" aria-hidden="true"></span><span class="corner-bracket br" aria-hidden="true"></span>
             <div class="absolute top-0 right-0 px-3 py-1 bg-purple-500/10 border-l border-b border-purple-500/20 text-[9px] font-mono text-purple-400 font-bold uppercase tracking-widest" aria-hidden="true">Resolved</div>
@@ -771,7 +839,7 @@
       <div class="flex items-end justify-between mb-12">
         <div>
           <h2 id="archives-heading" class="text-3xl font-bold text-white tracking-tight">Project Archives</h2>
-          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Classified Logs &amp; Documentation</p>
+            <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Personal Builds &amp; Coursework Logs</p>
         </div>
         <span class="text-xl font-mono text-white/20" aria-hidden="true">04</span>
       </div>
@@ -785,7 +853,7 @@
                 aria-controls="archive-grid"
                 onclick="switchTab('personal')"
                 class="pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-blue-500 text-white transition-all hover:text-blue-400">
-          <i class="fas fa-code mr-2" aria-hidden="true"></i>Personal_Logs
+          <i class="fas fa-code mr-2" aria-hidden="true"></i>Personal Projects
         </button>
         <button type="button"
                 id="tab-coursework"
@@ -794,7 +862,7 @@
                 aria-controls="archive-grid"
                 onclick="switchTab('coursework')"
                 class="pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-all">
-          <i class="fas fa-university mr-2" aria-hidden="true"></i>Coursework_Logs
+          <i class="fas fa-university mr-2" aria-hidden="true"></i>Coursework
         </button>
       </div>
 
@@ -816,7 +884,7 @@
 
       <div>
         <p class="text-white"><small>&copy; 2026 Enrique Garcia // System Nominal.</small></p>
-        <p class="mt-1">STL / KC — 38.6° N, 90.3° W</p>
+        <p class="mt-1">STL / KC · 38.6° N, 90.3° W</p>
       </div>
 
       <!-- Live system metrics (decorative, hidden from AT) -->
@@ -871,7 +939,8 @@
   ====================================================================== -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js" defer></script>
-  <script src="script.js"></script>
+  <script src="js/nav-persist.js"></script>
+  <script src="js/script.js"></script>
 
 </body>
 </html>

@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +78,7 @@
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
             <div
                 class="h-24 w-24 bg-white border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-                <img src="images/sentinel_logo.png" alt="Sentinel CV System"
+                <img src="assets/images/sentinel_logo.png" alt="Sentinel CV System"
                      class="h-full w-full object-cover"
                      onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-crosshairs text-4xl text-white\'></i>'">
             </div>
@@ -118,7 +118,7 @@
                     <p class="text-sm text-gray-400">
                         The system uses a C++ <span class="tech-highlight">OpenCV</span> pipeline to detect fast-moving targets, feeds state estimates into a 
                         <span class="tech-highlight">Kalman Filter</span>, and transmits intercept coordinates to the 
-                        <strong class="text-white">Sentinel-Actuator</strong>—a high-speed, 2-axis robotic gimbal powered by a Teensy 4.1 microcontroller.
+                        <strong class="text-white">Sentinel-Actuator</strong>, a high-speed, 2-axis robotic gimbal powered by a Teensy 4.1 microcontroller.
                     </p>
 
                     <ul class="space-y-4 list-disc list-inside border-l-2 border-sky-500/40 pl-4">
@@ -351,6 +351,7 @@
             }, 400);
         }
     </script>
+    <script src="js/nav-persist.js"></script>
 
 </body>
 </html>

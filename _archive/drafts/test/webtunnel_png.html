@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aerospace Standard Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            color: #fff;
+        }
+        .container {
+            background: #0a0e14;
+            padding: 20px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        canvas {
+            /* Display at 500x500, but internal res is higher */
+            width: 500px;
+            height: 500px;
+            border: 2px solid #2a3f5a;
+            /* Give it that CAD monitor slight glow */
+            box-shadow: inset 0 0 20px rgba(0, 163, 224, 0.1);
+            background: #0d131d;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        button {
+            background: #2a3f5a;
+            color: #4fc3f7;
+            border: 1px solid #4fc3f7;
+            padding: 12px 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background: #4fc3f7;
+            color: #0a0e14;
+        }
+        p.note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <canvas id="cadCanvas" width="1000" height="1000"></canvas>
+        
+        <div class="controls">
+            <button onclick="downloadPNG()">GENERATE AEROSPACE PNG</button>
+            <p class="note">Output: 500x500 PNG (High-DPI)</p>
+        </div>
+    </div>
+
+<script>
+    const canvas = document.getElementById('cadCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+
+    // --- COLORS (Technical Palette) ---
+    const C_BG = '#0d131d';       // Deep CAD Blue/Grey
+    const C_GRID = '#1c2b3d';     // Faint grid lines
+    const C_LINE_MAJ = '#4fc3f7'; // Primary Highlights (Cyan)
+    const C_LINE_MIN = '#2a5d7a'; // Secondary Lines (Darker Blue)
+    const C_TEXT = '#a0c0d0';     // Annotations
+    const C_ALERT = '#ffb700';    // Warnings/Stall (Orange/Yellow)
+
+    // --- UTILS ---
+    // Draw a technical arrow head
+    function drawArrowhead(x, y, angle, size, color) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle);
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-size, size/2.5);
+        ctx.lineTo(-size, -size/2.5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+    }
+
+    // Scientific Colormap (Blue -> Cyan -> Yellow -> Red) for pressure
+    function getPressureColor(t) {
+        t = Math.max(0, Math.min(1, t));
+        if(t<0.33) return `rgb(${0}, ${Math.floor(t*3*255)}, ${255})`; // Blue to Cyan
+        if(t<0.66) return `rgb(${Math.floor((t-0.33)*3*255)}, 255, ${Math.floor(255 - (t-0.33)*3*255)})`; // Cyan to Yellow
+        return `rgb(255, ${Math.floor(255 - (t-0.66)*3*255)}, 0)`; // Yellow to Red
+    }
+
+    // --- MAIN RENDER LOOP ---
+    function render() {
+        // 1. Clear & Background
+        ctx.fillStyle = C_BG;
+        ctx.fillRect(0,0,w,h);
+
+        // 2. Technical Grid & Datum Lines
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = C_GRID;
+        const step = 100;
+        ctx.beginPath();
+        for(let i=step; i<w; i+=step) { ctx.moveTo(i,0); ctx.lineTo(i,h); }
+        for(let i=step; i<h; i+=step) { ctx.moveTo(0,i); ctx.lineTo(w,i); }
+        ctx.stroke();
+
+        // Center Datum lines (dashed)
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = C_LINE_MIN;
+        ctx.setLineDash([15, 10]);
+        ctx.beginPath();
+        ctx.moveTo(w/2, 0); ctx.lineTo(w/2, h); // Vert
+        ctx.moveTo(0, h/2); ctx.lineTo(w, h/2); // Horiz
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // 3. Airfoil Geometry (Technical Drawing Style)
+        ctx.save();
+        ctx.translate(w*0.5, h*0.5);
+        ctx.rotate(Math.PI/180 * 8); // 8 degree AoA
+        const chord = 600;
+        
+        // Airfoil Shape path
+        ctx.beginPath();
+        ctx.moveTo(-chord/2, 0); // Leading edge
+        // Upper surface (Supercritical flattened top)
+        ctx.bezierCurveTo(-chord*0.3, -chord*0.25, chord*0.2, -chord*0.20, chord/2, 0);
+        // Lower surface
+        ctx.bezierCurveTo(chord*0.1, chord*0.15, -chord*0.3, chord*0.15, -chord/2, 0);
+        ctx.closePath();
+
+        // Fill with technical hatch pattern (simulated grey)
+        ctx.fillStyle = '#1a2635';
+        ctx.fill();
+        // Outline
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+
+        // Chord Line & Camber Line (Technical annotations)
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = C_ALERT;
+        ctx.setLineDash([20, 10, 5, 10]); // Centerline dash pattern
+        ctx.beginPath();
+        ctx.moveTo(-chord/2 - 50, 0);
+        ctx.lineTo(chord/2 + 50, 0);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.restore(); // Undo rotation/translation for flow field
+
+        // 4. CFD Data Visualization
+
+        // A) Pressure Contours (Stagnation Point Heatmap)
+        // Simulate high pressure at leading edge
+        const stagX = w*0.25;
+        const stagY = h*0.55;
+        const rad = ctx.createRadialGradient(stagX, stagY, 0, stagX, stagY, 250);
+        rad.addColorStop(0, 'rgba(255, 50, 0, 0.8)');   // Red (High P)
+        rad.addColorStop(0.2, 'rgba(255, 200, 0, 0.6)'); // Yellow
+        rad.addColorStop(0.5, 'rgba(0, 200, 255, 0.3)'); // Cyan
+        rad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = rad;
+        ctx.globalCompositeOperation = 'lighter'; // Additive blend for scientific look
+        ctx.beginPath(); ctx.arc(stagX, stagY, 300, 0, Math.PI*2); ctx.fill();
+        ctx.globalCompositeOperation = 'source-over';
+
+        // B) Velocity Vector Field (Arrows)
+        ctx.lineWidth = 3;
+        const vecSpacing = 60;
+        for(let vx = 50; vx < w; vx += vecSpacing) {
+            for(let vy = 50; vy < h; vy += vecSpacing) {
+                // Simple fake flow logic:
+                // Base flow left to right.
+                // If near center y, deflect around airfoil.
+                
+                let dx = 1; 
+                let dy = 0;
+                const distY = vy - h/2;
+                const influence = Math.exp(-Math.abs(distY)/150); // Stronger near centerline
+
+                if (vx > w*0.2 && vx < w*0.8) {
+                    // Deflect up or down based on position relative to airfoil
+                    dy = (distY > 0 ? 0.3 : -0.4) * influence;
+                    // Slow down near stagnation, speed up over top
+                    if(vx < w*0.4) dx = 0.5 + (1-influence)*0.5;
+                    else dx = 1.0 + influence*0.5;
+                }
+
+                // Calculate vector geometry
+                const speed = Math.sqrt(dx*dx + dy*dy);
+                const angle = Math.atan2(dy, dx);
+                const vecLen = speed * 40;
+
+                // Color based on speed (blue slow, cyan fast)
+                const vecColor = getPressureColor(speed - 0.5);
+
+                // Draw Arrow shaft
+                ctx.strokeStyle = vecColor;
+                ctx.beginPath();
+                ctx.moveTo(vx, vy);
+                ctx.lineTo(vx + Math.cos(angle)*vecLen, vy + Math.sin(angle)*vecLen);
+                ctx.stroke();
+
+                // Draw Arrow head
+                drawArrowhead(vx + Math.cos(angle)*vecLen, vy + Math.sin(angle)*vecLen, angle, 12, vecColor);
+            }
+        }
+
+
+        // 5. Typography & HUD Elements (Aerospace Standard)
+        ctx.font = 'bold 36px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        
+        // Top Left: Project ID
+        ctx.fillStyle = C_LINE_MAJ;
+        ctx.fillText('PROJECT: WEBTUNNEL CFD', 40, 80);
+        ctx.font = '24px "JetBrains Mono", monospace';
+        ctx.fillStyle = C_TEXT;
+        ctx.fillText('ANALYSIS: TRANSONIC FLOW / RANS', 40, 115);
+
+        // Bottom Left: Title Block Aesthetic
+        ctx.strokeStyle = C_LINE_MIN;
+        ctx.lineWidth = 4;
+        ctx.strokeRect(40, h-140, 400, 100); // Title box border
+        
+        ctx.fillStyle = C_TEXT;
+        ctx.font = '20px "JetBrains Mono", monospace';
+        ctx.fillText('DRAWING NO:', 60, h-100);
+        ctx.fillStyle = '#fff';
+        ctx.fillText('WT-AERO-V4-REV_B', 220, h-100);
+        
+        ctx.fillStyle = C_TEXT;
+        ctx.fillText('ENGINEER:', 60, h-60);
+        ctx.fillStyle = C_LINE_MAJ;
+        ctx.fillText('E. GARCIA', 220, h-60);
+
+        // Data Callouts near airfoil
+        ctx.textAlign = 'right';
+        ctx.font = 'bold 28px "JetBrains Mono", monospace';
+        
+        // Mach Number
+        ctx.fillStyle = C_TEXT;
+        ctx.fillText('MACH ∞', w-200, 300);
+        ctx.fillStyle = C_ALERT;
+        ctx.fillText('0.85', w-80, 300);
+
+        // Angle of Attack
+        ctx.fillStyle = C_TEXT;
+        ctx.fillText('α (AoA)', w-200, 350);
+        ctx.fillStyle = '#fff';
+        ctx.fillText('+8.0°', w-80, 350);
+
+        // Lift Coefficient
+        ctx.fillStyle = C_TEXT;
+        ctx.fillText('CL_max', w-200, 400);
+        ctx.fillStyle = C_LINE_MAJ;
+        ctx.fillText('1.42', w-80, 400);
+
+        // Final border overlay
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = C_LINE_MIN;
+        ctx.strokeRect(0,0,w,h);
+    }
+
+    // --- DOWNLOAD FUNCTION ---
+    function downloadPNG() {
+        const link = document.createElement('a');
+        link.download = 'WebTunnel_Aerospace_Standard.png';
+        // High quality export
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        }, 'image/png', 1.0);
+    }
+
+    // Run the render on load
+    // Ensure fonts load first for correct measurement
+    document.fonts.ready.then(render);
+
+</script>
+</body>
+</html>

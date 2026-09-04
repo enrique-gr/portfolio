@@ -1,10 +1,17 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Enrique Garcia</title>
+    <script>
+      try {
+        if (sessionStorage.getItem("eg-portfolio-returning") === "1") {
+          document.documentElement.classList.add("nav-returning");
+        }
+      } catch (e) { /* ignore */ }
+    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,6 +34,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #71717a; }
 
         body { opacity: 0; animation: fadeInPage 0.4s ease forwards; }
+        html.nav-returning body { opacity: 1; animation: none; }
         @keyframes fadeInPage { to { opacity: 1; } }
 
         .reveal {
@@ -310,13 +318,16 @@
                         </p>
                         <div class="mt-5 space-y-4 text-sm md:text-base body-copy font-light max-w-3xl">
                             <p>
-                                I am a senior Mechanical Engineering student at Washington University in St. Louis, with hands-on experience in UAV avionics, embedded sensing, and flight test support.
+                                I am a senior Mechanical Engineering student at Washington University in St. Louis, with hands-on experience in UAV avionics, experimental UAS systems, embedded sensing, and flight test support.
+                            </p>
+                            <p>
+                                Most recently I completed a Summer 2026 internship at the Missouri Institute for Defense and Energy (MIDE) in Kansas City, working experimental unmanned aircraft as systems: repair and test-readiness, flight-test support, and configuration-linked readiness from flight data.
                             </p>
                             <p>
                                 I am most drawn to work where mechanical systems, sensing, controls, and software have to behave reliably together. I like reducing problems to constraints first, then making the system clear by defining assumptions, tightening interfaces, and tracing behavior back to data.
                             </p>
                             <p>
-                                As I prepare for graduate study—with interests in flight mechanics and control as well as robotics—I am looking to contribute to demanding aerospace and robotics teams through robust design, hardware integration, and calm decision-making under pressure.
+                                As I prepare for graduate study (M.S. in Mechanical or Aerospace Engineering is both on the table), I am interested in aerospace and autonomous systems with a focus on hardware integration, test, and controls. I want to contribute to demanding teams through robust design, calm decision-making under pressure, and ownership of how the vehicle comes together.
                             </p>
                         </div>
                     </div>
@@ -344,15 +355,19 @@
                         </div>
                         <div class="snapshot-row flex justify-between gap-4 py-1">
                             <span class="text-gray-500">Graduate Interest</span>
-                            <span class="text-gray-200 text-right">Flight Mechanics · Robotics</span>
+                            <span class="text-gray-200 text-right">Aerospace / ME · Integration · Controls</span>
                         </div>
                         <div class="snapshot-row flex justify-between gap-4 py-1">
                             <span class="text-gray-500">Interest Areas</span>
                             <span class="text-emerald-300 text-right">UAV Systems · Estimation · Flight Test</span>
                         </div>
                         <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Active Missions</span>
-                            <span class="text-gray-200 text-right">WashU VTOL</span>
+                            <span class="text-gray-500">Recent Internship</span>
+                            <span class="text-emerald-300 text-right">MIDE · UAS Engineering (Summer 2026)</span>
+                        </div>
+                        <div class="snapshot-row flex justify-between gap-4 py-1">
+                            <span class="text-gray-500">Active Mission</span>
+                            <span class="text-gray-200 text-right">WashU VTOL · Avionics Lead</span>
                         </div>
                     </div>
 
@@ -378,7 +393,7 @@
             <div class="stat-box border border-white/10 p-4 has-tip">
                 <div class="tip">Graduate study interest</div>
                 <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Grad Interest</div>
-                <div class="text-white text-sm stat-value transition-colors duration-200">FMC · Robotics</div>
+                <div class="text-white text-sm stat-value transition-colors duration-200">Integration · Controls</div>
             </div>
             <div class="stat-box border border-white/10 p-4 has-tip">
                 <div class="tip">How decisions get made</div>
@@ -574,12 +589,11 @@
             <div class="info-card border border-white/10 p-5">
                 <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Current Missions</h2>
                 <div class="space-y-2 text-sm text-gray-300">
-                    <div class="stack-item">WashU VTOL</div>
+                    <div class="stack-item">WashU VTOL · Avionics Lead</div>
                     <div class="stack-item">Systems Integration</div>
                     <div class="stack-item">Validation Workflow</div>
-                    <div class="stack-item">Summer Study: Flight Mechanics</div>
-                    <div class="stack-item">Summer Study: Control Systems</div>
-                    <div class="stack-item">Summer Study: State Estimation</div>
+                    <div class="stack-item text-emerald-300/90">MIDE UAS Intern · Complete (Summer 2026)</div>
+                    <div class="stack-item">Hardware Integration · Test · Controls</div>
                 </div>
             </div>
         </section>
@@ -665,15 +679,8 @@
         </div>
     </footer>
 
+    <script src="js/nav-persist.js"></script>
     <script>
-        function smoothExit(e, url) {
-            e.preventDefault();
-            document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
-            document.body.style.opacity = "0";
-            document.body.style.transform = "scale(0.98)";
-            setTimeout(() => { window.location.href = url; }, 400);
-        }
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (!entry.isIntersecting) return;
