@@ -1,0 +1,80 @@
+\documentclass[11pt, letterpaper]{article}
+\newcommand{\myphone}{(816) 749-9954}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[default]{raleway}
+\usepackage{anyfontsize}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+\setlist[itemize]{noitemsep, topsep=1pt, leftmargin=1.15em, itemsep=1.5pt, parsep=0pt}
+\definecolor{darkslate}{RGB}{20,25,35}
+\definecolor{accentblue}{RGB}{0,56,168}
+\usepackage[colorlinks=true, urlcolor=accentblue, linkcolor=accentblue]{hyperref}
+\titleformat{\section}
+{\normalsize\bfseries\color{darkslate}\uppercase}
+{}
+{0em}
+{}
+[\vspace{0.5pt}\titlerule]
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+% Title, Organization, City, State, Dates
+\newcommand{\role}[5]{%
+  \noindent\textbf{#1}, #2, #3, #4 \hfill #5%
+}
+\begin{document}
+\begin{center}
+{\fontsize{18pt}{22pt}\selectfont\bfseries ENRIQUE GARCIA RIVERA} \\[4pt]
+\small
+St.\ Louis, MO \ $|$ \ \href{tel:+18167499954}{\myphone} \ $|$ \
+\href{mailto:e.garciarivera@wustl.edu}{e.garciarivera@wustl.edu} \ $|$ \
+\href{https://www.linkedin.com/in/enrique-gr}{linkedin.com/in/enrique-gr} \ $|$ \
+\href{https://github.com/enrique-gr}{github.com/enrique-gr}
+\end{center}
+\section{Education}
+\textbf{Washington University in St.\ Louis} \hfill St.\ Louis, MO \\
+Bachelor of Science in Mechanical Engineering \hfill Expected May 2027 \\
+GPA: 3.65 / 4.00
+\begin{itemize}
+\item Relevant Coursework: Flight Dynamics; Aircraft Design; Modeling, Simulation, and Control; Vibrations; Numerical Methods and Matrix Algebra; Fluid Mechanics; 
+% \item Honors: Scholar-Mentee, Purdue Engineering GradTrack Program; Deans List
+\end{itemize}
+\section{Technical Skills}
+\textbf{Programming \& Modeling:} MATLAB/Simulink, Python, C++, Git \\
+\textbf{Controls \& Estimation:} PID control, sensor fusion, EKF, IMU calibration, state estimation \\
+\textbf{Hardware \& Design Tools:} Pixhawk/Cube, ArduPilot, Mission Planner, MAVLink, DroneCAN, HIL testing, flight-log analysis, SolidWorks (GD\&T), ANSYS, XFLR5, Teensy/Arduino, composites
+\section{Research Experience}
+\role{UAS Research Intern}{Missouri Institute for Defense \& Energy}{Kansas City}{MO}{May 2026 -- Aug. 2026} \\[-2pt]
+\textit{\small Supervisor: Dr.\ Travis Fields, Deputy Director.}
+\begin{itemize}
+\item Developed an experimental unmanned aerial vehicle (UAV) testbed of 7 quadcopter platforms from component-level hardware (Cube Black, ArduPilot, sensors, propulsion, power), defining a repeatable methodology for configuration control, sensor calibration, and bench validation.
+\item Investigated how payload placement and nose mass affect center-of-gravity location and static stability margin using ArduPilot flight logs and MATLAB center-of-gravity models on Tiguar unmanned aircraft system (UAS) platforms; supported flight-test campaigns after composite structural repair.
+\item Characterized the attitude-estimation-and-control loop (measure--estimate--command--actuate) on Cube Black/ArduPilot, using Python/MAVLink and DroneCAN to compare live attitude estimates with physical motion and commanded servo response.
+\end{itemize}
+\role{Sensor Fusion Research Intern}{MIRO Lab, UMKC}{Kansas City}{MO}{May 2025 -- Aug. 2025} \\[-2pt]
+\textit{\small Advisor: Dr.\ Hee-Sup Shin.}
+\begin{itemize}
+\item Built a Teensy 4.0 multimodal sensing platform synchronizing dual EMG and dual IMU streams at 1\,kHz and conducted human-subject trials across rest, MVC, and arm-motion conditions.
+\item Implemented MATLAB EKF calibration and visualization fusing IMU and visual ground-truth measurements to reduce drift in motion estimates; contributed to an IEEE Body Sensor Networks 2025 abstract and poster, \textit{Toward Electromechanical Measurement of Muscle Activity}.
+\end{itemize}
+\section{Engineering Experience}
+\role{Lead Avionics Engineer}{WashU VTOL}{St.\ Louis}{MO}{Sept. 2025 -- Present}
+\begin{itemize}
+\item Defined avionics architecture for a prototype hex VTOL (Pixhawk 6C, sensors, communications, isolated 4S avionics/6S propulsion power) and configured VTOL/fixed-wing modes, PID gains, and failsafes.
+\item Diagnosed motor-induced EMI causing I2C barometer/magnetometer dropouts and restored reliable telemetry via rerouting, twisted-pair I2C, and pull-up resistors.
+\item Validated the integrated avionics stack through bench testing, HIL simulation, first hover, and VTOL-to-fixed-wing transition.
+\end{itemize}
+\role{Payload Systems Engineer}{WashU Design/Build/Fly}{St.\ Louis}{MO}{Sept. 2024 -- Present} \\[-2pt]
+\textit{\small Structures -- Aerodynamics -- Payload Systems; returned Fall 2026 (away Spring 2026).}
+\begin{itemize}
+\item Sized carbon-fiber wing spars under 2.5\,g loads (ANSYS FEA), designed payload-release hardware with ASME Y14.5 GD\&T, compared XFLR5/ANSYS CFD with flight telemetry, and now lead Mission~3 towed-sensor payload systems for the AIAA Design/Build/Fly 2026--2027 competition.
+\end{itemize}
+\section{Leadership \& Communication Experience}
+\role{Teaching Assistant}{Washington University in St.\ Louis}{St.\ Louis}{MO}{Aug. 2025 -- Present}\\[-1pt]
+{\small Grade assignments and hold office hours for Vibrations (Aug.\ 2026 -- Present) and MEMS 2000 Circuits (Aug.\ 2025 -- Dec.\ 2025).}
+% \section{Projects}
+% \noindent\textbf{Adaptive Cruise Control} \textit{(MATLAB/Simulink)} --- Modeled longitudinal vehicle dynamics; designed a PID controller for a two-second following gap; compared Euler and ODE45 solvers.
+\end{document}
