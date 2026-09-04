@@ -96,7 +96,19 @@
             <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60" aria-hidden="true"></i>
           </a>
         </li>
-        <li><a href="#featured"     data-nav-section="featured"     class="nav-link hover:text-white transition-colors">Projects</a></li>
+        <li>
+          <a href="#featured"
+             data-nav-section="featured"
+             class="nav-link nav-link--mission hover:text-white transition-colors"
+             aria-describedby="nav-mission-legend">
+            <span>Projects</span>
+            <span class="nav-mission-dots" aria-hidden="true">
+              <span class="nav-mission-dot nav-mission-dot--target" title="Target"></span>
+              <span class="nav-mission-dot nav-mission-dot--active" title="Active"></span>
+              <span class="nav-mission-dot nav-mission-dot--done" title="Past"></span>
+            </span>
+          </a>
+        </li>
         <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link hover:text-white transition-colors">Skills</a></li>
         <li><a href="#anomalies"    data-nav-section="anomalies"    class="nav-link hover:text-white transition-colors">Challenges</a></li>
         <li><a href="#collections"  data-nav-section="collections"  class="nav-link hover:text-white transition-colors">Archive</a></li>
@@ -134,7 +146,16 @@
     <div id="mobile-nav" class="mobile-nav lg:hidden">
       <ul class="list-none m-0 p-0 flex flex-col">
         <li><a href="about.html" class="mobile-nav-link">About</a></li>
-        <li><a href="#featured" class="mobile-nav-link">Projects</a></li>
+        <li>
+          <a href="#featured" class="mobile-nav-link mobile-nav-link--mission">
+            <span>Projects</span>
+            <span class="nav-mission-dots" aria-hidden="true">
+              <span class="nav-mission-dot nav-mission-dot--target"></span>
+              <span class="nav-mission-dot nav-mission-dot--active"></span>
+              <span class="nav-mission-dot nav-mission-dot--done"></span>
+            </span>
+          </a>
+        </li>
         <li><a href="#capabilities" class="mobile-nav-link">Skills</a></li>
         <li><a href="#anomalies" class="mobile-nav-link">Challenges</a></li>
         <li><a href="#collections" class="mobile-nav-link">Archive</a></li>
@@ -273,72 +294,26 @@
           <aside class="lg:col-span-5" aria-label="Mission timeline">
             <div class="hero-mission-panel">
 
-              <div class="hero-mission-header flex justify-between items-center">
+              <div class="hero-mission-header flex justify-between items-center gap-3">
                 <h2 class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-widest">Mission Timeline</h2>
-                <span id="sync-counter" class="text-[9px] font-mono text-gray-600">SYNCED: --:--</span>
+                <div class="flex items-center gap-3">
+                  <p id="nav-mission-legend" class="mission-legend" aria-label="Timeline status legend">
+                    <span class="mission-legend__item mission-legend__item--target"><i class="fas fa-bullseye" aria-hidden="true"></i> Target</span>
+                    <span class="mission-legend__item mission-legend__item--active"><i class="fas fa-circle" aria-hidden="true"></i> Active</span>
+                    <span class="mission-legend__item mission-legend__item--done"><i class="fas fa-circle" aria-hidden="true"></i> Past</span>
+                  </p>
+                  <span id="sync-counter" class="text-[9px] font-mono text-gray-600">SYNCED: --:--</span>
+                </div>
               </div>
 
               <div class="mission-scroll hero-mission-scroll">
+                <!-- Newest / future first; oldest at bottom. Status via class + label + icon (not color alone). -->
                 <ol class="hero-mission-list">
 
-                  <!-- COMPLETE: MIDE internship -->
-                  <li class="hero-mission-item complete flex items-start gap-4 group">
-                    <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-emerald-400 transition-all duration-500 z-10" aria-hidden="true">
-                      <img src="assets/images/mide_logo.png" alt="" class="h-full w-full object-contain">
-                    </div>
-                    <div class="w-full">
-                      <button type="button"
-                              id="mide-toggle"
-                              onclick="toggleMideMission()"
-                              aria-expanded="false"
-                              aria-controls="mide-mission-details"
-                              class="w-full text-left cursor-pointer">
-                        <span class="block text-[9px] font-mono text-emerald-400 mb-0.5 tracking-wider">MAY – AUG 2026 // COMPLETE</span>
-                        <span class="block text-white font-bold text-sm group-hover:text-emerald-400 transition-colors duration-300">Missouri Institute for Defense and Energy</span>
-                        <span class="block text-xs text-gray-500 mt-0.5">UAS Engineering Intern · Kansas City</span>
-                      </button>
-
-                      <div id="mide-mission-details"
-                           role="region"
-                           aria-labelledby="mide-toggle"
-                           class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
-                        <div class="mt-6 p-5 bg-black/40 border border-emerald-500/20 backdrop-blur-sm text-sm text-gray-300 space-y-4">
-                          <p>
-                            Worked experimental unmanned aircraft as systems. Helped return vehicles to test-ready after
-                            structural work, supported flight test, and used flight data to understand how configuration
-                            affected whether an aircraft was ready to fly. Brought platforms up from hardware through
-                            calibration and bench checks, and verified that sensing, estimation, and actuation hung
-                            together on the vehicle.
-                          </p>
-                          <p class="font-mono text-emerald-400 text-xs tracking-wider">&gt;&gt; IMPACT</p>
-                          <ul class="space-y-2 list-disc list-inside">
-                            <li>Supported experimental UAS through repair, flight-test operations, and test-readiness.</li>
-                            <li>Used flight data to relate vehicle configuration to whether an aircraft was ready to test.</li>
-                            <li>Brought unmanned platforms up as integrated systems and checked the sense-to-actuate path on hardware.</li>
-                          </ul>
-                          <p class="text-xs text-gray-500 font-mono">Deputy Director: Dr. Travis Fields</p>
-                          <div class="flex flex-wrap gap-2 mt-2">
-                            <a href="mide.html"
-                               data-nav-exit
-                               onclick="event.stopPropagation()"
-                               class="inline-flex items-center gap-2 text-[10px] font-mono text-emerald-400 hover:text-white transition-colors uppercase tracking-widest border border-emerald-500/30 px-3 py-1.5 hover:border-emerald-400">
-                              View Full Page <i class="fas fa-arrow-right text-[8px]"></i>
-                            </a>
-                            <a href="#mide"
-                               onclick="event.stopPropagation()"
-                               class="inline-flex items-center gap-2 text-[10px] font-mono text-blue-400 hover:text-white transition-colors uppercase tracking-widest border border-blue-500/30 px-3 py-1.5 hover:border-blue-400">
-                              Jump to Featured <i class="fas fa-arrow-down text-[8px]"></i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-
                   <!-- TARGET: Summer 2027 internship -->
-                  <li class="hero-mission-item target flex items-start gap-4 group">
-                    <div class="h-10 w-10 bg-black border border-dashed border-amber-400/50 p-1 shrink-0 group-hover:border-amber-400 transition-all duration-500 z-10 flex items-center justify-center" aria-hidden="true">
-                      <i class="fas fa-crosshairs text-amber-400/80 text-sm"></i>
+                  <li class="hero-mission-item target flex items-start gap-4 group" data-mission-status="target">
+                    <div class="h-10 w-10 mission-thumb mission-thumb--target shrink-0 z-10 flex items-center justify-center" aria-hidden="true">
+                      <i class="fas fa-flag text-amber-400/90 text-sm"></i>
                     </div>
                     <div class="w-full">
                       <button type="button"
@@ -347,8 +322,11 @@
                               aria-expanded="false"
                               aria-controls="internship-mission-details"
                               class="w-full text-left cursor-pointer">
-                        <span class="block text-[9px] font-mono text-amber-400 mb-0.5 tracking-wider">SUMMER 2027 // TARGET</span>
-                        <span class="block text-amber-300 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering / Research Internship</span>
+                        <span class="mission-meta">
+                          <span class="mission-status mission-status--target"><i class="fas fa-bullseye" aria-hidden="true"></i> Target</span>
+                          <span class="mission-date">Summer 2027</span>
+                        </span>
+                        <span class="block text-amber-200 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering / Research Internship</span>
                         <span class="block text-xs text-gray-500 mt-0.5">Hardware integration · Test · Controls</span>
                       </button>
 
@@ -383,43 +361,109 @@
                     </div>
                   </li>
 
-                  <!-- ACTIVE: WashU VTOL -->
-                  <li class="hero-mission-item active flex items-start gap-4 group">
+                  <!-- ACTIVE: WashU VTOL (you are here) -->
+                  <li class="hero-mission-item active flex items-start gap-4 group" data-mission-status="active">
                     <a href="#washu-vtol" class="contents" aria-label="Jump to WashU VTOL project">
-                      <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-blue-400 transition-colors z-10">
+                      <div class="h-10 w-10 mission-thumb mission-thumb--active shrink-0 z-10">
                         <img src="assets/images/washu_vtol_logo.jpg" alt="" class="h-full w-full object-contain">
                       </div>
                       <div>
-                        <span class="block text-[9px] font-mono text-blue-400 mb-0.5 tracking-wider">SEP 2025 - PRESENT // ACTIVE</span>
-                        <h3 class="text-white font-bold text-sm group-hover:text-blue-400 transition-colors">WashU VTOL</h3>
+                        <span class="mission-meta">
+                          <span class="mission-status mission-status--active"><i class="fas fa-location-crosshairs" aria-hidden="true"></i> Active</span>
+                          <span class="mission-date">Sep 2025 – Present</span>
+                        </span>
+                        <h3 class="text-white font-bold text-sm group-hover:text-blue-300 transition-colors">WashU VTOL</h3>
                         <p class="text-xs text-gray-500">Avionics &amp; Systems Integration Lead</p>
                       </div>
                     </a>
                   </li>
 
-                  <!-- DONE: DBF -->
-                  <li class="hero-mission-item done flex items-start gap-4 group opacity-75">
+                  <!-- PAST: MIDE internship -->
+                  <li class="hero-mission-item done flex items-start gap-4 group" data-mission-status="done">
+                    <div class="h-10 w-10 mission-thumb mission-thumb--done shrink-0 z-10" aria-hidden="true">
+                      <img src="assets/images/mide_logo.png" alt="" class="h-full w-full object-contain opacity-80">
+                    </div>
+                    <div class="w-full">
+                      <button type="button"
+                              id="mide-toggle"
+                              onclick="toggleMideMission()"
+                              aria-expanded="false"
+                              aria-controls="mide-mission-details"
+                              class="w-full text-left cursor-pointer">
+                        <span class="mission-meta">
+                          <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
+                          <span class="mission-date">May – Aug 2026</span>
+                        </span>
+                        <span class="block text-gray-300 font-bold text-sm group-hover:text-white transition-colors duration-300">Missouri Institute for Defense and Energy</span>
+                        <span class="block text-xs text-gray-600 mt-0.5">UAS Engineering Intern · Kansas City</span>
+                      </button>
+
+                      <div id="mide-mission-details"
+                           role="region"
+                           aria-labelledby="mide-toggle"
+                           class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
+                        <div class="mt-6 p-5 bg-black/40 border border-white/10 backdrop-blur-sm text-sm text-gray-300 space-y-4">
+                          <p>
+                            Worked experimental unmanned aircraft as systems. Helped return vehicles to test-ready after
+                            structural work, supported flight test, and used flight data to understand how configuration
+                            affected whether an aircraft was ready to fly. Brought platforms up from hardware through
+                            calibration and bench checks, and verified that sensing, estimation, and actuation hung
+                            together on the vehicle.
+                          </p>
+                          <p class="font-mono text-gray-400 text-xs tracking-wider">&gt;&gt; IMPACT</p>
+                          <ul class="space-y-2 list-disc list-inside">
+                            <li>Supported experimental UAS through repair, flight-test operations, and test-readiness.</li>
+                            <li>Used flight data to relate vehicle configuration to whether an aircraft was ready to test.</li>
+                            <li>Brought unmanned platforms up as integrated systems and checked the sense-to-actuate path on hardware.</li>
+                          </ul>
+                          <p class="text-xs text-gray-500 font-mono">Deputy Director: Dr. Travis Fields</p>
+                          <div class="flex flex-wrap gap-2 mt-2">
+                            <a href="mide.html"
+                               data-nav-exit
+                               onclick="event.stopPropagation()"
+                               class="inline-flex items-center gap-2 text-[10px] font-mono text-gray-300 hover:text-white transition-colors uppercase tracking-widest border border-white/20 px-3 py-1.5 hover:border-white/40">
+                              View Full Page <i class="fas fa-arrow-right text-[8px]"></i>
+                            </a>
+                            <a href="#mide"
+                               onclick="event.stopPropagation()"
+                               class="inline-flex items-center gap-2 text-[10px] font-mono text-blue-400 hover:text-white transition-colors uppercase tracking-widest border border-blue-500/30 px-3 py-1.5 hover:border-blue-400">
+                              Jump to Featured <i class="fas fa-arrow-down text-[8px]"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <!-- PAST: DBF -->
+                  <li class="hero-mission-item done flex items-start gap-4 group" data-mission-status="done">
                     <a href="#washu-dbf" class="contents" aria-label="Jump to WashU Design/Build/Fly project">
-                      <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
-                        <img src="assets/images/washu_dbf.jpg" alt="" class="h-full w-full object-contain">
+                      <div class="h-10 w-10 mission-thumb mission-thumb--done shrink-0 z-10">
+                        <img src="assets/images/washu_dbf.jpg" alt="" class="h-full w-full object-contain opacity-80">
                       </div>
                       <div>
-                        <span class="block text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">SEP 2024 - JAN 2026 // LEFT</span>
-                        <h3 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">WashU Design/Build/Fly</h3>
+                        <span class="mission-meta">
+                          <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
+                          <span class="mission-date">Sep 2024 – Jan 2026</span>
+                        </span>
+                        <h3 class="text-gray-300 font-bold text-sm group-hover:text-white transition-colors">WashU Design/Build/Fly</h3>
                         <p class="text-xs text-gray-600">Aerodynamics &amp; Payload</p>
                       </div>
                     </a>
                   </li>
 
-                  <!-- DONE: MIRO Lab -->
-                  <li class="hero-mission-item done flex items-start gap-4 group opacity-75">
+                  <!-- PAST: MIRO Lab -->
+                  <li class="hero-mission-item done flex items-start gap-4 group" data-mission-status="done">
                     <a href="#miro-lab" class="contents" aria-label="Jump to MIRO Lab project">
-                      <div class="h-10 w-10 bg-white border border-white/10 p-1 shrink-0 group-hover:border-white transition-colors z-10">
-                        <img src="assets/images/mirolab.ico" alt="" class="h-full w-full object-contain">
+                      <div class="h-10 w-10 mission-thumb mission-thumb--done shrink-0 z-10">
+                        <img src="assets/images/mirolab.ico" alt="" class="h-full w-full object-contain opacity-80">
                       </div>
                       <div>
-                        <span class="block text-[9px] font-mono text-gray-500 mb-0.5 tracking-wider">SUMMER 2025 // COMPLETE</span>
-                        <h3 class="text-gray-400 font-bold text-sm group-hover:text-white transition-colors">Multiplatform Interactive Robotics Lab</h3>
+                        <span class="mission-meta">
+                          <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
+                          <span class="mission-date">Summer 2025</span>
+                        </span>
+                        <h3 class="text-gray-300 font-bold text-sm group-hover:text-white transition-colors">Multiplatform Interactive Robotics Lab</h3>
                         <p class="text-xs text-gray-600">Research Intern · Advisor: Dr. Hee-Sup Shin</p>
                       </div>
                     </a>
