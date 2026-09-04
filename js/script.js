@@ -269,18 +269,12 @@ const SKILL_DATA = {
 /** Coursework terminal rows */
 const COURSEWORK = {
   active: [
-    { pid: "5707", name: "Flight_Dynamics",           status: "RUNNING" },
-    { pid: "4050", name: "Vibrations_Lab",            status: "RUNNING" },
-    { pid: "4110", name: "Mechanical_Design_Project", status: "RUNNING" },
-    { pid: "4410", name: "Control_Systems",           status: "RUNNING" },
-    { pid: "5501", name: "Mechanics_of_Continua",     status: "RUNNING" }
-  ],
-  fall2026: [
-    { pid: "5707", name: "Flight_Dynamics",           status: "QUEUED" },
-    { pid: "4050", name: "Vibrations_Lab",            status: "QUEUED" },
-    { pid: "4110", name: "Mechanical_Design_Project", status: "QUEUED" },
-    { pid: "4410", name: "Control_Systems",           status: "QUEUED" },
-    { pid: "5501", name: "Mechanics_of_Continua",     status: "QUEUED" }
+    { pid: "5707", name: "Flight_Dynamics",     status: "RUNNING" },
+    { pid: "5708", name: "Aircraft_Design",     status: "RUNNING" },
+    { pid: "4050", name: "Vibrations_Lab",      status: "RUNNING" },
+    { pid: "4110", name: "ME_Design_Project",      status: "RUNNING" },
+    { pid: "4120", name: "Manufacturing_Processes",       status: "RUNNING" },
+    { pid: "2020", name: "Earth_Planetary_Science", status: "RUNNING" }
   ],
   history: [
     { type: "header", label: ">_ SPRING 2026" },
@@ -507,10 +501,9 @@ function showSkill(el, key) {
    6. COURSEWORK TERMINAL
 ============================================================================= */
 function switchCoursework(view) {
-  const btnActive   = document.getElementById("btn-active");
-  const btnFall2026 = document.getElementById("btn-fall2026");
-  const btnHistory  = document.getElementById("btn-history");
-  const list        = document.getElementById("coursework-list");
+  const btnActive  = document.getElementById("btn-active");
+  const btnHistory = document.getElementById("btn-history");
+  const list       = document.getElementById("coursework-list");
 
   const active   = "tab-active px-2 py-1 uppercase tracking-wider transition-colors";
   const inactive = "tab-inactive px-2 py-1 uppercase tracking-wider transition-colors";
@@ -521,9 +514,8 @@ function switchCoursework(view) {
     btn.setAttribute("aria-selected", String(on));
   };
 
-  setTab(btnActive,   view === "active");
-  setTab(btnFall2026, view === "fall2026");
-  setTab(btnHistory,  view === "history");
+  setTab(btnActive,  view === "active");
+  setTab(btnHistory, view === "history");
 
   const rows = COURSEWORK[view] || COURSEWORK.active;
 
@@ -535,7 +527,7 @@ function switchCoursework(view) {
         </div>`;
     }
 
-    const pidColor = (view === "active" || view === "fall2026") ? "text-blue-500" : "text-gray-700";
+    const pidColor = view === "active" ? "text-blue-500" : "text-gray-700";
 
     const statusColor = r.status === "RUNNING"
       ? "text-emerald-500"
