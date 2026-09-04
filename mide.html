@@ -299,17 +299,6 @@
             SYSTEM ID: MIDE-2026 // END OF FILE
         </div>
     </footer>
-
-    <script>
-    function smoothExit(e, url) {
-        e.preventDefault();
-        document.body.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
-        document.body.style.opacity = "0";
-        document.body.style.transform = "scale(0.98)";
-        setTimeout(() => { window.location.href = url; }, 400);
-    }
-    </script>
-    <script src="js/nav-persist.js"></script>
-
+  <script src="js/nav-persist.js"></script>
 </body>
 </html>

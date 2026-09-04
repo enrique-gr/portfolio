@@ -184,7 +184,7 @@
         <!-- MAIN NAV -->
         <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
             <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-                <a href="index.html#washu-vtol" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                     <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                     <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
                 </a>
@@ -537,18 +537,8 @@
             </div>
         </div>
     </div>
-
-    <script>
-    function smoothExit(e, url) {
-        e.preventDefault();
-        var wrap = document.getElementById('pageWrap');
-        wrap.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
-        wrap.style.opacity = "0";
-        wrap.style.transform = "scale(0.98)";
-        setTimeout(function() { window.location.href = url; }, 400);
-    }
-
-    function scrollToSection(id, btn) {
+  <script>
+function scrollToSection(id, btn) {
         document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const el = document.getElementById(id);
@@ -620,8 +610,7 @@
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && modalShell.getAttribute('data-open') === 'true') closeModal();
     });
-    </script>
-
-    <script src="js/nav-persist.js"></script>
+</script>
+  <script src="js/nav-persist.js"></script>
 </body>
 </html>

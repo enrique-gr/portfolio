@@ -1,9 +1,17 @@
-/* Cross-page navigation polish: soft exit, bfcache recovery, smart Return */
+/* Cross-page navigation: soft exit, bfcache recovery, smart Return.
+   Single source of truth for smoothExit / softNavigate — do not redefine on pages. */
 (function () {
   const RETURN_KEY = "eg-portfolio-returning";
+  const SCROLL_KEY = "eg-portfolio-index-scroll";
+  const HUB_KEY = "eg-portfolio-hub";
+  const SECTION_KEY = "eg-portfolio-return-section";
 
-  function markReturning() {
-    try { sessionStorage.setItem(RETURN_KEY, "1"); } catch (_) { /* ignore */ }
+  function markReturning(extra) {
+    try {
+      sessionStorage.setItem(RETURN_KEY, "1");
+      if (extra && extra.hub) sessionStorage.setItem(HUB_KEY, extra.hub);
+      if (extra && extra.section) sessionStorage.setItem(SECTION_KEY, extra.section);
+    } catch (_) { /* ignore */ }
   }
 
   function resetVisibility() {
@@ -11,6 +19,40 @@
     document.body.style.opacity = "1";
     document.body.style.transform = "none";
     document.body.style.transition = "";
+  }
+
+  /** Build a hash-free index URL; hub/section are restored via sessionStorage. */
+  function normalizeIndexReturnUrl(url) {
+    try {
+      const u = new URL(url, window.location.href);
+      const path = u.pathname.replace(/\\/g, "/");
+      const isIndex = /(^|\/)index(?:[\w.-]*)?\.html?$|\/$/.test(path) || path.endsWith("/Portfolio/") || path.endsWith("/portfolio/");
+      if (!isIndex) return url;
+
+      const hub = u.searchParams.get("hub");
+      const section = (u.hash || "").replace(/^#/, "");
+      markReturning({
+        hub: hub || undefined,
+        section: section || undefined
+      });
+
+      u.hash = "";
+      return u.pathname + u.search;
+    } catch (_) {
+      return url;
+    }
+  }
+
+  function referrerIsIndex() {
+    try {
+      if (!document.referrer) return false;
+      const ref = new URL(document.referrer);
+      const here = window.location;
+      if (ref.origin !== here.origin) return false;
+      return /(^|\/)index(?:[\w.-]*)?\.html?$|\/$/.test(ref.pathname);
+    } catch (_) {
+      return false;
+    }
   }
 
   window.addEventListener("pageshow", (e) => {
@@ -21,7 +63,8 @@
   /** Soft navigate (View Transitions when available) */
   window.softNavigate = function softNavigate(url) {
     markReturning();
-    const go = () => { window.location.href = url; };
+    const target = normalizeIndexReturnUrl(url);
+    const go = () => { window.location.href = target; };
     if (document.startViewTransition) {
       document.startViewTransition(go);
     } else {
@@ -35,21 +78,15 @@
 
   /**
    * Prefer history.back() when the prior page was same-origin index so
-   * bfcache can restore scroll without a hard reload. Otherwise soft-navigate.
+   * bfcache can restore scroll without a hard reload. Otherwise soft-navigate
+   * to a hash-free index URL and let index restore the saved scrollY.
    */
   window.smoothExit = function smoothExit(e, url) {
     if (e) e.preventDefault();
 
-    let canBack = false;
-    try {
-      if (document.referrer) {
-        const ref = new URL(document.referrer);
-        const here = window.location;
-        canBack = ref.origin === here.origin && /(^|\/)index(?:[\w.-]*)?\.html?$|\/$/.test(ref.pathname);
-      }
-    } catch (_) { /* ignore */ }
+    markReturning();
 
-    if (canBack && window.history.length > 1) {
+    if (referrerIsIndex() && window.history.length > 1) {
       const goBack = () => history.back();
       if (document.startViewTransition) document.startViewTransition(goBack);
       else {
@@ -59,6 +96,9 @@
       return;
     }
 
-    softNavigate(url);
+    softNavigate(url || "index.html");
   };
+
+  // Expose keys for index restore helpers (optional)
+  window.__EG_NAV = { RETURN_KEY, SCROLL_KEY, HUB_KEY, SECTION_KEY };
 })();
