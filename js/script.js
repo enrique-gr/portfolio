@@ -69,7 +69,7 @@ const PROJECTS = {
     category: "featured",
     logoUrl: "assets/images/dbf.png",
     role: "Structures and Test Engineer",
-    dates: "Sept 2024 - Present",
+    dates: "Aug 2024 - Present",
     tags: ["ANSYS FEA", "Flight Test", "Composites"],
     summary: "Structures and Test on WashU’s AIAA Design/Build/Fly team—supporting Mission 3 and ground-mission work, with prior structures, aerodynamics, and payload experience.",
     metric: "Status: Active · Competition Team",

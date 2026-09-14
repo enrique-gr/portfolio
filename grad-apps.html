@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="color-scheme" content="dark light">
+  <title>Grad Apps Tracker | Enrique Garcia</title>
+
+  <script>
+    (function () {
+      try {
+        var key = "eg-grad-apps-theme";
+        var stored = localStorage.getItem(key);
+        var theme = stored === "light" || stored === "dark"
+          ? stored
+          : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+      try {
+        if (sessionStorage.getItem("eg-portfolio-returning") === "1") {
+          document.documentElement.classList.add("nav-returning");
+        }
+      } catch (e2) { /* ignore */ }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/grad-apps.css">
+</head>
+<body class="antialiased">
+
+  <nav class="top-nav" aria-label="Grad apps navigation">
+    <div class="top-nav-inner">
+      <a href="index.html" onclick="smoothExit(event, this.href)" class="nav-return">
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        <span class="font-mono">Return</span>
+      </a>
+
+      <div class="nav-right">
+        <span id="save-indicator" aria-live="polite">Saved</span>
+        <span class="nav-meta-local">Local only</span>
+        <div class="theme-switch" role="group" aria-label="Color theme">
+          <button type="button" class="theme-btn" data-theme-set="light" aria-pressed="false">Light</button>
+          <button type="button" class="theme-btn" data-theme-set="dark" aria-pressed="false">Dark</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-main">
+    <header class="dossier-frame">
+      <p class="page-kicker">Fall 2027 applications</p>
+      <h1 class="page-title">Grad School Tracker</h1>
+      <p class="page-lede">
+        Write first. Tabs keep GT, Purdue, and letters one click away.
+        Drafts autosave in this browser.
+      </p>
+    </header>
+
+    <div id="grad-apps-root" aria-live="polite"></div>
+  </main>
+
+  <footer class="page-footer">
+    <div class="page-footer-inner">Local tracker · not indexed</div>
+  </footer>
+
+  <script src="js/nav-persist.js"></script>
+  <script src="js/grad-apps.js"></script>
+</body>
+</html>
