@@ -1,0 +1,15 @@
+# Local-only / private
+grad-apps.html
+js/grad-apps.js
+css/grad-apps.css
+assets/images/schools/
+
+# Source logo dumps (kept locally)
+GT.jpg
+PU.jpg
+Purdue_University_system_logo.svg
+georgia-tech-georgia-institute-of-technology-vector-logo-2022.svg
+
+# OS / unrelated
+desktop.ini
+portfolio/
