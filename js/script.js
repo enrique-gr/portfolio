@@ -224,10 +224,7 @@ const HW_ITEMS = [
   { type: "Flight Test", title: "MIDE Experimental UAS",           sub: "Repair · Integration · Test-Readiness",             src: "assets/images/mide.png",               date: "2026-08", status: "complete",  link: "mide.html" },
   { type: "Avionics",   title: "VTOL Airframe Integration",        sub: "Frame Assembly · Power Layout · Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
   { type: "Structural", title: "DBF Wing Layup",                   sub: "NACA 4415 · Carbon Spar",                            src: "assets/images/hw_dbf_wing.jpg",        date: "2025-11", status: "verified",  link: "washu-dbf.html" },
-  { type: "Firmware",   title: "EKF Navigation Board",             sub: "Teensy 4.1 · IMU · GPS",                             src: "assets/images/hw_ekf_board.jpg",       date: "2025-10", status: "validated", link: "ekf-nav.html" },
-  { type: "Vision",     title: "Sentinel CV Rig",                  sub: "OpenCV · Kalman Tracker",                            src: "assets/images/hw_sentinel_rig.jpg",    date: "2025-12", status: "verified",  link: "sentinel.html" },
   { type: "Research",   title: "MIRO Wearable Sensor",             sub: "IMU Array · EMG Electrodes",                         src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "validated", link: "miro-lab.html" },
-  { type: "Simulation", title: "Hyperion Test Loop",               sub: "6-DOF · 10 kHz · C++20",                             src: "assets/images/hw_hyperion_sim.jpg",    date: "2025-12", status: "verified",  link: "hyperion.html" },
   { type: "CFD",        title: "Wing Section CFD",                 sub: "ANSYS CFX · Cp Distribution",                        src: "assets/images/hw_cfd_result.jpg",      date: "2025-11", status: "validated", link: "washu-dbf.html" },
   { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up · Wiring Validation · Multimeter Test", src: "assets/images/hw_vtol_test_bench.jpg", date: "2026-01", status: "verified",  link: "washu-vtol.html" },
   {
