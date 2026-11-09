@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
 
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -177,6 +178,7 @@
             model-viewer { height: 320px; }
         }
     </style>
+  <link rel="stylesheet" href="css/site-theme.css">
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
@@ -554,6 +556,11 @@
                             <h4 class="text-sm font-semibold text-white mb-1">The Dark Knight</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">Tight pacing, moral complexity, and precision in both storytelling and execution. An engineering mindset on screen.</p>
                         </article>
+                        <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/movies/lotr_trilogy.jpg" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Lord of the Rings film trilogy title cards" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Lord of the Rings Trilogy</h4>'">
+                            <h4 class="text-sm font-semibold text-white mb-1">The Lord of the Rings Trilogy</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Three films built as one long campaign. Endurance, loyalty, and a small team carrying a mission no one else could finish.</p>
+                        </article>
                     </div>
                 </section>
 
@@ -595,6 +602,54 @@
                             <div class="text-[10px] font-mono text-amber-300 uppercase tracking-widest mb-1">Marcus Aurelius</div>
                             <h4 class="text-sm font-semibold text-white mb-1">Meditations</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">A reminder to stay disciplined, calm, and focused on what can be controlled.</p>
+                        </article>
+
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/nicomachean_ethics.webp" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Nicomachean Ethics" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-stone-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-stone-300 uppercase tracking-widest mb-1">Aristotle</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Nicomachean Ethics</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Character as a practiced habit. Excellence comes from repeated, deliberate action, not intention alone.</p>
+                        </article>
+
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/lotr_fellowship.jpg" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Fellowship of the Ring" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-yellow-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-yellow-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">The Fellowship of the Ring</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A team assembled from people who have no reason to work together, committed to a mission bigger than any of them.</p>
+                        </article>
+
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/lotr_two_towers.webp" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Two Towers" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-red-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-red-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">The Two Towers</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">The team splits and every thread has to hold on its own. Progress made without knowing how the other fronts are going.</p>
+                        </article>
+
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/lotr_return_king.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Return of the King" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-green-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-green-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">The Return of the King</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Seeing the mission through to the end. The last stretch is the hardest, and it only works because nobody quit earlier.</p>
+                        </article>
+
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/moon_harsh_mistress.jpg" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Moon Is a Harsh Mistress" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-orange-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-orange-300 uppercase tracking-widest mb-1">Robert A. Heinlein</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">The Moon Is a Harsh Mistress</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">An engineer, a self-aware computer, and a lunar colony. Resource limits, orbital mechanics, and planning against long odds.</p>
+                        </article>
+
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/farmer_in_the_sky.jpg" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Farmer in the Sky" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-orange-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-orange-300 uppercase tracking-widest mb-1">Robert A. Heinlein</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Farmer in the Sky</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Building a working colony on Ganymede from almost nothing. Hard work, improvisation, and systems that have to keep people alive.</p>
                         </article>
 
                     </div>
@@ -647,6 +702,10 @@
                         <div class="flex items-center justify-between"><span>Stealth Warplanes</span><span class="text-purple-300">Doug Richardson</span></div>
                         <div class="flex items-center justify-between"><span>Introduction to Flight</span><span class="text-emerald-300">Anderson</span></div>
                         <div class="flex items-center justify-between"><span>Meditations</span><span class="text-amber-300">Marcus Aurelius</span></div>
+                        <div class="flex items-center justify-between"><span>Nicomachean Ethics</span><span class="text-stone-300">Aristotle</span></div>
+                        <div class="flex items-center justify-between"><span>The Lord of the Rings</span><span class="text-yellow-300">J.R.R. Tolkien</span></div>
+                        <div class="flex items-center justify-between"><span>The Moon Is a Harsh Mistress</span><span class="text-orange-300">Heinlein</span></div>
+                        <div class="flex items-center justify-between"><span>Farmer in the Sky</span><span class="text-orange-300">Heinlein</span></div>
                     </div>
                 </div>
             </aside>

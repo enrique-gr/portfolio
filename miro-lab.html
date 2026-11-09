@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
 
     <style>
         html { background-color: #000000; }
@@ -36,6 +37,7 @@
         ::-webkit-scrollbar-thumb { background: #3f3f46; }
         ::-webkit-scrollbar-thumb:hover { background: #71717a; }
     </style>
+  <link rel="stylesheet" href="css/site-theme.css">
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
@@ -196,10 +198,27 @@
 
             <div class="space-y-10">
                 
-                <a href="https://mirolaboratory.github.io/" target="_blank" 
-                   class="block w-full text-center bg-white text-black font-mono font-bold text-xs uppercase py-4 hover:bg-blue-500 hover:text-white transition-colors tracking-widest">
-                    Visit Lab Website <i class="fas fa-external-link-alt ml-2"></i>
-                </a>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">External Links</h3>
+                    <div class="space-y-4">
+                        <a href="https://mirolaboratory.github.io/" target="_blank" rel="noopener noreferrer"
+                           class="group block border border-white/10 bg-[#0a0a0a] hover:border-blue-400/60 transition-colors overflow-hidden">
+                            <div class="h-36 overflow-hidden border-b border-white/10 bg-black">
+                                <img src="assets/images/miro-lab.png" alt="MIRO Lab logo"
+                                     class="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-500"
+                                     onerror="this.parentElement.style.display='none'">
+                            </div>
+                            <div class="flex items-center justify-between gap-3 px-4 py-3">
+                                <div class="min-w-0">
+                                    <p class="text-[9px] font-mono text-gray-500 uppercase tracking-widest mb-1">Lab Website</p>
+                                    <p class="text-sm font-semibold text-white leading-tight">Multiplatform Interactive Robotics Lab</p>
+                                    <p class="text-[10px] font-mono text-gray-500 mt-1 truncate">mirolaboratory.github.io</p>
+                                </div>
+                                <i class="fas fa-arrow-up-right-from-square text-xs text-gray-500 group-hover:text-blue-400 transition-colors shrink-0" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
 
                 <div>
                     <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>

@@ -26,11 +26,13 @@ const PROJECTS = {
     title: "Missouri Institute for Defense and Energy",
     category: "featured",
     logoUrl: "assets/images/mide.png",
+    photo: true,
+    imgPos: "left center",
     role: "UAS Research Intern",
     dates: "May 2026 – Aug 2026",
     tags: ["UAS Systems", "Flight Test", "Hardware Integration"],
     summary: "Worked experimental unmanned aircraft as systems: returning vehicles to test-ready after structural work, supporting flight test, and using flight data to relate configuration to readiness. Brought platforms up through calibration and bench checks and verified that sensing, estimation, and actuation hung together on the vehicle.",
-    metric: "Focus: Test-Readiness · Systems Integration",
+    metric: "Status: Complete · Test-Readiness & Integration",
     problem: "Experimental UAS needed to be restored, integrated, and judged flight-ready after structural work and configuration changes, without writing a new controller.",
     contribution: "Supported repair and flight-test operations; used flight data to assess readiness; brought platforms up as integrated systems and checked the sense-to-actuate path on hardware.",
     result: "Helped return aircraft to test-ready status and grounded readiness calls in configuration-linked flight data rather than assumption.",
@@ -49,29 +51,31 @@ const PROJECTS = {
     title: "WashU VTOL",
     category: "featured",
     logoUrl: "assets/images/vtol.png",
+    photo: true,
     role: "Lead Avionics Engineer",
-    dates: "Sept 2025 - Present",
-    tags: ["Pixhawk 6C", "PX4", "HIL Testing"],
-    summary: "Avionics and systems integration for WashU's student VTOL aircraft—bring-up, PX4 configuration, and flight-test support.",
-    metric: "Status: Active · Competition Team",
-    problem: "Need reliable hover/transition behavior on a student-built VTOL with integrated avionics and power.",
-    contribution: "Defined avionics architecture, configured PX4 modes/gains/failsafes, improved wiring reliability, and ran HIL checks before flight.",
-    result: "Supported first hover, VTOL-to-fixed-wing transition, and ongoing autonomy refinement on an active team.",
-    constraint: "Noisy embedded buses under mixed power loads",
-    tradeoff: "Rapid feature tuning vs robust pre-flight validation",
-    decision: "Prioritized HIL-first regression gates before field tests",
-    outcome: "Active avionics lead on WashU VTOL with validated hover/transition milestones",
-    proof: ["PX4 + Pixhawk 6C stack bring-up", "HIL scenarios exercised pre-flight", "I2C noise fault resolved (VTOL-01)"],
+    dates: "Sep 2025 – Present",
+    tags: ["Pixhawk 6C", "PX4", "Quadcopter", "Hexacopter"],
+    summary: "Lead Avionics across two VFS cycles: Hexacopter flight proof in 2025–2026, now rebuilding a Quadcopter X-frame for Search and Rescue.",
+    metric: "Status: Active · Search and Rescue 2026–27",
+    problem: "Competition aircraft must keep sensing, power, flight control, and payload interfaces honest under flight-test and mission pressure.",
+    contribution: "Owned avionics architecture and bring-up; closed Hexacopter hover/transition/payload ops; driving 2026–27 Quadcopter system architecture for Search and Rescue.",
+    result: "Validated Hexacopter milestones with FTR evidence; active rebuild for the harder Search and Rescue fly-off cycle.",
+    constraint: "Hard weight, lost-link, and payload rules with noisy embedded buses under mixed power loads",
+    tradeoff: "Rapid feature tuning vs robust pre-flight validation under competition timelines",
+    decision: "HIL-first gates before flight; architecture owned end-to-end before claiming mission readiness",
+    outcome: "Lead Avionics on WashU VTOL: Hexacopter cycle closed, Quadcopter Search and Rescue cycle in build",
+    proof: ["Hexacopter hover + VTOL transition + payload ops", "2026–27 Quadcopter system architecture", "I2C noise fault resolved (VTOL-01)"],
     externalLink: "washu-vtol.html"
   },
   "washu-dbf": {
     title: "WashU Design/Build/Fly",
     category: "featured",
     logoUrl: "assets/images/dbf.png",
+    photo: true,
     role: "Structures and Test Engineer",
-    dates: "Aug 2024 - Present",
+    dates: "Aug 2024 – Present",
     tags: ["ANSYS FEA", "Flight Test", "Composites"],
-    summary: "Structures and Test on WashU’s AIAA Design/Build/Fly team—supporting Mission 3 and ground-mission work, with prior structures, aerodynamics, and payload experience.",
+    summary: "Structures and Test on WashU’s AIAA Design/Build/Fly team, supporting Mission 3 and ground-mission work, with prior structures, aerodynamics, and payload experience.",
     metric: "Status: Active · Competition Team",
     problem: "Support Mission 3 and ground-mission needs while keeping the aircraft competition-ready.",
     contribution: "Structures and Test support for Mission 3 and ground mission; earlier spar FEA, release hardware, and aero/CFD checks.",
@@ -91,7 +95,7 @@ const PROJECTS = {
     dates: "May 2025 – Aug 2025",
     tags: ["Python", "MATLAB", "Sensor Fusion"],
     summary: "Developed a wearable sensor fusion system (IMU + EMG) and visual tracking pipeline.",
-    metric: "Result: High-Fidelity Motion Sync",
+    metric: "Status: Complete · Sensor Fusion Research",
     problem: "Synchronize noisy wearable sensor streams with visual tracking for reliable motion interpretation.",
     contribution: "Implemented fusion workflow for IMU + EMG + camera signals and analysis tooling.",
     result: "Improved signal coherence and produced repeatable motion signatures for research trials.",
@@ -222,7 +226,7 @@ const PROJECTS = {
 /** Hardware Log ticker items */
 const HW_ITEMS = [
   { type: "Flight Test", title: "MIDE Experimental UAS",           sub: "Repair · Integration · Test-Readiness",             src: "assets/images/mide.png",               date: "2026-08", status: "complete",  link: "mide.html" },
-  { type: "Avionics",   title: "VTOL Airframe Integration",        sub: "Frame Assembly · Power Layout · Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
+  { type: "Avionics",   title: "VTOL Hexacopter Integration",      sub: "Frame Assembly · Power Layout · Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
   { type: "Structural", title: "DBF Wing Layup",                   sub: "NACA 4415 · Carbon Spar",                            src: "assets/images/hw_dbf_wing.jpg",        date: "2025-11", status: "verified",  link: "washu-dbf.html" },
   { type: "Research",   title: "MIRO Wearable Sensor",             sub: "IMU Array · EMG Electrodes",                         src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "validated", link: "miro-lab.html" },
   { type: "CFD",        title: "Wing Section CFD",                 sub: "ANSYS CFX · Cp Distribution",                        src: "assets/images/hw_cfd_result.jpg",      date: "2025-11", status: "validated", link: "washu-dbf.html" },
@@ -294,6 +298,8 @@ const COURSEWORK = {
 ============================================================================= */
 function renderHW() {
   const track = document.getElementById("hwtrack");
+  const count = document.getElementById("hw-count");
+  if (count) count.textContent = `${HW_ITEMS.length} builds logged`;
   // Duplicate items for seamless infinite scroll
   const allItems = [...HW_ITEMS, ...HW_ITEMS];
 
@@ -346,7 +352,8 @@ function renderFeatured() {
         <!-- Image panel -->
         <div class="w-full md:w-1/2 feat-img-wrap relative border border-white/10 bg-[#0a0a0a] overflow-hidden">
           <img src="${p.logoUrl}" loading="lazy"
-               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+               ${p.imgPos ? `style="object-position:${p.imgPos};transform-origin:${p.imgPos}"` : ""}
+               class="${p.photo ? "eg-photo " : ""}w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
           <div class="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors pointer-events-none"></div>
           <div class="absolute top-0 left-0 w-4 h-4 border-l border-t border-white/30"></div>
           <div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-white/30"></div>
@@ -574,54 +581,284 @@ function initAnomaliesDrag() {
 /* =============================================================================
    8. ENGINEERING SKILLS RADAR
 ============================================================================= */
-function initRadar() {
-  const ctx    = document.getElementById("skillsChart").getContext("2d");
-  const isMob  = window.innerWidth < 768;
+/** Evidence tiers. Flight = flown on an aircraft; Hardware = built or bench-tested on physical hardware. */
+const RADAR_TIERS = {
+  flight:   { label: "Flight",   weight: 4, hw: true  },
+  hardware: { label: "Hardware", weight: 3, hw: true  },
+  analysis: { label: "Analysis", weight: 2, hw: false },
+  course:   { label: "Course",   weight: 1, hw: false }
+};
 
-  new Chart(ctx, {
+/** Each axis is scored only from the work listed here. Edit this list to change the chart. */
+const RADAR_EVIDENCE = [
+  { axis: "Dynamics & Estimation", short: "Dynamics", focus: true, items: [
+    { tier: "flight",   text: "CG and static-margin calls from MIDE flight logs", link: "mide.html" },
+    { tier: "hardware", text: "12-state EKF propagating attitude on a Teensy 4.1", link: "ekf-nav.html" },
+    { tier: "analysis", text: "Hyperion 6-DOF rigid-body engine",                  link: "hyperion.html" },
+    { tier: "analysis", text: "Lander descent dynamics sim",                       link: "lander.html" },
+    { tier: "course",   text: "Vibrations · Vibrations Lab · Flight Dynamics" }
+  ]},
+  { axis: "Controls & Automation", short: "Controls", focus: true, items: [
+    { tier: "flight",   text: "PX4 setup through Hexacopter hover and transition", link: "washu-vtol.html" },
+    { tier: "flight",   text: "Attitude loop checks on Cube / ArduPilot at MIDE",  link: "mide.html" },
+    { tier: "hardware", text: "Sentinel 2-axis visual-servo gimbal",               link: "sentinel.html" },
+    { tier: "analysis", text: "Lander PID thrust control",                         link: "lander.html" },
+    { tier: "analysis", text: "Adaptive Cruise Control in Simulink",               link: "cruise-control.html" },
+    { tier: "course",   text: "Modeling, Simulation and Control" }
+  ]},
+  { axis: "Modeling & Simulation", short: "Modeling", items: [
+    { tier: "hardware", text: "MATLAB CG models checked against MIDE flight data", link: "mide.html" },
+    { tier: "analysis", text: "Hyperion 6-DOF engine at 10 kHz",                   link: "hyperion.html" },
+    { tier: "analysis", text: "WebTunnel browser CFD solver",                      link: "webtunnel-cfd.html" },
+    { tier: "analysis", text: "Lander control sim",                                link: "lander.html" },
+    { tier: "analysis", text: "Adaptive Cruise Control plant model",               link: "cruise-control.html" },
+    { tier: "course",   text: "Modeling, Simulation and Control" }
+  ]},
+  { axis: "Aero / Thermal-Fluids", short: "Aero", items: [
+    { tier: "analysis", text: "DBF airfoil and wing trades in XFLR5",              link: "washu-dbf.html" },
+    { tier: "analysis", text: "DBF wing-section CFD in ANSYS CFX",                 link: "washu-dbf.html" },
+    { tier: "analysis", text: "WebTunnel Navier-Stokes solver",                    link: "webtunnel-cfd.html" },
+    { tier: "course",   text: "Fluid Mechanics · Fluids and Heat Lab" },
+    { tier: "course",   text: "Thermodynamics · Heat Transfer · Thermal Systems" },
+    { tier: "course",   text: "Aircraft Design" }
+  ]},
+  { axis: "Mechanical Design", short: "Mech Design", items: [
+    { tier: "flight",   text: "DBF spar FEA and wing layup on the flown airframe", link: "washu-dbf.html" },
+    { tier: "flight",   text: "MIDE structural repair back to test-ready",         link: "mide.html" },
+    { tier: "hardware", text: "DBF payload-release mechanism",                     link: "washu-dbf.html" },
+    { tier: "analysis", text: "Foosball table, 200+ part CAD assembly",            link: "cad-foosball.html" },
+    { tier: "analysis", text: "Nose landing gear FEA for 3g impact",               link: "solid-mechanics.html" },
+    { tier: "course",   text: "Machine Elements · Solid Mechanics" },
+    { tier: "course",   text: "ME Design Project · Manufacturing" }
+  ]},
+  { axis: "Embedded / Test Systems", short: "Embedded / Test", items: [
+    { tier: "flight",   text: "Lead Avionics: Hexacopter bring-up to flight test", link: "washu-vtol.html" },
+    { tier: "flight",   text: "MIDE calibration, bench checks, flight-test ops",   link: "mide.html" },
+    { tier: "hardware", text: "VTOL HIL gates and bench validation",               link: "washu-vtol.html" },
+    { tier: "hardware", text: "I2C noise fault traced and fixed (VTOL-01)",        link: "washu-vtol.html" },
+    { tier: "hardware", text: "MIRO synchronized IMU + EMG acquisition",           link: "miro-lab.html" },
+    { tier: "hardware", text: "12-state EKF running on a Teensy 4.1",              link: "ekf-nav.html" },
+    { tier: "hardware", text: "Sentinel Teensy-driven actuator loop",              link: "sentinel.html" },
+    { tier: "hardware", text: "RF priority system on Arduino",                     link: "ambulance-system.html" },
+    { tier: "analysis", text: "FAULTLINE fault-detection console",                 link: "faultline.html" }
+  ]}
+];
+
+/** Saturating score: more evidence always helps, but nothing reaches 100. */
+const RADAR_K = 15;
+const radarScore = w => Math.round(100 * (1 - Math.exp(-w / RADAR_K)));
+
+function initRadar() {
+  const canvas = document.getElementById("skillsChart");
+  const fx     = document.getElementById("radarFx");
+  const stage  = document.getElementById("radar-stage");
+  const readEl = document.getElementById("radar-readout");
+  if (!canvas || !fx || !stage || !readEl || typeof Chart === "undefined") return;
+
+  const scores = RADAR_EVIDENCE.map(a => {
+    const total = a.items.reduce((s, i) => s + RADAR_TIERS[i.tier].weight, 0);
+    const hw    = a.items.reduce((s, i) => s + (RADAR_TIERS[i.tier].hw ? RADAR_TIERS[i.tier].weight : 0), 0);
+    return { all: radarScore(total), hw: radarScore(hw) };
+  });
+  const allData = scores.map(s => s.all);
+  const hwData  = scores.map(s => s.hw);
+  const focusIdx = RADAR_EVIDENCE.map((a, i) => (a.focus ? i : -1)).filter(i => i >= 0);
+  let selected  = focusIdx.reduce((b, i) => (allData[i] > allData[b] ? i : b), focusIdx[0] ?? 0);
+  let fxReady   = false;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const zeros = allData.map(() => 0);
+  const narrow = window.innerWidth < 640;
+  const HW  = "52,211,153";
+  const ALL = "142,182,232";
+
+  const chart = new Chart(canvas.getContext("2d"), {
     type: "radar",
     data: {
-      labels: [
-        "Dynamics & Vibrations",
-        "Controls & Automation",
-        "Modeling & Simulation",
-        "Aero / Thermal-Fluids",
-        "Mechanical Design",
-        "Embedded / Test Systems"
-      ],
-      datasets: [{
-        label: "Competency",
-        data: [75, 70, 72, 70, 72, 70],
-        backgroundColor:   "rgba(59,130,246,.1)",
-        borderColor:       "#3b82f6",
-        borderWidth:       2,
-        pointBackgroundColor: "#000",
-        pointBorderColor:     "#3b82f6",
-        pointBorderWidth:     2,
-        pointRadius:          5,
-        pointHoverRadius:     7,
-        pointStyle:           "crossRot"
-      }]
+      labels: RADAR_EVIDENCE.map(a => (narrow ? a.short.split(/ (?=\/)| (?=Design)/) : a.axis)),
+      datasets: [
+        {
+          label: "Hardware-proven", data: reduceMotion ? hwData : [...zeros], order: 1,
+          backgroundColor: `rgba(${HW},.16)`, borderColor: `rgba(${HW},.95)`, borderWidth: 1.5,
+          pointRadius: ctx => (ctx.dataIndex === selected ? 4 : 2.5),
+          pointBackgroundColor: `rgb(${HW})`, pointBorderWidth: 0
+        },
+        {
+          label: "All evidence", data: reduceMotion ? allData : [...zeros], order: 2,
+          backgroundColor: `rgba(${ALL},.07)`, borderColor: `rgba(${ALL},.85)`, borderWidth: 1.5,
+          borderDash: [4, 3],
+          pointRadius: ctx => (ctx.dataIndex === selected ? 4 : 2.5),
+          pointBackgroundColor: "#0a0a0a", pointBorderColor: `rgb(${ALL})`, pointBorderWidth: 1.5
+        }
+      ]
     },
     options: {
-      layout: { padding: 30 },
+      maintainAspectRatio: false,
+      animation: { duration: reduceMotion ? 0 : 1100, easing: "easeOutQuart" },
+      layout: { padding: { top: 6, bottom: 10, left: 8, right: 8 } },
+      events: [],
       scales: {
         r: {
           min: 0, max: 100,
-          angleLines: { color: "rgba(255,255,255,.1)" },
-          grid:       { color: "rgba(255,255,255,.05)" },
+          angleLines: { color: "rgba(255,255,255,.07)" },
+          grid: { circular: true, color: ctx => (ctx.index === 4 ? "rgba(255,255,255,.12)" : "rgba(255,255,255,.045)") },
           pointLabels: {
-            color: "#94a3b8",
-            font: { size: isMob ? 9 : 11, family: "'JetBrains Mono'", weight: "bold" },
-            padding: 10
+            color: ctx => (ctx.index === selected ? "#f3f4f6" : RADAR_EVIDENCE[ctx.index].focus ? "#8eb6e8" : "#6b7280"),
+            font: { size: narrow ? 9 : 10, family: "'JetBrains Mono'", weight: "bold" },
+            padding: narrow ? 5 : 8
           },
-          ticks: { display: false, stepSize: 25, backdropColor: "transparent" }
+          ticks: { display: false, stepSize: 20 }
         }
       },
-      plugins: { legend: { display: false } },
-      maintainAspectRatio: false
+      plugins: { legend: { display: false }, tooltip: { enabled: false } }
     }
   });
+
+  /* Selected-area summary: name, scores, evidence mix, strongest proof */
+  const N = RADAR_EVIDENCE.length;
+  function select(i) {
+    selected = (i + N) % N;
+    const a = RADAR_EVIDENCE[selected], s = scores[selected];
+    const mix = Object.keys(RADAR_TIERS)
+      .map(k => [k, a.items.filter(it => it.tier === k).length])
+      .filter(([, c]) => c)
+      .map(([k, c]) => `<span class="radar-mix radar-mix--${k}">${c} ${RADAR_TIERS[k].label}</span>`).join("");
+    const top = a.items[0];
+    readEl.innerHTML = `
+      <div class="flex items-center justify-between gap-3">
+        <p class="flex items-center gap-2 min-w-0 text-[10px] sm:text-[11px] text-white uppercase tracking-widest">
+          ${a.focus ? `<span class="radar-focus-tag">Core focus</span>` : ""}
+          <span class="truncate sm:hidden">${a.short}</span><span class="truncate hidden sm:inline">${a.axis}</span>
+        </p>
+        <div class="flex items-center gap-3 shrink-0 text-[10px] uppercase tracking-widest">
+          <span><span class="text-emerald-400">${s.hw}</span><span class="text-gray-600"> hw · </span><span class="radar-all-score">${s.all}</span><span class="text-gray-600"> all</span></span>
+          <span class="flex">
+            <button type="button" class="radar-step" data-step="-1" aria-label="Previous area">&lsaquo;</button>
+            <button type="button" class="radar-step" data-step="1" aria-label="Next area">&rsaquo;</button>
+          </span>
+        </div>
+      </div>
+      <div class="radar-bar my-2.5" aria-hidden="true">
+        <span class="radar-bar__all" style="width:${s.all}%"></span>
+        <span class="radar-bar__hw" style="width:${s.hw}%"></span>
+      </div>
+      <div class="flex items-center justify-between gap-4 text-[10px]">
+        <a href="${top.link}" class="truncate text-gray-400 hover:text-white transition-colors">
+          <span class="text-gray-600 uppercase tracking-widest">Top proof</span> ${top.text} &rarr;</a>
+        <span class="hidden md:flex gap-2 shrink-0">${mix}</span>
+      </div>`;
+    chart.update("none");
+    if (fxReady && !running) drawFx(0);
+  }
+  readEl.addEventListener("click", e => {
+    const b = e.target.closest(".radar-step");
+    if (b) select(selected + +b.dataset.step);
+  });
+  stage.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); select(selected + 1); }
+    if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   { e.preventDefault(); select(selected - 1); }
+  });
+
+  /* Pointing at a sector of the chart selects that axis */
+  function axisAt(evt) {
+    const r = chart.scales.r, box = canvas.getBoundingClientRect();
+    const x = evt.clientX - box.left - r.xCenter, y = evt.clientY - box.top - r.yCenter;
+    if (Math.hypot(x, y) > r.drawingArea * 1.45) return -1;
+    const n = RADAR_EVIDENCE.length, step = (2 * Math.PI) / n;
+    const a = (Math.atan2(y, x) + Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
+    return Math.round(a / step) % n;
+  }
+  stage.addEventListener("mousemove", e => { const i = axisAt(e); if (i >= 0 && i !== selected) select(i); });
+  stage.addEventListener("click", e => { const i = axisAt(e); if (i >= 0) select(i); });
+
+  /* Sweep overlay, drawn in the chart's own geometry so it stays centered */
+  const g = fx.getContext("2d");
+  const glow = new Array(RADAR_EVIDENCE.length).fill(0);
+  let sweep = -Math.PI / 2, last = performance.now(), running = false, raf = 0;
+
+  function sizeFx() {
+    const dpr = window.devicePixelRatio || 1;
+    fx.width = stage.clientWidth * dpr;
+    fx.height = stage.clientHeight * dpr;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function drawFx(dt) {
+    const r = chart.scales.r;
+    const cx = r.xCenter, cy = r.yCenter, R = r.drawingArea;
+    g.clearRect(0, 0, fx.width, fx.height);
+
+    if (!reduceMotion) {
+      const prev = sweep;
+      sweep += dt * (2 * Math.PI / 5000);
+      const n = RADAR_EVIDENCE.length;
+      for (let i = 0; i < n; i++) {
+        const ang = r.getIndexAngle(i) - Math.PI / 2;
+        const d0 = ((prev - ang) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+        const d1 = ((sweep - ang) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+        if (d1 < d0) glow[i] = 1;
+        glow[i] = Math.max(0, glow[i] - dt / 1800);
+      }
+
+      const TRAIL = Math.PI / 3, SLICES = 28;
+      for (let s = 0; s < SLICES; s++) {
+        const a0 = sweep - TRAIL * (s + 1) / SLICES, a1 = sweep - TRAIL * s / SLICES;
+        g.beginPath(); g.moveTo(cx, cy); g.arc(cx, cy, R, a0, a1); g.closePath();
+        g.fillStyle = `rgba(${ALL},${0.11 * (1 - s / SLICES) ** 2})`;
+        g.fill();
+      }
+      g.beginPath(); g.moveTo(cx, cy);
+      g.lineTo(cx + R * Math.cos(sweep), cy + R * Math.sin(sweep));
+      g.strokeStyle = `rgba(${ALL},.55)`; g.lineWidth = 1; g.stroke();
+    }
+
+    [[0, HW], [1, ALL]].forEach(([ds, rgb]) => {
+      chart.getDatasetMeta(ds).data.forEach((p, i) => {
+        const k = reduceMotion ? (i === selected ? 0.6 : 0) : glow[i];
+        if (k <= 0.01 || !chart.data.datasets[ds].data[i]) return;
+        const grad = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, 14);
+        grad.addColorStop(0, `rgba(${rgb},${0.55 * k})`);
+        grad.addColorStop(1, `rgba(${rgb},0)`);
+        g.fillStyle = grad;
+        g.beginPath(); g.arc(p.x, p.y, 14, 0, 2 * Math.PI); g.fill();
+      });
+    });
+
+    if (focusIdx.length) {
+      const pad = Math.PI / N * 0.45;
+      const a0 = r.getIndexAngle(focusIdx[0]) - Math.PI / 2 - pad;
+      const a1 = r.getIndexAngle(focusIdx[focusIdx.length - 1]) - Math.PI / 2 + pad;
+      g.beginPath(); g.arc(cx, cy, R + 4, a0, a1);
+      g.strokeStyle = `rgba(${ALL},.55)`; g.lineWidth = 2; g.stroke();
+    }
+
+    g.beginPath(); g.arc(cx, cy, 2, 0, 2 * Math.PI);
+    g.fillStyle = `rgba(${ALL},.8)`; g.fill();
+  }
+
+  function loop(now) {
+    drawFx(Math.min(now - last, 64));
+    last = now;
+    if (running) raf = requestAnimationFrame(loop);
+  }
+
+  select(selected);
+  sizeFx();
+  fxReady = true;
+  new ResizeObserver(() => { sizeFx(); if (!running) drawFx(0); }).observe(stage);
+
+  if (reduceMotion) { setTimeout(() => drawFx(0), 50); return; }
+  let revealed = false;
+  new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting && !revealed) {
+      revealed = true;
+      chart.data.datasets[0].data = hwData;
+      chart.data.datasets[1].data = allData;
+      chart.update();
+    }
+    if (entry.isIntersecting && !running) { running = true; last = performance.now(); raf = requestAnimationFrame(loop); }
+    else if (!entry.isIntersecting && running) { running = false; cancelAnimationFrame(raf); }
+  }, { threshold: 0.35 }).observe(stage);
 }
 
 /* =============================================================================

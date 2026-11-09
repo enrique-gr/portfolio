@@ -10,7 +10,8 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
 
   <style>
     html, body { height: 100%; background-color: #000; scroll-behavior: smooth; }
@@ -205,6 +206,7 @@
       pointer-events: none;
     }
   </style>
+  <link rel="stylesheet" href="css/site-theme.css">
 </head>
 
 <body class="antialiased bg-[#0f0f10] min-h-screen">
@@ -333,7 +335,7 @@
               <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
                 <button class="block w-full text-left" type="button"
                         onclick="openModal({type:'image', src:'assets/images/dbf_field_1.png', title:'DBF Field Session \u2014 Aircraft Prep'})">
-                  <img src="assets/images/dbf_field_1.png" alt="DBF field session aircraft image 1" class="w-full h-56 object-cover">
+                  <img src="assets/images/dbf_field_1.png" alt="DBF field session aircraft image 1" class="eg-photo w-full h-56 object-cover">
                   <figcaption class="p-4">
                     <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Field Session</div>
                     <div class="text-xs text-gray-300 mt-1">Aircraft prep + configuration checks</div>
@@ -344,7 +346,7 @@
               <figure class="border border-white/10 bg-white/5 hover:bg-white/10 transition rounded-sm overflow-hidden">
                 <button class="block w-full text-left" type="button"
                         onclick="openModal({type:'image', src:'assets/images/dbf_field_2.png', title:'DBF Field Session \u2014 Taxi / Systems'})">
-                  <img src="assets/images/dbf_field_2.png" alt="DBF field session aircraft image 2" class="w-full h-56 object-cover">
+                  <img src="assets/images/dbf_field_2.png" alt="DBF field session aircraft image 2" class="eg-photo w-full h-56 object-cover">
                   <figcaption class="p-4">
                     <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Field Session</div>
                     <div class="text-xs text-gray-300 mt-1">Taxi + systems verification</div>
@@ -428,25 +430,44 @@
 
         <!-- RIGHT SIDEBAR -->
         <div class="space-y-10">
-          <a href="https://www.wudbf.com/" target="_blank" rel="noopener noreferrer"
-             class="block border border-white/10 bg-black overflow-hidden group hover:border-blue-400 transition-all">
-            <div class="bg-[#0a0a0a] p-3">
-              <img src="assets/images/washu-dbf.jpg" alt="WashU Design/Build/Fly Team"
-                   class="w-full h-auto object-contain">
-            </div>
-            <div class="w-full text-center bg-white/5 text-white font-mono font-bold text-xs uppercase py-4 border-t border-white/10 group-hover:bg-blue-500 group-hover:text-white transition-colors tracking-widest">
-              Visit Team Website <i class="fas fa-external-link-alt ml-2"></i>
-            </div>
-          </a>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">External Links</h3>
+            <div class="space-y-4">
+              <a href="https://www.wudbf.com/" target="_blank" rel="noopener noreferrer"
+                 class="group block border border-white/10 bg-[#0a0a0a] hover:border-blue-400/60 transition-colors overflow-hidden">
+                <div class="overflow-hidden border-b border-white/10 bg-black">
+                  <img src="assets/images/washu-dbf.jpg" alt="WashU Design/Build/Fly team"
+                       class="block w-full h-auto opacity-80 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-500"
+                       onerror="this.parentElement.style.display='none'">
+                </div>
+                <div class="flex items-center justify-between gap-3 px-4 py-3">
+                  <div class="min-w-0">
+                    <p class="text-[9px] font-mono text-gray-500 uppercase tracking-widest mb-1">Team Website</p>
+                    <p class="text-sm font-semibold text-white leading-tight">WashU Design/Build/Fly</p>
+                    <p class="text-[10px] font-mono text-gray-500 mt-1 truncate">wudbf.com</p>
+                  </div>
+                  <i class="fas fa-arrow-up-right-from-square text-xs text-gray-500 group-hover:text-blue-400 transition-colors shrink-0" aria-hidden="true"></i>
+                </div>
+              </a>
 
-          <a href="https://aiaa.org/dbf/" target="_blank" rel="noopener noreferrer"
-             class="block p-5 bg-[#18181b] border border-white/20 hover:border-blue-400 hover:bg-[#1f1f23] transition-all group cursor-pointer shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-bold text-white font-mono uppercase tracking-widest group-hover:text-blue-400 transition-colors">Competition Intel</span>
-              <i class="fas fa-external-link-alt text-gray-400 group-hover:text-blue-400 group-hover:translate-x-1 transition-transform"></i>
+              <a href="https://aiaa.org/dbf/" target="_blank" rel="noopener noreferrer"
+                 class="group block border border-white/10 bg-[#0a0a0a] hover:border-blue-400/60 transition-colors overflow-hidden">
+                <div class="h-36 overflow-hidden border-b border-white/10 bg-white flex items-center justify-center px-8 py-6">
+                  <img src="assets/images/aiaa_dbf_logo.webp" alt="AIAA Design/Build/Fly logo"
+                       class="max-h-full max-w-full object-contain !filter-none group-hover:scale-[1.03] transition-transform duration-500"
+                       onerror="this.parentElement.style.display='none'">
+                </div>
+                <div class="flex items-center justify-between gap-3 px-4 py-3">
+                  <div class="min-w-0">
+                    <p class="text-[9px] font-mono text-gray-500 uppercase tracking-widest mb-1">Competition</p>
+                    <p class="text-sm font-semibold text-white leading-tight">AIAA Design/Build/Fly</p>
+                    <p class="text-[10px] font-mono text-gray-500 mt-1 truncate">aiaa.org/dbf</p>
+                  </div>
+                  <i class="fas fa-arrow-up-right-from-square text-xs text-gray-500 group-hover:text-blue-400 transition-colors shrink-0" aria-hidden="true"></i>
+                </div>
+              </a>
             </div>
-            <p class="text-[10px] text-gray-300 font-mono leading-relaxed">Official AIAA Design/Build/Fly rules, rankings, and mission parameters.</p>
-          </a>
+          </div>
 
           <div>
             <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
 
     <style>
         html { background-color: #000000; }
@@ -79,6 +80,7 @@
             background: rgba(74, 222, 128, 0.04);
         }
     </style>
+  <link rel="stylesheet" href="css/site-theme.css">
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
@@ -89,9 +91,9 @@
                 <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
             </a>
 
-            <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-emerald-400 drop-shadow-[0_0_3px_rgba(74,222,128,0.25)]">
-                <span class="hidden md:inline font-semibold">May – Aug 2026 · Complete</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#9ca3af] drop-shadow-[0_0_3px_rgba(156,163,175,0.25)]">
+                <span class="hidden md:inline font-semibold">Mission Complete</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#9ca3af]"></span>
             </div>
         </div>
     </nav>
@@ -106,11 +108,8 @@
             </div>
 
             <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border-l-2 border-green-500 mb-3">
-                    <span class="font-mono font-bold text-green-400 text-xs tracking-wider uppercase">UAS Research Intern</span>
-                </div>
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Missouri Institute for Defense and Energy</h1>
-                <p class="text-green-400 font-mono text-sm uppercase tracking-widest mt-1">UAS systems · Flight test · Hardware integration</p>
+                <p class="text-green-400 font-mono text-sm uppercase tracking-widest">UAS Research Intern</p>
                 <p class="text-gray-500 font-mono text-xs mt-2">Kansas City · Deputy Director: Dr. Travis Fields</p>
                 <div class="mt-4 text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">May 2026 – Aug 2026</div>
             </div>
@@ -211,32 +210,25 @@
 
                 <!-- Lab website link card -->
                 <div>
-                    <p class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-3">External Link</p>
-                    <a href="https://info.umkc.edu/mide/research-staging/"
-                       target="_blank" rel="noopener noreferrer"
-                       class="group block border border-white/10 hover:border-green-400/50 bg-black transition-all duration-300">
-
-                        <div class="px-4 pt-4 pb-3 border-b border-white/5">
-                            <div class="flex items-center gap-2 mb-1">
-                                <i class="fas fa-globe text-green-400 text-xs"></i>
-                                <span class="font-mono text-[10px] text-green-400 uppercase tracking-widest font-bold">Official Lab Website</span>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">External Links</h3>
+                    <div class="space-y-4">
+                        <a href="https://info.umkc.edu/mide/research-staging/" target="_blank" rel="noopener noreferrer"
+                           class="group block border border-white/10 bg-[#0a0a0a] hover:border-blue-400/60 transition-colors overflow-hidden">
+                            <div class="overflow-hidden border-b border-white/10 bg-black">
+                                <img src="assets/images/mide_website.png" alt="MIDE website preview"
+                                     class="block w-full h-auto opacity-80 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-500"
+                                     onerror="this.parentElement.style.display='none'">
                             </div>
-                            <p class="text-white font-semibold text-sm leading-tight">Missouri Institute for Defense and Energy</p>
-                            <p class="text-gray-500 text-[11px] font-mono mt-1">University of Missouri – Kansas City</p>
-                        </div>
-
-                        <div class="relative overflow-hidden bg-[#080808]">
-                            <img src="assets/images/mide_website.png"
-                                 alt="MIDE Research Lab website screenshot"
-                                 class="w-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-[1.02] transition-all duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-                        </div>
-
-                        <div class="px-4 py-3 flex items-center justify-between border-t border-white/5 bg-white/[0.02]">
-                            <span class="font-mono text-[10px] text-gray-500 truncate">info.umkc.edu/mide</span>
-                            <i class="fas fa-arrow-up-right-from-square text-green-400 text-[11px] shrink-0 ml-2 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                        </div>
-                    </a>
+                            <div class="flex items-center justify-between gap-3 px-4 py-3">
+                                <div class="min-w-0">
+                                    <p class="text-[9px] font-mono text-gray-500 uppercase tracking-widest mb-1">Lab Website</p>
+                                    <p class="text-sm font-semibold text-white leading-tight">Missouri Institute for Defense and Energy</p>
+                                    <p class="text-[10px] font-mono text-gray-500 mt-1 truncate">info.umkc.edu/mide</p>
+                                </div>
+                                <i class="fas fa-arrow-up-right-from-square text-xs text-gray-500 group-hover:text-blue-400 transition-colors shrink-0" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Focus Areas -->

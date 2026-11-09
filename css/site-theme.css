@@ -1,0 +1,134 @@
+/* =============================================================================
+   Site Theme — defense/aerospace refinement pass
+   Inspired by design language of Mach / Anduril / Shield AI / Hermeus
+   (no trademarks, assets, or copy from those companies)
+============================================================================= */
+
+:root {
+  --eg-bg: #050505;
+  --eg-bg-elevated: #0a0a0a;
+  --eg-bg-panel: #080808;
+  --eg-fg: #e8eaed;
+  --eg-fg-muted: #9aa3af;
+  --eg-fg-dim: #6b7280;
+  --eg-accent: #8eb6e8;          /* cooler steel signal (was bright Tailwind blue) */
+  --eg-accent-core: #6b9fd4;
+  --eg-accent-bright: #a8c5e8;
+  --eg-accent-soft: rgba(107, 159, 212, 0.12);
+  --eg-accent-mid: rgba(107, 159, 212, 0.28);
+  --eg-accent-glow: rgba(107, 159, 212, 0.28);
+  --eg-border: rgba(255, 255, 255, 0.08);
+  --eg-border-strong: rgba(255, 255, 255, 0.16);
+  --eg-ok: #6ee7b7;
+  --eg-ok-soft: rgba(16, 185, 129, 0.10);
+  --eg-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --eg-duration: 0.22s;
+}
+
+/* Remap common Tailwind blues → steel accent (visual only; no content change) */
+.text-blue-300 { color: var(--eg-accent-bright) !important; }
+.text-blue-400 { color: var(--eg-accent) !important; }
+.text-blue-500 { color: var(--eg-accent-core) !important; }
+.hover\:text-blue-300:hover { color: #fff !important; }
+.hover\:text-blue-400:hover { color: #fff !important; }
+.group:hover .group-hover\:text-blue-300,
+.group:hover .group-hover\:text-blue-400 { color: #fff !important; }
+
+.bg-blue-400 { background-color: var(--eg-accent-core) !important; }
+.bg-blue-500 { background-color: var(--eg-accent-core) !important; }
+.bg-blue-500\/5 { background-color: var(--eg-accent-soft) !important; }
+.bg-blue-500\/30 { background-color: var(--eg-accent-mid) !important; }
+.hover\:bg-blue-400:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.border-blue-400 { border-color: var(--eg-accent) !important; }
+.border-blue-500 { border-color: var(--eg-accent-core) !important; }
+.border-blue-500\/20 { border-color: rgba(107, 159, 212, 0.20) !important; }
+.border-blue-500\/30 { border-color: rgba(107, 159, 212, 0.30) !important; }
+.border-blue-500\/50 { border-color: rgba(107, 159, 212, 0.50) !important; }
+.hover\:border-blue-400:hover { border-color: rgba(255, 255, 255, 0.55) !important; }
+
+.selection\:bg-blue-500\/30::selection,
+::selection {
+  background: rgba(107, 159, 212, 0.32);
+  color: #fff;
+}
+
+/* Shared body polish for pages that only use Tailwind + inline styles */
+html {
+  background-color: var(--eg-bg);
+}
+
+body {
+  color: var(--eg-fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hairline scrollbars (Anduril / Mach restraint) */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--eg-bg); }
+::-webkit-scrollbar-thumb { background: #3f3f46; }
+::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+/* Links & buttons: quieter, white-forward hovers */
+a, button {
+  transition: color var(--eg-duration) ease,
+              background-color var(--eg-duration) ease,
+              border-color var(--eg-duration) ease,
+              opacity var(--eg-duration) ease,
+              transform var(--eg-duration) var(--eg-ease);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 1px solid var(--eg-accent);
+  outline-offset: 2px;
+}
+
+/* Media framing — sharper industrial crops (Hermeus / Anduril) */
+.border.border-white\/10 img,
+.border.border-white\/5 img,
+[class*="border-white/"] img {
+  filter: brightness(0.92) contrast(1.06) saturate(0.92);
+  transition: filter var(--eg-duration) ease, transform 0.55s var(--eg-ease);
+}
+.group:hover .border.border-white\/10 img,
+.group:hover [class*="border-white/"] img,
+a.group:hover img {
+  filter: brightness(1) contrast(1.04) saturate(0.98);
+}
+
+/* Hangar grade: low-key, warm, matte treatment for hardware photography.
+   Vignette is a mask, so edges fall off into the dark surface behind the image. */
+:root {
+  --eg-grade: brightness(0.84) contrast(1.14) saturate(0.82) sepia(0.16);
+  --eg-grade-hover: brightness(0.98) contrast(1.08) saturate(0.94) sepia(0.06);
+  --eg-vignette: radial-gradient(ellipse 76% 80% at 50% 42%, #000 48%, rgba(0, 0, 0, 0.38) 100%);
+}
+.fig-badge { z-index: 2; }
+img.eg-photo,
+.hw-card img:not(.hw-img-cfd) {
+  filter: var(--eg-grade) !important;
+  -webkit-mask-image: var(--eg-vignette);
+  mask-image: var(--eg-vignette);
+  transition: filter 0.6s ease, transform 0.65s var(--eg-ease);
+}
+.group:hover img.eg-photo,
+a:hover > img.eg-photo,
+button:hover > img.eg-photo,
+.hw-card:hover img:not(.hw-img-cfd) {
+  filter: var(--eg-grade-hover) !important;
+}
+
+/* Section nav underlines on case studies → steel accent */
+.section-nav-btn.active::after {
+  background: var(--eg-accent-core);
+}
+
+/* Return / sticky nav chrome */
+nav.fixed {
+  border-bottom-color: var(--eg-border);
+}
