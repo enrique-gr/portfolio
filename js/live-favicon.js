@@ -2,10 +2,10 @@
  * Live favicon — cross-browser “systems up” pulse on the brand mark.
  *
  * Strategy:
- *  1) HTML can ship favicon-live.gif (animates in Chrome/Firefox without JS).
+ *  1) HTML ships favicon.png (same mark Chrome + Edge should show).
  *  2) This script draws a smoother PNG pulse via canvas where dynamic icons work.
  *  3) Safari gets slower updates + link-element replacement (href-only is flaky).
- *  4) prefers-reduced-motion / missing canvas → leave the static/GIF icon alone.
+ *  4) prefers-reduced-motion / missing canvas → leave the static PNG alone.
  *
  * Asset paths resolve from this script’s URL so /demos/* pages work too.
  */

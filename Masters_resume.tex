@@ -1,80 +1,100 @@
+% Enrique Garcia Rivera | Resume for Georgia Tech M.S. Aerospace Engineering
+% Final review copy, November 12, 2026. Compile with pdfLaTeX (Overleaf works).
 \documentclass[11pt, letterpaper]{article}
 \newcommand{\myphone}{(816) 749-9954}
 \usepackage[margin=0.5in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[default]{raleway}
+\usepackage[default,lining]{raleway} % lining numerals: dates and numbers read cleanly
 \usepackage{anyfontsize}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{titlesec}
+
+% Accessibility and ATS: real, copyable text in the PDF
+\input{glyphtounicode}
+\pdfgentounicode=1
+
 \setlength{\parindent}{0pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\sloppy
 \pagestyle{empty}
-\setlist[itemize]{noitemsep, topsep=1pt, leftmargin=1.15em, itemsep=1.5pt, parsep=0pt}
+\setlist[itemize]{noitemsep, topsep=1pt, leftmargin=1.15em, itemsep=1.5pt, parsep=0pt, before=\raggedright, after=\vspace{3pt}}
 \definecolor{darkslate}{RGB}{20,25,35}
 \definecolor{accentblue}{RGB}{0,56,168}
-\usepackage[colorlinks=true, urlcolor=accentblue, linkcolor=accentblue]{hyperref}
-\titleformat{\section}
-{\normalsize\bfseries\color{darkslate}\uppercase}
-{}
-{0em}
-{}
-[\vspace{0.5pt}\titlerule]
-\titlespacing*{\section}{0pt}{6pt}{2pt}
-% Title, Organization, City, State, Dates
-\newcommand{\role}[5]{%
-  \noindent\textbf{#1}, #2, #3, #4 \hfill #5%
-}
+\usepackage[colorlinks=true, urlcolor=accentblue, linkcolor=accentblue,
+  pdftitle={Enrique Garcia Rivera Resume},
+  pdfauthor={Enrique Garcia Rivera},
+  pdfsubject={Resume},
+  pdflang={en-US}]{hyperref}
+\titleformat{\section}{\normalsize\bfseries\color{darkslate}\uppercase}{}{0em}{}[\vspace{0.5pt}\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+% \role{Title}{Organization}{City, ST}{Dates}
+% Dates stay right-aligned with a guaranteed gap; they drop to the next line only if the line is full.
+\newcommand{\role}[4]{{\noindent\parfillskip=0pt \textbf{#1}, #2, #3\unskip\nobreak\hfil\penalty50\hskip1.5em\hbox{}\nobreak\hfil #4\par}}
+
+% Portfolio link
+\newcommand{\website}{\href{https://enrique-gr.github.io/portfolio/}{enrique-gr.github.io/portfolio}}
+
 \begin{document}
+
 \begin{center}
 {\fontsize{18pt}{22pt}\selectfont\bfseries ENRIQUE GARCIA RIVERA} \\[4pt]
 \small
-St.\ Louis, MO \ $|$ \ \href{tel:+18167499954}{\myphone} \ $|$ \
+\href{tel:+18167499954}{\myphone} \ $|$ \
 \href{mailto:e.garciarivera@wustl.edu}{e.garciarivera@wustl.edu} \ $|$ \
 \href{https://www.linkedin.com/in/enrique-gr}{linkedin.com/in/enrique-gr} \ $|$ \
-\href{https://github.com/enrique-gr}{github.com/enrique-gr}
+\website
 \end{center}
+
 \section{Education}
 \textbf{Washington University in St.\ Louis} \hfill St.\ Louis, MO \\
-Bachelor of Science in Mechanical Engineering \hfill Expected May 2027 \\
-GPA: 3.65 / 4.00
-\begin{itemize}
-\item Relevant Coursework: Flight Dynamics; Aircraft Design; Modeling, Simulation, and Control; Vibrations; Numerical Methods and Matrix Algebra; Fluid Mechanics
-\item Honors: Scholar-Mentee, Purdue Engineering GradTrack Program; Deans List
-\end{itemize}
-\section{Technical Skills}
-\textbf{Programming \& Modeling:} MATLAB/Simulink, Python, C++, Git \\
-\textbf{Controls \& Estimation:} PID control, sensor fusion, EKF, IMU calibration, state estimation \\
-\textbf{Hardware \& Design Tools:} Pixhawk/Cube, ArduPilot, Mission Planner, MAVLink, DroneCAN, HIL testing, flight-log analysis, SolidWorks (GD\&T), ANSYS, XFLR5, Teensy/Arduino, composites
+Bachelor of Science in Mechanical Engineering \ $|$ \ GPA: 3.65 / 4.00 \hfill Expected May 2027 \\
+\textbf{Relevant Coursework:} Flight Dynamics and Aircraft Design (graduate, in progress); Modeling, Simulation, and Control; Numerical Methods and Matrix Algebra; Vibrations; Fluid Mechanics
+
 \section{Research Experience}
-\role{UAS Research Intern}{Missouri Institute for Defense \& Energy}{Kansas City}{MO}{May 2026 -- Aug. 2026} \\[-2pt]
-\textit{\small Supervisor: Dr.\ Travis Fields, Deputy Director.}
+\role{UAS Research Intern}{Missouri Institute for Defense and Energy}{Kansas City, MO}{Summer 2026}
 \begin{itemize}
-\item Developed an experimental unmanned aerial vehicle (UAV) testbed of 7 quadcopter platforms from \\ component-level hardware (Cube Black, ArduPilot, sensors, propulsion, power), defining a repeatable \\ methodology for configuration control, sensor calibration, and bench validation.
-\item Investigated how payload placement and nose mass affect center-of-gravity location and static stability margin using ArduPilot flight logs and MATLAB center-of-gravity models on Tiguar unmanned aircraft system (UAS) platforms; supported flight-test campaigns after composite structural repair.
-\item Characterized the attitude-estimation-and-control loop (measure--estimate--command--actuate) on Cube Black/ArduPilot, using Python/MAVLink and DroneCAN to compare live attitude estimates with physical motion and commanded servo response.
+\item Built a MATLAB pipeline that batch-processes ArduPilot flight logs from 3 tactical fixed-wing Group 2 UAS, automatically detecting 125 flights in one month and organizing flight activity by aircraft and day.
+\item Developed an interactive MATLAB center of gravity model from measured landing-gear weights to evaluate payload layouts and solve for the nose ballast needed to hold the design CG.
+\item Rebuilt quadcopters from component-level hardware for a field-experimentation fleet, configuring ArduPilot over MAVLink and DroneCAN with per-vehicle parameter baselines and calibration.
+% [CONFIRM before uncommenting] \item Built a DroneCAN servo command chain with a self-leveling control loop [what it leveled; your exact role].
+\item Supported UAS flight testing in the field, including ground station setup and composite airframe repair.
 \end{itemize}
-\role{Sensor Fusion Research Intern}{MIRO Lab, UMKC}{Kansas City}{MO}{May 2025 -- Aug. 2025} \\[-2pt]
-\textit{\small Advisor: Dr.\ Hee-Sup Shin.}
+
+\role{Research Intern}{Multiplatform Interactive Robotics Laboratory}{Kansas City, MO}{Summer 2025}
 \begin{itemize}
-\item Built a Teensy 4.0 multimodal sensing platform synchronizing dual EMG and dual IMU streams at 1\,kHz and conducted human-subject trials across rest, MVC, and arm-motion conditions.
-\item Implemented MATLAB EKF calibration and visualization fusing IMU and visual ground-truth measurements to reduce drift in motion estimates; contributed to an IEEE Body Sensor Networks 2025 abstract, \textit{Toward Electromechanical Measurement of Muscle Activity}.
+\item Built a Teensy 4.0 embedded sensing platform synchronizing two EMG and two IMU streams at 1\,kHz, and ran timed trials across rest, contraction, and motion conditions.
+\item Processed EMG and IMU signals in Python (filtering, RMS envelopes, FFT); contributed to an IEEE Body Sensor Networks 2025 abstract, \textit{Toward Electromechanical Measurement of Muscle Activity}.
 \end{itemize}
+
 \section{Engineering Experience}
-\role{Lead Avionics Engineer}{WashU VTOL}{St.\ Louis}{MO}{Sept. 2025 -- Present}
+\role{Founding Member and Lead Avionics Engineer}{WashU VTOL}{St.\ Louis, MO}{Sep.\ 2025 -- Present}
 \begin{itemize}
-\item Defined avionics architecture for a prototype hex VTOL (Pixhawk 6C, sensors, communications, isolated 4S avionics/6S propulsion power) and configured VTOL/fixed-wing modes, PID gains, and failsafes.
-\item Diagnosed motor-induced EMI causing I2C barometer/magnetometer dropouts and restored reliable telemetry via rerouting, twisted-pair I2C, and pull-up resistors.
-\item Validated the integrated avionics stack through bench testing, HIL simulation, first hover, and VTOL-to-fixed-wing transition.
+\item Lead avionics and flight control integration for the team's Vertical Flight Society Design-Build-Vertical Flight aircraft: a hexacopter prototype (2025--26) and the current 2026--27 quadcopter.
+\item Integrated the hexacopter's flight control and sensing system around a Pixhawk 6C running PX4 with isolated 4S/6S power; configured flight modes and failsafes and tuned PID gains.
+\item Traced barometer and magnetometer dropouts to motor-induced electromagnetic interference on the I2C bus and restored reliable sensor data by rerouting lines, twisting signal pairs, and adding pull-ups.
+\item Validated the integrated avionics in stages: bench, hardware-in-the-loop simulation, and first hover.
+% [CONFIRM before uncommenting] \item Defining the avionics architecture for the 2026--27 quadcopter [state only what is decided or built].
 \end{itemize}
-\role{Structures and Test Engineer}{WashU Design/Build/Fly}{St.\ Louis}{MO}{Aug. 2024 -- Present} \\[-2pt]
-\textit{\small Structures -- Aerodynamics -- Payload Systems -- Structures and Test.}
+
+\role{Structures and Test Engineer}{WashU Design/Build/Fly}{St.\ Louis, MO}{Aug.\ 2024 -- Present}
 \begin{itemize}
-\item Sized carbon-fiber wing spars under 2.5\,g loads (ANSYS FEA), designed payload-release hardware with ASME Y14.5 GD\&T, compared XFLR5/ANSYS CFD with flight telemetry, and now support Mission~3 and ground-mission work on the Structures and Test subteam.
+\item Sized primary wing structure for AIAA Design/Build/Fly and SAE Aero Design aircraft under 2.5\,g loads using ANSYS finite element analysis, iterating on carbon-fiber spar layup.
+\item Designed and fabricated mission payload systems, including a fuel-carrying composite pylon and a winch deployment system, and built a drop-test stand to verify payload protection.
 \end{itemize}
-\section{Leadership \& Communication Experience}
-\role{Teaching Assistant}{Washington University in St.\ Louis}{St.\ Louis}{MO}{Aug. 2025 -- Present}\\[-1pt]
-{\small Vibrations (Fall 2026); MEMS 2000 Circuits (Fall 2025).}
-% \section{Projects}
-% \noindent\textbf{Adaptive Cruise Control} \textit{(MATLAB/Simulink)} --- Modeled longitudinal vehicle dynamics; designed a PID controller for a two-second following gap; compared Euler and ODE45 solvers.
+
+\section{Teaching}
+\noindent\textbf{Undergraduate Teaching Fellow}, Washington University in St.\ Louis \hfill Aug.\ 2025 -- Present \par
+\begin{itemize}
+\item Hold office hours and grade for Structural Dynamics and Vibrations (Fall 2026) and Electrical and Electronic Circuits (Fall 2025), helping students connect theory to physical systems.
+\end{itemize}
+
+\section{Technical Skills}
+{\raggedright
+\textbf{Dynamics, Control, and Analysis:} MATLAB/Simulink, Python, C++, dynamics modeling, feedback control, PID tuning, signal processing, ANSYS FEA, SolidWorks \\
+\textbf{Flight Systems and Test:} PX4, ArduPilot, MAVLink, DroneCAN, Pixhawk, HIL testing, embedded systems, data acquisition, sensor calibration, composites\par}
+
 \end{document}
