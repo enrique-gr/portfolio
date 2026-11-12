@@ -1,6 +1,6 @@
-/* Cross-page navigation — SPA-style soft shell on the index.
-   Outbound: keep index alive, show the target in a full-viewport frame.
-   Return: close the frame instantly (zero document reload). */
+/* Cross-page navigation — production-safe soft shell + Return.
+   Soft shell: index stays alive under a full-viewport iframe.
+   Return: always reveals the index (never URL-only / stuck-page). */
 (function () {
   const RETURN_KEY  = "eg-portfolio-returning";
   const SCROLL_KEY  = "eg-portfolio-index-scroll";
@@ -24,6 +24,20 @@
     } catch (_) { /* ignore */ }
   }
 
+  function markReturningFromUrl(url) {
+    try {
+      const u = new URL(url, window.location.href);
+      if (!isIndexPath(u.pathname)) return;
+      markReturning({
+        hub: u.searchParams.get("hub") || undefined,
+        section: (u.hash || "").replace(/^#/, "") || undefined,
+        clearScroll: !!(u.hash || "").replace(/^#/, "")
+      });
+    } catch (_) {
+      markReturning();
+    }
+  }
+
   function resetVisibility() {
     document.documentElement.classList.remove("page-exit");
     document.body.style.opacity = "1";
@@ -35,28 +49,11 @@
     try {
       const u = new URL(url, window.location.href);
       if (!isIndexPath(u.pathname)) return url;
-
-      const hub = u.searchParams.get("hub");
-      const section = (u.hash || "").replace(/^#/, "");
-      markReturning({
-        hub: hub || undefined,
-        section: section || undefined,
-        clearScroll: !!section
-      });
-
+      markReturningFromUrl(url);
       u.hash = "";
       return u.pathname + u.search;
     } catch (_) {
       return url;
-    }
-  }
-
-  function canBackToIndex() {
-    if (window.history.length <= 1) return false;
-    try {
-      return sessionStorage.getItem(SCROLL_KEY) !== null;
-    } catch (_) {
-      return false;
     }
   }
 
@@ -76,31 +73,45 @@
     }
   }
 
-  /** Soft shell only works when parent can talk to the frame (not file://). */
   function softShellSupported() {
     return window.location.protocol === "http:" || window.location.protocol === "https:";
   }
 
+  /** True when this document is the soft-shell iframe (or still hosted by it). */
   function isInSoftFrame() {
     try {
-      return window.top !== window
-        && window.top.__EG_SOFT
-        && typeof window.top.__EG_SOFT.isActive === "function"
-        && window.top.__EG_SOFT.isActive();
-    } catch (_) {
-      return false;
-    }
+      if (window.top === window) return false;
+      if (window.frameElement && window.frameElement.id === FRAME_ID) return true;
+      if (window.top.__EG_SOFT && typeof window.top.__EG_SOFT.isActive === "function") {
+        return window.top.__EG_SOFT.isActive();
+      }
+    } catch (_) { /* cross-origin */ }
+    return false;
+  }
+
+  function closeSoftFromChild() {
+    try {
+      if (window.top && window.top.__EG_SOFT && typeof window.top.__EG_SOFT.close === "function") {
+        window.top.__EG_SOFT.close();
+        return true;
+      }
+    } catch (_) { /* ignore */ }
+    // Last resort: break out of the frame to the index
+    try {
+      window.top.location.href = indexHref();
+      return true;
+    } catch (_) { /* ignore */ }
+    return false;
   }
 
   /* ── Index soft shell ───────────────────────────────────────────────── */
   const Soft = {
     frame: null,
     lockedY: 0,
-    opening: false,
     closing: false,
 
     isIndex() {
-      return isIndexPath(window.location.pathname);
+      return isIndexPath(window.location.pathname) || !!document.getElementById("hero-section");
     },
 
     isActive() {
@@ -118,20 +129,25 @@
         frame.style.background = "#050505";
         document.body.appendChild(frame);
       }
-      frame.addEventListener("load", () => {
-        if (!this.isActive() || this.closing) return;
-        try {
-          const childLoc = frame.contentWindow && frame.contentWindow.location;
-          if (!childLoc || childLoc.href === "about:blank") return;
-          const next = childLoc.pathname + childLoc.search + childLoc.hash;
-          if (next && next !== window.location.pathname + window.location.search + window.location.hash) {
-            history.replaceState({ egSoft: 1 }, "", next);
-          }
+      if (!frame.__egBound) {
+        frame.__egBound = true;
+        frame.addEventListener("load", () => {
+          if (!this.isActive() || this.closing) return;
           try {
-            frame.contentWindow.__EG_IN_SOFT = true;
-          } catch (_) { /* ignore */ }
-        } catch (_) { /* cross-origin */ }
-      });
+            const childLoc = frame.contentWindow && frame.contentWindow.location;
+            if (!childLoc || childLoc.href === "about:blank") return;
+            const next = childLoc.pathname + childLoc.search + childLoc.hash;
+            const cur = window.location.pathname + window.location.search + window.location.hash;
+            if (next && next !== cur) {
+              history.replaceState(
+                { ...(history.state && typeof history.state === "object" ? history.state : {}), egSoft: 1 },
+                "",
+                next
+              );
+            }
+          } catch (_) { /* cross-origin */ }
+        });
+      }
       this.frame = frame;
       return frame;
     },
@@ -155,7 +171,7 @@
       });
     },
 
-    open(url, opts) {
+    open(url) {
       if (!this.isIndex() || !softShellSupported()) {
         window.location.href = url;
         return;
@@ -167,12 +183,9 @@
       }
 
       this.closing = false;
-      this.opening = true;
-      // Paint black shell in the same turn — before network work.
       this.lockIndex();
       const frame = this.ensureFrame();
 
-      // Seed an index history entry so the first Back always restores the hub.
       if (!history.state || !history.state.egIndex) {
         history.replaceState(
           { egIndex: 1, y: window.scrollY || 0 },
@@ -181,73 +194,72 @@
         );
       }
 
-      if (!(opts && opts.skipPush)) {
-        history.pushState({ egSoft: 1 }, "", abs);
-      }
+      history.pushState({ egSoft: 1 }, "", abs);
 
-      if (frame.getAttribute("src") === abs) {
-        try { frame.contentWindow.location.replace(abs); } catch (_) { frame.src = abs; }
-      } else {
+      try {
+        frame.contentWindow.location.replace(abs);
+      } catch (_) {
         frame.src = abs;
       }
-      this.opening = false;
     },
 
     /**
-     * Instant Return — tear the overlay down in this turn (Shield-level),
-     * then sync history. Never wait on history.back() to reveal the index.
+     * Instant Return: reveal index first, then rewrite the current history
+     * entry to the index URL. Never history.back() — that caused
+     * "URL changed but still on project page" when the stack was messy.
      */
     close() {
-      if (!this.isActive() && !this.closing) return;
-      const y = this.lockedY || window.scrollY || 0;
-      const hadSoft = !!(history.state && history.state.egSoft);
+      if (this.closing) return;
       this.closing = true;
+      const y = this.lockedY || window.scrollY || 0;
+
+      // 1) Visual close in this turn
       this.teardown();
-      if (hadSoft) {
-        history.back();
-        return;
-      }
+
+      // 2) Force the address bar onto the index (same history entry)
       try {
         history.replaceState({ egIndex: 1, y }, "", indexHref());
-      } catch (_) { /* ignore */ }
+      } catch (_) {
+        try { history.replaceState({ egIndex: 1, y }, "", "./"); } catch (__) { /* ignore */ }
+      }
+
       this.closing = false;
     },
 
     teardown() {
       const frame = this.frame || document.getElementById(FRAME_ID);
+      document.documentElement.classList.remove("eg-soft-away");
       if (frame) {
-        // Hide first (same frame), blank src after so unload can't flash
-        document.documentElement.classList.remove("eg-soft-away");
         try { frame.src = "about:blank"; } catch (_) { /* ignore */ }
       }
       this.unlockIndex();
-      try {
-        sessionStorage.removeItem(RETURN_KEY);
-      } catch (_) { /* ignore */ }
+      try { sessionStorage.removeItem(RETURN_KEY); } catch (_) { /* ignore */ }
     },
 
     onPopState(e) {
       if (!this.isIndex()) return;
       const state = e.state;
 
-      // close() already revealed the index; just finish the history sync.
       if (this.closing) {
         this.closing = false;
         if (this.isActive()) this.teardown();
-        if (state && typeof state.y === "number") window.scrollTo(0, state.y);
         return;
       }
 
       if (state && state.egSoft) {
-        // Forward navigation back into a soft page
+        // Browser Forward into a soft URL — reopen overlay
         this.lockIndex();
         const frame = this.ensureFrame();
         const abs = window.location.href;
-        if (frame.getAttribute("src") !== abs) frame.src = abs;
+        try {
+          frame.contentWindow.location.replace(abs);
+        } catch (_) {
+          frame.src = abs;
+        }
         return;
       }
 
-      // Browser Back from a soft page (button / swipe)
+      // Browser Back from a soft page
       if (this.isActive()) this.teardown();
       if (state && typeof state.y === "number") {
         this.lockedY = state.y;
@@ -280,23 +292,23 @@
   });
 
   window.softNavigate = function softNavigate(url) {
-    window.location.href = normalizeIndexReturnUrl(url);
+    window.location.assign(normalizeIndexReturnUrl(url));
   };
 
-  /**
-   * Open a same-origin page without killing the index (Shield-level Return).
-   * Used by index navigateTo(). Falls back to full navigation off-index.
-   */
   window.softOpen = function softOpen(url) {
     Soft.open(url);
   };
 
   /**
-   * Return: if we are inside the soft frame → close parent instantly.
-   * Else history.back() into bfcache / softNavigate fallback.
+   * Production Return:
+   * 1) Soft-frame child → close parent shell (instant)
+   * 2) Top-level project → always assign(index), never blind history.back()
    */
   window.smoothExit = function smoothExit(e, url) {
-    if (e) e.preventDefault();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const fallback = url || "index.html";
 
     let targetIsIndex = true;
@@ -304,28 +316,23 @@
       targetIsIndex = isIndexPath(new URL(fallback, window.location.href).pathname);
     } catch (_) { /* keep true */ }
 
-    if (targetIsIndex && isInSoftFrame()) {
-      try {
-        window.top.__EG_SOFT.close();
-        return;
-      } catch (_) { /* fall through */ }
+    // Soft shell iframe → close parent (never history.back on the iframe)
+    if (targetIsIndex && (isInSoftFrame() || (window.frameElement && window.frameElement.id === FRAME_ID))) {
+      if (closeSoftFromChild()) return;
     }
 
     if (!targetIsIndex) {
-      window.location.href = fallback;
+      window.location.assign(fallback);
       return;
     }
 
-    if (canBackToIndex()) {
-      markReturning();
-      history.back();
-      return;
-    }
-
+    // Top-level: reliable full navigation with restore flags.
+    // Blind history.back() was leaving users on the same project page
+    // when the stack pointed at another soft URL with the same path.
+    markReturningFromUrl(fallback);
     softNavigate(fallback);
   };
 
-  // Warm likely targets from the index (delegation covers JS-rendered cards)
   if (Soft.isIndex()) {
     document.addEventListener("pointerenter", (e) => {
       const t = e.target;

@@ -183,7 +183,7 @@ const PROJECTS = {
     category: "coursework",
     logoUrl: "assets/images/me_winch_bench.jpg",
     photo: true,
-    role: "Mechatronics | MEMS 4110",
+    role: "Mechatronics",
     dates: "2026 – Present",
     tags: ["Mechatronics", "Embedded", "3D Print"],
     summary: "Motorized winch that deploys a towed sensor on dual steel cables, switches light modes through the tow path, and reels back to dock. Initial prototype tested; final print in progress.",
