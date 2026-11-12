@@ -1,5 +1,5 @@
 /* Cross-page navigation: soft exit, bfcache recovery, smart Return.
-   Single source of truth for smoothExit / softNavigate — do not redefine on pages. */
+   Single source of truth for smoothExit / softNavigate | do not redefine on pages. */
 (function () {
   const RETURN_KEY  = "eg-portfolio-returning";
   const SCROLL_KEY  = "eg-portfolio-index-scroll";
@@ -28,7 +28,7 @@
     document.body.style.transition = "";
   }
 
-  /** One exit path — short opacity fade. Avoids stacking View Transitions. */
+  /** One exit path | short opacity fade. Avoids stacking View Transitions. */
   function fadeThen(go, ms) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
@@ -54,7 +54,7 @@
         section: section || undefined
       });
 
-      // Hash is restored via SECTION_KEY / SCROLL_KEY — avoid browser hash jump on load
+      // Hash is restored via SECTION_KEY / SCROLL_KEY | avoid browser hash jump on load
       u.hash = "";
       return u.pathname + u.search;
     } catch (_) {

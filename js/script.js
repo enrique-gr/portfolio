@@ -1,7 +1,7 @@
 ﻿/* =============================================================================
-   ENRIQUE GARCIA — Main Site Script
+   ENRIQUE GARCIA | Main Site Script
    Sections:
-     1. Data — projects, hw items, skill descriptions, coursework
+     1. Data | projects, hw items, skill descriptions, coursework
      2. Work Log Ticker
      3. Featured Section
      4. Archive Tabs
@@ -9,9 +9,9 @@
      6. Coursework Terminal
      7. Engineering Skills Radar
      8. Mission Panel
-     9. Utilities — toast, email copy, profile scan, scroll progress
+     9. Utilities | toast, email copy, profile scan, scroll progress
     10. Live Footer Metrics
-    11. Navigation — mobile menu + active section
+    11. Navigation | mobile menu + active section
     12. Init
 ============================================================================= */
 
@@ -33,7 +33,7 @@ const PROJECTS = {
     dates: "May 2026 – Aug 2026",
     tags: ["UAS Systems", "Flight Test", "Hardware Integration"],
     summary: "Worked experimental unmanned aircraft as systems: returning vehicles to test-ready after structural work, supporting flight test, and using flight data to relate configuration to readiness. Brought platforms up through calibration and bench checks and verified that sensing, estimation, and actuation hung together on the vehicle.",
-    metric: "Status: Complete · Test-Readiness & Integration",
+    metric: "Status: Complete | Test-Readiness & Integration",
     problem: "Experimental UAS needed to be restored, integrated, and judged flight-ready after structural work and configuration changes, without writing a new controller.",
     contribution: "Supported repair and flight-test operations; used flight data to assess readiness; brought platforms up as integrated systems and checked the sense-to-actuate path on hardware.",
     result: "Helped return aircraft to test-ready status and grounded readiness calls in configuration-linked flight data rather than assumption.",
@@ -59,7 +59,7 @@ const PROJECTS = {
     dates: "Sep 2025 – Present",
     tags: ["Pixhawk 6C", "PX4", "Quadcopter", "Hexacopter"],
     summary: "Lead Avionics across two VFS cycles: Hexacopter flight proof in 2025–2026, now rebuilding a Quadcopter X-frame for Search and Rescue.",
-    metric: "Status: Active · Search and Rescue 2026–27",
+    metric: "Status: Active | Search and Rescue 2026–27",
     problem: "Competition aircraft must keep sensing, power, flight control, and payload interfaces honest under flight-test and mission pressure.",
     contribution: "Owned avionics architecture and bring-up; closed Hexacopter hover/transition/payload ops; driving 2026–27 Quadcopter system architecture for Search and Rescue.",
     result: "Validated Hexacopter milestones with FTR evidence; active rebuild for the harder Search and Rescue fly-off cycle.",
@@ -81,7 +81,7 @@ const PROJECTS = {
     dates: "Aug 2024 – Present",
     tags: ["ANSYS FEA", "Flight Test", "Composites"],
     summary: "Structures and Test on WashU’s AIAA Design/Build/Fly team, supporting Mission 3 and ground-mission work, with prior structures, aerodynamics, and payload experience.",
-    metric: "Status: Active · Competition Team",
+    metric: "Status: Active | Competition Team",
     problem: "Support Mission 3 and ground-mission needs while keeping the aircraft competition-ready.",
     contribution: "Structures and Test support for Mission 3 and ground mission; earlier spar FEA, release hardware, and aero/CFD checks.",
     result: "Active on DBF structures/test and mission support after prior-season groundwork.",
@@ -102,7 +102,7 @@ const PROJECTS = {
     dates: "May 2025 – Aug 2025",
     tags: ["Python", "MATLAB", "Sensor Fusion"],
     summary: "Developed a wearable sensor fusion system (IMU + EMG) and visual tracking pipeline.",
-    metric: "Status: Complete · Sensor Fusion Research",
+    metric: "Status: Complete | Sensor Fusion Research",
     problem: "Synchronize noisy wearable sensor streams with visual tracking for reliable motion interpretation.",
     contribution: "Implemented fusion workflow for IMU + EMG + camera signals and analysis tooling.",
     result: "Improved signal coherence and produced repeatable motion signatures for research trials.",
@@ -183,7 +183,7 @@ const PROJECTS = {
     category: "coursework",
     logoUrl: "assets/images/me_winch_bench.jpg",
     photo: true,
-    role: "Mechatronics · MEMS 4110",
+    role: "Mechatronics | MEMS 4110",
     dates: "2026 – Present",
     tags: ["Mechatronics", "Embedded", "3D Print"],
     summary: "Motorized winch that deploys a towed sensor on dual steel cables, switches light modes through the tow path, and reels back to dock. Initial prototype tested; final print in progress.",
@@ -244,17 +244,17 @@ const PROJECTS = {
 
 /** Work Log ticker items (builds, lab work, writing) */
 const HW_ITEMS = [
-  { type: "Flight Test", title: "MIDE Experimental UAS",           sub: "Repair · Integration · Test-Readiness",             src: "assets/images/mide.png",               date: "2026-08", status: "complete",  link: "mide.html" },
-  { type: "Mechatronics", title: "Towed-Sensor Winch Bench",       sub: "MEMS 4110 · Deploy · Retract · Light Modes",        src: "assets/images/me_winch_assembly.jpg",  date: "2026-11", status: "active",    link: "towed-sensor-winch.html" },
-  { type: "Avionics",   title: "VTOL Hexacopter Integration",      sub: "Frame Assembly · Power Layout · Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
-  { type: "Structural", title: "DBF Wing Layup",                   sub: "NACA 4415 · Carbon Spar",                            src: "assets/images/hw_dbf_wing.jpg",        date: "2025-11", status: "verified",  link: "washu-dbf.html" },
-  { type: "Research",   title: "MIRO Wearable Sensor",             sub: "IMU Array · EMG Electrodes",                         src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "validated", link: "miro-lab.html" },
-  { type: "CFD",        title: "Wing Section CFD",                 sub: "ANSYS CFX · Cp Distribution",                        src: "assets/images/hw_cfd_result.jpg",      date: "2025-11", status: "validated", link: "washu-dbf.html" },
-  { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up · Wiring Validation · Multimeter Test", src: "assets/images/hw_vtol_test_bench.jpg", date: "2026-01", status: "verified",  link: "washu-vtol.html" },
+  { type: "Flight Test", title: "MIDE Experimental UAS",           sub: "Repair | Integration | Test-Readiness",             src: "assets/images/mide.png",               date: "2026-08", status: "complete",  link: "mide.html" },
+  { type: "Mechatronics", title: "Towed-Sensor Winch Bench",       sub: "MEMS 4110 | Deploy | Retract | Light Modes",        src: "assets/images/me_winch_assembly.jpg",  date: "2026-11", status: "active",    link: "towed-sensor-winch.html" },
+  { type: "Avionics",   title: "VTOL Hexacopter Integration",      sub: "Frame Assembly | Power Layout | Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
+  { type: "Structural", title: "DBF Wing Layup",                   sub: "NACA 4415 | Carbon Spar",                            src: "assets/images/hw_dbf_wing.jpg",        date: "2025-11", status: "verified",  link: "washu-dbf.html" },
+  { type: "Research",   title: "MIRO Wearable Sensor",             sub: "IMU Array | EMG Electrodes",                         src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "validated", link: "miro-lab.html" },
+  { type: "CFD",        title: "Wing Section CFD",                 sub: "ANSYS CFX | Cp Distribution",                        src: "assets/images/hw_cfd_result.jpg",      date: "2025-11", status: "validated", link: "washu-dbf.html" },
+  { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up | Wiring Validation | Multimeter Test", src: "assets/images/hw_vtol_test_bench.jpg", date: "2026-01", status: "verified",  link: "washu-vtol.html" },
   {
     type: "Writing",
     title: "Autonomous Weapons Analysis",
-    sub: "LAWS · X-62A VISTA · Accountability Gap",
+    sub: "LAWS | X-62A VISTA | Accountability Gap",
     src: "assets/images/x62_vista.png",
     date: "2026-05",
     status: "published",
@@ -270,10 +270,10 @@ const SKILL_DATA = {
   simulink:  { title: "Simulink",         body: "Block-diagram modeling of dynamic systems. Used for PID controller studies and early attitude-loop exploration before hardware tests.", used: "Used in: Adaptive Cruise Control, VTOL prep" },
   git:       { title: "Git",              body: "Version control for coursework, research scripts, and portfolio/project repositories. Comfortable with branch workflows and pull requests.", used: "Used in: Portfolio, research, team projects" },
   teensy:    { title: "Teensy / Arduino", body: "Embedded sensing and control boards for lab and personal projects. Used for synchronized IMU/EMG acquisition and microcontroller prototyping.", used: "Used in: MIRO Lab, EKF Nav, prototypes" },
-  pixhawk:   { title: "Pixhawk · Cube",   body: "Autopilot hardware used on WashU VTOL (Pixhawk 6C) and MIDE UAS platforms (Cube Black). Experience with bring-up, wiring, and bench checks.", used: "Used in: WashU VTOL, MIDE" },
-  autopilot: { title: "PX4 · ArduPilot",  body: "Open-source flight stacks. Tuned/configured PX4 on VTOL and worked with ArduPilot on MIDE platforms for calibration, logging, and flight-test support.", used: "Used in: WashU VTOL, MIDE" },
+  pixhawk:   { title: "Pixhawk | Cube",   body: "Autopilot hardware used on WashU VTOL (Pixhawk 6C) and MIDE UAS platforms (Cube Black). Experience with bring-up, wiring, and bench checks.", used: "Used in: WashU VTOL, MIDE" },
+  autopilot: { title: "PX4 | ArduPilot",  body: "Open-source flight stacks. Tuned/configured PX4 on VTOL and worked with ArduPilot on MIDE platforms for calibration, logging, and flight-test support.", used: "Used in: WashU VTOL, MIDE" },
   mavlink:   { title: "MAVLink",          body: "Vehicle messaging for live attitude/command checks and tooling. Used with Python on Cube/ArduPilot platforms and related telemetry workflows.", used: "Used in: MIDE UAS work" },
-  protocols: { title: "I2C · SPI · UART", body: "Common embedded buses for sensors and peripherals. Experience wiring, debugging dropouts, and checking signal integrity on flight hardware.", used: "Used in: VTOL avionics, Teensy projects" },
+  protocols: { title: "I2C | SPI | UART", body: "Common embedded buses for sensors and peripherals. Experience wiring, debugging dropouts, and checking signal integrity on flight hardware.", used: "Used in: VTOL avionics, Teensy projects" },
   solidworks:{ title: "SolidWorks",       body: "Part and assembly CAD for mechanisms and fixtures. Used on DBF hardware and personal mechanical design projects.", used: "Used in: DBF, Foosball CAD" },
   ansys:     { title: "ANSYS",            body: "Structural FEA for flight hardware sizing, with some CFD cross-checks on wing sections alongside XFLR5.", used: "Used in: WashU DBF" },
   xflr5:     { title: "XFLR5",            body: "Panel-method wing/airfoil analysis for lift, drag, and configuration tradeoffs on the DBF aircraft.", used: "Used in: WashU DBF aerodynamics" },
@@ -400,7 +400,7 @@ function renderFeatured() {
             <div class="proof-grid mb-5">
               <div class="proof-card"><div class="proof-k">Problem</div>    <div class="proof-v">${p.problem || ""}</div></div>
               <div class="proof-card"><div class="proof-k">Ownership</div>  <div class="proof-v">${p.contribution || p.role}</div></div>
-              <div class="proof-card"><div class="proof-k">Stack</div>      <div class="proof-v">${p.tags.join(" · ")}</div></div>
+              <div class="proof-card"><div class="proof-k">Stack</div>      <div class="proof-v">${p.tags.join(" | ")}</div></div>
               <div class="proof-card"><div class="proof-k">Result</div>     <div class="proof-v">${p.result || p.metric}</div></div>
             </div>
 
@@ -420,7 +420,7 @@ function renderFeatured() {
 /* =============================================================================
    4. ARCHIVE TABS
 ============================================================================= */
-/** Active archive hub — used when saving scroll for Return */
+/** Active archive hub | used when saving scroll for Return */
 let currentArchiveHub = "personal";
 
 function switchTab(tabName) {
@@ -533,6 +533,7 @@ function showSkill(el, key) {
     el.classList.remove("active");
     activeSkillEl = null;
     panel.className = "skill-hidden border border-blue-500/30 bg-blue-500/5 p-4 font-mono text-xs text-gray-300 relative transition-all duration-300 overflow-hidden";
+    requestAnimationFrame(() => { if (typeof syncCapRails === "function") syncCapRails(); });
     return;
   }
 
@@ -549,6 +550,7 @@ function showSkill(el, key) {
   document.getElementById("sd-used").textContent  = data.used;
 
   panel.className = "skill-visible border border-blue-500/30 bg-blue-500/5 p-4 font-mono text-xs text-gray-300 relative transition-all duration-300 overflow-hidden";
+  requestAnimationFrame(() => { if (typeof syncCapRails === "function") syncCapRails(); });
 }
 
 /* =============================================================================
@@ -598,16 +600,53 @@ function switchCoursework(view) {
         <span class="${statusColor}">${r.status}</span>
       </div>`;
   }).join("");
+
+  requestAnimationFrame(() => { if (typeof syncCapRails === "function") syncCapRails(); });
 }
 
 /* =============================================================================
    7. ENGINEERING SKILLS RADAR
 ============================================================================= */
-function initRadar() {
-  const ctx    = document.getElementById("skillsChart").getContext("2d");
-  const isMob  = window.innerWidth < 768;
+/** Lock right rail height to left rail; radar width matches roadmap, height fills leftover. */
+function syncCapRails() {
+  const left    = document.querySelector("#capabilities .cap-rail-left");
+  const right   = document.querySelector("#capabilities .cap-rail-right");
+  const panel   = document.getElementById("cap-radar-panel");
+  const roadmap = right && right.querySelector(".cap-roadmap");
+  if (!left || !right || !panel || !roadmap) return;
 
-  new Chart(ctx, {
+  // Mobile: let layout be natural (stacked)
+  if (window.innerWidth < 1024) {
+    right.style.height = "";
+    panel.style.width = "";
+    panel.style.height = "";
+    return;
+  }
+
+  // Clear previous lock so left measures at content height
+  right.style.height = "";
+  panel.style.width = "100%";
+  panel.style.height = "0px";
+
+  const leftH    = Math.ceil(left.getBoundingClientRect().height);
+  const roadmapH = Math.ceil(roadmap.getBoundingClientRect().height);
+  const gap      = 12;
+  const availH   = Math.max(200, leftH - roadmapH - gap);
+
+  right.style.height = leftH + "px";
+  // Same width as roadmap (full rail); height fills space above it
+  panel.style.width  = "100%";
+  panel.style.height = availH + "px";
+}
+
+function initRadar() {
+  const canvas = document.getElementById("skillsChart");
+  const panel  = document.getElementById("cap-radar-panel") || (canvas && canvas.parentElement);
+  if (!canvas || !panel) return;
+  const ctx   = canvas.getContext("2d");
+  const isMob = window.innerWidth < 768;
+
+  const chart = new Chart(ctx, {
     type: "radar",
     data: {
       labels: [
@@ -627,13 +666,14 @@ function initRadar() {
         pointBackgroundColor: "#000",
         pointBorderColor:     "#3b82f6",
         pointBorderWidth:     2,
-        pointRadius:          5,
-        pointHoverRadius:     7,
+        pointRadius:          4,
+        pointHoverRadius:     6,
         pointStyle:           "crossRot"
       }]
     },
     options: {
-      layout: { padding: 30 },
+      responsive: true,
+      layout: { padding: isMob ? 6 : 10 },
       scales: {
         r: {
           min: 0, max: 100,
@@ -641,8 +681,8 @@ function initRadar() {
           grid:       { color: "rgba(255,255,255,.05)" },
           pointLabels: {
             color: "#94a3b8",
-            font: { size: isMob ? 9 : 11, family: "'JetBrains Mono'", weight: "bold" },
-            padding: 10
+            font: { size: isMob ? 8 : 10, family: "'JetBrains Mono'", weight: "bold" },
+            padding: 4
           },
           ticks: { display: false, stepSize: 25, backdropColor: "transparent" }
         }
@@ -651,10 +691,26 @@ function initRadar() {
       maintainAspectRatio: false
     }
   });
+
+  const sync = () => {
+    syncCapRails();
+    chart.resize();
+  };
+
+  sync();
+  requestAnimationFrame(() => requestAnimationFrame(sync));
+  window.addEventListener("load", sync, { once: true });
+  window.addEventListener("resize", sync);
+
+  const left = document.querySelector("#capabilities .cap-rail-left");
+  if (typeof ResizeObserver !== "undefined") {
+    if (left) new ResizeObserver(sync).observe(left);
+    new ResizeObserver(() => chart.resize()).observe(panel);
+  }
 }
 
 /* =============================================================================
-   9. MISSION PANEL — internship accordion + smooth jumps to featured cards
+   9. MISSION PANEL | internship accordion + smooth jumps to featured cards
 ============================================================================= */
 function initMissionJumps() {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -797,7 +853,7 @@ function initSyncClock() {
 }
 
 /* =============================================================================
-  12. NAVIGATION — mobile menu, active section, cross-page persistence
+  12. NAVIGATION | mobile menu, active section, cross-page persistence
 ============================================================================= */
 const NAV_SCROLL_KEY  = "eg-portfolio-index-scroll";
 const NAV_RETURN_KEY  = "eg-portfolio-returning";
@@ -816,7 +872,7 @@ function toggleMobileNav(force) {
 }
 
 /** Persist index scroll before leaving for a detail page.
- *  Does NOT set RETURN_KEY — that flag is set only when leaving a subpage
+ *  Does NOT set RETURN_KEY | that flag is set only when leaving a subpage
  *  so About/Interests don't treat first arrival as a "return". */
 function saveIndexScroll() {
   try {
@@ -868,7 +924,7 @@ function initNav() {
     });
   };
 
-  /** Sticky-nav offset — last section whose top has crossed this line wins */
+  /** Sticky-nav offset | last section whose top has crossed this line wins */
   const spyLine = () => Math.min(160, Math.round(window.innerHeight * 0.22));
 
   const keyForHash = (id) => {
@@ -904,7 +960,7 @@ function initNav() {
   };
 
   // Clicking Projects/Skills/Archive (or a featured card anchor) highlights immediately
-  // while smooth-scroll runs — avoids the tall Featured section losing to Skills.
+  // while smooth-scroll runs | avoids the tall Featured section losing to Skills.
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener("click", () => {
       const id = (a.getAttribute("href") || "").slice(1);
@@ -998,7 +1054,7 @@ function initScrollRestore() {
       }
     }
 
-    // bfcache already restored scroll — don't fight it unless we have savedY.
+    // bfcache already restored scroll | don't fight it unless we have savedY.
     if (fromBfcache && savedY === null) {
       if (returning) {
         consumeFlags();
@@ -1058,7 +1114,7 @@ function initScrollRestore() {
 }
 
 /* =============================================================================
-  13. INIT — runs after DOM is ready
+  13. INIT | runs after DOM is ready
 ============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);

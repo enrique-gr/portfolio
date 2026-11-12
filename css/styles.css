@@ -401,9 +401,10 @@ body {
 }
 @media (max-width: 900px) { #featured .feat-inner { padding: 0 20px; } }
 
-/* Shared wide-content container used by capabilities, collections */
+/* Shared wide-content rail — capabilities, collections, footer */
 #capabilities,
-#collections {
+#collections,
+.eg-content-rail {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
@@ -412,7 +413,52 @@ body {
 }
 @media (max-width: 900px) {
   #capabilities,
-  #collections { padding-left: 20px; padding-right: 20px; }
+  #collections,
+  .eg-content-rail { padding-left: 20px; padding-right: 20px; }
+}
+
+/*
+ * Capabilities right rail — height is locked to the left rail in JS
+ * (syncCapRails) so coursework bottom and roadmap bottom share one edge.
+ * Radar is an explicit square that fits the leftover space above roadmap.
+ */
+#capabilities .cap-rail-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+}
+#capabilities .cap-radar-slot {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  width: 100%;
+}
+#capabilities .cap-radar-panel {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  container-type: size;
+}
+#capabilities .cap-radar-panel canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+#capabilities .cap-roadmap {
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0f0f10;
+  padding: 1.25rem;
 }
 
 .feat-img-wrap { height: 320px; }
@@ -485,10 +531,12 @@ body {
 @keyframes radar-sweep { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .radar-sweep-line {
   position: absolute;
-  top: 50%; left: 50%;
-  width: 50%;
+  top: 50%;
+  left: 50%;
+  /* Stay inside the circular plot (limited by shorter axis) */
+  width: min(38cqw, 38cqh, 38%);
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(59,130,246,.8));
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.8));
   transform-origin: 0 50%;
   animation: radar-sweep 4s infinite linear;
   pointer-events: none;

@@ -55,7 +55,7 @@
   <!-- ── Vendor CSS ────────────────────────────────────────────────────── -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- ── Tailwind (utility layer — kept for layout classes throughout) ─── -->
+  <!-- ── Tailwind (utility layer | kept for layout classes throughout) ─── -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ── Site stylesheet ───────────────────────────────────────────────── -->
@@ -184,7 +184,7 @@
   </nav>
 
   <!-- =====================================================================
-       HERO — full-width video background
+       HERO | full-width video background
   ====================================================================== -->
   <div id="hero-section">
 
@@ -206,7 +206,7 @@
           <div class="lg:col-span-7 flex flex-col justify-center hero-stagger">
 
             <p class="mb-7 text-xs font-mono text-gray-300/90 tracking-widest uppercase">
-              WashU Mechanical Engineering · Class of 2027 · St. Louis
+              WashU Mechanical Engineering | Class of 2027 | St. Louis
             </p>
 
             <!-- Profile photo + name -->
@@ -425,7 +425,7 @@
   <main id="main-content">
 
     <!-- =================================================================
-         SECTION 01 — FEATURED PROJECTS
+         SECTION 01 | FEATURED PROJECTS
     ================================================================== -->
     <section id="featured" class="eg-reveal scroll-anchor" aria-labelledby="featured-heading">
       <div class="feat-inner">
@@ -444,7 +444,7 @@
     </section>
 
     <!-- =================================================================
-         SECTION 02 — SYSTEM CAPABILITIES
+         SECTION 02 | SYSTEM CAPABILITIES
     ================================================================== -->
     <section id="capabilities"
              aria-labelledby="capabilities-heading"
@@ -453,14 +453,14 @@
       <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-6">
         <div>
           <h2 id="capabilities-heading" class="text-3xl font-bold text-white tracking-tight">System Capabilities</h2>
-          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Skills · Coursework · Competency map</p>
+          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Skills | Coursework | Competency map</p>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start" id="cap-grid">
 
         <!-- ── LEFT: Skill pills + coursework terminal ─────────────── -->
-        <div class="flex flex-col gap-6">
+        <div class="cap-rail-left flex flex-col gap-6 min-w-0">
 
           <p class="text-gray-400 leading-relaxed max-w-xl">
             Languages, flight stack, CAD/analysis tools, and methods used across the work above.
@@ -485,10 +485,10 @@
               <p id="skills-hw" class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Hardware &amp; Flight Stack</p>
               <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-hw">
                 <button type="button" class="sp" onclick="showSkill(this,'teensy')">Teensy / Arduino</button>
-                <button type="button" class="sp" onclick="showSkill(this,'pixhawk')">Pixhawk · Cube</button>
-                <button type="button" class="sp" onclick="showSkill(this,'autopilot')">PX4 · ArduPilot</button>
+                <button type="button" class="sp" onclick="showSkill(this,'pixhawk')">Pixhawk | Cube</button>
+                <button type="button" class="sp" onclick="showSkill(this,'autopilot')">PX4 | ArduPilot</button>
                 <button type="button" class="sp" onclick="showSkill(this,'mavlink')">MAVLink</button>
-                <button type="button" class="sp" onclick="showSkill(this,'protocols')">I2C · SPI · UART</button>
+                <button type="button" class="sp" onclick="showSkill(this,'protocols')">I2C | SPI | UART</button>
               </div>
             </div>
 
@@ -575,34 +575,33 @@
 
         </div><!-- /LEFT -->
 
-        <!-- ── RIGHT: Radar chart + roadmap ──────────────────────────── -->
-        <div class="flex flex-col justify-between gap-4 h-full">
+        <!-- ── RIGHT: square radar (no inner void) + roadmap flush to coursework ─ -->
+        <div class="cap-rail-right">
 
-          <!-- Competency radar -->
-          <div class="relative w-full h-[260px] sm:h-[300px] md:h-[340px] lg:h-[380px] xl:h-[480px] flex items-center justify-center bg-[#0a0a0a] border border-white/10 p-4 overflow-hidden">
-            <span class="radar-sweep-line" aria-hidden="true"></span>
-            <canvas id="skillsChart"
-                    class="relative z-10 w-full h-full"
-                    role="img"
-                    aria-label="Radar chart showing engineering competency across: Dynamics & Vibrations, Controls & Automation, Modeling & Simulation, Aero/Thermal-Fluids, Mechanical Design, and Embedded/Test Systems">
-            </canvas>
+          <div class="cap-radar-slot">
+            <div class="cap-radar-panel" id="cap-radar-panel">
+              <span class="radar-sweep-line" aria-hidden="true"></span>
+              <canvas id="skillsChart"
+                      role="img"
+                      aria-label="Radar chart showing engineering competency across: Dynamics & Vibrations, Controls & Automation, Modeling & Simulation, Aero/Thermal-Fluids, Mechanical Design, and Embedded/Test Systems">
+              </canvas>
+            </div>
           </div>
 
-          <!-- Learning roadmap -->
-          <div class="border border-white/10 bg-[#0f0f10] p-5 shrink-0">
-            <h3 class="text-xs font-mono text-gray-400 uppercase tracking-wider mb-4">Roadmap</h3>
-            <div class="grid grid-cols-2 gap-6 text-xs text-gray-300">
-              <div>
+          <div class="cap-roadmap">
+            <h3 class="text-sm font-mono text-gray-400 uppercase tracking-wider mb-3">Roadmap</h3>
+            <div class="grid grid-cols-2 gap-3 text-xs text-gray-300">
+              <div class="border border-white/10 bg-black/20 p-3">
                 <h4 class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Current</h4>
-                <ul class="space-y-1.5 list-none m-0 p-0">
+                <ul class="space-y-1 list-disc list-inside m-0 p-0">
                   <li>Dynamic systems modeling</li>
                   <li>Thermal-fluids analysis</li>
                   <li>Mechanical design &amp; testing</li>
                 </ul>
               </div>
-              <div>
+              <div class="border border-white/10 bg-black/20 p-3">
                 <h4 class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Next</h4>
-                <ul class="space-y-1.5 list-none m-0 p-0">
+                <ul class="space-y-1 list-disc list-inside m-0 p-0">
                   <li>Hardware integration &amp; flight test</li>
                   <li>Controls &amp; estimation on hardware</li>
                   <li>Aerospace / autonomous systems</li>
@@ -617,7 +616,7 @@
     </section>
 
     <!-- =================================================================
-         SECTION 03 — PROJECT ARCHIVES
+         SECTION 03 | PROJECT ARCHIVES
     ================================================================== -->
     <section id="collections"
              aria-labelledby="archives-heading"
@@ -628,7 +627,7 @@
         <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Personal builds and coursework</p>
       </div>
 
-      <!-- Tab bar — single archive rule -->
+      <!-- Tab bar | single archive rule -->
       <div class="flex gap-8 mb-10 border-b border-white/10" role="tablist" aria-label="Archive categories">
         <button type="button"
                 id="tab-personal"
@@ -663,10 +662,11 @@
   <!-- =====================================================================
        FOOTER
   ====================================================================== -->
-  <footer class="py-10 bg-black border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-      <p class="text-white text-sm font-mono tracking-wider">&copy; 2026 Enrique Garcia</p>
-      <p class="text-gray-500 text-xs font-mono tracking-widest uppercase">Mechanical Engineering · WashU</p>
+  <!-- Same content rail as Project Archives (#collections / .eg-content-rail) -->
+  <footer class="bg-black border-t border-white/10">
+    <div class="eg-content-rail py-8 flex justify-between items-baseline gap-6">
+      <p class="m-0 text-[11px] font-mono tracking-widest text-gray-400">&copy; 2026 Enrique Garcia</p>
+      <p class="m-0 text-[11px] font-mono tracking-widest uppercase text-gray-500 text-right">Mechanical Engineering | WashU</p>
     </div>
   </footer>
 
@@ -695,7 +695,7 @@
   <!-- =====================================================================
        SCRIPTS
        Chart.js must load before script.js (initRadar dependency).
-       model-viewer is deferred — only used on sub-pages.
+       model-viewer is deferred | only used on sub-pages.
   ====================================================================== -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js" defer></script>
