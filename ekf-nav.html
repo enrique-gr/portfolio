@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="icon" type="image/png" href="assets/brand/favicon.png">
@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Nav EKF | Enrique Garcia</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -26,8 +25,6 @@
         
         .tech-highlight { color: #60a5fa; font-weight: 600; }
         .sensor-highlight { color: #60a5fa; font-weight: 600; }
-        .metric-label { font-size: 0.65rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace; }
-        .metric-value { font-size: 0.875rem; color: #e2e8f0; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
 
         /* Code Syntax Highlighting */
         .code-kwd { color: #c678dd; } /* Purple/Pink */
@@ -224,65 +221,6 @@
 
                 </div>
 
-
-                <div class="bg-black border border-white/10 p-1 mb-12">
-                    <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Validation & Results</h3>
-                        <a href="demos/telemetry.html" class="flex gap-2 hover:text-blue-400 transition-colors cursor-pointer group">
-                            <i class="fas fa-play-circle text-blue-400 group-hover:text-blue-400 transition-colors"></i>
-                            <span class="text-[10px] text-gray-500 font-mono group-hover:text-blue-300">OPEN INTERACTIVE REPLAY ></span>
-                        </a>
-                    </div>
-                    
-                    <div class="p-4 bg-[#151515] space-y-6">
-                        
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-end">
-                                <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">2D Trajectory Estimation (XY Plane)</span>
-                            </div>
-                            <div id="plot1" class="w-full h-72 bg-black/50 border border-white/10 relative group overflow-hidden"></div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="space-y-2">
-                                <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Raw IMU Acceleration (Noisy Input)</span>
-                                <div id="plot2" class="w-full h-48 bg-black/50 border border-white/10 relative group"></div>
-                            </div>
-                            <div class="space-y-2">
-                                <span class="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Position Error & Uncertainty (1σ)</span>
-                                <div id="plot3" class="w-full h-48 bg-black/50 border border-white/10 relative group"></div>
-                            </div>
-                        </div>
-
-                        <div class="border-t border-white/10 pt-4 mt-2">
-                            <h4 class="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-3">Performance Metrics (RMS Error)</h4>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-black/30 p-4 border border-white/5">
-                                <div>
-                                    <div class="metric-label">Position X/Y</div>
-                                    <div class="metric-value text-blue-400">&lt; 0.15 m</div>
-                                </div>
-                                <div>
-                                    <div class="metric-label">Altitude Z</div>
-                                    <div class="metric-value text-blue-400">&lt; 0.08 m</div>
-                                </div>
-                                <div>
-                                    <div class="metric-label">Attitude (RPY)</div>
-                                    <div class="metric-value text-blue-400">&lt; 1.5&deg;</div>
-                                </div>
-                                <div>
-                                    <div class="metric-label">Loop Rate</div>
-                                    <div class="metric-value text-sky-400">100 Hz</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="text-[10px] font-mono text-gray-400 text-center py-3 border-t border-white/5 flex justify-center gap-8">
-                        <span>DRIFT REDUCTION: <span class="text-blue-400">12&deg;/min &rarr; &lt;1&deg;/min</span></span>
-                        <span>MCU LOAD: <span class="text-purple-400">14% (Teensy 4.1)</span></span>
-                    </div>
-                </div>
-
                 <!-- STANDARDIZED PDF PREVIEW -->
                 <div class="mb-16">
                     <div class="bg-black border border-white/10 p-1">
@@ -346,6 +284,6 @@
 
         </div>
     </main>
-  <script src="js/nav-persist.js"></script>
+  <script src="js/nav-persist.js?v=soft3"></script>
 </body>
 </html>

@@ -81,6 +81,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Instant Return: soft shell / bfcache — no view-transition delay */
+html.nav-returning {
+  scroll-behavior: auto !important;
+}
+html.nav-returning body {
+  animation: none !important;
+}
+
+#eg-soft-frame {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 2147483000;
+  background: #050505;
+  display: none;
+}
+html.eg-soft-away #eg-soft-frame {
+  display: block;
+}
+
 /* Hairline scrollbars (Anduril / Mach restraint) */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: var(--eg-bg); }

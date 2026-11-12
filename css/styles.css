@@ -28,12 +28,7 @@ html {
   background-color: var(--eg-bg, #050505);
 }
 
-/* Soft page exit — used by navigateTo / smoothExit (no View Transition stacking) */
-html.page-exit body {
-  opacity: 0;
-  transform: translateY(3px);
-  transition: opacity 0.16s ease, transform 0.16s ease;
-}
+/* page-exit kept inert — Return uses soft shell (index never unloads) */
 
 /* Skip one-shot entrances after back / Return */
 html.nav-returning .hero-stagger > * {
@@ -46,6 +41,28 @@ html.nav-returning .animate-fade-in {
 }
 html.nav-returning {
   scroll-behavior: auto !important;
+}
+
+/* SPA soft shell: project pages overlay the living index */
+#eg-soft-frame {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 2147483000;
+  background: #050505;
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+html.eg-soft-away {
+  overflow: hidden;
+}
+html.eg-soft-away #eg-soft-frame {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 body {
@@ -137,6 +154,83 @@ body {
 }
 
 .hero-tagline { text-shadow: 0 0 26px rgba(96,165,250,.4); }
+
+/* --- Propulsion wash: SVG nozzle + canvas flame heating the tagline --- */
+.hero-wash {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 44rem;
+  min-height: 3.25rem;
+}
+.hero-wash-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.hero-wash-text {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  flex: 1 1 auto;
+  filter: url(#eg-jet-wash);
+  will-change: filter, color;
+  transform: translateZ(0);
+  color: #60a5fa;
+  text-shadow: 0 0 22px rgba(96,165,250,.35);
+}
+.hero-wash-text .wash-ch {
+  display: inline-block;
+  color: inherit;
+  transition: color 40ms linear, text-shadow 40ms linear;
+}
+.hero-wash-plume {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  z-index: 2;
+  width: 100%;
+  height: 220%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 1;
+}
+.hero-wash-nozzle {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 4.75rem;
+  width: 4.75rem;
+  height: 2.35rem;
+  overflow: visible;
+  filter: drop-shadow(0 0 10px rgba(96,165,250,0.35))
+          drop-shadow(-6px 0 14px rgba(249,115,22,0.35));
+  transition: filter 0.25s ease;
+}
+.hero-wash-nozzle__glow {
+  animation: heroNozzleGlow 1.2s ease-in-out infinite;
+}
+.hero-wash.is-hot .hero-wash-nozzle {
+  filter: drop-shadow(0 0 14px rgba(255,220,140,0.65))
+          drop-shadow(-10px 0 22px rgba(249,115,22,0.55));
+}
+@keyframes heroNozzleGlow {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1; }
+}
+@media (max-width: 640px) {
+  .hero-wash { max-width: 100%; }
+  .hero-wash-nozzle { flex-basis: 3.6rem; width: 3.6rem; height: 1.85rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-wash-text { filter: none !important; color: #60a5fa !important; }
+  .hero-wash-text .wash-ch { color: #60a5fa !important; text-shadow: none !important; }
+  .hero-wash-plume { display: none !important; }
+  .hero-wash-nozzle__glow { animation: none; }
+  .hero-wash-defs animate { display: none; }
+}
 
 .hero-status-dot {
   box-shadow: 0 0 0 0 rgba(16,185,129,.55);

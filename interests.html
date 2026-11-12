@@ -29,17 +29,9 @@
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #e2e8f0;
-            opacity: 0;
-            animation: fadeInPage 0.35s ease forwards;
         }
-        html.nav-returning body { opacity: 1; animation: none; }
-        html.page-exit body {
-            opacity: 0 !important;
-            transform: translateY(3px);
-            transition: opacity 0.16s ease, transform 0.16s ease;
-            animation: none !important;
-        }
-        @keyframes fadeInPage { to { opacity: 1; } }
+        /* No full-page fade — fights cross-document View Transitions on Return */
+        html.nav-returning body { animation: none; }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         .tech-highlight { color: #6A9BC4; font-weight: 600; }
@@ -725,6 +717,6 @@ function scrollToSection(id, btn) {
             if (el) scrollObserver.observe(el);
         });
 </script>
-  <script src="js/nav-persist.js"></script>
+  <script src="js/nav-persist.js?v=soft3"></script>
 </body>
 </html>

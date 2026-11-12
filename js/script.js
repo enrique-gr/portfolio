@@ -423,12 +423,57 @@ function renderFeatured() {
 /** Active archive hub | used when saving scroll for Return */
 let currentArchiveHub = "personal";
 
+/** Nearest index section for URL sync + Return restore */
+function nearestIndexSection() {
+  const spyY = Math.min(160, Math.round(window.innerHeight * 0.22));
+  let sectionId = "featured";
+  if (window.scrollY < 120) return null; // hero / top
+  for (const id of ["featured", "capabilities", "collections"]) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= spyY) sectionId = id;
+  }
+  return sectionId;
+}
+
+/**
+ * Keep the index URL honest with what's on screen.
+ * Stale ?hub=coursework while viewing Featured made Return/back reopen coursework.
+ */
+function syncIndexUrlToView() {
+  try {
+    const url = new URL(window.location.href);
+    const section = nearestIndexSection();
+    if (section === "collections") {
+      url.searchParams.set("hub", currentArchiveHub === "coursework" ? "coursework" : "personal");
+    } else {
+      url.searchParams.delete("hub");
+    }
+    url.hash = "";
+    const next = url.pathname + url.search;
+    const cur  = window.location.pathname + window.location.search;
+    if (next !== cur) {
+      const prev = (history.state && typeof history.state === "object") ? history.state : {};
+      history.replaceState({ ...prev, egIndex: 1, y: window.scrollY || 0 }, "", next);
+    }
+  } catch (_) { /* ignore */ }
+}
+
 function switchTab(tabName) {
   const grid    = document.getElementById("archive-grid");
   const tabPersonal    = document.getElementById("tab-personal");
   const tabCoursework  = document.getElementById("tab-coursework");
   if (!grid || !tabPersonal || !tabCoursework) return;
   currentArchiveHub = tabName === "coursework" ? "coursework" : "personal";
+  // Reflect tab in the URL only while Archive is the active view
+  try {
+    const url = new URL(window.location.href);
+    if (nearestIndexSection() === "collections" || url.searchParams.has("hub")) {
+      url.searchParams.set("hub", currentArchiveHub);
+      url.hash = "";
+      const prev = (history.state && typeof history.state === "object") ? history.state : {};
+      history.replaceState({ ...prev, egIndex: 1, y: window.scrollY || 0 }, "", url.pathname + url.search);
+    }
+  } catch (_) { /* ignore */ }
 
   const activeClass   = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 text-white transition-colors hover:text-blue-400";
   const inactiveClass = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-colors";
@@ -872,36 +917,33 @@ function toggleMobileNav(force) {
 }
 
 /** Persist index scroll before leaving for a detail page.
- *  Does NOT set RETURN_KEY | that flag is set only when leaving a subpage
- *  so About/Interests don't treat first arrival as a "return". */
+ *  Does NOT set RETURN_KEY — that flag is set only when leaving a subpage. */
 function saveIndexScroll() {
   try {
+    // Rewrite history entry first so history.back() doesn't revive a stale ?hub=
+    syncIndexUrlToView();
+
     sessionStorage.setItem(NAV_SCROLL_KEY, String(window.scrollY));
-    // Remember nearest in-page section so Return still lands correctly if scrollY is lost
-    const spyY = Math.min(160, Math.round(window.innerHeight * 0.22));
-    let sectionId = "featured";
-    for (const id of ["featured", "capabilities", "collections"]) {
-      const el = document.getElementById(id);
-      if (el && el.getBoundingClientRect().top <= spyY) sectionId = id;
-    }
+    const sectionId = nearestIndexSection() || "featured";
     sessionStorage.setItem(NAV_SECTION_KEY, sectionId);
-    const params = new URLSearchParams(window.location.search);
-    const hub = params.get("hub") || currentArchiveHub || "personal";
-    sessionStorage.setItem(NAV_HUB_KEY, hub === "coursework" ? "coursework" : "personal");
+
+    // Hub only matters for Archive. Featured/Skills must not inherit coursework.
+    if (sectionId === "collections") {
+      sessionStorage.setItem(NAV_HUB_KEY, currentArchiveHub === "coursework" ? "coursework" : "personal");
+    } else {
+      sessionStorage.setItem(NAV_HUB_KEY, "personal");
+    }
   } catch (_) { /* private mode */ }
 }
 
-/** Soft navigate from index; saves scroll, then fades out */
+/** Soft navigate from index; saves scroll + keeps index alive for instant Return. */
 function navigateTo(url) {
   saveIndexScroll();
-  const go = () => { window.location.href = url; };
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) {
-    go();
+  if (typeof window.softOpen === "function") {
+    window.softOpen(url);
     return;
   }
-  document.documentElement.classList.add("page-exit");
-  setTimeout(go, 160);
+  window.location.href = url;
 }
 
 function initNav() {
@@ -960,7 +1002,7 @@ function initNav() {
   };
 
   // Clicking Projects/Skills/Archive (or a featured card anchor) highlights immediately
-  // while smooth-scroll runs | avoids the tall Featured section losing to Skills.
+  // while smooth-scroll runs — avoids the tall Featured section losing to Skills.
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener("click", () => {
       const id = (a.getAttribute("href") || "").slice(1);
@@ -969,6 +1011,8 @@ function initNav() {
       lockKey = key;
       lockUntil = Date.now() + 900;
       setActive(key);
+      // Drop stale ?hub= when jumping to Featured/Skills
+      window.setTimeout(syncIndexUrlToView, 50);
     });
   });
 
@@ -1063,6 +1107,8 @@ function initScrollRestore() {
       return;
     }
 
+    // Prefer saved scroll when present. Explicit #section returns clear SCROLL_KEY
+    // in nav-persist so archive Return lands on collections, not a stale featured Y.
     if (returning && savedY !== null) {
       const y = parseInt(savedY, 10);
       if (!Number.isNaN(y)) {
@@ -1087,6 +1133,9 @@ function initScrollRestore() {
         scrollInstant(el.getBoundingClientRect().top + window.scrollY - 80);
         try { history.replaceState(null, "", window.location.pathname + window.location.search); } catch (_) { /* ignore */ }
       }
+      if (opts.clearScroll) {
+        try { sessionStorage.removeItem(NAV_SCROLL_KEY); } catch (_) { /* ignore */ }
+      }
       consumeFlags();
       releaseReturning();
       return;
@@ -1098,34 +1147,320 @@ function initScrollRestore() {
     }
   };
 
-  restore();
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => restore(), { once: true });
-  }
-  window.addEventListener("load", () => restore({ clearScroll: true }), { once: true });
-
+  // bfcache Return: trust the restored paint. Only nudge scroll if we have savedY
+  // and avoid re-running heavy work on load (that delay felt like a reload).
   window.addEventListener("pageshow", (e) => {
     document.documentElement.classList.remove("page-exit");
     document.body.style.opacity = "1";
     document.body.style.transform = "none";
-    if (e.persisted) document.documentElement.classList.add("nav-returning");
-    restore({ fromBfcache: e.persisted, clearScroll: e.persisted });
+    if (e.persisted) {
+      document.documentElement.classList.add("nav-returning");
+      const { returning, savedY } = readReturnState();
+      if (returning && savedY !== null) {
+        const y = parseInt(savedY, 10);
+        if (!Number.isNaN(y) && Math.abs(window.scrollY - y) > 2) scrollInstant(y);
+      }
+      try { sessionStorage.removeItem(NAV_SCROLL_KEY); } catch (_) { /* ignore */ }
+      consumeFlags();
+      releaseReturning();
+      return;
+    }
+    restore({ fromBfcache: false, clearScroll: true });
   });
+
+  // Cold load / softNavigate path only
+  if (!performance.getEntriesByType("navigation").some(n => n.type === "back_forward")) {
+    restore();
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => restore(), { once: true });
+    }
+    window.addEventListener("load", () => restore({ clearScroll: true }), { once: true });
+  }
 }
 
 /* =============================================================================
-  13. INIT | runs after DOM is ready
+  13. HERO PROPULSION WASH | custom SVG nozzle + canvas flame
+      Flame reaches left across the tagline and heats each letter it hits.
+============================================================================= */
+function initHeroWash() {
+  const root = document.querySelector("[data-hero-wash]");
+  if (!root) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const canvas = root.querySelector(".hero-wash-plume");
+  const nozzle = root.querySelector(".hero-wash-nozzle");
+  const textEl = root.querySelector(".hero-wash-text");
+  const disp = root.querySelector("#eg-jet-wash feDisplacementMap");
+  if (!canvas || reduce) return;
+
+  const ctx = canvas.getContext("2d", { alpha: true });
+  if (!ctx) return;
+
+  // Per-letter spans — heat is applied from the live flame front
+  const chars = [];
+  const charHeat = []; // residual heat 0..1 per glyph
+  if (textEl) {
+    const phrase = textEl.getAttribute("data-wash-phrase") || textEl.textContent || "";
+    textEl.textContent = "";
+    for (const ch of phrase) {
+      const span = document.createElement("span");
+      span.className = "wash-ch";
+      span.textContent = ch === " " ? "\u00A0" : ch;
+      textEl.appendChild(span);
+      chars.push(span);
+      charHeat.push(0);
+    }
+  }
+
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const lerpColor = (c0, c1, t) => {
+    const t2 = Math.max(0, Math.min(1, t));
+    return `rgb(${Math.round(lerp(c0[0], c1[0], t2))},${Math.round(lerp(c0[1], c1[1], t2))},${Math.round(lerp(c0[2], c1[2], t2))})`;
+  };
+  const C_COOL = [96, 165, 250];
+  const C_ORANGE = [255, 120, 35];
+  const C_YELLOW = [255, 220, 80];
+  const C_WHITE = [255, 255, 255];
+
+  const colorFromHeat = (heat) => {
+    const h = Math.max(0, Math.min(1, heat));
+    if (h < 0.3) return lerpColor(C_COOL, C_ORANGE, h / 0.3);
+    if (h < 0.65) return lerpColor(C_ORANGE, C_YELLOW, (h - 0.3) / 0.35);
+    return lerpColor(C_YELLOW, C_WHITE, (h - 0.65) / 0.35);
+  };
+
+  const paintTextHeat = () => {
+    const n = chars.length;
+    if (!n) return;
+    for (let i = 0; i < n; i++) {
+      const heat = charHeat[i];
+      chars[i].style.color = colorFromHeat(heat);
+      if (heat > 0.55) {
+        chars[i].style.textShadow = `0 0 ${8 + heat * 16}px rgba(255,190,70,${0.3 + heat * 0.55})`;
+      } else if (heat > 0.2) {
+        chars[i].style.textShadow = `0 0 10px rgba(255,130,40,${heat * 0.55})`;
+      } else {
+        chars[i].style.textShadow = "0 0 18px rgba(96,165,250,0.35)";
+      }
+    }
+  };
+
+  /** Map flame X (canvas) → which letters are inside the jet */
+  const applyFlameToText = (flameTipX, emitXLocal, hot) => {
+    if (!chars.length || !textEl) return;
+    const rootRect = root.getBoundingClientRect();
+    const tipDocX = rootRect.left + flameTipX;
+    const emitDocX = rootRect.left + emitXLocal;
+    const band = hot ? 56 : 40;
+
+    for (let i = 0; i < chars.length; i++) {
+      const r = chars[i].getBoundingClientRect();
+      const cx = r.left + r.width * 0.5;
+      // Inside the jet column (between tip and nozzle)?
+      const inJet = cx <= emitDocX + 8 && cx >= tipDocX - 10;
+      const distToTip = Math.abs(cx - tipDocX);
+      let hit = 0;
+      if (inJet) hit = 0.55 + 0.45 * (1 - Math.min(1, distToTip / band));
+      // Cool residual heat slowly so the pass leaves a visible trail
+      charHeat[i] = Math.max(hit, charHeat[i] * 0.965 - 0.004);
+      if (hit > charHeat[i]) charHeat[i] = hit;
+    }
+    paintTextHeat();
+  };
+
+  const particles = [];
+  const MAX = 140;
+  let raf = 0;
+  let running = true;
+  let hotUntil = 0;
+  let w = 0;
+  let h = 0;
+  let dpr = 1;
+  let emitX = 0;
+  let emitY = 0;
+
+  const resize = () => {
+    const rect = root.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = Math.max(1, Math.floor(rect.width));
+    h = Math.max(1, Math.floor(Math.max(rect.height, 48) * 2.1));
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // Emit from the SVG nozzle throat (left edge of the bell)
+    if (nozzle) {
+      const nr = nozzle.getBoundingClientRect();
+      emitX = nr.left - rect.left + 6;
+      emitY = h * 0.5;
+    } else {
+      emitX = w * 0.88;
+      emitY = h * 0.5;
+    }
+  };
+
+  /** kind: 0 core, 1 mid, 2 envelope */
+  const spawnOne = (kind, hot) => {
+    if (particles.length >= MAX) particles.shift();
+    const boost = hot ? 1.35 : 1;
+    const spread = kind === 0 ? 3 : kind === 1 ? 7 : 14;
+    const speed = (kind === 0 ? 9 : kind === 1 ? 6.2 : 3.8) * boost;
+    particles.push({
+      kind,
+      x: emitX + Math.random() * 4,
+      y: emitY + (Math.random() - 0.5) * spread,
+      vx: -(speed + Math.random() * 3.5),
+      vy: (Math.random() - 0.5) * (kind === 0 ? 0.35 : kind === 1 ? 0.9 : 1.6),
+      life: 1,
+      decay: kind === 0 ? 0.014 : kind === 1 ? 0.011 : 0.008,
+      size: kind === 0 ? 2 + Math.random() * 2 : kind === 1 ? 3.5 + Math.random() * 4 : 6 + Math.random() * 8,
+      stretch: kind === 0 ? 22 + Math.random() * 26 : kind === 1 ? 14 + Math.random() * 18 : 10 + Math.random() * 14,
+      grow: kind === 0 ? 0.03 : kind === 1 ? 0.08 : 0.14
+    });
+  };
+
+  const spawn = (burst, hot) => {
+    const n0 = burst ? 10 : 3;
+    const n1 = burst ? 12 : 4;
+    const n2 = burst ? 14 : 5;
+    for (let i = 0; i < n0; i++) spawnOne(0, hot);
+    for (let i = 0; i < n1; i++) spawnOne(1, hot);
+    for (let i = 0; i < n2; i++) spawnOne(2, hot);
+  };
+
+  const paintParticle = (p, hot, t) => {
+    const life = Math.max(0, p.life);
+    const travel = Math.min(1, Math.max(0, (emitX - p.x) / Math.max(80, emitX)));
+    let a = life * (hot ? 1.1 : 0.95);
+    let c0, c1, c2;
+    if (p.kind === 0) {
+      a *= 0.98;
+      c0 = `rgba(255,255,255,${a})`;
+      c1 = `rgba(255,240,160,${a * 0.8})`;
+      c2 = `rgba(255,180,50,0)`;
+    } else if (p.kind === 1) {
+      a *= 0.75;
+      c0 = `rgba(255,220,90,${a})`;
+      c1 = `rgba(255,140,35,${a * 0.55})`;
+      c2 = `rgba(255,70,20,0)`;
+    } else {
+      a *= 0.4;
+      c0 = `rgba(255,130,40,${a})`;
+      c1 = `rgba(230,70,25,${a * 0.45})`;
+      c2 = `rgba(120,70,50,0)`;
+    }
+
+    const len = p.stretch * (1 + travel * 0.45);
+    const thick = p.size * (1 + travel * p.grow * 7);
+    const wobble = Math.sin(t * 0.007 + p.x * 0.045) * (0.35 + travel * 1.2);
+    const grd = ctx.createLinearGradient(p.x + len * 0.2, p.y, p.x - len, p.y);
+    grd.addColorStop(0, c0);
+    grd.addColorStop(0.4, c1);
+    grd.addColorStop(1, c2);
+    ctx.beginPath();
+    ctx.fillStyle = grd;
+    ctx.ellipse(p.x, p.y + wobble, len, thick, 0, 0, Math.PI * 2);
+    ctx.fill();
+  };
+
+  const frame = (t) => {
+    if (!running) return;
+    raf = requestAnimationFrame(frame);
+    ctx.clearRect(0, 0, w, h);
+
+    const hot = performance.now() < hotUntil;
+    root.classList.toggle("is-hot", hot);
+    if (disp) disp.setAttribute("scale", hot ? "14" : "7");
+
+    if (Math.random() < (hot ? 1 : 0.85)) spawn(false, hot);
+
+    // Throat bloom tied to the SVG nozzle
+    const bloomR = hot ? 42 : 28;
+    const bloom = ctx.createRadialGradient(emitX, emitY, 0, emitX, emitY, bloomR);
+    bloom.addColorStop(0, `rgba(255,255,255,${hot ? 0.7 : 0.4})`);
+    bloom.addColorStop(0.3, `rgba(255,200,90,${hot ? 0.4 : 0.22})`);
+    bloom.addColorStop(0.65, `rgba(255,100,30,${hot ? 0.18 : 0.08})`);
+    bloom.addColorStop(1, "rgba(255,60,20,0)");
+    ctx.fillStyle = bloom;
+    ctx.beginPath();
+    ctx.arc(emitX, emitY, bloomR, 0, Math.PI * 2);
+    ctx.fill();
+
+    let tipX = emitX;
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy + Math.sin(t * 0.005 + p.x * 0.03) * (0.15 + p.kind * 0.12);
+      p.vy += (p.y - emitY) * 0.0009 * p.kind;
+      p.size += p.grow;
+      p.life -= p.decay * (hot ? 0.9 : 1);
+      if (p.life <= 0 || p.x < -50) {
+        particles.splice(i, 1);
+        continue;
+      }
+      if (p.x < tipX) tipX = p.x;
+    }
+
+    for (let pass = 2; pass >= 0; pass--) {
+      for (let i = 0; i < particles.length; i++) {
+        if (particles[i].kind === pass) paintParticle(particles[i], hot, t);
+      }
+    }
+
+    // Meaningful coupling: letters heat where the jet actually is
+    applyFlameToText(tipX, emitX, hot);
+  };
+
+  const pulse = () => {
+    hotUntil = performance.now() + 1400;
+    spawn(true, true);
+  };
+
+  resize();
+  spawn(true, true);
+  raf = requestAnimationFrame(frame);
+
+  window.addEventListener("resize", resize, { passive: true });
+  root.addEventListener("pointerenter", pulse);
+  if (nozzle) nozzle.addEventListener("pointerenter", pulse);
+
+  const idle = window.setInterval(() => {
+    if (document.hidden) return;
+    if (root.getBoundingClientRect().bottom < 0) return;
+    pulse();
+  }, 4200);
+
+  document.addEventListener("visibilitychange", () => {
+    running = !document.hidden;
+    if (running && !raf) raf = requestAnimationFrame(frame);
+  });
+
+  window.addEventListener("pagehide", () => {
+    running = false;
+    cancelAnimationFrame(raf);
+    window.clearInterval(idle);
+  }, { once: true });
+}
+
+/* =============================================================================
+  14. INIT | runs after DOM is ready
 ============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   let hub = params.get("hub");
   try {
-    if (!hub && sessionStorage.getItem(NAV_RETURN_KEY) === "1") {
-      hub = sessionStorage.getItem(NAV_HUB_KEY);
+    if (sessionStorage.getItem(NAV_RETURN_KEY) === "1") {
+      const section = sessionStorage.getItem(NAV_SECTION_KEY);
+      const savedHub = sessionStorage.getItem(NAV_HUB_KEY);
+      // Only reopen coursework when Return is actually to Archive
+      if (section === "collections") hub = savedHub || hub || "personal";
+      else hub = "personal";
     }
   } catch (_) { /* ignore */ }
 
-  // Restore hub before painting archive so Return lands on the same tab
+  // Restore hub before painting archive so Archive Return lands on the same tab
   switchTab(hub === "coursework" ? "coursework" : "personal");
   initScrollRestore();
   renderHW();
@@ -1139,4 +1474,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initFooterMetrics();
   initSyncClock();
   initNav();
+  initHeroWash();
 });

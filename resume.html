@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -67,22 +67,18 @@
 </head>
 <body class="antialiased">
 
-    <nav class="w-full bg-[#050505]/80 backdrop-blur-xl border-b border-white/5 flex-none z-50">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-            
-            <a href="index.html" onclick="smoothExit(event, this.href)" 
-               class="flex items-center gap-2 group text-gray-400 hover:text-white transition-all duration-300 cursor-pointer">
-                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 border border-white/5 group-hover:border-white/20 transition-all">
-                    <i class="fas fa-arrow-left text-xs group-hover:-translate-x-0.5 transition-transform"></i>
-                </div>
-                <span class="font-mono font-bold tracking-widest uppercase text-xs">Return</span>
+    <nav class="w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10 flex-none">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
             </a>
 
-            <div class="flex items-center gap-3 px-3 py-1.5 rounded-full bg-white/5 border border-white/5">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
-                <span class="text-[10px] font-mono text-gray-300 uppercase tracking-widest">EG_Resume.pdf</span>
+            <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#0067B1]">
+                <span class="hidden md:inline font-semibold">Resume</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#E11D2E] animate-pulse" aria-hidden="true"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FEC60A]" aria-hidden="true"></span>
             </div>
-
         </div>
     </nav>
 
@@ -93,6 +89,6 @@
         </iframe>
     </div>
 
-      <script src="js/nav-persist.js"></script>
+      <script src="js/nav-persist.js?v=soft3"></script>
 </body>
 </html>
