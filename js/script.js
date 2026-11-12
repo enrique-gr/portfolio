@@ -917,7 +917,7 @@ function toggleMobileNav(force) {
 }
 
 /** Persist index scroll before leaving for a detail page.
- *  Does NOT set RETURN_KEY — that flag is set only when leaving a subpage. */
+ *  Does NOT set RETURN_KEY; that flag is set only when leaving a subpage. */
 function saveIndexScroll() {
   try {
     // Rewrite history entry first so history.back() doesn't revive a stale ?hub=
@@ -1002,7 +1002,7 @@ function initNav() {
   };
 
   // Clicking Projects/Skills/Archive (or a featured card anchor) highlights immediately
-  // while smooth-scroll runs — avoids the tall Featured section losing to Skills.
+  // while smooth-scroll runs; avoids the tall Featured section losing to Skills.
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener("click", () => {
       const id = (a.getAttribute("href") || "").slice(1);
@@ -1196,7 +1196,7 @@ function initHeroWash() {
   const ctx = canvas.getContext("2d", { alpha: true });
   if (!ctx) return;
 
-  // Per-letter spans — heat is applied from the live flame front
+  // Per-letter spans; heat is applied from the live flame front
   const chars = [];
   const charHeat = []; // residual heat 0..1 per glyph
   if (textEl) {

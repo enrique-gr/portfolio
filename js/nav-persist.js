@@ -1,4 +1,4 @@
-/* Cross-page navigation — production-safe soft shell + Return.
+/* Cross-page navigation: production-safe soft shell + Return.
    Soft shell: index stays alive under a full-viewport iframe.
    Return: always reveals the index (never URL-only / stuck-page). */
 (function () {
@@ -205,7 +205,7 @@
 
     /**
      * Instant Return: reveal index first, then rewrite the current history
-     * entry to the index URL. Never history.back() — that caused
+     * entry to the index URL. Never history.back(); that caused
      * "URL changed but still on project page" when the stack was messy.
      */
     close() {
@@ -247,7 +247,7 @@
       }
 
       if (state && state.egSoft) {
-        // Browser Forward into a soft URL — reopen overlay
+        // Browser Forward into a soft URL: reopen overlay
         this.lockIndex();
         const frame = this.ensureFrame();
         const abs = window.location.href;

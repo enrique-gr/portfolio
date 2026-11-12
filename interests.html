@@ -30,7 +30,7 @@
             background-color: #050505;
             color: #e2e8f0;
         }
-        /* No full-page fade — fights cross-document View Transitions on Return */
+        /* No full-page fade; keeps Return transitions clean */
         html.nav-returning body { animation: none; }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
@@ -59,10 +59,150 @@
             flex-direction: column;
             min-width: 380px;
             max-width: 380px;
+            scroll-snap-align: start;
+            flex-shrink: 0;
         }
 
         .aircraft-viewer-shell,
         .space-viewer-shell { margin-top: auto; }
+
+        /* Aircraft / spacecraft horizontal rails */
+        .craft-rail { position: relative; }
+
+        .craft-rail-track {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 0.25rem 0.25rem 1rem;
+            margin: 0 -0.25rem;
+            cursor: grab;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: auto;
+            scrollbar-color: #6A9BC4 #151515;
+        }
+
+        .craft-rail-track:active { cursor: grabbing; }
+        .craft-rail-track.is-dragging {
+            cursor: grabbing;
+            scroll-behavior: auto;
+            scroll-snap-type: none;
+            user-select: none;
+        }
+
+        .craft-rail-track::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .craft-rail-track::-webkit-scrollbar-track {
+            background: #151515;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .craft-rail-track::-webkit-scrollbar-thumb {
+            background: #6A9BC4;
+            border: 2px solid #151515;
+            min-width: 48px;
+        }
+
+        .craft-rail-track::-webkit-scrollbar-thumb:hover {
+            background: #8eb6d4;
+        }
+
+        .craft-rail::after {
+            content: '';
+            position: absolute;
+            top: 2.75rem;
+            right: 0;
+            bottom: 1rem;
+            width: 3rem;
+            pointer-events: none;
+            background: linear-gradient(90deg, transparent, #0f0f10 92%);
+            opacity: 1;
+            transition: opacity 0.2s ease;
+        }
+
+        .craft-rail.at-end::after { opacity: 0; }
+
+        /* Interests type hierarchy */
+        main > .max-w-7xl > .flex h1 {
+            font-size: clamp(2.35rem, 4.5vw, 3.15rem);
+            letter-spacing: -0.035em;
+            line-height: 1.05;
+        }
+
+        main > .max-w-7xl > .flex h1 + p {
+            margin-top: 0.35rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.16em;
+            color: #8eb6d4 !important;
+        }
+
+        #section-aerospace,
+        #section-training,
+        #section-philosophy,
+        #section-films,
+        #section-scifi,
+        #section-reading {
+            scroll-margin-top: 9rem;
+        }
+
+        #section-aerospace > h3,
+        #section-training > h3,
+        #section-philosophy > h3,
+        #section-films > h3,
+        #section-scifi > h3,
+        #section-reading > h3 {
+            margin-bottom: 1rem !important;
+        }
+
+        aside > div > h3 {
+            margin-bottom: 0.85rem !important;
+            padding-bottom: 0 !important;
+            border-bottom: none !important;
+        }
+
+        #section-aerospace > .text-gray-300,
+        #section-training > .text-gray-300,
+        #section-philosophy > .text-gray-300,
+        #section-films > .text-gray-300,
+        #section-scifi > .text-gray-300,
+        #section-reading > .text-gray-300 {
+            font-size: 1.02rem;
+            max-width: 42rem;
+            color: #d4d4d8 !important;
+            font-weight: 400 !important;
+            line-height: 1.7 !important;
+        }
+
+        .craft-rail > .flex > h4 {
+            font-size: 0.72rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.22em !important;
+        }
+
+        .aircraft-card header h4,
+        .space-card header h4 {
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            color: #fff !important;
+            line-height: 1.3 !important;
+            margin-top: 0.15rem;
+        }
+
+        .aircraft-card > p,
+        .space-card > p {
+            color: #a1a1aa !important;
+            line-height: 1.6 !important;
+        }
+
+        #section-training h4.font-bold {
+            font-size: 0.95rem !important;
+            letter-spacing: 0.14em !important;
+            color: #fff !important;
+        }
 
         .header-sword-shell {
             position: relative;
@@ -192,22 +332,16 @@
         </div>
     </nav>
 
-    <!-- SECTION NAV -->
+    <!-- SECTION NAV | six interests, craft → body → mind → screen → speculative → reading -->
     <div class="section-nav">
         <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
             <div class="flex items-center gap-0">
-                <button class="section-nav-btn active" onclick="scrollToSection('section-aerospace', this)">
-                    Aerospace & Flight
-                </button>
-                <button class="section-nav-btn" onclick="scrollToSection('section-training', this)">
-                    Training
-                </button>
-                <button class="section-nav-btn" onclick="scrollToSection('section-films', this)">
-                    Films
-                </button>
-                <button class="section-nav-btn" onclick="scrollToSection('section-books', this)">
-                    Books
-                </button>
+                <button class="section-nav-btn active" onclick="scrollToSection('section-aerospace', this)">Aerospace & Flight</button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-training', this)">Physical Training</button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-philosophy', this)">Philosophy</button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-films', this)">Films</button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-scifi', this)">Science Fiction</button>
+                <button class="section-nav-btn" onclick="scrollToSection('section-reading', this)">Reading</button>
             </div>
         </div>
     </div>
@@ -233,21 +367,33 @@
                 <div>
                     <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Interests</h1>
                     <p class="text-[#6A9BC4] font-mono text-sm uppercase tracking-widest">
-                        Aircraft | Spacecraft | Training | Film | Books
+                        Airframes, iron, Stoics, and the shelf
                     </p>
                     <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono text-gray-500">
-                        <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
+                        <a href="#section-aerospace" class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2 hover:border-sky-400/40 hover:text-gray-300 transition-colors">
                             <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-                            Aerospace & Flight Systems
-                        </div>
-                        <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
+                            Aerospace & Flight
+                        </a>
+                        <a href="#section-training" class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2 hover:border-amber-400/40 hover:text-gray-300 transition-colors">
                             <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                            Training & Movement
-                        </div>
-                        <div class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2">
+                            Physical Training
+                        </a>
+                        <a href="#section-philosophy" class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2 hover:border-stone-300/40 hover:text-gray-300 transition-colors">
+                            <span class="w-1.5 h-1.5 rounded-full bg-stone-300"></span>
+                            Philosophy
+                        </a>
+                        <a href="#section-films" class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2 hover:border-purple-300/40 hover:text-gray-300 transition-colors">
                             <span class="w-1.5 h-1.5 rounded-full bg-purple-300"></span>
-                            Storytelling
-                        </div>
+                            Films
+                        </a>
+                        <a href="#section-scifi" class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2 hover:border-orange-300/40 hover:text-gray-300 transition-colors">
+                            <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
+                            Science Fiction
+                        </a>
+                        <a href="#section-reading" class="border border-white/10 px-2 py-1 uppercase inline-flex items-center gap-2 hover:border-yellow-300/40 hover:text-gray-300 transition-colors">
+                            <span class="w-1.5 h-1.5 rounded-full bg-yellow-300"></span>
+                            Reading
+                        </a>
                     </div>
                 </div>
             </div>
@@ -267,12 +413,12 @@
                     </div>
 
                     <!-- AIRCRAFT -->
-                    <div class="mb-12">
-                        <div class="flex items-center justify-between mb-4">
+                    <div class="craft-rail mb-12">
+                        <div class="flex items-center justify-between gap-4 mb-4">
                             <h4 class="text-[11px] font-mono uppercase tracking-[0.25em] text-sky-300">Aircraft</h4>
-                            <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Experimental | Fighters | Recon | Bombers</span>
+                            <span class="hidden sm:inline text-[10px] font-mono text-gray-500 uppercase tracking-widest">Experimental | Fighters | Recon | Bombers</span>
                         </div>
-                        <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+                        <div class="craft-rail-track" tabindex="0" role="region" aria-label="Aircraft gallery">
 
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
                                 <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(239,68,68,0.40),_transparent_60%)]"></div></div>
@@ -280,7 +426,7 @@
                                     <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-red-300 uppercase tracking-widest">X-15</span><span class="text-[10px] font-mono text-gray-500">Experimental</span></div>
                                     <h4 class="text-sm font-semibold text-white">Flown by those who went first.</h4>
                                 </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The X-15 stands out to me because it was built to go first. Neil Armstrong flew it before he walked on the moon. Early test pilots took this rocket plane to the edge of the sky so we could learn heat, speed, and control where theory ran out. That is the kind of courage I respect. Fly into the unknown and bring the data home.</p>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The X-15 was built to go first. Neil Armstrong flew it before he walked on the moon. Early test pilots took this rocket plane to the edge of the atmosphere to learn heat, speed, and control where theory ran out, then brought the data home.</p>
                                 <div class="aircraft-viewer-shell relative bg-[#020617] border border-red-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/north_american_x-15_plane.glb" alt="North American X-15 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="20deg 70deg 145%" field-of-view="28deg" loading="lazy"></model-viewer></div>
                             </article>
 
@@ -290,7 +436,7 @@
                                     <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-purple-300 uppercase tracking-widest">F-117 Nighthawk</span><span class="text-[10px] font-mono text-gray-500">Stealth Attack</span></div>
                                     <h4 class="text-sm font-semibold text-white">First in line for pure stealth engineering.</h4>
                                 </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The F-117 stands out to me because it feels like a machine built around one hard constraint: survivability through signature reduction. It reflects a mindset I respect deeply. Accept aerodynamic tradeoffs, then use systems and mission design to make the aircraft effective anyway.</p>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The F-117 was built around one hard constraint: survivability through signature reduction. Accept the aerodynamic tradeoffs, then use systems and mission design to make the aircraft effective anyway.</p>
                                 <div class="aircraft-viewer-shell relative bg-[#020617] border border-purple-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/f-117.glb" alt="F-117 Nighthawk 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="15deg 65deg 130%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
@@ -300,7 +446,7 @@
                                     <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-sky-300 uppercase tracking-widest">SR-71 Blackbird</span><span class="text-[10px] font-mono text-gray-500">Recon | Mach 3+</span></div>
                                     <h4 class="text-sm font-semibold text-white">Outrun the threat instead of dodging it.</h4>
                                 </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The SR-71 is a perfect example of engineering pushed into the extreme. I'm drawn to how its design handles continuous heating, material expansion, and mission reliability at Mach 3+, where every decision has direct consequences for survivability and performance.</p>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">I'm drawn to how the SR-71 handles continuous heating, material expansion, and mission reliability at Mach 3+. At that regime every design choice hits survivability and performance directly.</p>
                                 <div class="aircraft-viewer-shell relative bg-[#020617] border border-sky-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/sr-71.glb" alt="SR-71 Blackbird 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="0deg 65deg 120%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
@@ -310,7 +456,7 @@
                                     <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-blue-300 uppercase tracking-widest">F-22 Raptor</span><span class="text-[10px] font-mono text-gray-500">5th Gen Fighter</span></div>
                                     <h4 class="text-sm font-semibold text-white">Stealth, supercruise, and control laws.</h4>
                                 </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The F-22 has always stood out to me for how seamlessly aerodynamics, avionics, and control laws work together. It's a system where real-time software, stealth geometry, and thrust vectoring feel integrated rather than layered on top of each other.</p>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">On the F-22, aerodynamics, avionics, and control laws work as one system. Real-time software, stealth geometry, and thrust vectoring read as integrated, not bolted on.</p>
                                 <div class="aircraft-viewer-shell relative bg-[#020617] border border-blue-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/f-22.glb" alt="F-22 Raptor 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="30deg 60deg 130%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
@@ -320,18 +466,8 @@
                                     <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-slate-200 uppercase tracking-widest">YF-23 "Black Widow II"</span><span class="text-[10px] font-mono text-gray-500">Prototype</span></div>
                                     <h4 class="text-sm font-semibold text-white">The stealthy "what if" path.</h4>
                                 </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">I've always been fascinated by the YF-23 because it represents a completely different path the ATF program could have taken. Its emphasis on signature reduction, high-speed stability, and a unique planform shows how different engineering priorities can shape an entirely separate solution to the same problem.</p>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The YF-23 is the other ATF path: signature reduction, high-speed stability, and a planform built around different priorities than the F-22. Same problem, different solution.</p>
                                 <div class="aircraft-viewer-shell relative bg-[#020617] border border-slate-400/60 rounded-sm overflow-hidden"><model-viewer src="assets/models/yf-23.glb" alt="YF-23 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="-30deg 60deg 130%" field-of-view="30deg" loading="lazy"></model-viewer></div>
-                            </article>
-
-                            <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(244,114,182,0.35),_transparent_60%)]"></div></div>
-                                <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-pink-300 uppercase tracking-widest">F-14 Tomcat</span><span class="text-[10px] font-mono text-gray-500">Fleet Defense Fighter</span></div>
-                                    <h4 class="text-sm font-semibold text-white">Variable geometry with attitude.</h4>
-                                </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The F-14 stands out because it feels mechanically alive. Between the variable-sweep wings, naval mission demands, and long-range intercept role, it represents an era where geometry, propulsion, and mission profile all had to work together in a very visible way.</p>
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-pink-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/f-14.glb" alt="F-14 Tomcat 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="20deg 65deg 135%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
                             <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
@@ -354,26 +490,16 @@
                                 <div class="aircraft-viewer-shell relative bg-[#020617] border border-indigo-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/b-2.glb" alt="B-2 Spirit 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="0deg 65deg 140%" field-of-view="28deg" loading="lazy"></model-viewer></div>
                             </article>
 
-                            <article class="aircraft-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.30),_transparent_60%)]"></div></div>
-                                <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-green-300 uppercase tracking-widest">B-52 Stratofortress</span><span class="text-[10px] font-mono text-gray-500">Strategic Bomber</span></div>
-                                    <h4 class="text-sm font-semibold text-white">Endurance, payload, and staying power.</h4>
-                                </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The B-52 earns its place because it proves that a platform can stay relevant for decades when the architecture is adaptable. It's less about novelty and more about durability, payload, and mission usefulness over time.</p>
-                                <div class="aircraft-viewer-shell relative bg-[#020617] border border-green-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/b-52.glb" alt="B-52 Stratofortress 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.7" environment-image="neutral" camera-orbit="-15deg 65deg 150%" field-of-view="28deg" loading="lazy"></model-viewer></div>
-                            </article>
-
                         </div>
                     </div>
 
                     <!-- SPACECRAFT -->
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
+                    <div class="craft-rail">
+                        <div class="flex items-center justify-between gap-4 mb-4">
                             <h4 class="text-[11px] font-mono uppercase tracking-[0.25em] text-[#6A9BC4]">Spacecraft & Exploration Systems</h4>
-                            <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Launch Vehicles | Crewed Flight | Planetary Systems</span>
+                            <span class="hidden sm:inline text-[10px] font-mono text-gray-500 uppercase tracking-widest">Launch Vehicles | Crewed Flight | Planetary Systems</span>
                         </div>
-                        <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+                        <div class="craft-rail-track" tabindex="0" role="region" aria-label="Spacecraft gallery">
 
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
                                 <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(0,48,87,0.45),_transparent_60%)]"></div></div>
@@ -391,7 +517,7 @@
                                     <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-cyan-300 uppercase tracking-widest">Space Shuttle</span><span class="text-[10px] font-mono text-gray-500">Reusable Orbiter</span></div>
                                     <h4 class="text-sm font-semibold text-white">Reentry, operations, and complexity at scale.</h4>
                                 </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The Shuttle is fascinating because it combined launch vehicle, spacecraft, and glider-like recovery into a single system. It feels like a masterclass in compromise, operations, and ambitious engineering.</p>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The Shuttle combined launch vehicle, spacecraft, and runway recovery into one system. I'm drawn to that mix of operations, thermal protection, and the compromises that made reusable crewed flight work.</p>
                                 <div class="space-viewer-shell relative bg-[#020617] border border-cyan-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/space_shuttle.glb" alt="Space Shuttle 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="25deg 65deg 145%" field-of-view="28deg" loading="lazy"></model-viewer></div>
                             </article>
 
@@ -431,7 +557,7 @@
                                     <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-stone-300 uppercase tracking-widest">Lunar Module</span><span class="text-[10px] font-mono text-gray-500">Moon Lander</span></div>
                                     <h4 class="text-sm font-semibold text-white">Built only for the mission that mattered.</h4>
                                 </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">I love the Lunar Module because it feels brutally honest. No atmospheric compromise, no unnecessary elegance, just a machine optimized for one environment and one purpose. That kind of engineering discipline is beautiful.</p>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The Lunar Module was built for one environment and one job. No atmospheric compromise, no extra polish. That kind of purpose-built machine is what I like studying.</p>
                                 <div class="space-viewer-shell relative bg-[#020617] border border-stone-400/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/lunar_module.glb" alt="Lunar Module 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="-20deg 65deg 140%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
@@ -451,7 +577,7 @@
                                     <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-red-300 uppercase tracking-widest">Perseverance</span><span class="text-[10px] font-mono text-gray-500">Planetary Rover</span></div>
                                     <h4 class="text-sm font-semibold text-white">Robotics where there is no second chance.</h4>
                                 </header>
-                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">Perseverance represents the kind of robotics I admire most. Every subsystem has to justify itself. Every watt, gram, and line of code matters. It's exploration through careful, high-stakes systems engineering.</p>
+                                <p class="relative text-xs text-gray-400 leading-relaxed mb-4">On Perseverance, every subsystem has to justify itself. Watt, gram, and code budgets are tight. Planetary robotics with no second chance to fix it on site.</p>
                                 <div class="space-viewer-shell relative bg-[#020617] border border-red-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/perseverance.glb" alt="Perseverance rover 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="-15deg 65deg 140%" field-of-view="30deg" loading="lazy"></model-viewer></div>
                             </article>
 
@@ -461,9 +587,9 @@
 
                 <!-- TRAINING -->
                 <section id="section-training">
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Training & Movement</h3>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Physical Training</h3>
                     <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>Training has always felt similar to engineering work for me. Set a clear target, define the constraints, and apply consistent effort. I'm drawn to simple movements performed with high intent, where progress comes from discipline rather than tricks.</p>
+                        <p>I train for strength I can measure. Weighted pull-ups and dips are the core, built with progressive overload and clean form. No complicated programming. Just hard sets done well.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="bg-black border border-white/10 p-6">
@@ -471,37 +597,61 @@
                                 <div><h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Calisthenics</h4><p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">Weighted pull-ups & dips</p></div>
                                 <i class="fas fa-person-running text-amber-300/80"></i>
                             </div>
-                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Weighted pull-ups and dips have become my primary strength movements. I focus on controlled execution, progressive overload, and keeping the work honest. No shortcuts, no wasted reps.</p>
+                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Weighted pull-ups and dips are my main strength work. Controlled reps, progressive overload, and enough load that every set counts.</p>
                             <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400"><span>Style</span><span class="text-amber-300">Heavy, clean, controlled</span></div>
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400"><span>Why</span><span class="text-amber-300">Simple movements, high intent</span></div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-amber-400"><span>Focus</span><span class="text-amber-300">Pull-ups & dips</span></div>
                             </div>
                         </div>
                         <div class="bg-black border border-white/10 p-6">
                             <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
-                                <div><h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Strength Training</h4><p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">No reps left in reserve</p></div>
+                                <div><h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Strength Training</h4><p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">0–1 RIR on work sets</p></div>
                                 <i class="fas fa-dumbbell text-[#6A9BC4]/80"></i>
                             </div>
-                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Most of my working sets are done at a high effort level, usually 0–1 RIR. It feels similar to tuning a control loop: push hard, observe the response, adjust, and build resilience over time.</p>
+                            <p class="text-xs text-gray-300 leading-relaxed mb-4">Most working sets land at 0–1 RIR. I track load, leave little in reserve, and add weight when the reps stay clean.</p>
                             <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-[#003057]"><span>Philosophy</span><span class="text-[#6A9BC4]">Make top sets memorable</span></div>
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-[#003057]"><span>Carryover</span><span class="text-[#6A9BC4]">Same mindset as debugging & EKF tuning</span></div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-[#003057]"><span>Effort</span><span class="text-[#6A9BC4]">0–1 RIR</span></div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-[#003057]"><span>Progress</span><span class="text-[#6A9BC4]">Add load when form holds</span></div>
                             </div>
                         </div>
                     </div>
                 </section>
 
+                <!-- PHILOSOPHY -->
+                <section id="section-philosophy">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Philosophy</h3>
+                    <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
+                        <p>Philosophy is a separate lane from fiction. I come back to stoic and classical ethics when I need a clear frame for judgment, effort, and what is actually under my control: in the shop, in training, and in long projects.</p>
+                    </div>
+                    <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/meditations.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Meditations" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-amber-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-amber-300 uppercase tracking-widest mb-1">Marcus Aurelius</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Meditations</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A reminder to stay disciplined, calm, and focused on what can be controlled.</p>
+                        </article>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/nicomachean_ethics.webp" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Nicomachean Ethics" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-stone-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-stone-300 uppercase tracking-widest mb-1">Aristotle</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Nicomachean Ethics</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Character as a practiced habit. Excellence comes from repeated, deliberate action, not intention alone.</p>
+                        </article>
+                    </div>
+                </section>
+
                 <!-- FILMS -->
                 <section id="section-films">
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Favorite Films</h3>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Films</h3>
                     <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>These films stand out for their atmosphere, pacing, and the way characters carry tension under pressure. Each has a strong sense of discipline, perspective, or control.</p>
+                        <p>Film is its own interest: atmosphere, pacing, and characters under pressure. These stand out for discipline and control on screen, not as stand-ins for the books I read.</p>
                     </div>
                     <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
                         <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/movies/no_country.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="No Country for Old Men" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>No Country for Old Men</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">No Country for Old Men</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">A masterclass in tension and control. Quiet, precise, and driven by internal logic rather than spectacle.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Quiet tension and hard choices. Little spectacle, a lot of pressure.</p>
                         </article>
                         <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/movies/shawshank.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="Shawshank Redemption" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Shawshank Redemption</h4>'">
@@ -516,7 +666,7 @@
                         <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/movies/dark_knight.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Dark Knight" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Dark Knight</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">The Dark Knight</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Tight pacing, moral complexity, and precision in both storytelling and execution. An engineering mindset on screen.</p>
+                            <p class="text-xs text-gray-400 leading-relaxed">Tight pacing and moral pressure. Every scene feels deliberate.</p>
                         </article>
                         <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/movies/lotr_trilogy.jpg" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Lord of the Rings film trilogy title cards" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Lord of the Rings Trilogy</h4>'">
@@ -526,78 +676,13 @@
                     </div>
                 </section>
 
-                <!-- BOOKS -->
-                <section id="section-books">
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Favorite Books</h3>
+                <!-- SCIENCE FICTION -->
+                <section id="section-scifi">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Science Fiction</h3>
                     <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>Books that shaped how I think about engineering, discipline, and the mindset behind building things that matter under real constraints.</p>
+                        <p>Science fiction is where I go for systems under hard limits: colonies, orbital mechanics, improvisation, and crews that have to make sparse resources work. Separate from philosophy and from general reading.</p>
                     </div>
                     <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
-
-                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/skunk_works.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Skunk Works" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-sky-300/50"></i></div>
-                            <div class="text-[10px] font-mono text-sky-300 uppercase tracking-widest mb-1">Ben R. Rich & Leo Janos</div>
-                            <h4 class="text-sm font-semibold text-white mb-1">Skunk Works</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Engineering culture, secrecy, risk, and aircraft development under extreme constraints.</p>
-                        </article>
-
-                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/stealth_warplanes.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Stealth Warplanes" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-purple-300/50"></i></div>
-                            <div class="text-[10px] font-mono text-purple-300 uppercase tracking-widest mb-1">Doug Richardson</div>
-                            <h4 class="text-sm font-semibold text-white mb-1">Stealth Warplanes</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">A technical look at stealth aircraft, signature reduction, and modern airpower design.</p>
-                        </article>
-
-                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/intro_to_flight.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Introduction to Flight" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-[#6A9BC4]/50"></i></div>
-                            <div class="text-[10px] font-mono text-[#6A9BC4] uppercase tracking-widest mb-1">John D. Anderson</div>
-                            <h4 class="text-sm font-semibold text-white mb-1">Introduction to Flight</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">A foundation for understanding flight mechanics, aerodynamics, propulsion, and aircraft performance.</p>
-                        </article>
-
-                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/meditations.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Meditations" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-amber-300/50"></i></div>
-                            <div class="text-[10px] font-mono text-amber-300 uppercase tracking-widest mb-1">Marcus Aurelius</div>
-                            <h4 class="text-sm font-semibold text-white mb-1">Meditations</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">A reminder to stay disciplined, calm, and focused on what can be controlled.</p>
-                        </article>
-
-                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/nicomachean_ethics.webp" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Nicomachean Ethics" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-stone-300/50"></i></div>
-                            <div class="text-[10px] font-mono text-stone-300 uppercase tracking-widest mb-1">Aristotle</div>
-                            <h4 class="text-sm font-semibold text-white mb-1">Nicomachean Ethics</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Character as a practiced habit. Excellence comes from repeated, deliberate action, not intention alone.</p>
-                        </article>
-
-                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/lotr_fellowship.jpg" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Fellowship of the Ring" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-yellow-300/50"></i></div>
-                            <div class="text-[10px] font-mono text-yellow-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
-                            <h4 class="text-sm font-semibold text-white mb-1">The Fellowship of the Ring</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">A team assembled from people who have no reason to work together, committed to a mission bigger than any of them.</p>
-                        </article>
-
-                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/lotr_two_towers.webp" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Two Towers" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-red-300/50"></i></div>
-                            <div class="text-[10px] font-mono text-red-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
-                            <h4 class="text-sm font-semibold text-white mb-1">The Two Towers</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">The team splits and every thread has to hold on its own. Progress made without knowing how the other fronts are going.</p>
-                        </article>
-
-                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/lotr_return_king.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Return of the King" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-green-300/50"></i></div>
-                            <div class="text-[10px] font-mono text-green-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
-                            <h4 class="text-sm font-semibold text-white mb-1">The Return of the King</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Seeing the mission through to the end. The last stretch is the hardest, and it only works because nobody quit earlier.</p>
-                        </article>
-
                         <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/books/moon_harsh_mistress.jpg" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Moon Is a Harsh Mistress" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
                             <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-orange-300/50"></i></div>
@@ -605,7 +690,6 @@
                             <h4 class="text-sm font-semibold text-white mb-1">The Moon Is a Harsh Mistress</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">An engineer, a self-aware computer, and a lunar colony. Resource limits, orbital mechanics, and planning against long odds.</p>
                         </article>
-
                         <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/books/farmer_in_the_sky.jpg" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Farmer in the Sky" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
                             <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-orange-300/50"></i></div>
@@ -613,7 +697,58 @@
                             <h4 class="text-sm font-semibold text-white mb-1">Farmer in the Sky</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">Building a working colony on Ganymede from almost nothing. Hard work, improvisation, and systems that have to keep people alive.</p>
                         </article>
+                    </div>
+                </section>
 
+                <!-- READING -->
+                <section id="section-reading">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Reading</h3>
+                    <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
+                        <p>Reading covers the rest of the shelf: aerospace history and fundamentals, plus long-form fiction that rewards endurance. Not philosophy, not sci-fi. Just the broader habit of sitting with a book.</p>
+                    </div>
+                    <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/skunk_works.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Skunk Works" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-sky-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-sky-300 uppercase tracking-widest mb-1">Ben R. Rich & Leo Janos</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Skunk Works</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Engineering culture, secrecy, risk, and aircraft development under extreme constraints.</p>
+                        </article>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/stealth_warplanes.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Stealth Warplanes" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-purple-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-purple-300 uppercase tracking-widest mb-1">Doug Richardson</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Stealth Warplanes</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A technical look at stealth aircraft, signature reduction, and modern airpower design.</p>
+                        </article>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/intro_to_flight.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Introduction to Flight" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-[#6A9BC4]/50"></i></div>
+                            <div class="text-[10px] font-mono text-[#6A9BC4] uppercase tracking-widest mb-1">John D. Anderson</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">Introduction to Flight</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A foundation for understanding flight mechanics, aerodynamics, propulsion, and aircraft performance.</p>
+                        </article>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/lotr_fellowship.jpg" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Fellowship of the Ring" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-yellow-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-yellow-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">The Fellowship of the Ring</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">A team assembled from people who have no reason to work together, committed to a mission bigger than any of them.</p>
+                        </article>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/lotr_two_towers.webp" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Two Towers" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-red-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-red-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">The Two Towers</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">The team splits and every thread has to hold on its own. Progress made without knowing how the other fronts are going.</p>
+                        </article>
+                        <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
+                            <img src="assets/books/lotr_return_king.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="The Return of the King" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-green-300/50"></i></div>
+                            <div class="text-[10px] font-mono text-green-300 uppercase tracking-widest mb-1">J.R.R. Tolkien</div>
+                            <h4 class="text-sm font-semibold text-white mb-1">The Return of the King</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed">Seeing the mission through to the end. The last stretch is the hardest, and it only works because nobody quit earlier.</p>
+                        </article>
                     </div>
                 </section>
 
@@ -629,10 +764,8 @@
                         <div class="flex items-center justify-between"><span>[JET] SR-71 Blackbird</span><span class="text-sky-300">Mach 3+ Recon</span></div>
                         <div class="flex items-center justify-between"><span>[JET] F-22 Raptor</span><span class="text-blue-300">5th Gen Fighter</span></div>
                         <div class="flex items-center justify-between"><span>[JET] YF-23 Black Widow II</span><span class="text-slate-300">Prototype</span></div>
-                        <div class="flex items-center justify-between"><span>[JET] F-14 Tomcat</span><span class="text-pink-300">Variable Sweep</span></div>
                         <div class="flex items-center justify-between"><span>[JET] F-16 "Viper"</span><span class="text-amber-300">FBW Pioneer</span></div>
                         <div class="flex items-center justify-between"><span>[BMB] B-2 Spirit</span><span class="text-indigo-300">Stealth Bomber</span></div>
-                        <div class="flex items-center justify-between"><span>[BMB] B-52 Stratofortress</span><span class="text-green-300">Strategic Bomber</span></div>
                     </div>
                 </div>
                 <div>
@@ -649,25 +782,75 @@
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Training Snapshot</h3>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Interest Map</h3>
+                    <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
+                        <div class="flex items-center justify-between"><span>01 Aerospace & Flight</span><span class="text-sky-300">Craft</span></div>
+                        <div class="flex items-center justify-between"><span>02 Physical Training</span><span class="text-amber-300">Body</span></div>
+                        <div class="flex items-center justify-between"><span>03 Philosophy</span><span class="text-stone-300">Mind</span></div>
+                        <div class="flex items-center justify-between"><span>04 Films</span><span class="text-purple-300">Screen</span></div>
+                        <div class="flex items-center justify-between"><span>05 Science Fiction</span><span class="text-orange-300">Speculative</span></div>
+                        <div class="flex items-center justify-between"><span>06 Reading</span><span class="text-yellow-300">Shelf</span></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Physical Training</h3>
                     <div class="p-6 bg-[#003057]/5 border border-[#003057]/20 text-xs font-mono space-y-3">
                         <div class="flex items-center justify-between"><span>Primary Focus</span><span class="text-[#6A9BC4]">Weighted pull & push</span></div>
                         <div class="flex items-center justify-between"><span>Effort Level</span><span class="text-[#6A9BC4]">0–1 RIR / work set</span></div>
                         <div class="flex items-center justify-between"><span>Approach</span><span class="text-[#6A9BC4]">Progressive overload</span></div>
-                        <p class="pt-2 text-[11px] text-[#9BB8D3]/80 leading-relaxed">Same mindset across both engineering and training: pick a target, measure honestly, and keep showing up when it stops being easy.</p>
+                        <p class="pt-2 text-[11px] text-[#9BB8D3]/80 leading-relaxed">Track the load. Keep the form clean. Add weight when the reps stay solid.</p>
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Favorite Books</h3>
-                    <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
-                        <div class="flex items-center justify-between"><span>Skunk Works</span><span class="text-sky-300">Ben R. Rich & Leo Janos</span></div>
-                        <div class="flex items-center justify-between"><span>Stealth Warplanes</span><span class="text-purple-300">Doug Richardson</span></div>
-                        <div class="flex items-center justify-between"><span>Introduction to Flight</span><span class="text-[#6A9BC4]">Anderson</span></div>
-                        <div class="flex items-center justify-between"><span>Meditations</span><span class="text-amber-300">Marcus Aurelius</span></div>
-                        <div class="flex items-center justify-between"><span>Nicomachean Ethics</span><span class="text-stone-300">Aristotle</span></div>
-                        <div class="flex items-center justify-between"><span>The Lord of the Rings</span><span class="text-yellow-300">J.R.R. Tolkien</span></div>
-                        <div class="flex items-center justify-between"><span>The Moon Is a Harsh Mistress</span><span class="text-orange-300">Heinlein</span></div>
-                        <div class="flex items-center justify-between"><span>Farmer in the Sky</span><span class="text-orange-300">Heinlein</span></div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Shelf Snapshot</h3>
+                    <div class="bg-black border border-white/10 p-4 space-y-5">
+                        <div>
+                            <div class="text-[10px] font-mono uppercase tracking-widest text-stone-300 mb-3">Philosophy</div>
+                            <ul class="space-y-3">
+                                <li>
+                                    <div class="text-sm text-white leading-snug">Meditations</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">Marcus Aurelius</div>
+                                </li>
+                                <li>
+                                    <div class="text-sm text-white leading-snug">Nicomachean Ethics</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">Aristotle</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="border-t border-white/10 pt-5">
+                            <div class="text-[10px] font-mono uppercase tracking-widest text-orange-300 mb-3">Science Fiction</div>
+                            <ul class="space-y-3">
+                                <li>
+                                    <div class="text-sm text-white leading-snug">The Moon Is a Harsh Mistress</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">Robert A. Heinlein</div>
+                                </li>
+                                <li>
+                                    <div class="text-sm text-white leading-snug">Farmer in the Sky</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">Robert A. Heinlein</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="border-t border-white/10 pt-5">
+                            <div class="text-[10px] font-mono uppercase tracking-widest text-yellow-300 mb-3">Reading</div>
+                            <ul class="space-y-3">
+                                <li>
+                                    <div class="text-sm text-white leading-snug">Skunk Works</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">Ben R. Rich &amp; Leo Janos</div>
+                                </li>
+                                <li>
+                                    <div class="text-sm text-white leading-snug">Stealth Warplanes</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">Doug Richardson</div>
+                                </li>
+                                <li>
+                                    <div class="text-sm text-white leading-snug">Introduction to Flight</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">John D. Anderson</div>
+                                </li>
+                                <li>
+                                    <div class="text-sm text-white leading-snug">The Lord of the Rings</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">J.R.R. Tolkien</div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -694,8 +877,10 @@ function scrollToSection(id, btn) {
         const sections = [
             { id: 'section-aerospace', btn: 0 },
             { id: 'section-training', btn: 1 },
-            { id: 'section-films', btn: 2 },
-            { id: 'section-books', btn: 3 },
+            { id: 'section-philosophy', btn: 2 },
+            { id: 'section-films', btn: 3 },
+            { id: 'section-scifi', btn: 4 },
+            { id: 'section-reading', btn: 5 },
         ];
 
         const navBtns = document.querySelectorAll('.section-nav-btn');
@@ -716,6 +901,72 @@ function scrollToSection(id, btn) {
             const el = document.getElementById(s.id);
             if (el) scrollObserver.observe(el);
         });
+
+        function initCraftRails() {
+            document.querySelectorAll('.craft-rail').forEach((rail) => {
+                const track = rail.querySelector('.craft-rail-track');
+                if (!track) return;
+
+                const step = () => {
+                    const card = track.querySelector('.aircraft-card, .space-card');
+                    if (!card) return Math.round(track.clientWidth * 0.85);
+                    const gap = parseFloat(getComputedStyle(track).gap) || 24;
+                    return Math.round(card.getBoundingClientRect().width + gap);
+                };
+
+                const sync = () => {
+                    const max = track.scrollWidth - track.clientWidth;
+                    const atEnd = track.scrollLeft >= max - 4;
+                    rail.classList.toggle('at-end', atEnd || max <= 0);
+                };
+
+                const go = (dir) => {
+                    track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+                };
+
+                track.addEventListener('scroll', sync, { passive: true });
+                window.addEventListener('resize', sync);
+
+                track.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+                    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+                });
+
+                let drag = null;
+                track.addEventListener('pointerdown', (e) => {
+                    if (e.pointerType === 'touch') return;
+                    if (e.target.closest('model-viewer, button, a')) return;
+                    drag = {
+                        id: e.pointerId,
+                        x: e.clientX,
+                        left: track.scrollLeft,
+                        moved: false,
+                    };
+                    track.setPointerCapture(e.pointerId);
+                });
+                track.addEventListener('pointermove', (e) => {
+                    if (!drag || e.pointerId !== drag.id) return;
+                    const dx = e.clientX - drag.x;
+                    if (!drag.moved && Math.abs(dx) > 4) {
+                        drag.moved = true;
+                        track.classList.add('is-dragging');
+                    }
+                    if (drag.moved) track.scrollLeft = drag.left - dx;
+                });
+                const endDrag = (e) => {
+                    if (!drag || e.pointerId !== drag.id) return;
+                    track.classList.remove('is-dragging');
+                    drag = null;
+                    sync();
+                };
+                track.addEventListener('pointerup', endDrag);
+                track.addEventListener('pointercancel', endDrag);
+
+                sync();
+            });
+        }
+
+        initCraftRails();
 </script>
   <script src="js/nav-persist.js?v=soft4"></script>
 </body>

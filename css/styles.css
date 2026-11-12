@@ -28,7 +28,7 @@ html {
   background-color: var(--eg-bg, #050505);
 }
 
-/* page-exit kept inert — Return uses soft shell (index never unloads) */
+/* page-exit kept inert: Return uses soft shell (index never unloads) */
 
 /* Skip one-shot entrances after back / Return */
 html.nav-returning .hero-stagger > * {
@@ -495,7 +495,7 @@ body {
 }
 @media (max-width: 900px) { #featured .feat-inner { padding: 0 20px; } }
 
-/* Shared wide-content rail — capabilities, collections, footer */
+/* Shared wide-content rail: capabilities, collections, footer */
 #capabilities,
 #collections,
 .eg-content-rail {
@@ -512,7 +512,7 @@ body {
 }
 
 /*
- * Capabilities right rail — height is locked to the left rail in JS
+ * Capabilities right rail: height is locked to the left rail in JS
  * (syncCapRails) so coursework bottom and roadmap bottom share one edge.
  * Radar is an explicit square that fits the leftover space above roadmap.
  */
@@ -583,7 +583,7 @@ body {
 .sp:hover  { border-color: rgba(255,255,255,.28); color: #fff; background: rgba(255,255,255,.04); }
 .sp.active { border-color: var(--eg-accent-core, #6b9fd4); color: #fff; background: var(--eg-accent-soft, rgba(107,159,212,.12)); box-shadow: none; }
 
-/* Skill detail card — toggled via JS */
+/* Skill detail card: toggled via JS */
 #skill-detail { transition: opacity .3s, transform .3s; }
 
 .skill-hidden {
@@ -852,7 +852,7 @@ body {
   background: rgba(255, 255, 255, 0.16);
 }
 
-/* Shared clean row — status via icon/node color only */
+/* Shared clean row: status via icon/node color only */
 .hero-mission-item {
   position: relative;
   border: 1px solid rgba(255,255,255,.1);
@@ -1200,7 +1200,7 @@ body.nav-open { overflow: hidden; }
 .animate-fade-in    { animation: fadeIn .5s ease-out forwards; }
 .animate-identity   { animation: identity-scan 1s cubic-bezier(.4,0,.2,1); }
 
-/* Section enter — scroll into view once */
+/* Section enter: scroll into view once */
 .eg-reveal {
   opacity: 0;
   transform: translateY(14px);
