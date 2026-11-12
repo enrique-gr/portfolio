@@ -132,74 +132,78 @@ body {
 }
 
 /*
- * Middle-jet nozzle flame — orifice glow + short aft plume.
+ * Middle-jet nozzle flame — warm afterburner plume sized to the dorsal orifice.
  * Position (left/top) is set in JS from natural-image nozzle coords.
- * Lives as a hero-section sibling so it sits above the photo wash.
  */
 #hero-section > .hero-nozzle-flame {
   position: absolute;
   left: 50%;
   top: 46%;
-  width: 42px;
-  height: 48px;
-  transform: translate(-50%, -82%);
+  width: 72px;
+  height: 148px;
+  transform: translate(-50%, -90%);
   /* Above hero copy so the orifice reads through the scene; below site nav. */
   z-index: 12;
   pointer-events: none;
   mix-blend-mode: screen;
-  opacity: 0.95;
+  opacity: 0.97;
 }
 .hero-nozzle-flame__core {
   position: absolute;
   left: 50%;
-  bottom: 4px;
-  width: 11px;
-  height: 11px;
+  bottom: 6px;
+  width: 18px;
+  height: 18px;
   transform: translateX(-50%);
   border-radius: 50%;
   background: radial-gradient(
     circle,
     rgba(255, 252, 245, 1) 0%,
-    rgba(254, 215, 170, 0.95) 34%,
-    rgba(251, 146, 60, 0.75) 55%,
+    rgba(254, 215, 170, 0.95) 32%,
+    rgba(251, 146, 60, 0.78) 54%,
     transparent 78%
   );
   box-shadow:
-    0 0 8px rgba(255, 247, 237, 0.7),
-    0 0 16px rgba(251, 146, 60, 0.5);
+    0 0 12px rgba(255, 247, 237, 0.78),
+    0 0 26px rgba(251, 146, 60, 0.58);
 }
 .hero-nozzle-flame__plume {
   position: absolute;
   left: 50%;
-  bottom: 7px;
-  width: 15px;
-  height: 34px;
+  bottom: 12px;
+  width: 28px;
+  height: 122px;
   transform: translateX(-50%);
-  border-radius: 55% 55% 40% 40% / 18% 18% 72% 72%;
+  border-radius: 46% 46% 40% 40% / 10% 10% 80% 80%;
   background: radial-gradient(
-    ellipse 72% 95% at 50% 92%,
-    rgba(255, 248, 230, 0.95) 0%,
-    rgba(251, 146, 60, 0.8) 28%,
-    rgba(249, 115, 22, 0.42) 52%,
-    rgba(96, 165, 250, 0.22) 70%,
-    transparent 88%
+    ellipse 68% 96% at 50% 95%,
+    rgba(255, 248, 230, 0.98) 0%,
+    rgba(254, 215, 170, 0.92) 14%,
+    rgba(251, 146, 60, 0.8) 30%,
+    rgba(249, 115, 22, 0.45) 50%,
+    rgba(194, 65, 12, 0.2) 68%,
+    transparent 90%
   );
-  filter: blur(0.4px);
+  filter: blur(0.5px);
   transform-origin: 50% 100%;
   animation: heroNozzleBreathe 3.2s ease-in-out infinite;
 }
 @keyframes heroNozzleBreathe {
-  0%, 100% { opacity: 0.82; transform: translateX(-50%) scaleY(0.97) scaleX(0.99); }
-  50%      { opacity: 1;    transform: translateX(-50%) scaleY(1.05) scaleX(1.02); }
+  0%, 100% { opacity: 0.84; transform: translateX(-50%) scaleY(0.96) scaleX(0.98); }
+  50%      { opacity: 1;    transform: translateX(-50%) scaleY(1.07) scaleX(1.04); }
 }
 @media (max-width: 768px) {
   #hero-section > .hero-nozzle-flame {
-    width: 34px;
-    height: 40px;
+    width: 52px;
+    height: 108px;
+  }
+  .hero-nozzle-flame__core {
+    width: 14px;
+    height: 14px;
   }
   .hero-nozzle-flame__plume {
-    width: 12px;
-    height: 26px;
+    width: 20px;
+    height: 88px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -231,7 +235,7 @@ body {
 
 .hero-tagline { text-shadow: 0 0 26px rgba(96,165,250,.4); }
 
-/* --- Tagline wash: cool steel plume from a quiet emitter --- */
+/* --- Tagline wash: cool steel / cyan stream (kept distinct from warm jet exhaust) --- */
 .hero-wash {
   position: relative;
   display: flex;
@@ -272,7 +276,7 @@ body {
   transform: translateY(-50%);
   pointer-events: none;
   mix-blend-mode: screen;
-  opacity: 0.92;
+  opacity: 0.9;
 }
 .hero-wash-emitter {
   position: relative;
@@ -303,24 +307,24 @@ body {
   border-radius: 1px;
   background: linear-gradient(
     180deg,
-    rgba(147, 197, 253, 0.55),
-    rgba(255, 248, 220, 0.95) 38%,
-    rgba(251, 146, 60, 0.8) 62%,
-    rgba(59, 130, 246, 0.55)
+    rgba(125, 211, 252, 0.55),
+    rgba(226, 242, 255, 0.95) 40%,
+    rgba(96, 165, 250, 0.85) 68%,
+    rgba(56, 189, 248, 0.5)
   );
   box-shadow:
-    -5px 0 12px rgba(251, 146, 60, 0.35),
-    -8px 0 16px rgba(96, 165, 250, 0.28),
-    0 0 8px rgba(255, 255, 255, 0.22);
+    -6px 0 14px rgba(56, 189, 248, 0.32),
+    -10px 0 18px rgba(96, 165, 250, 0.3),
+    0 0 8px rgba(226, 242, 255, 0.28);
   transition: box-shadow 0.2s ease, background 0.2s ease, height 0.2s ease;
 }
 .hero-wash.is-hot .hero-wash-emitter__throat {
   height: 72%;
   box-shadow:
-    -9px 0 18px rgba(251, 146, 60, 0.55),
-    -12px 0 22px rgba(96, 165, 250, 0.45),
-    -3px 0 10px rgba(254, 243, 199, 0.5),
-    0 0 12px rgba(255, 255, 255, 0.35);
+    -10px 0 20px rgba(56, 189, 248, 0.5),
+    -14px 0 24px rgba(96, 165, 250, 0.42),
+    -3px 0 10px rgba(224, 242, 254, 0.55),
+    0 0 12px rgba(255, 255, 255, 0.32);
 }
 @media (max-width: 640px) {
   .hero-wash { max-width: 100%; gap: 0.5rem; }
@@ -1026,20 +1030,24 @@ body {
 }
 .archive-cta { user-select: none; cursor: pointer !important; }
 
-/* Radar sweep overlay */
+/* Radar sweep overlay — kept inside the plot (under labels, clipped by panel) */
 @keyframes radar-sweep { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .radar-sweep-line {
   position: absolute;
   top: 50%;
   left: 50%;
-  /* Stay inside the circular plot (limited by shorter axis) */
-  width: min(38cqw, 38cqh, 38%);
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(168, 197, 232, 0.95));
+  /* Shorter than half-diagonal so it never reaches the label ring / panel edge */
+  width: min(28cqw, 28cqh, 28%);
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(168, 197, 232, 0.7));
   transform-origin: 0 50%;
   animation: radar-sweep 4s infinite linear;
   pointer-events: none;
-  z-index: 5;
+  z-index: 1;
+  opacity: 0.85;
+}
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep-line { animation: none; opacity: 0; }
 }
 
 /* ---------------------------------------------------------------------------

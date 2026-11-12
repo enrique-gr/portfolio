@@ -788,21 +788,34 @@ function initRadar() {
   const canvas = document.getElementById("skillsChart");
   const panel  = document.getElementById("cap-radar-panel") || (canvas && canvas.parentElement);
   if (!canvas || !panel) return;
-  const ctx   = canvas.getContext("2d");
-  const isMob = window.innerWidth < 768;
+  const ctx = canvas.getContext("2d");
 
   syncCapRails();
+
+  const radarLayout = () => {
+    const narrow = window.innerWidth < 768 || panel.clientWidth < 420;
+    return {
+      padding: narrow
+        ? { top: 26, right: 30, bottom: 26, left: 30 }
+        : { top: 40, right: 48, bottom: 40, left: 48 },
+      labelSize: narrow ? 8 : 10,
+      labelPad: narrow ? 8 : 12
+    };
+  };
+
+  const layout0 = radarLayout();
 
   const chart = new Chart(ctx, {
     type: "radar",
     data: {
+      // Multi-line labels keep long axis names inside the square panel.
       labels: [
-        "Dynamics & Vibrations",
-        "Controls & Automation",
-        "Modeling & Simulation",
-        "Aero / Thermal-Fluids",
-        "Mechanical Design",
-        "Embedded / Test Systems"
+        ["Dynamics &", "Vibrations"],
+        ["Controls &", "Automation"],
+        ["Modeling &", "Simulation"],
+        ["Aero /", "Thermal-Fluids"],
+        ["Mechanical", "Design"],
+        ["Embedded /", "Test Systems"]
       ],
       datasets: [{
         label: "Competency",
@@ -820,7 +833,8 @@ function initRadar() {
     },
     options: {
       responsive: true,
-      layout: { padding: isMob ? 6 : 10 },
+      // Extra canvas inset so point labels are not clipped by the panel edge.
+      layout: { padding: layout0.padding },
       scales: {
         r: {
           min: 0, max: 100,
@@ -828,8 +842,8 @@ function initRadar() {
           grid:       { color: "rgba(255,255,255,.14)" },
           pointLabels: {
             color: "#f1f5f9",
-            font: { size: isMob ? 8 : 10, family: "'JetBrains Mono'", weight: "bold" },
-            padding: 4
+            font: { size: layout0.labelSize, family: "'JetBrains Mono'", weight: "bold" },
+            padding: layout0.labelPad
           },
           ticks: { display: false, stepSize: 25, backdropColor: "transparent" }
         }
@@ -839,7 +853,14 @@ function initRadar() {
     }
   });
 
-  const resizeChart = () => chart.resize();
+  const resizeChart = () => {
+    const next = radarLayout();
+    chart.options.layout.padding = next.padding;
+    chart.options.scales.r.pointLabels.font.size = next.labelSize;
+    chart.options.scales.r.pointLabels.padding = next.labelPad;
+    chart.resize();
+    chart.update("none");
+  };
   requestAnimationFrame(() => requestAnimationFrame(resizeChart));
   window.addEventListener("load", resizeChart, { once: true });
   window.addEventListener("resize", resizeChart);
@@ -1344,7 +1365,7 @@ function placeHeroNozzleFlame() {
 }
 
 /* =============================================================================
- 14. HERO TAGLINE WASH | propulsion-test plume: breathing throttle + flame sheet
+ 14. HERO TAGLINE WASH | cool steel stream: breathing throttle (no amber)
 ============================================================================= */
 function initHeroWash() {
   const root = document.querySelector("[data-hero-wash]");
@@ -1384,40 +1405,40 @@ function initHeroWash() {
     return `rgb(${Math.round(lerp(c0[0], c1[0], t2))},${Math.round(lerp(c0[1], c1[1], t2))},${Math.round(lerp(c0[2], c1[2], t2))})`;
   };
 
-  // Dual exhaust: cool steel base, amber near nozzle, white-hot core
+  // Cool steel stream only — warm amber reserved for the middle-jet exhaust
   const C_COOL = [142, 182, 232];
-  const C_COOL_HOT = [220, 236, 255];
-  const C_WARM = [251, 170, 72];
-  const C_CORE = [255, 248, 230];
+  const C_COOL_HOT = [210, 236, 255];
+  const C_CYAN = [56, 189, 248];
+  const C_CORE = [236, 248, 255];
 
-  // heat = intensity, warm = 1 near nozzle / 0 at cool tip
-  const colorFromHeat = (heat, warm) => {
+  // heat = intensity, bright = 1 near emitter / 0 at tip
+  const colorFromHeat = (heat, bright) => {
     const h = clamp01(heat);
-    const w = clamp01(warm);
+    const b = clamp01(bright);
     if (h < 0.2) return lerpColor(C_COOL, C_COOL_HOT, h / 0.2);
     const coolSide = lerpColor(C_COOL, C_COOL_HOT, clamp01((h - 0.15) / 0.7));
-    const warmSide = h < 0.55
-      ? lerpColor(C_WARM, C_CORE, (h - 0.2) / 0.35)
-      : lerpColor(C_WARM, C_CORE, 0.55 + (h - 0.55) * 0.8);
-    return lerpColor(coolSide, warmSide, w * clamp01((h - 0.15) / 0.5));
+    const brightSide = h < 0.55
+      ? lerpColor(C_CYAN, C_CORE, (h - 0.2) / 0.35)
+      : lerpColor(C_CYAN, C_CORE, 0.55 + (h - 0.55) * 0.8);
+    return lerpColor(coolSide, brightSide, b * clamp01((h - 0.15) / 0.5));
   };
 
   const paintTextHeat = () => {
     for (let i = 0; i < chars.length; i++) {
       const heat = charHeat[i];
-      const warm = charWarm[i];
-      chars[i].style.color = colorFromHeat(heat, warm);
+      const bright = charWarm[i];
+      chars[i].style.color = colorFromHeat(heat, bright);
       if (heat > 0.55) {
-        const aW = (0.15 + heat * 0.35) * warm;
-        const aC = (0.2 + heat * 0.4) * (1 - warm * 0.45);
+        const aB = (0.14 + heat * 0.32) * bright;
+        const aC = (0.2 + heat * 0.4) * (1 - bright * 0.35);
         chars[i].style.textShadow =
-          `0 0 ${6 + heat * 12}px rgba(255,237,213,${aW}),` +
-          `0 0 ${5 + heat * 10}px rgba(251,146,60,${aW * 0.85}),` +
+          `0 0 ${6 + heat * 12}px rgba(224,242,254,${aB}),` +
+          `0 0 ${5 + heat * 10}px rgba(56,189,248,${aB * 0.9}),` +
           `0 0 ${8 + heat * 12}px rgba(147,197,253,${aC})`;
       } else if (heat > 0.18) {
         chars[i].style.textShadow =
-          `0 0 11px rgba(147,197,253,${heat * 0.42 * (1 - warm * 0.3)}),` +
-          `0 0 9px rgba(251,146,60,${heat * 0.35 * warm})`;
+          `0 0 11px rgba(147,197,253,${heat * 0.45}),` +
+          `0 0 9px rgba(56,189,248,${heat * 0.28 * bright})`;
       } else {
         chars[i].style.textShadow = "0 0 16px rgba(142,182,232,0.26)";
       }
@@ -1441,7 +1462,7 @@ function initHeroWash() {
       let warm = 0;
       if (inJet) {
         hit = (0.32 + 0.68 * throttle) * (1 - Math.min(1, distToTip / band));
-        // Near nozzle = flame; toward tip = cool sheath
+        // Near emitter = brighter cyan; toward tip = cooler steel
         warm = clamp01(1 - (emitDocX - cx) / span);
         warm = Math.pow(warm, 0.85);
       }
@@ -1496,7 +1517,7 @@ function initHeroWash() {
     }
   };
 
-  // 0 core (hot) · 1 flame sheet (warm) · 2 cool sheath · 3 cool tip wash
+  // 0 bright core · 1 cyan sheet · 2 cool sheath · 3 tip wash (all steel/cyan)
   const spawnOne = (kind, throttle) => {
     if (particles.length >= MAX) particles.shift();
     const boost = 0.7 + throttle * 0.85;
@@ -1552,17 +1573,17 @@ function initHeroWash() {
     let c0, c1, c2;
 
     if (p.kind === 0) {
-      // Hot core
-      a *= 0.95;
-      c0 = `rgba(255,252,245,${a})`;
-      c1 = `rgba(254,243,199,${a * 0.72})`;
-      c2 = `rgba(251,191,36,0)`;
+      // Bright steel core
+      a *= 0.92;
+      c0 = `rgba(240,249,255,${a})`;
+      c1 = `rgba(186,230,253,${a * 0.72})`;
+      c2 = `rgba(56,189,248,0)`;
     } else if (p.kind === 1) {
-      // Flame sheet — strongest near nozzle (low travel)
-      a *= 0.58 * (1 - travel * 0.35);
-      c0 = `rgba(254,215,170,${a})`;
-      c1 = `rgba(251,146,60,${a * 0.52})`;
-      c2 = `rgba(194,65,12,0)`;
+      // Cyan sheet — strongest near emitter
+      a *= 0.55 * (1 - travel * 0.35);
+      c0 = `rgba(165,243,252,${a})`;
+      c1 = `rgba(56,189,248,${a * 0.55})`;
+      c2 = `rgba(14,116,144,0)`;
     } else if (p.kind === 2) {
       // Cool sheath — builds with travel
       a *= 0.4 + travel * 0.22;
@@ -1570,7 +1591,7 @@ function initHeroWash() {
       c1 = `rgba(96,165,250,${a * 0.5})`;
       c2 = `rgba(37,99,235,0)`;
     } else {
-      // Cool tip wash / plasma edge
+      // Tip wash / soft plasma edge
       a *= 0.26 + travel * 0.2 + throttle * 0.08;
       c0 = `rgba(147,197,253,${a})`;
       c1 = `rgba(59,130,246,${a * 0.42})`;
@@ -1608,21 +1629,21 @@ function initHeroWash() {
     if (Math.random() < 0.35 + throttle * 0.6) spawn(false, throttle);
     if (throttle > 0.78 && Math.random() < 0.22) spawn(true, throttle);
 
-    // Nozzle: warm core bloom + cool outer ring
+    // Emitter: ice-white core bloom + cyan outer ring (no amber)
     const bloomR = 11 + throttle * 18;
-    const warmBloom = ctx.createRadialGradient(emitX, emitY, 0, emitX, emitY, bloomR * 0.72);
-    warmBloom.addColorStop(0, `rgba(255,252,240,${0.22 + throttle * 0.42})`);
-    warmBloom.addColorStop(0.45, `rgba(254,215,170,${0.14 + throttle * 0.24})`);
-    warmBloom.addColorStop(1, "rgba(251,146,60,0)");
-    ctx.fillStyle = warmBloom;
+    const coreBloom = ctx.createRadialGradient(emitX, emitY, 0, emitX, emitY, bloomR * 0.72);
+    coreBloom.addColorStop(0, `rgba(240,249,255,${0.22 + throttle * 0.4})`);
+    coreBloom.addColorStop(0.45, `rgba(165,243,252,${0.14 + throttle * 0.22})`);
+    coreBloom.addColorStop(1, "rgba(56,189,248,0)");
+    ctx.fillStyle = coreBloom;
     ctx.beginPath();
     ctx.arc(emitX, emitY, bloomR * 0.72, 0, Math.PI * 2);
     ctx.fill();
 
     const coolBloom = ctx.createRadialGradient(emitX - 6, emitY, 0, emitX - 4, emitY, bloomR * 1.15);
-    coolBloom.addColorStop(0, `rgba(191,219,254,${0.08 + throttle * 0.16})`);
-    coolBloom.addColorStop(0.55, `rgba(96,165,250,${0.1 + throttle * 0.14})`);
-    coolBloom.addColorStop(1, "rgba(30,64,175,0)");
+    coolBloom.addColorStop(0, `rgba(191,219,254,${0.1 + throttle * 0.18})`);
+    coolBloom.addColorStop(0.55, `rgba(56,189,248,${0.12 + throttle * 0.16})`);
+    coolBloom.addColorStop(1, "rgba(12,74,110,0)");
     ctx.fillStyle = coolBloom;
     ctx.beginPath();
     ctx.arc(emitX - 4, emitY, bloomR * 1.15, 0, Math.PI * 2);
