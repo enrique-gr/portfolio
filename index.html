@@ -73,7 +73,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ── Site stylesheet ───────────────────────────────────────────────── -->
-  <link rel="stylesheet" href="css/styles.css?v=wash34">
+  <link rel="stylesheet" href="css/styles.css?v=wash48">
   <script>
     try {
       if (sessionStorage.getItem("eg-portfolio-returning") === "1") {
@@ -204,7 +204,12 @@
 
     <!-- Decorative background (hidden from assistive technology) -->
     <div class="hero-bg" aria-hidden="true">
-      <img src="assets/images/hero_bg.jpg" alt="" class="hero-bg-image">
+      <img src="assets/images/hero_bg.jpg" alt="" class="hero-bg-image" data-hero-bg-img>
+    </div>
+    <!-- Middle-jet aft nozzle flame (above scene wash, below hero copy) -->
+    <div class="hero-nozzle-flame" data-hero-nozzle-flame aria-hidden="true">
+      <span class="hero-nozzle-flame__plume"></span>
+      <span class="hero-nozzle-flame__core"></span>
     </div>
 
     <!-- Soft atmosphere overlay -->
@@ -491,87 +496,90 @@
       <div class="flex items-end justify-between mb-14 border-b border-white/10 pb-6">
         <div>
           <h2 id="capabilities-heading" class="text-3xl font-bold text-white tracking-tight">System Capabilities</h2>
-          <p class="cap-kicker font-mono text-[10px] mt-2 uppercase tracking-widest">Skills | Coursework | Competency map</p>
+          <p class="cap-kicker font-mono text-[10px] mt-2 uppercase tracking-widest">Evidence-linked skills | Coursework | Competency map</p>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 items-start" id="cap-grid">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 items-stretch" id="cap-grid">
 
         <!-- ── LEFT: Skill pills + coursework terminal ─────────────── -->
         <div class="cap-rail-left flex flex-col gap-6 min-w-0">
 
           <p class="cap-lede max-w-xl">
-            Languages, flight stack, CAD/analysis tools, and methods used across the work above.
-            Click a skill for a short note on where it shows up.
+            Tools and methods tied to featured flight, research, and competition work.
+            Click a skill for what I used it for and where the evidence lives.
           </p>
 
-          <!-- Skill pills grouped by domain -->
-          <div class="cap-skill-board space-y-3">
+          <!-- Skill pills + detail popup stacked so collapse leaves no orphan gap -->
+          <div class="cap-skills-stack">
+            <div class="cap-skill-board space-y-3">
 
-            <div class="cap-skill-group">
-              <p id="skills-lang" class="cap-skill-label">Languages &amp; Tools</p>
-              <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-lang">
-                <button type="button" class="sp" onclick="showSkill(this,'python')">Python</button>
-                <button type="button" class="sp" onclick="showSkill(this,'matlab')">MATLAB</button>
-                <button type="button" class="sp" onclick="showSkill(this,'simulink')">Simulink</button>
-                <button type="button" class="sp" onclick="showSkill(this,'cpp')">C++</button>
-                <button type="button" class="sp" onclick="showSkill(this,'git')">Git</button>
+              <div class="cap-skill-group">
+                <p id="skills-lang" class="cap-skill-label">Languages &amp; Tools</p>
+                <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-lang">
+                  <button type="button" class="sp" onclick="showSkill(this,'python')">Python</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'matlab')">MATLAB</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'simulink')">Simulink</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'cpp')">C++</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'git')">Git</button>
+                </div>
               </div>
-            </div>
 
-            <div class="cap-skill-group">
-              <p id="skills-hw" class="cap-skill-label">Hardware &amp; Flight Stack</p>
-              <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-hw">
-                <button type="button" class="sp" onclick="showSkill(this,'teensy')">Teensy / Arduino</button>
-                <button type="button" class="sp" onclick="showSkill(this,'pixhawk')">Pixhawk | Cube</button>
-                <button type="button" class="sp" onclick="showSkill(this,'autopilot')">PX4 | ArduPilot</button>
-                <button type="button" class="sp" onclick="showSkill(this,'mavlink')">MAVLink</button>
-                <button type="button" class="sp" onclick="showSkill(this,'protocols')">I2C | SPI | UART</button>
+              <div class="cap-skill-group">
+                <p id="skills-hw" class="cap-skill-label">Hardware &amp; Flight Stack</p>
+                <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-hw">
+                  <button type="button" class="sp" onclick="showSkill(this,'teensy')">Teensy / Arduino</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'pixhawk')">Pixhawk | Cube</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'autopilot')">PX4 | ArduPilot</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'mavlink')">MAVLink</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'protocols')">I2C | SPI | UART</button>
+                </div>
               </div>
-            </div>
 
-            <div class="cap-skill-group">
-              <p id="skills-cad" class="cap-skill-label">CAD / Analysis</p>
-              <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-cad">
-                <button type="button" class="sp" onclick="showSkill(this,'solidworks')">SolidWorks</button>
-                <button type="button" class="sp" onclick="showSkill(this,'ansys')">ANSYS</button>
-                <button type="button" class="sp" onclick="showSkill(this,'xflr5')">XFLR5</button>
-                <button type="button" class="sp" onclick="showSkill(this,'opencv')">OpenCV</button>
+              <div class="cap-skill-group">
+                <p id="skills-cad" class="cap-skill-label">CAD / Analysis</p>
+                <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-cad">
+                  <button type="button" class="sp" onclick="showSkill(this,'solidworks')">SolidWorks</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'ansys')">ANSYS</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'xflr5')">XFLR5</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'opencv')">OpenCV</button>
+                </div>
               </div>
-            </div>
 
-            <div class="cap-skill-group">
-              <p id="skills-methods" class="cap-skill-label">Methods &amp; Concepts</p>
-              <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-methods">
-                <button type="button" class="sp" onclick="showSkill(this,'pid')">PID Control</button>
-                <button type="button" class="sp" onclick="showSkill(this,'fusion')">Sensor Fusion</button>
-                <button type="button" class="sp" onclick="showSkill(this,'ekf')">EKF</button>
-                <button type="button" class="sp" onclick="showSkill(this,'hil')">HIL Testing</button>
-                <button type="button" class="sp" onclick="showSkill(this,'flightlog')">Flight-Log Analysis</button>
-                <button type="button" class="sp" onclick="showSkill(this,'gdt')">GD&amp;T</button>
+              <div class="cap-skill-group">
+                <p id="skills-methods" class="cap-skill-label">Methods &amp; Concepts</p>
+                <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-methods">
+                  <button type="button" class="sp" onclick="showSkill(this,'pid')">PID Control</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'fusion')">Sensor Fusion</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'ekf')">EKF</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'hil')">HIL Testing</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'flightlog')">Flight-Log Analysis</button>
+                  <button type="button" class="sp" onclick="showSkill(this,'gdt')">GD&amp;T</button>
+                </div>
               </div>
+
+            </div><!-- /skill pills -->
+
+            <!-- Skill detail: expands directly under the skill board -->
+            <div id="skill-detail"
+                 class="skill-hidden cap-skill-detail p-4 font-mono text-xs relative"
+                 aria-live="polite"
+                 aria-atomic="true">
+              <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/35 pointer-events-none" aria-hidden="true"></span>
+              <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/35 pointer-events-none" aria-hidden="true"></span>
+              <p class="text-[9px] uppercase tracking-widest mb-2" id="sd-title"></p>
+              <p id="sd-body" class="leading-relaxed text-[11px]"></p>
+              <p id="sd-proof" class="mt-3 text-[10px] leading-relaxed"></p>
+              <p id="sd-used" class="mt-2 text-[9px]"></p>
             </div>
-
-          </div><!-- /skill pills -->
-
-          <!-- Skill detail card (fixed height; content only — never resizes rails) -->
-          <div id="skill-detail"
-               class="skill-idle cap-skill-detail p-4 font-mono text-xs relative"
-               aria-live="polite"
-               aria-atomic="true">
-            <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/35 pointer-events-none" aria-hidden="true"></span>
-            <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/35 pointer-events-none" aria-hidden="true"></span>
-            <p class="text-[9px] uppercase tracking-widest mb-2" id="sd-title">Select a skill</p>
-            <p id="sd-body" class="leading-relaxed text-[11px]">Click a language, tool, or method for a short note on where it shows up in the work above.</p>
-            <p id="sd-used" class="mt-2 text-[9px] italic">&nbsp;</p>
           </div>
 
           <!-- Coursework terminal -->
-          <div class="cap-terminal p-6 font-mono text-xs flex flex-col"
+          <div class="cap-terminal mt-auto p-6 font-mono text-xs flex flex-col"
                role="region"
                aria-label="Coursework log">
 
-            <div class="flex items-center justify-between gap-3 border-b border-white/10 pb-4 mb-4 tracking-widest text-[10px]">
+            <div class="flex items-center justify-between gap-3 border-b border-white/10 pb-4 mb-2 tracking-widest text-[10px]">
               <span class="uppercase text-white">Coursework</span>
               <!-- Coursework view tabs -->
               <div class="flex shrink-0 gap-2 sm:gap-4" role="tablist" aria-label="Coursework view">
@@ -595,6 +603,7 @@
                 </button>
               </div>
             </div>
+            <p class="cap-cw-note mb-4">ME sequence — active load vs completed coursework that backs the map on the right.</p>
 
             <!-- Column headers (presentational) -->
             <div class="cap-cw-head grid grid-cols-4 gap-4 mb-2 text-[10px] border-b border-white/10 pb-2" aria-hidden="true">
@@ -613,7 +622,7 @@
 
         </div><!-- /LEFT -->
 
-        <!-- ── RIGHT: square radar (no inner void) + roadmap flush to coursework ─ -->
+        <!-- ── RIGHT: fixed square radar + roadmap pinned to shared bottom edge ─ -->
         <div class="cap-rail-right">
 
           <div class="cap-radar-slot">
@@ -626,23 +635,25 @@
             </div>
           </div>
 
+          <div class="cap-rail-fill" aria-hidden="true"></div>
+
           <div class="cap-roadmap">
-            <h3 class="text-sm font-mono uppercase tracking-wider mb-3">Roadmap</h3>
+            <h3 class="text-sm font-mono uppercase tracking-wider mb-3">Focus</h3>
             <div class="grid grid-cols-2 gap-3 text-xs">
               <div class="cap-roadmap-card p-3">
-                <h4 class="font-mono mb-2 uppercase tracking-wider text-[9px]">Current</h4>
+                <h4 class="font-mono mb-2 uppercase tracking-wider text-[9px]">Building now</h4>
                 <ul class="space-y-1 list-disc list-inside m-0 p-0">
-                  <li>Dynamic systems modeling</li>
-                  <li>Thermal-fluids analysis</li>
-                  <li>Mechanical design &amp; testing</li>
+                  <li>Flight dynamics &amp; aircraft design</li>
+                  <li>Vibrations lab + ME design project</li>
+                  <li>VTOL Search &amp; Rescue avionics</li>
                 </ul>
               </div>
               <div class="cap-roadmap-card p-3">
-                <h4 class="font-mono mb-2 uppercase tracking-wider text-[9px]">Next</h4>
+                <h4 class="font-mono mb-2 uppercase tracking-wider text-[9px]">Aiming next</h4>
                 <ul class="space-y-1 list-disc list-inside m-0 p-0">
-                  <li>Hardware integration &amp; flight test</li>
+                  <li>Flight-test / systems integration roles</li>
                   <li>Controls &amp; estimation on hardware</li>
-                  <li>Aerospace / autonomous systems</li>
+                  <li>Aerospace / autonomous UAS teams</li>
                 </ul>
               </div>
             </div>
@@ -738,7 +749,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js" defer></script>
   <script src="js/nav-persist.js?v=soft4"></script>
-  <script src="js/script.js?v=wash34"></script>
+  <script src="js/script.js?v=wash48"></script>
 
 </body>
 </html>

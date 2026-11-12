@@ -268,26 +268,126 @@ const HW_ITEMS = [
 
 /** Skill detail content indexed by pill key */
 const SKILL_DATA = {
-  cpp:       { title: "C++",              body: "Used on performance-oriented personal projects: dynamics sims, estimation, and embedded sensor work. Comfortable reading and extending C++ codebases.", used: "Used in: Hyperion, Sentinel, EKF Nav" },
-  python:    { title: "Python",           body: "Data analysis, scripting, and quick tooling. Used for flight-log review, research processing, and MAVLink-related checks.", used: "Used in: MIDE, MIRO Lab, analysis scripts" },
-  matlab:    { title: "MATLAB",           body: "Modeling, control design, and data visualization. Used for plant models, EKF calibration, and competition/course analysis.", used: "Used in: Coursework, MIRO Lab, DBF support" },
-  simulink:  { title: "Simulink",         body: "Block-diagram modeling of dynamic systems. Used for PID controller studies and early attitude-loop exploration before hardware tests.", used: "Used in: Adaptive Cruise Control, VTOL prep" },
-  git:       { title: "Git",              body: "Version control for coursework, research scripts, and portfolio/project repositories. Comfortable with branch workflows and pull requests.", used: "Used in: Portfolio, research, team projects" },
-  teensy:    { title: "Teensy / Arduino", body: "Embedded sensing and control boards for lab and personal projects. Used for synchronized IMU/EMG acquisition and microcontroller prototyping.", used: "Used in: MIRO Lab, EKF Nav, prototypes" },
-  pixhawk:   { title: "Pixhawk | Cube",   body: "Autopilot hardware used on WashU VTOL (Pixhawk 6C) and MIDE UAS platforms (Cube Black). Experience with bring-up, wiring, and bench checks.", used: "Used in: WashU VTOL, MIDE" },
-  autopilot: { title: "PX4 | ArduPilot",  body: "Open-source flight stacks. Tuned/configured PX4 on VTOL and worked with ArduPilot on MIDE platforms for calibration, logging, and flight-test support.", used: "Used in: WashU VTOL, MIDE" },
-  mavlink:   { title: "MAVLink",          body: "Vehicle messaging for live attitude/command checks and tooling. Used with Python on Cube/ArduPilot platforms and related telemetry workflows.", used: "Used in: MIDE UAS work" },
-  protocols: { title: "I2C | SPI | UART", body: "Common embedded buses for sensors and peripherals. Experience wiring, debugging dropouts, and checking signal integrity on flight hardware.", used: "Used in: VTOL avionics, Teensy projects" },
-  solidworks:{ title: "SolidWorks",       body: "Part and assembly CAD for mechanisms and fixtures. Used on DBF hardware and personal mechanical design projects.", used: "Used in: DBF, Foosball CAD" },
-  ansys:     { title: "ANSYS",            body: "Structural FEA for flight hardware sizing, with some CFD cross-checks on wing sections alongside XFLR5.", used: "Used in: WashU DBF" },
-  xflr5:     { title: "XFLR5",            body: "Panel-method wing/airfoil analysis for lift, drag, and configuration tradeoffs on the DBF aircraft.", used: "Used in: WashU DBF aerodynamics" },
-  opencv:    { title: "OpenCV",           body: "Basic computer-vision tooling for tracking/contour work in a personal interception prototype.", used: "Used in: Sentinel prototype" },
-  ekf:       { title: "EKF",              body: "Extended Kalman filtering for state estimation. Implemented/practiced IMU-based fusion in personal and lab settings.", used: "Used in: EKF Nav, MIRO Lab" },
-  pid:       { title: "PID Control",      body: "Classical feedback tuning for attitude and longitudinal loops in simulation and flight-stack configuration.", used: "Used in: VTOL, Cruise Control, Lander Sim" },
-  hil:       { title: "HIL Testing",      body: "Hardware-in-the-loop / SITL-style checks before flight to exercise autopilot setup and catch integration issues early.", used: "Used in: WashU VTOL" },
-  fusion:    { title: "Sensor Fusion",    body: "Combining IMU and related sensors for motion estimates. Experience building and checking multi-rate sensing pipelines.", used: "Used in: MIRO Lab, EKF Nav, UAS work" },
-  flightlog: { title: "Flight-Log Analysis", body: "Reviewing ArduPilot/PX4 logs and MATLAB/Python plots to connect configuration changes to vehicle behavior.", used: "Used in: MIDE, VTOL, DBF support" },
-  gdt:       { title: "GD&T",             body: "Basic ASME Y14.5 drawing practices for manufacturable payload/structure hardware on DBF.", used: "Used in: WashU DBF" }
+  cpp: {
+    title: "C++",
+    body: "Performance-oriented code for dynamics sims and embedded sensing. Comfortable reading and extending existing C++ stacks, not only greenfield scripts.",
+    proof: "Evidence: personal estimation/dynamics prototypes; reading flight-adjacent C++ tooling.",
+    used: "Evidence in: personal builds | estimation work"
+  },
+  python: {
+    title: "Python",
+    body: "Flight-log review, research processing, and quick MAVLink/telemetry checks. Default tool when the question is “what did the vehicle actually do?”",
+    proof: "Evidence: MIDE readiness plots; MIRO acquisition/calibration notebooks.",
+    used: "Evidence in: MIDE · MIRO Lab · analysis scripts"
+  },
+  matlab: {
+    title: "MATLAB",
+    body: "Plant models, control/estimation studies, and publication-style plots. Used when I need numerical clarity before hardware time.",
+    proof: "Evidence: MIRO calibration; coursework modeling; DBF/VTOL support analysis.",
+    used: "Evidence in: MIRO Lab · coursework · team analysis"
+  },
+  simulink: {
+    title: "Simulink",
+    body: "Block-diagram models for PID and longitudinal/attitude loops before committing config to a flight stack.",
+    proof: "Evidence: adaptive cruise / lander sims; early VTOL loop exploration.",
+    used: "Evidence in: coursework sims · VTOL prep"
+  },
+  git: {
+    title: "Git",
+    body: "Branch workflows for research scripts, team repos, and this portfolio. Treats configuration and analysis as versioned artifacts.",
+    proof: "Evidence: shared research tooling; portfolio and competition repos.",
+    used: "Evidence in: research · team projects · portfolio"
+  },
+  teensy: {
+    title: "Teensy / Arduino",
+    body: "MCU bring-up for synchronized sensing (IMU/EMG) and bench prototypes. Focus on timing, logging, and clean interfaces—not demo blinkies.",
+    proof: "Evidence: MIRO multi-sensor acquisition; personal EKF/nav prototypes.",
+    used: "Evidence in: MIRO Lab · embedded prototypes"
+  },
+  pixhawk: {
+    title: "Pixhawk | Cube",
+    body: "Autopilot hardware bring-up: wiring, power/sense checks, and bench validation on Pixhawk 6C (VTOL) and Cube Black (MIDE).",
+    proof: "Evidence: VTOL avionics architecture; MIDE UAS restore/integration.",
+    used: "Evidence in: WashU VTOL · MIDE"
+  },
+  autopilot: {
+    title: "PX4 | ArduPilot",
+    body: "Parameter/config work, calibration, logging, and pre-flight gates. Comfortable moving between PX4 (VTOL) and ArduPilot (MIDE) workflows.",
+    proof: "Evidence: VTOL HIL-first gates; MIDE calibration and flight-test support.",
+    used: "Evidence in: WashU VTOL · MIDE"
+  },
+  mavlink: {
+    title: "MAVLink",
+    body: "Vehicle messaging for live attitude/command checks and Python tooling against Cube/ArduPilot platforms.",
+    proof: "Evidence: MIDE telemetry/attitude checks during integration.",
+    used: "Evidence in: MIDE UAS work"
+  },
+  protocols: {
+    title: "I2C | SPI | UART",
+    body: "Embedded buses under real power/EMI load. Debug dropouts and keep sense-to-actuate paths honest on flight hardware.",
+    proof: "Evidence: VTOL I2C noise fault (VTOL-01); Teensy sensor buses.",
+    used: "Evidence in: WashU VTOL · Teensy projects"
+  },
+  solidworks: {
+    title: "SolidWorks",
+    body: "Parts/assemblies for structures, payloads, and fixtures with manufacturability in mind—not just pretty CAD.",
+    proof: "Evidence: DBF/SAE payload and structure hardware; personal mechanism CAD.",
+    used: "Evidence in: WashU DBF · personal CAD"
+  },
+  ansys: {
+    title: "ANSYS",
+    body: "Structural FEA for flight hardware sizing; cross-checked aero intuition with panel methods where useful.",
+    proof: "Evidence: prior-season spar/structure FEA on WashU DBF.",
+    used: "Evidence in: WashU DBF"
+  },
+  xflr5: {
+    title: "XFLR5",
+    body: "Panel-method wing/airfoil trades for lift, drag, and configuration decisions on competition aircraft.",
+    proof: "Evidence: WashU DBF aerodynamics trades.",
+    used: "Evidence in: WashU DBF"
+  },
+  opencv: {
+    title: "OpenCV",
+    body: "Basic vision tooling (tracking/contours) for a personal interception prototype—enough to close a sense loop, not a CV research claim.",
+    proof: "Evidence: Sentinel-style personal prototype.",
+    used: "Evidence in: personal CV prototype"
+  },
+  ekf: {
+    title: "EKF",
+    body: "Extended Kalman filtering for IMU-based state estimation. Practiced in lab pipelines and personal nav prototypes.",
+    proof: "Evidence: MIRO estimation support; personal EKF nav work.",
+    used: "Evidence in: MIRO Lab · personal EKF nav"
+  },
+  pid: {
+    title: "PID Control",
+    body: "Classical loop tuning in simulation and flight-stack config—attitude and longitudinal loops with measurable step response.",
+    proof: "Evidence: VTOL config; coursework cruise/lander sims.",
+    used: "Evidence in: WashU VTOL · coursework sims"
+  },
+  hil: {
+    title: "HIL Testing",
+    body: "Hardware-in-the-loop / SITL-style gates before flight to catch integration and parameter mistakes early.",
+    proof: "Evidence: VTOL HIL-first policy before hover/transition claims.",
+    used: "Evidence in: WashU VTOL"
+  },
+  fusion: {
+    title: "Sensor Fusion",
+    body: "Multi-rate IMU (+EMG) pipelines with calibration and sync checks so motion estimates are reproducible across trials.",
+    proof: "Evidence: MIRO acquisition/calibration; personal fusion prototypes.",
+    used: "Evidence in: MIRO Lab · UAS sensing work"
+  },
+  flightlog: {
+    title: "Flight-Log Analysis",
+    body: "PX4/ArduPilot log review in Python/MATLAB to tie configuration changes to measured vehicle behavior and readiness calls.",
+    proof: "Evidence: MIDE readiness judgment; VTOL/DBF support plots.",
+    used: "Evidence in: MIDE · WashU VTOL · DBF support"
+  },
+  gdt: {
+    title: "GD&T",
+    body: "ASME Y14.5 basics for manufacturable payload/structure drawings—tolerances that survive the shop, not just the slide deck.",
+    proof: "Evidence: WashU DBF payload/structure drawing practices.",
+    used: "Evidence in: WashU DBF"
+  }
 };
 
 /** Coursework terminal rows */
@@ -594,16 +694,14 @@ function showSkill(el, key) {
   const detailBase = "cap-skill-detail p-4 font-mono text-xs relative";
   const titleEl = document.getElementById("sd-title");
   const bodyEl  = document.getElementById("sd-body");
+  const proofEl = document.getElementById("sd-proof");
   const usedEl  = document.getElementById("sd-used");
 
   // Toggle off when clicking the already-active pill
   if (activeSkillEl === el) {
     el.classList.remove("active");
     activeSkillEl = null;
-    panel.className = `skill-idle ${detailBase}`;
-    if (titleEl) titleEl.textContent = "Select a skill";
-    if (bodyEl)  bodyEl.textContent  = "Click a language, tool, or method for a short note on where it shows up in the work above.";
-    if (usedEl)  usedEl.innerHTML    = "&nbsp;";
+    panel.className = `skill-hidden ${detailBase}`;
     return;
   }
 
@@ -617,9 +715,10 @@ function showSkill(el, key) {
 
   if (titleEl) titleEl.textContent = data.title;
   if (bodyEl)  bodyEl.textContent  = data.body;
-  if (usedEl)  usedEl.textContent  = data.used;
+  if (proofEl) proofEl.textContent = data.proof || "";
+  if (usedEl)  usedEl.textContent  = data.used || "";
 
-  panel.className = `skill-active ${detailBase}`;
+  panel.className = `skill-visible ${detailBase}`;
 }
 
 /* =============================================================================
@@ -674,7 +773,7 @@ function switchCoursework(view) {
 /* =============================================================================
    7. ENGINEERING SKILLS RADAR
 ============================================================================= */
-/** Clear any legacy inline height locks; radar size is CSS aspect-ratio only. */
+/** Clear legacy inline size locks. Bottoms align via CSS grid stretch; radar stays square. */
 function syncCapRails() {
   const right = document.querySelector("#capabilities .cap-rail-right");
   const panel = document.getElementById("cap-radar-panel");
@@ -1175,7 +1274,77 @@ function initScrollRestore() {
 }
 
 /* =============================================================================
- 13. HERO TAGLINE WASH | propulsion-test plume: breathing throttle + flame sheet
+ 13. HERO NOZZLE FLAME | middle-jet aft orifice (image-space → cover mapping)
+============================================================================= */
+/**
+ * Natural-image nozzle point on hero_bg.jpg (0–1).
+ * Center jet, aft orifice of the dorsal spine (between the fins).
+ * Anchored from the user's red annotation base on the 1024×682 plate.
+ */
+const HERO_NOZZLE = { x: 0.497, y: 0.518 };
+
+/** Map a natural-image point through object-fit:cover + object-position into #hero-section. */
+function mapCoverPoint(img, hero, nx, ny) {
+  const nw = img.naturalWidth || 1;
+  const nh = img.naturalHeight || 1;
+  const imgRect = img.getBoundingClientRect();
+  const heroRect = hero.getBoundingClientRect();
+  const ew = imgRect.width || 1;
+  const eh = imgRect.height || 1;
+  const ir = nw / nh;
+  const er = ew / eh;
+
+  // Matches CSS: object-position: center 40%
+  const posX = 0.5;
+  const posY = 0.4;
+
+  let rw;
+  let rh;
+  let ox;
+  let oy;
+  if (ir > er) {
+    rh = eh;
+    rw = rh * ir;
+    ox = (ew - rw) * posX;
+    oy = 0;
+  } else {
+    rw = ew;
+    rh = rw / ir;
+    ox = 0;
+    oy = (eh - rh) * posY;
+  }
+
+  return {
+    x: (imgRect.left - heroRect.left) + ox + nx * rw,
+    y: (imgRect.top - heroRect.top) + oy + ny * rh
+  };
+}
+
+function placeHeroNozzleFlame() {
+  const hero = document.getElementById("hero-section");
+  const img = document.querySelector("[data-hero-bg-img]");
+  const flame = document.querySelector("[data-hero-nozzle-flame]");
+  if (!hero || !img || !flame) return;
+
+  const place = () => {
+    if (!img.naturalWidth) return;
+    const pt = mapCoverPoint(img, hero, HERO_NOZZLE.x, HERO_NOZZLE.y);
+    flame.style.left = pt.x + "px";
+    flame.style.top = pt.y + "px";
+  };
+
+  if (img.complete) place();
+  else img.addEventListener("load", place, { once: true });
+
+  window.addEventListener("resize", place, { passive: true });
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(place).observe(img);
+    new ResizeObserver(place).observe(hero);
+  }
+}
+
+/* =============================================================================
+ 14. HERO TAGLINE WASH | propulsion-test plume: breathing throttle + flame sheet
 ============================================================================= */
 function initHeroWash() {
   const root = document.querySelector("[data-hero-wash]");
@@ -1516,8 +1685,9 @@ function initHeroWash() {
   }, { once: true });
 }
 
+
 /* =============================================================================
-  14. INIT | runs after DOM is ready
+  15. INIT | runs after DOM is ready
 ============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
@@ -1546,5 +1716,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initFooterMetrics();
   initSyncClock();
   initNav();
+  placeHeroNozzleFlame();
   initHeroWash();
 });
