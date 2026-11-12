@@ -73,34 +73,116 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
             
-            <div class="lg:col-span-2">
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Research Methodology</h3>
-                
-                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
-                    <p>
-                        My research focused on developing a high-fidelity multimodal sensing system to capture muscle activity and motion states. The work was structured around four technical pillars:
-                    </p>
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-purple-500/30 pl-4">
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Sensing Architecture (Systems):</strong> 
-                            Engineered a multimodal system on a <span class="tech-highlight">Teensy 4.0</span> to capture synchronized EMG and IMU data. Developed Python pipelines to handle high-throughput acquisition at 1 kHz without data loss.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Estimation & Fusion (Algorithms):</strong> 
-                            Collected and prepared IMU and EMG datasets across controlled motion capture and arm movement trials to support <span class="tech-highlight">Extended Kalman Filter (EKF)</span> development for multi-sensor state estimation. Conducted experimental trials and analyzed results to validate sensor fusion accuracy.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Calibration (Data Engineering):</strong> 
-                            Designed signal conditioning procedures including MMG filtering and hard/soft iron IMU alignment. Verified timing synchronization to ensure <span class="tech-highlight">high-fidelity measurements</span>.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Validation (Rigor):</strong> 
-                            Validated system performance through human subject testing across motion capture and arm movement conditions. Developed Python scripts for signal processing, filtering, and statistical analysis of experimental sensor data.
-                        </li>
-                    </ul>
+            <div class="lg:col-span-2 space-y-14">
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
+                        <p>
+                            As a <span class="tech-highlight">Sensor Fusion Research Intern</span>, I built a multimodal sensing system to capture muscle activity and motion states for wearable research.
+                            The goal was synchronized EMG and IMU measurements that stayed honest under real human-motion trials.
+                        </p>
+                        <p>
+                            Work ran end-to-end: sensing architecture, calibration, estimation support for an
+                            <span class="tech-highlight">Extended Kalman Filter (EKF)</span>, and experimental validation with motion-capture and arm-movement studies.
+                        </p>
+                    </div>
                 </div>
 
-                <div class="bg-black border border-white/10 p-6 mb-12">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Did</h3>
+                    <div class="space-y-3">
+
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fas fa-microchip text-purple-400 text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">01 | Sensing Architecture</h4>
+                                        <span class="font-mono text-[10px] text-purple-400 uppercase shrink-0">Systems</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                        Built a multimodal stack on a <span class="tech-highlight">Teensy 4.0</span> for synchronized EMG and IMU capture.
+                                        Wrote Python pipelines for 1&nbsp;kHz acquisition without dropped samples.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fas fa-project-diagram text-purple-400 text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | Estimation &amp; Fusion</h4>
+                                        <span class="font-mono text-[10px] text-purple-400 uppercase shrink-0">Algorithms</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                        Collected and prepared IMU and EMG datasets from controlled motion-capture and arm-movement trials to support
+                                        <span class="tech-highlight">EKF</span> multi-sensor state estimation, then analyzed results against fusion accuracy targets.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fas fa-sliders-h text-purple-400 text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">03 | Calibration</h4>
+                                        <span class="font-mono text-[10px] text-purple-400 uppercase shrink-0">Data</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                        Designed signal conditioning for MMG filtering and hard/soft-iron IMU alignment.
+                                        Checked timing sync so measurements stayed <span class="tech-highlight">high-fidelity</span> across channels.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fas fa-check-double text-purple-400 text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">04 | Validation</h4>
+                                        <span class="font-mono text-[10px] text-purple-400 uppercase shrink-0">Rigor</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                        Ran human-subject testing across motion-capture and arm-movement conditions.
+                                        Used Python for filtering, signal processing, and statistical checks on the experimental data.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+                        <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Scope | Summer 2025</h4>
+                        <i class="fas fa-info-circle text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        This was a <span class="text-gray-200">sensor fusion research internship</span>: multimodal sensing, calibration, estimation support, and experimental validation.
+                        The research value was building and proving a measurement system under real human-motion conditions.
+                    </p>
+                    <div class="mt-5 pt-4 border-t border-white/5 text-[10px] font-mono text-right">
+                        <span class="text-emerald-400">● COMPLETE</span>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6">
                     <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
                         <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Sensor Fusion Data Pipeline</h3>
                         <i class="fas fa-wave-square text-gray-600"></i>
@@ -108,7 +190,7 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
                         <div>
-                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider"Signal Fidelity Metrics</h4>
+                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">Signal Fidelity Metrics</h4>
                             <div class="space-y-2">
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-purple-500">
                                     <span>[SYNC] Sampling Rate</span>
@@ -231,9 +313,10 @@
                 </div>
 
                 <div class="p-8 bg-purple-500/5 border border-purple-500/20">
-                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-purple-400">Key Outcome</h4>
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-purple-400">Research Takeaway</h4>
                     <p class="text-sm text-purple-100/80 leading-relaxed">
-                        Developed and validated a drift-free multimodal sensing system by collecting high-fidelity IMU and EMG datasets, conducting experimental trials, and analyzing sensor fusion performance across motion capture and arm movement conditions.
+                        A completed sensor fusion research internship: synchronized multimodal sensing, calibration, EKF-oriented estimation support, and human-subject validation.
+                        That is the research foundation I bring into graduate study in aerospace and autonomous systems.
                     </p>
                     <p class="text-[10px] font-mono text-gray-500 mt-4 uppercase tracking-widest">Advisor: Dr. Hee-Sup Shin</p>
                 </div>

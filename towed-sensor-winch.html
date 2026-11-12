@@ -62,34 +62,78 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
 
-            <div class="lg:col-span-2">
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Mechatronics Brief</h3>
+            <div class="lg:col-span-2 space-y-14">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
+                        <p>
+                            Senior design for the AIAA Design/Build/Fly 2026–27 Mission 3 theme: a motorized winch that deploys a towed sensor on dual steel cables, switches light modes through the tow path, and docks on retract.
+                        </p>
+                        <p>Work spans mechanical design, electronics, and embedded control on one mechatronics stack.</p>
+                    </div>
+                </div>
 
-                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
-                    <p>
-                        Senior design build for the AIAA Design/Build/Fly 2026–27 Mission 3 theme: a motorized winch
-                        that lowers a towed sensor on two steel cables, switches the sensor lights through those cables,
-                        and reels it back into a dock. The work sits across mechanical design, electronics, and embedded control.
-                    </p>
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-orange-500/30 pl-4">
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Mechanical Design:</strong>
-                            Printed frame, drum, and a <span class="tech-highlight">streamlined sensor body</span> sized for stable tow and reliable docking.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Electronics:</strong>
-                            Battery, motor driver, microcontrollers, and a <span class="tech-highlight">slip ring</span> so power and light commands ride the tow path.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Embedded Control:</strong>
-                            Encoder feedback for cable length, with commands from a laptop or an
-                            <span class="tech-highlight">RC transmitter</span>.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Goals:</strong>
-                            Deploy and retract to a set length, keep the sensor stable while towed, and switch light modes on command.
-                        </li>
-                    </ul>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Did</h3>
+                    <div class="space-y-3">
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-cog text-orange-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">01 | Mechanical Design</h4>
+                                        <span class="font-mono text-[10px] text-orange-400 uppercase shrink-0">Mech</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Printed frame, drum, and a <span class="tech-highlight">streamlined sensor body</span> sized for stable tow and reliable docking.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-bolt text-orange-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | Electronics</h4>
+                                        <span class="font-mono text-[10px] text-orange-400 uppercase shrink-0">Power</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Battery, motor driver, MCUs, and a <span class="tech-highlight">slip ring</span> so power and light commands ride the tow path.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-microchip text-orange-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">03 | Embedded Control</h4>
+                                        <span class="font-mono text-[10px] text-orange-400 uppercase shrink-0">Control</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Encoder length feedback with commands from a laptop or <span class="tech-highlight">RC transmitter</span>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-bullseye text-orange-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">04 | Mission Goals</h4>
+                                        <span class="font-mono text-[10px] text-orange-400 uppercase shrink-0">Ops</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Deploy and retract to a set length, keep the sensor stable while towed, and switch light modes on command.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+                        <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Scope | MEMS 4110</h4>
+                        <i class="fas fa-info-circle text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Active senior design. Bench prototype proves deploy, retract, and lights; final print is in progress.</p>
+                    <div class="mt-5 pt-4 border-t border-white/5 text-[10px] font-mono text-right"><span class="text-amber-400">● ACTIVE</span></div>
                 </div>
 
                 <div class="bg-black border border-white/10 p-6 mb-12">
@@ -152,10 +196,9 @@
                 </div>
 
                 <div class="p-8 bg-orange-500/5 border border-orange-500/20">
-                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-orange-400">Outcome</h4>
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-orange-400">Takeaway</h4>
                     <p class="text-sm text-orange-100/80 leading-relaxed">
-                        Simplified initial prototype is built and tested. Final prototype is being printed.
-                        Deploy, retract, and light-mode switching are proven on the bench path before the flight-ready package.
+                        Bench prototype proves deploy, retract, and light modes. Final print is in progress before the flight-ready package.
                     </p>
                 </div>
             </div>

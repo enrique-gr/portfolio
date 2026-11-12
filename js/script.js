@@ -30,21 +30,22 @@ const PROJECTS = {
     imgPos: "left center",
     role: "UAS Research Intern",
     roleIcon: "fa-helicopter",
+    roleMark: "assets/images/feat_role_mide.png",
     dates: "May 2026 – Aug 2026",
-    tags: ["UAS Systems", "Flight Test", "Hardware Integration"],
-    summary: "Worked experimental unmanned aircraft as systems: returning vehicles to test-ready after structural work, supporting flight test, and using flight data to relate configuration to readiness. Brought platforms up through calibration and bench checks and verified that sensing, estimation, and actuation hung together on the vehicle.",
-    metric: "Status: Complete | Test-Readiness & Integration",
-    problem: "Experimental UAS needed to be restored, integrated, and judged flight-ready after structural work and configuration changes, without writing a new controller.",
-    contribution: "Supported repair and flight-test operations; used flight data to assess readiness; brought platforms up as integrated systems and checked the sense-to-actuate path on hardware.",
-    result: "Helped return aircraft to test-ready status and grounded readiness calls in configuration-linked flight data rather than assumption.",
-    constraint: "Multiple experimental platforms with evolving hardware configurations",
-    tradeoff: "Breadth across vehicles vs depth on a single controller redesign",
-    decision: "Stayed on the systems path (integration, calibration, and readiness) instead of rewriting control laws",
-    outcome: "Test-ready platforms with verified sensing-to-actuation paths and clearer readiness criteria from flight data",
+    tags: ["UAS Research", "Flight Test", "Systems Integration"],
+    summary: "UAS Research Intern at a defense research institute: experimental unmanned platforms, flight-data readiness judgment, and end-to-end systems bring-up on real research aircraft.",
+    metric: "Status: Complete | UAS Research Internship",
+    problem: "Experimental research UAS had to be restored, integrated, and judged flight-ready after structural and configuration changes, without rewriting the flight controller.",
+    contribution: "As UAS Research Intern, supported experimental platforms through repair, flight-test ops, and calibration; used flight data to relate configuration to readiness.",
+    result: "Returned research aircraft to test-ready status with readiness calls grounded in measured flight behavior, not assumption.",
+    constraint: "Multiple experimental research platforms with evolving hardware configurations",
+    tradeoff: "Breadth across research vehicles vs depth on a single controller redesign",
+    decision: "Stay on the research systems path: integration, calibration, flight data, and readiness judgment",
+    outcome: "Hands-on UAS research experience: test-ready platforms, verified sense-to-actuate paths, and data-backed readiness criteria",
     proof: [
-      "Supported experimental UAS through repair, flight-test operations, and test-readiness",
-      "Used flight data to relate vehicle configuration to whether an aircraft was ready to test",
-      "Brought unmanned platforms up as integrated systems and checked the sense-to-actuate path on hardware"
+      "UAS Research Intern on experimental unmanned platforms at MIDE",
+      "Flight-data analysis linking vehicle configuration to test readiness",
+      "Systems bring-up from hardware through calibration and sense-to-actuate checks"
     ],
     externalLink: "mide.html"
   },
@@ -56,9 +57,10 @@ const PROJECTS = {
     photo: true,
     role: "Lead Avionics Engineer",
     roleIcon: "fa-microchip",
+    roleMark: "assets/images/feat_role_vtol.png",
     dates: "Sep 2025 – Present",
     tags: ["Pixhawk 6C", "PX4", "Quadcopter", "Hexacopter"],
-    summary: "Lead Avionics across two VFS cycles: Hexacopter flight proof in 2025–2026, now rebuilding a Quadcopter X-frame for Search and Rescue.",
+    summary: "Lead Avionics across two VFS cycles: Hexacopter flight proof in 2025–2026, now rebuilding a Quadcopter for Search and Rescue.",
     metric: "Status: Active | Search and Rescue 2026–27",
     problem: "Competition aircraft must keep sensing, power, flight control, and payload interfaces honest under flight-test and mission pressure.",
     contribution: "Owned avionics architecture and bring-up; closed Hexacopter hover/transition/payload ops; driving 2026–27 Quadcopter system architecture for Search and Rescue.",
@@ -78,18 +80,19 @@ const PROJECTS = {
     photo: true,
     role: "Structures and Test Engineer",
     roleIcon: "fa-compass-drafting",
+    roleMark: "assets/images/feat_role_dbf.png",
     dates: "Aug 2024 – Present",
-    tags: ["ANSYS FEA", "Flight Test", "Composites"],
-    summary: "Structures and Test on WashU’s AIAA Design/Build/Fly team, supporting Mission 3 and ground-mission work, with prior structures, aerodynamics, and payload experience.",
-    metric: "Status: Active | Competition Team",
-    problem: "Support Mission 3 and ground-mission needs while keeping the aircraft competition-ready.",
-    contribution: "Structures and Test support for Mission 3 and ground mission; earlier spar FEA, release hardware, and aero/CFD checks.",
-    result: "Active on DBF structures/test and mission support after prior-season groundwork.",
+    tags: ["Structures", "Payload Systems", "Flight Test"],
+    summary: "Design and test structural and payload systems for competition UAVs across AIAA Design/Build/Fly and SAE Aero Design Micro Class.",
+    metric: "Status: Active | AIAA DBF + SAE Aero Micro",
+    problem: "Field competition-ready structure and payload hardware under two distinct rule sets and mission profiles.",
+    contribution: "Structures/payload design and test across AIAA DBF and SAE Aero Micro; first-iteration test plane flown Oct 2026.",
+    result: "Active structures and test support spanning both competitions after prior-season groundwork.",
     constraint: "Competition rules, airframe mass/balance, and integration practicality",
     tradeoff: "Mission capability vs weight, complexity, and reliability",
-    decision: "Focus current effort on Mission 3 and ground-mission support within Structures and Test",
-    outcome: "Active Structures and Test Engineer on WashU DBF",
-    proof: ["Mission 3 and ground-mission focus", "Prior spar FEA and release hardware", "Structures/test and flight-test correlation"],
+    decision: "Keep one structures/payload path that serves both AIAA DBF and SAE Aero Micro airframes",
+    outcome: "Structures and Test Engineer across WashU competition UAV programs",
+    proof: ["AIAA DBF + SAE Aero Micro", "Oct 2026 first-iteration test plane", "Prior spar FEA and payload-release hardware"],
     externalLink: "washu-dbf.html"
   },
   "miro-lab": {
@@ -99,13 +102,14 @@ const PROJECTS = {
     logoUrl: "assets/images/miro-lab.png",
     role: "Sensor Fusion Research Intern",
     roleIcon: "fa-wave-square",
+    roleMark: "assets/images/feat_role_miro.png",
     dates: "May 2025 – Aug 2025",
     tags: ["Python", "MATLAB", "Sensor Fusion"],
-    summary: "Developed a wearable sensor fusion system (IMU + EMG) and visual tracking pipeline.",
-    metric: "Status: Complete | Sensor Fusion Research",
+    summary: "Sensor Fusion Research Intern: multimodal IMU + EMG sensing, calibration, EKF-oriented estimation support, and human-subject validation.",
+    metric: "Status: Complete | Sensor Fusion Research Internship",
     problem: "Synchronize noisy wearable sensor streams with visual tracking for reliable motion interpretation.",
-    contribution: "Implemented fusion workflow for IMU + EMG + camera signals and analysis tooling.",
-    result: "Improved signal coherence and produced repeatable motion signatures for research trials.",
+    contribution: "As Sensor Fusion Research Intern, built acquisition and calibration pipelines and prepared datasets for multi-sensor state estimation.",
+    result: "Improved signal coherence and produced repeatable motion signatures across research trials.",
     constraint: "Asynchronous multi-sensor timing and drift",
     tradeoff: "Pipeline complexity vs reproducible synchronization",
     decision: "Built deterministic alignment and validation tooling",
@@ -244,18 +248,17 @@ const PROJECTS = {
 
 /** Work Log ticker items (builds, lab work, writing) */
 const HW_ITEMS = [
-  { type: "Flight Test", title: "MIDE Experimental UAS",           sub: "Repair | Integration | Test-Readiness",             src: "assets/images/mide.png",               date: "2026-08", status: "complete",  link: "mide.html" },
+  { type: "Research",   title: "MIDE UAS Research Internship",     sub: "Experimental UAS | Flight Data | Systems Bring-Up", src: "assets/images/hw_mide_flight.jpg",     date: "2026-08", status: "complete",  link: "mide.html" },
   { type: "Mechatronics", title: "Towed-Sensor Winch Bench",       sub: "MEMS 4110 | Deploy | Retract | Light Modes",        src: "assets/images/me_winch_assembly.jpg",  date: "2026-11", status: "active",    link: "towed-sensor-winch.html" },
   { type: "Avionics",   title: "VTOL Hexacopter Integration",      sub: "Frame Assembly | Power Layout | Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
-  { type: "Structural", title: "DBF Wing Layup",                   sub: "NACA 4415 | Carbon Spar",                            src: "assets/images/hw_dbf_wing.jpg",        date: "2025-11", status: "verified",  link: "washu-dbf.html" },
-  { type: "Research",   title: "MIRO Wearable Sensor",             sub: "IMU Array | EMG Electrodes",                         src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "validated", link: "miro-lab.html" },
-  { type: "CFD",        title: "Wing Section CFD",                 sub: "ANSYS CFX | Cp Distribution",                        src: "assets/images/hw_cfd_result.jpg",      date: "2025-11", status: "validated", link: "washu-dbf.html" },
+  { type: "Research",   title: "MIRO Sensor Fusion Internship",    sub: "IMU + EMG | Calibration | Validation",               src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "complete",  link: "miro-lab.html" },
+  { type: "Flight Test", title: "Competition UAV Test Plane",      sub: "First Iteration | AIAA DBF + SAE Aero Micro",        src: "assets/images/hw_dbf_testplane.jpg",   date: "2026-10", status: "verified",  link: "washu-dbf.html" },
   { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up | Wiring Validation | Multimeter Test", src: "assets/images/hw_vtol_test_bench.jpg", date: "2026-01", status: "verified",  link: "washu-vtol.html" },
   {
     type: "Writing",
     title: "Autonomous Weapons Analysis",
     sub: "LAWS | X-62A VISTA | Accountability Gap",
-    src: "assets/images/x62_vista.png",
+    src: "assets/images/yfq_44a.jpg",
     date: "2026-05",
     status: "published",
     link: "who-is-responsible.html"
@@ -366,31 +369,34 @@ function renderFeatured() {
       ? `navigateTo('${p.externalLink}')`
       : `openProjectDetail('${id}')`;
     const roleIcon = p.roleIcon || "fa-user-gear";
+    const roleMark = p.roleMark
+      ? `<img src="${p.roleMark}" alt="" class="role-mark" width="38" height="38" loading="lazy" decoding="async">`
+      : `<i class="fas ${roleIcon} text-blue-400 text-[10px]" aria-hidden="true"></i>`;
     html += `
-      <div id="${id}" onclick="${action}"
-           class="flex ${rowDir} gap-12 items-center group cursor-pointer scroll-mt-32">
+      <div id="${id}" class="feat-row flex ${rowDir} gap-12 items-center group scroll-mt-32">
 
-        <!-- Image panel -->
-        <div class="w-full md:w-1/2 feat-img-wrap relative border border-white/10 bg-[#0a0a0a] overflow-hidden">
-          <img src="${p.logoUrl}" loading="lazy"
+        <!-- Image panel: click target -->
+        <button type="button" onclick="${action}" aria-label="Open ${p.title}"
+                class="w-full md:w-1/2 feat-img-wrap feat-hit relative border border-white/10 bg-[#0a0a0a] overflow-hidden text-left cursor-pointer">
+          <img src="${p.logoUrl}" loading="lazy" alt=""
                ${p.imgPos ? `style="object-position:${p.imgPos};transform-origin:${p.imgPos}"` : ""}
-               class="${p.photo ? "eg-photo " : ""}w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+               class="${p.photo ? "eg-photo " : ""}w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 pointer-events-none">
           <div class="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors pointer-events-none"></div>
-          <div class="absolute top-0 left-0 w-4 h-4 border-l border-t border-white/30"></div>
-          <div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-white/30"></div>
-          <div class="absolute bottom-0 left-0 px-3 py-1.5 bg-black/70 border-r border-t border-white/10 text-[9px] font-mono text-gray-500 tracking-widest uppercase">
+          <div class="absolute top-0 left-0 w-4 h-4 border-l border-t border-white/30 pointer-events-none"></div>
+          <div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-white/30 pointer-events-none"></div>
+          <div class="absolute bottom-0 left-0 px-3 py-1.5 bg-black/70 border-r border-t border-white/10 text-[9px] font-mono text-gray-500 tracking-widest uppercase pointer-events-none">
             ${p.dates}
           </div>
-        </div>
+        </button>
 
-        <!-- Text panel: shared copy stack so CTA always sits under the same edge -->
+        <!-- Text panel: selectable copy; only CTA navigates -->
         <div class="w-full md:w-1/2 flex ${copyDock}">
           <div class="feat-copy flex flex-col items-start w-full max-w-xl">
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border-l-2 border-blue-500 mb-4 role-badge">
-              <i class="fas ${roleIcon} text-blue-400 text-[10px]" aria-hidden="true"></i>
-              <span class="font-mono font-bold text-blue-400 text-xs tracking-wider uppercase">${p.role}</span>
+            <div class="inline-flex items-center gap-2.5 px-3 py-1.5 mb-4 role-badge">
+              ${roleMark}
+              <span class="role-badge__label font-mono font-bold text-xs tracking-wider uppercase">${p.role}</span>
             </div>
-            <h3 class="text-3xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors tracking-tight">${p.title}</h3>
+            <h3 class="text-2xl font-semibold text-zinc-100 mb-4 group-hover:text-blue-300 transition-colors tracking-tight leading-snug">${p.title}</h3>
             <div class="mb-4 font-mono text-[10px] text-emerald-500 tracking-widest border border-emerald-500/20 bg-emerald-500/5 px-2 py-1 inline-block">
               ${p.metric}
             </div>
@@ -404,9 +410,10 @@ function renderFeatured() {
               <div class="proof-card"><div class="proof-k">Result</div>     <div class="proof-v">${p.result || p.metric}</div></div>
             </div>
 
-            <div class="feat-cta mt-6 text-[10px] font-mono text-white inline-flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest">
+            <button type="button" onclick="${action}"
+                    class="feat-cta mt-6 text-[10px] font-mono text-white inline-flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest cursor-pointer bg-transparent border-0 p-0">
               <span>Initialize Protocol</span> <i class="fas fa-arrow-right text-blue-400" aria-hidden="true"></i>
-            </div>
+            </button>
           </div>
         </div>
       </div>`;
@@ -512,8 +519,7 @@ function switchTab(tabName) {
     const sweep = isCourse ? "via-orange-500/10" : "via-blue-500/10";
 
     grid.innerHTML += `
-      <div onclick="${action}"
-           class="group relative bg-[#0a0a0a] border border-white/10 ${hoverBorder} transition-colors duration-300 cursor-pointer overflow-hidden flex flex-col h-full">
+      <div class="archive-card group relative bg-[#0a0a0a] border border-white/10 ${hoverBorder} transition-colors duration-300 overflow-hidden flex flex-col h-full">
         <div class="corner-bracket tl"></div>
         <div class="corner-bracket tr"></div>
         <div class="corner-bracket bl"></div>
@@ -528,20 +534,26 @@ function switchTab(tabName) {
           </div>
         </div>
 
-        <!-- Thumbnail -->
-        <div class="h-48 w-full bg-[#0a0a0a] relative overflow-hidden border-b border-white/5">
-          <img src="${p.logoUrl}" loading="lazy"
-               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">
-          <!-- Scan sweep on hover -->
+        <!-- Thumbnail: click target -->
+        <button type="button" onclick="${action}" aria-label="Open ${p.title}"
+                class="archive-hit h-48 w-full bg-[#0a0a0a] relative overflow-hidden border-b border-white/5 cursor-pointer p-0 border-0 text-left">
+          <img src="${p.logoUrl}" loading="lazy" alt=""
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100 pointer-events-none">
           <div class="absolute inset-0 bg-gradient-to-b from-transparent ${sweep} to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 pointer-events-none z-20"></div>
-        </div>
+        </button>
 
-        <!-- Card body -->
+        <!-- Card body: selectable copy -->
         <div class="p-6 flex flex-col flex-grow bg-[#0a0a0a]">
           <h4 class="text-lg font-bold text-white mb-1 ${hoverTitle} transition-colors tracking-tight">${p.title}</h4>
           <p class="text-[10px] font-mono ${roleColor} mb-4 uppercase tracking-wider font-bold">${p.role}</p>
           <p class="text-sm text-gray-400 font-light leading-relaxed mb-6 flex-grow border-l border-white/10 pl-3">${p.summary}</p>
-          <div class="flex flex-wrap gap-2 mt-auto">${tagsHtml}</div>
+          <div class="flex flex-wrap items-center justify-between gap-3 mt-auto">
+            <div class="flex flex-wrap gap-2">${tagsHtml}</div>
+            <button type="button" onclick="${action}"
+                    class="archive-cta text-[10px] font-mono uppercase tracking-widest text-white inline-flex items-center gap-2 ${hoverTitle} cursor-pointer bg-transparent border-0 p-0 shrink-0">
+              Open <i class="fas fa-arrow-right text-[9px]" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       </div>`;
   }
@@ -1179,8 +1191,7 @@ function initScrollRestore() {
 }
 
 /* =============================================================================
-  13. HERO PROPULSION WASH | custom SVG nozzle + canvas flame
-      Flame reaches left across the tagline and heats each letter it hits.
+  13. HERO TAGLINE WASH | quiet steel emitter + cool plume across the line
 ============================================================================= */
 function initHeroWash() {
   const root = document.querySelector("[data-hero-wash]");
@@ -1188,7 +1199,7 @@ function initHeroWash() {
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canvas = root.querySelector(".hero-wash-plume");
-  const nozzle = root.querySelector(".hero-wash-nozzle");
+  const emitter = root.querySelector(".hero-wash-emitter");
   const textEl = root.querySelector(".hero-wash-text");
   const disp = root.querySelector("#eg-jet-wash feDisplacementMap");
   if (!canvas || reduce) return;
@@ -1196,9 +1207,8 @@ function initHeroWash() {
   const ctx = canvas.getContext("2d", { alpha: true });
   if (!ctx) return;
 
-  // Per-letter spans; heat is applied from the live flame front
   const chars = [];
-  const charHeat = []; // residual heat 0..1 per glyph
+  const charHeat = [];
   if (textEl) {
     const phrase = textEl.getAttribute("data-wash-phrase") || textEl.textContent || "";
     textEl.textContent = "";
@@ -1217,16 +1227,15 @@ function initHeroWash() {
     const t2 = Math.max(0, Math.min(1, t));
     return `rgb(${Math.round(lerp(c0[0], c1[0], t2))},${Math.round(lerp(c0[1], c1[1], t2))},${Math.round(lerp(c0[2], c1[2], t2))})`;
   };
-  const C_COOL = [96, 165, 250];
-  const C_ORANGE = [255, 120, 35];
-  const C_YELLOW = [255, 220, 80];
-  const C_WHITE = [255, 255, 255];
+  // Cool steel palette only (no cartoon orange fire)
+  const C_BASE = [142, 182, 232];
+  const C_MID = [186, 214, 245];
+  const C_HOT = [255, 255, 255];
 
   const colorFromHeat = (heat) => {
     const h = Math.max(0, Math.min(1, heat));
-    if (h < 0.3) return lerpColor(C_COOL, C_ORANGE, h / 0.3);
-    if (h < 0.65) return lerpColor(C_ORANGE, C_YELLOW, (h - 0.3) / 0.35);
-    return lerpColor(C_YELLOW, C_WHITE, (h - 0.65) / 0.35);
+    if (h < 0.45) return lerpColor(C_BASE, C_MID, h / 0.45);
+    return lerpColor(C_MID, C_HOT, (h - 0.45) / 0.55);
   };
 
   const paintTextHeat = () => {
@@ -1235,41 +1244,38 @@ function initHeroWash() {
     for (let i = 0; i < n; i++) {
       const heat = charHeat[i];
       chars[i].style.color = colorFromHeat(heat);
-      if (heat > 0.55) {
-        chars[i].style.textShadow = `0 0 ${8 + heat * 16}px rgba(255,190,70,${0.3 + heat * 0.55})`;
-      } else if (heat > 0.2) {
-        chars[i].style.textShadow = `0 0 10px rgba(255,130,40,${heat * 0.55})`;
+      if (heat > 0.5) {
+        chars[i].style.textShadow = `0 0 ${6 + heat * 12}px rgba(191,219,254,${0.25 + heat * 0.4})`;
+      } else if (heat > 0.18) {
+        chars[i].style.textShadow = `0 0 10px rgba(147,197,253,${heat * 0.45})`;
       } else {
-        chars[i].style.textShadow = "0 0 18px rgba(96,165,250,0.35)";
+        chars[i].style.textShadow = "0 0 16px rgba(142,182,232,0.28)";
       }
     }
   };
 
-  /** Map flame X (canvas) → which letters are inside the jet */
   const applyFlameToText = (flameTipX, emitXLocal, hot) => {
     if (!chars.length || !textEl) return;
     const rootRect = root.getBoundingClientRect();
     const tipDocX = rootRect.left + flameTipX;
     const emitDocX = rootRect.left + emitXLocal;
-    const band = hot ? 56 : 40;
+    const band = hot ? 48 : 34;
 
     for (let i = 0; i < chars.length; i++) {
       const r = chars[i].getBoundingClientRect();
       const cx = r.left + r.width * 0.5;
-      // Inside the jet column (between tip and nozzle)?
-      const inJet = cx <= emitDocX + 8 && cx >= tipDocX - 10;
+      const inJet = cx <= emitDocX + 6 && cx >= tipDocX - 8;
       const distToTip = Math.abs(cx - tipDocX);
       let hit = 0;
-      if (inJet) hit = 0.55 + 0.45 * (1 - Math.min(1, distToTip / band));
-      // Cool residual heat slowly so the pass leaves a visible trail
-      charHeat[i] = Math.max(hit, charHeat[i] * 0.965 - 0.004);
+      if (inJet) hit = 0.4 + 0.55 * (1 - Math.min(1, distToTip / band));
+      charHeat[i] = Math.max(hit, charHeat[i] * 0.97 - 0.0035);
       if (hit > charHeat[i]) charHeat[i] = hit;
     }
     paintTextHeat();
   };
 
   const particles = [];
-  const MAX = 140;
+  const MAX = 90;
   let raf = 0;
   let running = true;
   let hotUntil = 0;
@@ -1283,48 +1289,46 @@ function initHeroWash() {
     const rect = root.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = Math.max(1, Math.floor(rect.width));
-    h = Math.max(1, Math.floor(Math.max(rect.height, 48) * 2.1));
+    h = Math.max(1, Math.floor(Math.max(rect.height, 44) * 1.85));
     canvas.width = Math.floor(w * dpr);
     canvas.height = Math.floor(h * dpr);
     canvas.style.width = w + "px";
     canvas.style.height = h + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // Emit from the SVG nozzle throat (left edge of the bell)
-    if (nozzle) {
-      const nr = nozzle.getBoundingClientRect();
-      emitX = nr.left - rect.left + 6;
+    if (emitter) {
+      const er = emitter.getBoundingClientRect();
+      emitX = er.left - rect.left + 2;
       emitY = h * 0.5;
     } else {
-      emitX = w * 0.88;
+      emitX = w * 0.94;
       emitY = h * 0.5;
     }
   };
 
-  /** kind: 0 core, 1 mid, 2 envelope */
   const spawnOne = (kind, hot) => {
     if (particles.length >= MAX) particles.shift();
-    const boost = hot ? 1.35 : 1;
-    const spread = kind === 0 ? 3 : kind === 1 ? 7 : 14;
-    const speed = (kind === 0 ? 9 : kind === 1 ? 6.2 : 3.8) * boost;
+    const boost = hot ? 1.2 : 1;
+    const spread = kind === 0 ? 2.2 : kind === 1 ? 5 : 10;
+    const speed = (kind === 0 ? 7.2 : kind === 1 ? 5 : 3.1) * boost;
     particles.push({
       kind,
-      x: emitX + Math.random() * 4,
+      x: emitX + Math.random() * 3,
       y: emitY + (Math.random() - 0.5) * spread,
-      vx: -(speed + Math.random() * 3.5),
-      vy: (Math.random() - 0.5) * (kind === 0 ? 0.35 : kind === 1 ? 0.9 : 1.6),
+      vx: -(speed + Math.random() * 2.4),
+      vy: (Math.random() - 0.5) * (kind === 0 ? 0.25 : kind === 1 ? 0.65 : 1.15),
       life: 1,
-      decay: kind === 0 ? 0.014 : kind === 1 ? 0.011 : 0.008,
-      size: kind === 0 ? 2 + Math.random() * 2 : kind === 1 ? 3.5 + Math.random() * 4 : 6 + Math.random() * 8,
-      stretch: kind === 0 ? 22 + Math.random() * 26 : kind === 1 ? 14 + Math.random() * 18 : 10 + Math.random() * 14,
-      grow: kind === 0 ? 0.03 : kind === 1 ? 0.08 : 0.14
+      decay: kind === 0 ? 0.016 : kind === 1 ? 0.012 : 0.009,
+      size: kind === 0 ? 1.4 + Math.random() * 1.4 : kind === 1 ? 2.4 + Math.random() * 2.6 : 4 + Math.random() * 5,
+      stretch: kind === 0 ? 16 + Math.random() * 16 : kind === 1 ? 11 + Math.random() * 12 : 8 + Math.random() * 10,
+      grow: kind === 0 ? 0.02 : kind === 1 ? 0.05 : 0.1
     });
   };
 
   const spawn = (burst, hot) => {
-    const n0 = burst ? 10 : 3;
-    const n1 = burst ? 12 : 4;
-    const n2 = burst ? 14 : 5;
+    const n0 = burst ? 6 : 2;
+    const n1 = burst ? 7 : 3;
+    const n2 = burst ? 8 : 3;
     for (let i = 0; i < n0; i++) spawnOne(0, hot);
     for (let i = 0; i < n1; i++) spawnOne(1, hot);
     for (let i = 0; i < n2; i++) spawnOne(2, hot);
@@ -1333,31 +1337,31 @@ function initHeroWash() {
   const paintParticle = (p, hot, t) => {
     const life = Math.max(0, p.life);
     const travel = Math.min(1, Math.max(0, (emitX - p.x) / Math.max(80, emitX)));
-    let a = life * (hot ? 1.1 : 0.95);
+    let a = life * (hot ? 0.85 : 0.65);
     let c0, c1, c2;
     if (p.kind === 0) {
-      a *= 0.98;
+      a *= 0.9;
       c0 = `rgba(255,255,255,${a})`;
-      c1 = `rgba(255,240,160,${a * 0.8})`;
-      c2 = `rgba(255,180,50,0)`;
+      c1 = `rgba(191,219,254,${a * 0.7})`;
+      c2 = `rgba(96,165,250,0)`;
     } else if (p.kind === 1) {
-      a *= 0.75;
-      c0 = `rgba(255,220,90,${a})`;
-      c1 = `rgba(255,140,35,${a * 0.55})`;
-      c2 = `rgba(255,70,20,0)`;
+      a *= 0.55;
+      c0 = `rgba(186,214,245,${a})`;
+      c1 = `rgba(96,165,250,${a * 0.5})`;
+      c2 = `rgba(59,130,246,0)`;
     } else {
-      a *= 0.4;
-      c0 = `rgba(255,130,40,${a})`;
-      c1 = `rgba(230,70,25,${a * 0.45})`;
-      c2 = `rgba(120,70,50,0)`;
+      a *= 0.28;
+      c0 = `rgba(147,197,253,${a})`;
+      c1 = `rgba(59,130,246,${a * 0.4})`;
+      c2 = `rgba(30,58,100,0)`;
     }
 
-    const len = p.stretch * (1 + travel * 0.45);
-    const thick = p.size * (1 + travel * p.grow * 7);
-    const wobble = Math.sin(t * 0.007 + p.x * 0.045) * (0.35 + travel * 1.2);
+    const len = p.stretch * (1 + travel * 0.35);
+    const thick = p.size * (1 + travel * p.grow * 5);
+    const wobble = Math.sin(t * 0.006 + p.x * 0.04) * (0.25 + travel * 0.9);
     const grd = ctx.createLinearGradient(p.x + len * 0.2, p.y, p.x - len, p.y);
     grd.addColorStop(0, c0);
-    grd.addColorStop(0.4, c1);
+    grd.addColorStop(0.45, c1);
     grd.addColorStop(1, c2);
     ctx.beginPath();
     ctx.fillStyle = grd;
@@ -1372,17 +1376,15 @@ function initHeroWash() {
 
     const hot = performance.now() < hotUntil;
     root.classList.toggle("is-hot", hot);
-    if (disp) disp.setAttribute("scale", hot ? "14" : "7");
+    if (disp) disp.setAttribute("scale", hot ? "5.5" : "3.2");
 
-    if (Math.random() < (hot ? 1 : 0.85)) spawn(false, hot);
+    if (Math.random() < (hot ? 0.9 : 0.55)) spawn(false, hot);
 
-    // Throat bloom tied to the SVG nozzle
-    const bloomR = hot ? 42 : 28;
+    const bloomR = hot ? 22 : 14;
     const bloom = ctx.createRadialGradient(emitX, emitY, 0, emitX, emitY, bloomR);
-    bloom.addColorStop(0, `rgba(255,255,255,${hot ? 0.7 : 0.4})`);
-    bloom.addColorStop(0.3, `rgba(255,200,90,${hot ? 0.4 : 0.22})`);
-    bloom.addColorStop(0.65, `rgba(255,100,30,${hot ? 0.18 : 0.08})`);
-    bloom.addColorStop(1, "rgba(255,60,20,0)");
+    bloom.addColorStop(0, `rgba(255,255,255,${hot ? 0.45 : 0.22})`);
+    bloom.addColorStop(0.4, `rgba(191,219,254,${hot ? 0.28 : 0.14})`);
+    bloom.addColorStop(1, "rgba(59,130,246,0)");
     ctx.fillStyle = bloom;
     ctx.beginPath();
     ctx.arc(emitX, emitY, bloomR, 0, Math.PI * 2);
@@ -1392,11 +1394,11 @@ function initHeroWash() {
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.x += p.vx;
-      p.y += p.vy + Math.sin(t * 0.005 + p.x * 0.03) * (0.15 + p.kind * 0.12);
-      p.vy += (p.y - emitY) * 0.0009 * p.kind;
+      p.y += p.vy + Math.sin(t * 0.004 + p.x * 0.028) * (0.12 + p.kind * 0.1);
+      p.vy += (p.y - emitY) * 0.0007 * p.kind;
       p.size += p.grow;
-      p.life -= p.decay * (hot ? 0.9 : 1);
-      if (p.life <= 0 || p.x < -50) {
+      p.life -= p.decay * (hot ? 0.92 : 1);
+      if (p.life <= 0 || p.x < -40) {
         particles.splice(i, 1);
         continue;
       }
@@ -1409,28 +1411,27 @@ function initHeroWash() {
       }
     }
 
-    // Meaningful coupling: letters heat where the jet actually is
     applyFlameToText(tipX, emitX, hot);
   };
 
   const pulse = () => {
-    hotUntil = performance.now() + 1400;
+    hotUntil = performance.now() + 1100;
     spawn(true, true);
   };
 
   resize();
-  spawn(true, true);
+  spawn(true, false);
   raf = requestAnimationFrame(frame);
 
   window.addEventListener("resize", resize, { passive: true });
   root.addEventListener("pointerenter", pulse);
-  if (nozzle) nozzle.addEventListener("pointerenter", pulse);
+  if (emitter) emitter.addEventListener("pointerenter", pulse);
 
   const idle = window.setInterval(() => {
     if (document.hidden) return;
     if (root.getBoundingClientRect().bottom < 0) return;
     pulse();
-  }, 4200);
+  }, 5200);
 
   document.addEventListener("visibilitychange", () => {
     running = !document.hidden;

@@ -92,43 +92,70 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
 
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 space-y-14">
 
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
-                    Engineering Cycle
-                </h3>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
+                        <p>
+                            Sentinel is a closed-loop perception-to-actuation prototype: detect a fast target, estimate its state, then drive a physical gimbal to track it.
+                        </p>
+                        <p>
+                            A C++ <span class="tech-highlight">OpenCV</span> pipeline feeds a <span class="tech-highlight">Kalman Filter</span>, then sends intercept cues to the
+                            Sentinel-Actuator, a 2-axis gimbal on a Teensy 4.1.
+                        </p>
+                    </div>
+                </div>
 
-                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
-                    <p>
-                        Control loops are useless if you do not know what you are looking at, and detection is useless if you cannot act on it. 
-                        Sentinel is a closed-loop defense prototype that bridges the gap between software perception and physical actuation.
-                    </p>
-                    <p class="text-sm text-gray-400">
-                        The system uses a C++ <span class="tech-highlight">OpenCV</span> pipeline to detect fast-moving targets, feeds state estimates into a 
-                        <span class="tech-highlight">Kalman Filter</span>, and transmits intercept coordinates to the 
-                        <strong class="text-white">Sentinel-Actuator</strong>, a high-speed, 2-axis robotic gimbal powered by a Teensy 4.1 microcontroller.
-                    </p>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Built</h3>
+                    <div class="space-y-3">
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-sky-500/10 border border-sky-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-eye text-sky-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">01 | Perception</h4>
+                                        <span class="font-mono text-[10px] text-sky-400 uppercase shrink-0">Vision</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Motion and learned detectors extract target centroids from noisy video frames in real time.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-sky-500/10 border border-sky-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-brain text-sky-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | State Estimation</h4>
+                                        <span class="font-mono text-[10px] text-sky-400 uppercase shrink-0">Filter</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">A 3D <span class="tech-highlight">Kalman Filter</span> estimates velocity and predicts position to absorb measurement noise and loop latency.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-sky-500/10 border border-sky-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-crosshairs text-sky-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">03 | Kinetic Actuation</h4>
+                                        <span class="font-mono text-[10px] text-sky-400 uppercase shrink-0">Hardware</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Custom 2-DOF aluminum turret with digital servos does visual servoing and paints the target with a laser designator.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-sky-500/40 pl-4">
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">
-                                Perception (The Eyes):
-                            </strong>
-                            Motion-based and learned detectors (YOLO/Background Subtraction) process raw frames to extract target centroids in noisy environments.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">
-                                State Estimation (The Brain):
-                            </strong>
-                            A 3D <span class="tech-highlight">Kalman Filter</span> fuses noisy measurements to estimate velocity and predict future position, compensating for system latency.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">
-                                Kinetic Actuation (The Muscle):
-                            </strong>
-                            The "Sentinel-Actuator" module. A custom 2-DOF aluminum turret driven by high-torque digital servos performs real-time visual servoing to physically track and "paint" the target with a laser designator.
-                        </li>
-                    </ul>
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+                        <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Scope | Personal Build</h4>
+                        <i class="fas fa-info-circle text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">End-to-end closed loop from camera to gimbal. Perception, estimation, and actuation stayed on one bench stack.</p>
+                    <div class="mt-5 pt-4 border-t border-white/5 text-[10px] font-mono text-right"><span class="text-emerald-400">● COMPLETE</span></div>
                 </div>
 
                 <div class="bg-black border border-white/10 p-6 mb-10 relative overflow-hidden">
@@ -280,10 +307,10 @@
 
                 <div class="p-8 bg-blue-500/5 border border-blue-500/20">
                     <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">
-                        Outcome
+                        Takeaway
                     </h4>
                     <p class="text-sm text-blue-100/80 leading-relaxed mb-4">
-                        Closed the detect-track-engage loop: vision + Kalman estimation on PC, Teensy actuation on the gimbal, and live intercept tests with latency tuning.
+                        Closed detect–track–actuate: OpenCV + Kalman on PC, Teensy gimbal on the bench, latency tuned in live intercept tests.
                     </p>
                     <ul class="text-xs text-blue-100/70 space-y-2 leading-relaxed">
                         <li>Vision pipeline and Kalman filter in C++</li>

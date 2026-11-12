@@ -74,32 +74,79 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
             
-            <div class="lg:col-span-2">
-                
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">System Overview</h3>
-                
-                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
-                    <p>
-                        This project implements a high-fidelity <strong>12-State Extended Kalman Filter (EKF)</strong> running on a Teensy 4.1 microcontroller. It fuses asynchronous data streams to provide stable real-time state estimation for UAVs, solving the drift issues inherent in raw sensor data.
-                    </p>
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-blue-500/30 pl-4">
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Multi-Sensor Fusion:</strong> 
-                            Synchronizes high-rate <span class="sensor-highlight">IMU (1kHz)</span> data with lower-rate <span class="sensor-highlight">GPS (5Hz)</span> and <span class="sensor-highlight">Barometer</span> updates.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">12-State Vector:</strong> 
-                            Estimates Position (<i>P<sub>xyz</sub></i>), Velocity (<i>V<sub>xyz</sub></i>), Attitude (Quaternion <i>q<sub>wxyz</sub></i>), and Gyroscope Bias (<i>b<sub>xyz</sub></i>) to compensate for sensor errors.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Embedded Optimization:</strong> 
-                            Written in C++ using the Eigen library, optimized for matrix operations on embedded hardware with under 1ms cycle time.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Noise Characterization:</strong> 
-                            Utilizes covariance tuning (<i>Q</i> and <i>R</i> matrices) to trust specific sensors based on environmental dynamics (e.g., rejecting vibration noise).
-                        </li>
-                    </ul>
+            <div class="lg:col-span-2 space-y-14">
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
+                        <p>
+                            A real-time <span class="tech-highlight">12-state Extended Kalman Filter</span> on a Teensy 4.1 for UAV state estimation.
+                            Asynchronous IMU, GPS, and barometer streams are fused so attitude and position stay usable when raw sensors drift.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Built</h3>
+                    <div class="space-y-3">
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-satellite-dish text-blue-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">01 | Multi-Sensor Fusion</h4>
+                                        <span class="font-mono text-[10px] text-blue-400 uppercase shrink-0">Inputs</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Sync high-rate <span class="sensor-highlight">IMU (1&nbsp;kHz)</span> with lower-rate <span class="sensor-highlight">GPS (5&nbsp;Hz)</span> and <span class="sensor-highlight">barometer</span> updates.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-vector-square text-blue-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | 12-State Vector</h4>
+                                        <span class="font-mono text-[10px] text-blue-400 uppercase shrink-0">State</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Estimates position, velocity, quaternion attitude, and gyro bias to absorb sensor error over time.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-microchip text-blue-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">03 | Embedded Optimization</h4>
+                                        <span class="font-mono text-[10px] text-blue-400 uppercase shrink-0">C++</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">C++ with Eigen, tuned for matrix work on embedded hardware under a 1&nbsp;ms cycle budget.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-sliders-h text-blue-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">04 | Noise Characterization</h4>
+                                        <span class="font-mono text-[10px] text-blue-400 uppercase shrink-0">Tuning</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Covariance tuning on Q and R so the filter trusts the right sensor under vibration and dynamics.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+                        <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Scope | Personal Build</h4>
+                        <i class="fas fa-info-circle text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Embedded EKF for flight-nav style estimation. Focus stayed on fusion correctness and cycle time, not a full autopilot stack.</p>
+                    <div class="mt-5 pt-4 border-t border-white/5 text-[10px] font-mono text-right"><span class="text-emerald-400">● COMPLETE</span></div>
                 </div>
 
                 <div class="bg-black border border-white/10 p-6 mb-12">
@@ -110,7 +157,7 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
                         <div>
-                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider"Sensor Inputs</h4>
+                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">Sensor Inputs</h4>
                             <div class="space-y-2">
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-blue-500">
                                     <span>[IMU] Accel/Gyro</span>
@@ -269,9 +316,9 @@
                 </div>
 
                 <div class="p-8 bg-blue-500/5 border border-blue-500/20">
-                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">Engineering Impact</h4>
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">Takeaway</h4>
                     <p class="text-sm text-blue-100/80 leading-relaxed mb-4">
-                        Replaced raw IMU integration with a sensor-fused state estimator, enabling stable autonomous flight in GPS-denied environments.
+                        Embedded 12-state EKF that fuses IMU, GPS, and baro for usable attitude and position instead of drifting raw integration.
                     </p>
                     <div class="text-xs font-mono text-gray-400 border-t border-blue-500/20 pt-4 mt-4">
                         APPLICATIONS:<br>

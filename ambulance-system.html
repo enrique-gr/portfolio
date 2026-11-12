@@ -76,36 +76,78 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
 
             <!-- LEFT (Main Content) -->
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 space-y-14">
 
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Embedded Architecture</h3>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
+                        <p>
+                            Team embedded build: sense range, decide, then drive. Ultrasonic distance feeds a state machine that commands differential drive around obstacles.
+                        </p>
+                    </div>
+                </div>
 
-                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
-                    <p>
-                        Collaborating with a team of engineers, I helped architect an embedded navigation system integrating sensor data with motor actuation for autonomous obstacle avoidance. My contributions focused on control logic and sensor fusion:
-                    </p>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Did</h3>
+                    <div class="space-y-3">
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-wifi text-orange-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">01 | Embedded Sensing</h4>
+                                        <span class="font-mono text-[10px] text-orange-400 uppercase shrink-0">Sense</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Integrated <span class="tech-highlight">HC-SR04 ultrasonics</span> for real-time range.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-cogs text-orange-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | Actuation &amp; Control</h4>
+                                        <span class="font-mono text-[10px] text-orange-400 uppercase shrink-0">Drive</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed"><span class="tech-highlight">PWM</span> motor commands through an L298N H-bridge.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-project-diagram text-orange-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">03 | Obstacle Avoidance</h4>
+                                        <span class="font-mono text-[10px] text-orange-400 uppercase shrink-0">Logic</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">State machine for halt, pivot, and reroute behaviors.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-vial text-orange-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">04 | Validation</h4>
+                                        <span class="font-mono text-[10px] text-orange-400 uppercase shrink-0">Test</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Tuned thresholds on hardware to cut corner traps and false positives.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-orange-500/30 pl-4">
-                        <li>
-                            <strong class="text-white font-mono text-sm uppercase">Embedded Sensing:</strong>
-                            Integrated <span class="tech-highlight">Ultrasonic sensors (HC-SR04)</span> for real-time distance measurements.
-                        </li>
-
-                        <li>
-                            <strong class="text-white font-mono text-sm uppercase">Actuation & Control:</strong>
-                            Implemented <span class="tech-highlight">PWM motor commands</span> via an L298N H-Bridge.
-                        </li>
-
-                        <li>
-                            <strong class="text-white font-mono text-sm uppercase">Obstacle Avoidance Logic:</strong>
-                            Built a decision-making state machine handling halts, pivots, and rerouting.
-                        </li>
-
-                        <li>
-                            <strong class="text-white font-mono text-sm uppercase">Validation (Testing):</strong>
-                            Iteratively tuned thresholds and behavior to prevent corner traps and false positives.
-                        </li>
-                    </ul>
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+                        <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Scope | Embedded Coursework</h4>
+                        <i class="fas fa-info-circle text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Team Arduino robot for obstacle avoidance. Sensing, PWM drive, and state-machine logic on the bench.</p>
+                    <div class="mt-5 pt-4 border-t border-white/5 text-[10px] font-mono text-right"><span class="text-emerald-400">● COMPLETE</span></div>
                 </div>
 
                 <!-- Control Topology Block -->
@@ -118,7 +160,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
                         
                         <div>
-                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider"Hardware I/O Map</h4>
+                            <h4 class="text-gray-500 mb-4 uppercase tracking-wider">Hardware I/O Map</h4>
                             <div class="space-y-2">
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-orange-500">
                                     <span>[INPUT] Trigger/Echo</span>
@@ -244,9 +286,9 @@
                 </div>
 
                 <div class="p-8 bg-orange-500/5 border border-orange-500/20">
-                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-orange-400">Outcome</h4>
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-orange-400">Takeaway</h4>
                     <p class="text-sm text-orange-100/80 leading-relaxed">
-                        Built a functional autonomous robot capable of detecting and navigating around obstacles, validated through repeated physical tests.
+                        Working obstacle-avoidance robot: ultrasonics, PWM drive, and a tuned state machine proven on hardware.
                     </p>
                 </div>
 

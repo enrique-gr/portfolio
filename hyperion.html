@@ -100,28 +100,67 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
             
-            <div class="lg:col-span-2">
-                
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">System Overview</h3>
-                
-                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
-                    <p>
-                        Hyperion is a ground-up <strong>C++20 physics engine</strong> designed for Hardware-in-the-Loop (HIL) validation of flight software. Unlike game engines, it prioritizes <strong>deterministic timing</strong> and thread safety to simulate orbital mechanics and rigid body dynamics.
-                    </p>
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-purple-500/30 pl-4">
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Multithreaded Architecture:</strong> 
-                            Decouples high-frequency physics (10kHz) from low-frequency telemetry (50Hz) using <span class="cpp-highlight">std::thread</span> and <span class="cpp-highlight">std::mutex</span> locking strategies.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Custom Integrator:</strong> 
-                            Implements a 4th-Order Runge-Kutta (RK4) solver from scratch to handle orbital precision without the overhead of external math libraries.
-                        </li>
-                        <li>
-                            <strong class="text-white uppercase font-mono text-sm tracking-wider">UDP Telemetry:</strong> 
-                            Serializes the state vector into binary packets and broadcasts via BSD sockets, mimicking real spacecraft-to-ground communication.
-                        </li>
-                    </ul>
+            <div class="lg:col-span-2 space-y-14">
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
+                        <p>
+                            Hyperion is a ground-up <span class="tech-highlight">C++20</span> rigid-body physics engine for Hardware-in-the-Loop flight-software checks.
+                            Timing and thread safety matter more than game-engine convenience.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Built</h3>
+                    <div class="space-y-3">
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-layer-group text-purple-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">01 | Multithreaded Architecture</h4>
+                                        <span class="font-mono text-[10px] text-purple-400 uppercase shrink-0">Concurrency</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Decouples 10&nbsp;kHz physics from 50&nbsp;Hz telemetry with <span class="cpp-highlight">std::thread</span> and <span class="cpp-highlight">std::mutex</span>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-calculator text-purple-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | Custom Integrator</h4>
+                                        <span class="font-mono text-[10px] text-purple-400 uppercase shrink-0">RK4</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Fourth-order Runge–Kutta written from scratch for orbital-style precision without heavy external math libs.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black border border-white/10 p-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-network-wired text-purple-400 text-xs"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1 gap-3">
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">03 | UDP Telemetry</h4>
+                                        <span class="font-mono text-[10px] text-purple-400 uppercase shrink-0">Comms</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Binary state packets over BSD sockets, modeled like spacecraft-to-ground links.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+                        <h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Scope | Personal Build</h4>
+                        <i class="fas fa-info-circle text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">HIL-oriented dynamics and telemetry. Deterministic timing first; not a general game physics sandbox.</p>
+                    <div class="mt-5 pt-4 border-t border-white/5 text-[10px] font-mono text-right"><span class="text-emerald-400">● COMPLETE</span></div>
                 </div>
 
                 <div class="bg-black border border-white/10 p-6 mb-12">
@@ -310,9 +349,9 @@
                 </div>
 
                 <div class="p-8 bg-purple-500/5 border border-purple-500/20">
-                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-purple-400">Engineering Impact</h4>
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-purple-400">Takeaway</h4>
                     <p class="text-sm text-purple-100/80 leading-relaxed">
-                        Demonstrated ability to architect high-performance, thread-safe simulation infrastructure required for validating flight control software without expensive hardware.
+                        Thread-safe C++20 dynamics at 10&nbsp;kHz with RK4 and UDP telemetry, built for HIL-style flight-software checks.
                     </p>
                 </div>
             </div>
