@@ -241,7 +241,7 @@ const PROJECTS = {
     logoUrl: "assets/images/x62_vista.png",
     role: "Technical Writing & Policy Analysis",
     tags: ["Autonomous Systems", "AI Ethics", "Defense Policy"],
-    summary: "A magazine-style technical writing piece examining the accountability gap in autonomous weapons systems, from the X-62A VISTA's live AI dogfight to the absence of binding international law.",
+    summary: "Magazine-style technical writing on the accountability gap in autonomous weapons and Collaborative Combat Aircraft (CCA), with a call for engineers in the policy loop. Nominated for the 2026 McKelvey Technical Writing awards.",
     externalLink: "who-is-responsible.html",
     fileSize: "14 pp."
   }
@@ -258,10 +258,10 @@ const HW_ITEMS = [
   {
     type: "Writing",
     title: "Autonomous Weapons Analysis",
-    sub: "LAWS | X-62A VISTA | Accountability Gap",
+    sub: "LAWS | CCA | Nominated: 2026 Technical Writing Awards",
     src: "assets/images/yfq_44a.jpg",
     date: "2026-05",
-    status: "published",
+    status: "nominated",
     link: "who-is-responsible.html"
   }
 ];
@@ -589,13 +589,21 @@ let activeSkillEl = null;
  */
 function showSkill(el, key) {
   const panel = document.getElementById("skill-detail");
+  if (!panel) return;
+
+  const detailBase = "cap-skill-detail p-4 font-mono text-xs relative";
+  const titleEl = document.getElementById("sd-title");
+  const bodyEl  = document.getElementById("sd-body");
+  const usedEl  = document.getElementById("sd-used");
 
   // Toggle off when clicking the already-active pill
   if (activeSkillEl === el) {
     el.classList.remove("active");
     activeSkillEl = null;
-    panel.className = "skill-hidden border border-blue-500/30 bg-blue-500/5 p-4 font-mono text-xs text-gray-300 relative transition-all duration-300 overflow-hidden";
-    requestAnimationFrame(() => { if (typeof syncCapRails === "function") syncCapRails(); });
+    panel.className = `skill-idle ${detailBase}`;
+    if (titleEl) titleEl.textContent = "Select a skill";
+    if (bodyEl)  bodyEl.textContent  = "Click a language, tool, or method for a short note on where it shows up in the work above.";
+    if (usedEl)  usedEl.innerHTML    = "&nbsp;";
     return;
   }
 
@@ -607,12 +615,11 @@ function showSkill(el, key) {
   const data = SKILL_DATA[key];
   if (!data) return;
 
-  document.getElementById("sd-title").textContent = data.title;
-  document.getElementById("sd-body").textContent  = data.body;
-  document.getElementById("sd-used").textContent  = data.used;
+  if (titleEl) titleEl.textContent = data.title;
+  if (bodyEl)  bodyEl.textContent  = data.body;
+  if (usedEl)  usedEl.textContent  = data.used;
 
-  panel.className = "skill-visible border border-blue-500/30 bg-blue-500/5 p-4 font-mono text-xs text-gray-300 relative transition-all duration-300 overflow-hidden";
-  requestAnimationFrame(() => { if (typeof syncCapRails === "function") syncCapRails(); });
+  panel.className = `skill-active ${detailBase}`;
 }
 
 /* =============================================================================
@@ -645,60 +652,37 @@ function switchCoursework(view) {
         </div>`;
     }
 
-    const pidColor = view === "active" ? "text-blue-500" : "text-gray-700";
+    const pidColor = view === "active" ? "text-blue-500" : "text-gray-500";
 
     const statusColor = r.status === "RUNNING"
-      ? "text-emerald-500"
+      ? "text-emerald-400"
       : r.status === "QUEUED"
-        ? "text-amber-500"
-        : "text-gray-500";
+        ? "text-amber-400"
+        : "text-gray-400";
 
-    const rowTextColor = view === "history" ? "text-gray-600" : "text-gray-400";
+    const rowTone = view === "history" ? "cap-cw-row--history" : "cap-cw-row";
 
     return `
-      <div class="grid grid-cols-4 gap-4 text-sm font-mono py-3 border-b border-white/5 items-center ${rowTextColor}">
+      <div class="grid grid-cols-4 gap-4 text-sm font-mono py-3 border-b border-white/10 items-center ${rowTone}">
         <span class="${pidColor}">${r.pid}</span>
         <span class="col-span-2">${r.name}</span>
         <span class="${statusColor}">${r.status}</span>
       </div>`;
   }).join("");
-
-  requestAnimationFrame(() => { if (typeof syncCapRails === "function") syncCapRails(); });
 }
 
 /* =============================================================================
    7. ENGINEERING SKILLS RADAR
 ============================================================================= */
-/** Lock right rail height to left rail; radar width matches roadmap, height fills leftover. */
+/** Clear any legacy inline height locks; radar size is CSS aspect-ratio only. */
 function syncCapRails() {
-  const left    = document.querySelector("#capabilities .cap-rail-left");
-  const right   = document.querySelector("#capabilities .cap-rail-right");
-  const panel   = document.getElementById("cap-radar-panel");
-  const roadmap = right && right.querySelector(".cap-roadmap");
-  if (!left || !right || !panel || !roadmap) return;
-
-  // Mobile: let layout be natural (stacked)
-  if (window.innerWidth < 1024) {
-    right.style.height = "";
+  const right = document.querySelector("#capabilities .cap-rail-right");
+  const panel = document.getElementById("cap-radar-panel");
+  if (right) right.style.height = "";
+  if (panel) {
     panel.style.width = "";
     panel.style.height = "";
-    return;
   }
-
-  // Clear previous lock so left measures at content height
-  right.style.height = "";
-  panel.style.width = "100%";
-  panel.style.height = "0px";
-
-  const leftH    = Math.ceil(left.getBoundingClientRect().height);
-  const roadmapH = Math.ceil(roadmap.getBoundingClientRect().height);
-  const gap      = 12;
-  const availH   = Math.max(200, leftH - roadmapH - gap);
-
-  right.style.height = leftH + "px";
-  // Same width as roadmap (full rail); height fills space above it
-  panel.style.width  = "100%";
-  panel.style.height = availH + "px";
 }
 
 function initRadar() {
@@ -707,6 +691,8 @@ function initRadar() {
   if (!canvas || !panel) return;
   const ctx   = canvas.getContext("2d");
   const isMob = window.innerWidth < 768;
+
+  syncCapRails();
 
   const chart = new Chart(ctx, {
     type: "radar",
@@ -722,11 +708,11 @@ function initRadar() {
       datasets: [{
         label: "Competency",
         data: [75, 70, 72, 70, 72, 70],
-        backgroundColor:   "rgba(59,130,246,.1)",
-        borderColor:       "#3b82f6",
-        borderWidth:       2,
-        pointBackgroundColor: "#000",
-        pointBorderColor:     "#3b82f6",
+        backgroundColor:   "rgba(107,159,212,.22)",
+        borderColor:       "#8eb6e8",
+        borderWidth:       2.5,
+        pointBackgroundColor: "#050505",
+        pointBorderColor:     "#fff",
         pointBorderWidth:     2,
         pointRadius:          4,
         pointHoverRadius:     6,
@@ -739,10 +725,10 @@ function initRadar() {
       scales: {
         r: {
           min: 0, max: 100,
-          angleLines: { color: "rgba(255,255,255,.1)" },
-          grid:       { color: "rgba(255,255,255,.05)" },
+          angleLines: { color: "rgba(255,255,255,.22)" },
+          grid:       { color: "rgba(255,255,255,.14)" },
           pointLabels: {
-            color: "#94a3b8",
+            color: "#f1f5f9",
             font: { size: isMob ? 8 : 10, family: "'JetBrains Mono'", weight: "bold" },
             padding: 4
           },
@@ -754,20 +740,13 @@ function initRadar() {
     }
   });
 
-  const sync = () => {
-    syncCapRails();
-    chart.resize();
-  };
+  const resizeChart = () => chart.resize();
+  requestAnimationFrame(() => requestAnimationFrame(resizeChart));
+  window.addEventListener("load", resizeChart, { once: true });
+  window.addEventListener("resize", resizeChart);
 
-  sync();
-  requestAnimationFrame(() => requestAnimationFrame(sync));
-  window.addEventListener("load", sync, { once: true });
-  window.addEventListener("resize", sync);
-
-  const left = document.querySelector("#capabilities .cap-rail-left");
   if (typeof ResizeObserver !== "undefined") {
-    if (left) new ResizeObserver(sync).observe(left);
-    new ResizeObserver(() => chart.resize()).observe(panel);
+    new ResizeObserver(resizeChart).observe(panel);
   }
 }
 

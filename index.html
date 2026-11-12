@@ -73,7 +73,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ── Site stylesheet ───────────────────────────────────────────────── -->
-  <link rel="stylesheet" href="css/styles.css?v=wash32">
+  <link rel="stylesheet" href="css/styles.css?v=wash34">
   <script>
     try {
       if (sessionStorage.getItem("eg-portfolio-returning") === "1") {
@@ -486,30 +486,30 @@
     ================================================================== -->
     <section id="capabilities"
              aria-labelledby="capabilities-heading"
-             class="eg-reveal scroll-anchor py-20 max-w-7xl mx-auto px-6 border-t border-white/5">
+             class="eg-reveal scroll-anchor border-t border-white/10">
 
-      <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-6">
+      <div class="flex items-end justify-between mb-14 border-b border-white/10 pb-6">
         <div>
           <h2 id="capabilities-heading" class="text-3xl font-bold text-white tracking-tight">System Capabilities</h2>
-          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Skills | Coursework | Competency map</p>
+          <p class="cap-kicker font-mono text-[10px] mt-2 uppercase tracking-widest">Skills | Coursework | Competency map</p>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start" id="cap-grid">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 items-start" id="cap-grid">
 
         <!-- ── LEFT: Skill pills + coursework terminal ─────────────── -->
         <div class="cap-rail-left flex flex-col gap-6 min-w-0">
 
-          <p class="text-gray-400 leading-relaxed max-w-xl">
+          <p class="cap-lede max-w-xl">
             Languages, flight stack, CAD/analysis tools, and methods used across the work above.
             Click a skill for a short note on where it shows up.
           </p>
 
           <!-- Skill pills grouped by domain -->
-          <div class="space-y-4">
+          <div class="cap-skill-board space-y-3">
 
-            <div>
-              <p id="skills-lang" class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Languages &amp; Tools</p>
+            <div class="cap-skill-group">
+              <p id="skills-lang" class="cap-skill-label">Languages &amp; Tools</p>
               <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-lang">
                 <button type="button" class="sp" onclick="showSkill(this,'python')">Python</button>
                 <button type="button" class="sp" onclick="showSkill(this,'matlab')">MATLAB</button>
@@ -519,8 +519,8 @@
               </div>
             </div>
 
-            <div>
-              <p id="skills-hw" class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Hardware &amp; Flight Stack</p>
+            <div class="cap-skill-group">
+              <p id="skills-hw" class="cap-skill-label">Hardware &amp; Flight Stack</p>
               <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-hw">
                 <button type="button" class="sp" onclick="showSkill(this,'teensy')">Teensy / Arduino</button>
                 <button type="button" class="sp" onclick="showSkill(this,'pixhawk')">Pixhawk | Cube</button>
@@ -530,8 +530,8 @@
               </div>
             </div>
 
-            <div>
-              <p id="skills-cad" class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">CAD / Analysis</p>
+            <div class="cap-skill-group">
+              <p id="skills-cad" class="cap-skill-label">CAD / Analysis</p>
               <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-cad">
                 <button type="button" class="sp" onclick="showSkill(this,'solidworks')">SolidWorks</button>
                 <button type="button" class="sp" onclick="showSkill(this,'ansys')">ANSYS</button>
@@ -540,8 +540,8 @@
               </div>
             </div>
 
-            <div>
-              <p id="skills-methods" class="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-2">Methods &amp; Concepts</p>
+            <div class="cap-skill-group">
+              <p id="skills-methods" class="cap-skill-label">Methods &amp; Concepts</p>
               <div class="flex flex-wrap gap-2" role="group" aria-labelledby="skills-methods">
                 <button type="button" class="sp" onclick="showSkill(this,'pid')">PID Control</button>
                 <button type="button" class="sp" onclick="showSkill(this,'fusion')">Sensor Fusion</button>
@@ -554,25 +554,25 @@
 
           </div><!-- /skill pills -->
 
-          <!-- Skill detail card (toggled by showSkill() in script.js) -->
+          <!-- Skill detail card (fixed height; content only — never resizes rails) -->
           <div id="skill-detail"
-               class="skill-hidden border border-blue-500/30 bg-blue-500/5 p-4 font-mono text-xs text-gray-300 relative transition-all duration-300 overflow-hidden"
+               class="skill-idle cap-skill-detail p-4 font-mono text-xs relative"
                aria-live="polite"
                aria-atomic="true">
-            <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-blue-500/50 pointer-events-none" aria-hidden="true"></span>
-            <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-blue-500/50 pointer-events-none" aria-hidden="true"></span>
-            <p class="text-[9px] text-blue-400 uppercase tracking-widest mb-2" id="sd-title">SELECT</p>
-            <p id="sd-body"  class="text-gray-400 leading-relaxed text-[11px]"></p>
-            <p id="sd-used" class="mt-2 text-[9px] text-gray-600 italic"></p>
+            <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/35 pointer-events-none" aria-hidden="true"></span>
+            <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/35 pointer-events-none" aria-hidden="true"></span>
+            <p class="text-[9px] uppercase tracking-widest mb-2" id="sd-title">Select a skill</p>
+            <p id="sd-body" class="leading-relaxed text-[11px]">Click a language, tool, or method for a short note on where it shows up in the work above.</p>
+            <p id="sd-used" class="mt-2 text-[9px] italic">&nbsp;</p>
           </div>
 
           <!-- Coursework terminal -->
-          <div class="border border-white/10 bg-[#080808] p-6 font-mono text-xs shadow-2xl flex flex-col"
+          <div class="cap-terminal p-6 font-mono text-xs flex flex-col"
                role="region"
                aria-label="Coursework log">
 
-            <div class="flex items-center justify-between gap-3 border-b border-white/10 pb-4 mb-4 text-gray-500 tracking-widest text-[10px]">
-              <span class="text-gray-400 uppercase">Coursework</span>
+            <div class="flex items-center justify-between gap-3 border-b border-white/10 pb-4 mb-4 tracking-widest text-[10px]">
+              <span class="uppercase text-white">Coursework</span>
               <!-- Coursework view tabs -->
               <div class="flex shrink-0 gap-2 sm:gap-4" role="tablist" aria-label="Coursework view">
                 <button type="button"
@@ -597,7 +597,7 @@
             </div>
 
             <!-- Column headers (presentational) -->
-            <div class="grid grid-cols-4 gap-4 mb-2 text-[10px] text-gray-600 border-b border-white/5 pb-2" aria-hidden="true">
+            <div class="cap-cw-head grid grid-cols-4 gap-4 mb-2 text-[10px] border-b border-white/10 pb-2" aria-hidden="true">
               <span>ID</span>
               <span class="col-span-2">Course</span>
               <span>Status</span>
@@ -627,18 +627,18 @@
           </div>
 
           <div class="cap-roadmap">
-            <h3 class="text-sm font-mono text-gray-400 uppercase tracking-wider mb-3">Roadmap</h3>
-            <div class="grid grid-cols-2 gap-3 text-xs text-gray-300">
-              <div class="border border-white/10 bg-black/20 p-3">
-                <h4 class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Current</h4>
+            <h3 class="text-sm font-mono uppercase tracking-wider mb-3">Roadmap</h3>
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div class="cap-roadmap-card p-3">
+                <h4 class="font-mono mb-2 uppercase tracking-wider text-[9px]">Current</h4>
                 <ul class="space-y-1 list-disc list-inside m-0 p-0">
                   <li>Dynamic systems modeling</li>
                   <li>Thermal-fluids analysis</li>
                   <li>Mechanical design &amp; testing</li>
                 </ul>
               </div>
-              <div class="border border-white/10 bg-black/20 p-3">
-                <h4 class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Next</h4>
+              <div class="cap-roadmap-card p-3">
+                <h4 class="font-mono mb-2 uppercase tracking-wider text-[9px]">Next</h4>
                 <ul class="space-y-1 list-disc list-inside m-0 p-0">
                   <li>Hardware integration &amp; flight test</li>
                   <li>Controls &amp; estimation on hardware</li>
@@ -738,7 +738,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js" defer></script>
   <script src="js/nav-persist.js?v=soft4"></script>
-  <script src="js/script.js?v=wash32"></script>
+  <script src="js/script.js?v=wash34"></script>
 
 </body>
 </html>

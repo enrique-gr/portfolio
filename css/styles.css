@@ -537,35 +537,81 @@ body {
   .eg-content-rail { padding-left: 20px; padding-right: 20px; }
 }
 
+/* Capabilities: same firm black + proof-panel language as Featured */
+#capabilities {
+  position: relative;
+  padding-top: 112px;
+  padding-bottom: 112px;
+}
+#capabilities .cap-kicker { color: #6b7280; }
+#capabilities .cap-lede {
+  color: #e2e8f0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+#capabilities .cap-skill-board {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#capabilities .cap-skill-group {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0a0a0a;
+  padding: 14px 16px 16px;
+}
+#capabilities .cap-skill-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 0 0 12px;
+}
+
+#capabilities .cap-skill-detail {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0a0a0a;
+  border-left: 2px solid var(--eg-accent-core, #6b9fd4);
+}
+#capabilities .cap-skill-detail #sd-title { color: #94a3b8; }
+#capabilities .cap-skill-detail #sd-body  { color: #e2e8f0; }
+#capabilities .cap-skill-detail #sd-used  { color: #9aa3af; }
+
+#capabilities .cap-terminal {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0a0a0a;
+}
+
 /*
- * Capabilities right rail: height is locked to the left rail in JS
- * (syncCapRails) so coursework bottom and roadmap bottom share one edge.
- * Radar is an explicit square that fits the leftover space above roadmap.
+ * Capabilities right rail: radar is a fixed square (aspect-ratio 1).
+ * Size never tracks left-rail content changes (skill click / coursework tab).
  */
 #capabilities .cap-rail-right {
   display: flex;
   flex-direction: column;
   gap: 12px;
   min-width: 0;
-  min-height: 0;
   width: 100%;
 }
 #capabilities .cap-radar-slot {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
   width: 100%;
+  flex: 0 0 auto;
 }
 #capabilities .cap-radar-panel {
   position: relative;
-  flex: 1 1 auto;
   width: 100%;
+  aspect-ratio: 1 / 1;
   background: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   overflow: hidden;
   container-type: size;
+}
+@media (max-width: 1023px) {
+  #capabilities .cap-radar-panel {
+    max-width: 420px;
+    margin-inline: auto;
+  }
 }
 #capabilities .cap-radar-panel canvas {
   position: absolute;
@@ -576,10 +622,24 @@ body {
 }
 #capabilities .cap-roadmap {
   flex: 0 0 auto;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #0f0f10;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0a0a0a;
   padding: 1.25rem;
 }
+#capabilities #coursework-list {
+  min-height: 280px;
+  max-height: 280px;
+}
+#capabilities .cap-roadmap > h3 {
+  color: #e2e8f0;
+}
+#capabilities .cap-roadmap-card {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.035);
+  min-height: 100%;
+}
+#capabilities .cap-roadmap-card h4 { color: #94a3b8; }
+#capabilities .cap-roadmap-card li { color: #e2e8f0; }
 
 .feat-row { width: 100%; }
 .feat-img-wrap {
@@ -726,11 +786,12 @@ body {
   font-size: 9px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  padding: 5px 10px;
-  border: 1px solid rgba(255,255,255,.1);
-  color: #6b7280;
+  padding: 7px 12px;
+  border: 1px solid rgba(255,255,255,.22);
+  color: #e2e8f0;
+  background: rgba(255,255,255,.04);
   cursor: pointer;
-  transition: all .18s;
+  transition: border-color .18s, color .18s, background .18s;
   user-select: none;
   display: inline-block;
 }
@@ -739,38 +800,36 @@ body {
   .hero-mission-scroll { max-height: min(380px, 48vh); }
   .hero-mission-item { padding: 8px 8px 8px 10px; }
 }
-.sp:hover  { border-color: rgba(255,255,255,.28); color: #fff; background: rgba(255,255,255,.04); }
-.sp.active { border-color: var(--eg-accent-core, #6b9fd4); color: #fff; background: var(--eg-accent-soft, rgba(107,159,212,.12)); box-shadow: none; }
+.sp:hover  { border-color: rgba(255,255,255,.45); color: #fff; background: rgba(255,255,255,.08); }
+.sp.active {
+  border-color: var(--eg-accent-core, #6b9fd4);
+  color: #fff;
+  background: rgba(107,159,212,.18);
+  box-shadow: none;
+}
 
-/* Skill detail card: toggled via JS */
-#skill-detail { transition: opacity .3s, transform .3s; }
-
-.skill-hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(6px);
-  min-height: 0;
-  max-height: 0;
+/* Skill detail: reserved height so open/close never reflows the radar column */
+#skill-detail.cap-skill-detail {
+  min-height: 104px;
+  max-height: 104px;
   overflow: hidden;
-  padding: 0;
-  border-width: 0;
-  margin: 0;
+  transition: border-color .18s, background .18s;
 }
-.skill-visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-  min-height: 72px;
-  max-height: 200px;
-  overflow: visible;
-}
+#skill-detail.skill-idle #sd-title { color: #6b7280; }
+#skill-detail.skill-idle #sd-body  { color: #9aa3af; }
+#skill-detail.skill-idle #sd-used  { color: transparent; }
 
 /* ---------------------------------------------------------------------------
    7. Capabilities / Terminal tabs
 --------------------------------------------------------------------------- */
-.tab-active   { color: #fff; border-bottom: 2px solid #10b981; background: rgba(16,185,129,.1); }
-.tab-inactive { color: #6b7280; border-bottom: 2px solid transparent; }
-.tab-inactive:hover { color: #d1d5db; background: rgba(255,255,255,.05); }
+.tab-active   { color: #fff; border-bottom: 2px solid var(--eg-accent-core, #6b9fd4); background: rgba(107,159,212,.14); }
+.tab-inactive { color: #9aa3af; border-bottom: 2px solid transparent; }
+.tab-inactive:hover { color: #fff; background: rgba(255,255,255,.06); }
+
+#capabilities .cap-terminal .text-slate-300 { color: #e2e8f0; }
+#capabilities .cap-cw-head { color: #94a3b8; }
+#capabilities .cap-cw-row { color: #e2e8f0; }
+#capabilities .cap-cw-row--history { color: #9aa3af; }
 
 /* Legacy role-badge kept for non-featured surfaces if needed */
 .role-badge {
@@ -860,7 +919,7 @@ body {
   /* Stay inside the circular plot (limited by shorter axis) */
   width: min(38cqw, 38cqh, 38%);
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.8));
+  background: linear-gradient(90deg, transparent, rgba(168, 197, 232, 0.95));
   transform-origin: 0 50%;
   animation: radar-sweep 4s infinite linear;
   pointer-events: none;
