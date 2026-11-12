@@ -58,8 +58,8 @@
       content="Aerospace and autonomous systems: hardware integration, test, and controls.">
 
   <!-- ── Favicon ───────────────────────────────────────────────────────── -->
-  <link rel="icon"            type="image/png" href="assets/brand/favicon.png">
-  <link rel="apple-touch-icon"                 href="assets/brand/favicon.png">
+  <link rel="icon"            type="image/png" href="assets/brand/favicon.png?v=blk1">
+  <link rel="apple-touch-icon"                 href="assets/brand/apple-touch-icon.png?v=blk1">
 
   <!-- ── Font preconnect (before the font stylesheet) ─────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,7 +73,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ── Site stylesheet ───────────────────────────────────────────────── -->
-  <link rel="stylesheet" href="css/styles.css?v=wash14">
+  <link rel="stylesheet" href="css/styles.css?v=wash32">
   <script>
     try {
       if (sessionStorage.getItem("eg-portfolio-returning") === "1") {
@@ -111,13 +111,13 @@
     <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center gap-6">
 
       <!-- Logo -->
-      <a href="#about" aria-label="Enrique Garcia home" class="flex items-center gap-3.5 group shrink-0">
-        <div class="h-11 w-11 bg-black border border-white/25 flex items-center justify-center overflow-hidden" aria-hidden="true">
+      <a href="#about" aria-label="Enrique Garcia home" class="brand-mark flex items-center gap-3.5 group shrink-0">
+        <div class="brand-mark__logo h-11 w-11 flex items-center justify-center overflow-hidden" aria-hidden="true">
           <img src="assets/brand/EG.png" alt="" class="h-full w-full object-contain opacity-90 group-hover:opacity-100 transition-opacity">
         </div>
         <div class="flex flex-col leading-tight">
-          <span class="font-mono font-bold text-white tracking-widest uppercase text-sm group-hover:text-blue-400 transition-colors">E.Garcia</span>
-          <span class="text-[10px] text-gray-500 font-mono tracking-wider mt-0.5" aria-hidden="true">ID: EGR-26 // MECH → AE</span>
+          <span class="brand-mark__name font-mono font-bold tracking-widest uppercase text-sm">E.Garcia</span>
+          <span class="brand-mark__tagline font-mono uppercase mt-0.5" aria-hidden="true">First-principles engineer</span>
         </div>
       </a>
 
@@ -126,17 +126,17 @@
         <li>
           <a href="#featured"
              data-nav-section="featured"
-             class="nav-link nav-link--mission hover:text-white transition-colors py-2">
+             class="nav-link nav-link--section nav-link--mission transition-colors py-2">
             <span>Projects</span>
             <span class="nav-mission-dots" aria-hidden="true">
-              <i class="fas fa-bullseye nav-mission-dot nav-mission-dot--target" title="Target"></i>
-              <i class="fas fa-location-crosshairs nav-mission-dot nav-mission-dot--active" title="Active"></i>
-              <i class="fas fa-check nav-mission-dot nav-mission-dot--done" title="Past"></i>
+              <i class="far fa-circle nav-mission-dot nav-mission-dot--target" title="Target"></i>
+              <i class="fas fa-circle nav-mission-dot nav-mission-dot--active" title="Active"></i>
+              <i class="fas fa-minus nav-mission-dot nav-mission-dot--done" title="Past"></i>
             </span>
           </a>
         </li>
-        <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link hover:text-white transition-colors py-2">Skills</a></li>
-        <li><a href="#collections"  data-nav-section="collections"  class="nav-link hover:text-white transition-colors py-2">Archive</a></li>
+        <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link nav-link--section transition-colors py-2">Skills</a></li>
+        <li><a href="#collections"  data-nav-section="collections"  class="nav-link nav-link--section transition-colors py-2">Archive</a></li>
         <li>
           <a href="about.html" class="nav-link nav-link--about flex items-center gap-2 py-2">
             <span>About</span>
@@ -177,17 +177,17 @@
     <div id="mobile-nav" class="mobile-nav lg:hidden">
       <ul class="list-none m-0 p-0 flex flex-col">
         <li>
-          <a href="#featured" class="mobile-nav-link mobile-nav-link--mission">
+          <a href="#featured" class="mobile-nav-link mobile-nav-link--section mobile-nav-link--mission">
             <span>Projects</span>
             <span class="nav-mission-dots" aria-hidden="true">
-              <i class="fas fa-bullseye nav-mission-dot nav-mission-dot--target"></i>
-              <i class="fas fa-location-crosshairs nav-mission-dot nav-mission-dot--active"></i>
-              <i class="fas fa-check nav-mission-dot nav-mission-dot--done"></i>
+              <i class="far fa-circle nav-mission-dot nav-mission-dot--target"></i>
+              <i class="fas fa-circle nav-mission-dot nav-mission-dot--active"></i>
+              <i class="fas fa-minus nav-mission-dot nav-mission-dot--done"></i>
             </span>
           </a>
         </li>
-        <li><a href="#capabilities" class="mobile-nav-link">Skills</a></li>
-        <li><a href="#collections" class="mobile-nav-link">Archive</a></li>
+        <li><a href="#capabilities" class="mobile-nav-link mobile-nav-link--section">Skills</a></li>
+        <li><a href="#collections" class="mobile-nav-link mobile-nav-link--section">Archive</a></li>
         <li><a href="about.html" class="mobile-nav-link mobile-nav-link--about">About</a></li>
         <li><a href="interests.html" class="mobile-nav-link mobile-nav-link--interests">Interests</a></li>
         <!-- Hidden until docs/EG_Portfolio.pdf is regenerated:
@@ -198,15 +198,13 @@
   </nav>
 
   <!-- =====================================================================
-       HERO | full-width video background
+       HERO | full-bleed static background
   ====================================================================== -->
   <div id="hero-section">
 
-    <!-- Decorative video (hidden from assistive technology) -->
-    <div class="hero-video-bg" aria-hidden="true">
-      <video autoplay muted loop playsinline preload="none">
-        <source src="assets/videos/mission-control.mp4" type="video/mp4">
-      </video>
+    <!-- Decorative background (hidden from assistive technology) -->
+    <div class="hero-bg" aria-hidden="true">
+      <img src="assets/images/hero_bg.jpg" alt="" class="hero-bg-image">
     </div>
 
     <!-- Soft atmosphere overlay -->
@@ -325,9 +323,9 @@
               <div class="hero-mission-header flex flex-wrap justify-between items-center gap-x-4 gap-y-2">
                 <h2 class="text-xs font-bold text-gray-200 font-mono uppercase tracking-widest">Mission Timeline</h2>
                 <p class="mission-legend" aria-hidden="true">
-                  <span class="mission-legend__item mission-legend__item--target"><i class="fas fa-bullseye"></i> Target</span>
-                  <span class="mission-legend__item mission-legend__item--active"><i class="fas fa-location-crosshairs"></i> Active</span>
-                  <span class="mission-legend__item mission-legend__item--done"><i class="fas fa-check"></i> Past</span>
+                  <span class="mission-legend__item mission-legend__item--target"><i class="far fa-circle"></i> Target</span>
+                  <span class="mission-legend__item mission-legend__item--active"><i class="fas fa-circle"></i> Active</span>
+                  <span class="mission-legend__item mission-legend__item--done"><i class="fas fa-minus"></i> Past</span>
                 </p>
               </div>
 
@@ -339,7 +337,7 @@
                   <li class="hero-mission-item target group" data-mission-status="target">
                     <div class="hero-mission-link">
                       <span class="mission-meta">
-                        <span class="mission-status mission-status--target"><i class="fas fa-bullseye" aria-hidden="true"></i> Target</span>
+                        <span class="mission-status mission-status--target"><i class="far fa-circle" aria-hidden="true"></i> Target</span>
                         <span class="mission-date">Summer 2027</span>
                       </span>
                       <span class="mission-main">
@@ -360,7 +358,7 @@
                   <li class="hero-mission-item active group" data-mission-status="active">
                     <a href="#washu-vtol" class="hero-mission-link" aria-label="Jump to WashU VTOL project">
                       <span class="mission-meta">
-                        <span class="mission-status mission-status--active"><i class="fas fa-location-crosshairs" aria-hidden="true"></i> Active</span>
+                        <span class="mission-status mission-status--active"><i class="fas fa-circle" aria-hidden="true"></i> Active</span>
                         <span class="mission-date">Sep 2025 – Present</span>
                       </span>
                       <span class="mission-main">
@@ -379,7 +377,7 @@
                   <li class="hero-mission-item active group" data-mission-status="active">
                     <a href="#washu-dbf" class="hero-mission-link" aria-label="Jump to WashU Design/Build/Fly project">
                       <span class="mission-meta">
-                        <span class="mission-status mission-status--active"><i class="fas fa-location-crosshairs" aria-hidden="true"></i> Active</span>
+                        <span class="mission-status mission-status--active"><i class="fas fa-circle" aria-hidden="true"></i> Active</span>
                         <span class="mission-date">Aug 2024 – Present</span>
                       </span>
                       <span class="mission-main">
@@ -398,7 +396,7 @@
                   <li class="hero-mission-item done group" data-mission-status="done">
                     <a href="#mide" class="hero-mission-link" aria-label="Jump to MIDE project">
                       <span class="mission-meta">
-                        <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
+                        <span class="mission-status mission-status--done"><i class="fas fa-minus" aria-hidden="true"></i> Past</span>
                         <span class="mission-date">May – Aug 2026</span>
                       </span>
                       <span class="mission-main">
@@ -417,7 +415,7 @@
                   <li class="hero-mission-item done group" data-mission-status="done">
                     <a href="#miro-lab" class="hero-mission-link" aria-label="Jump to MIRO Lab project">
                       <span class="mission-meta">
-                        <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
+                        <span class="mission-status mission-status--done"><i class="fas fa-minus" aria-hidden="true"></i> Past</span>
                         <span class="mission-date">May – Aug 2025</span>
                       </span>
                       <span class="mission-main">
@@ -740,7 +738,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js" defer></script>
   <script src="js/nav-persist.js?v=soft4"></script>
-  <script src="js/script.js?v=wash14"></script>
+  <script src="js/script.js?v=wash32"></script>
 
 </body>
 </html>

@@ -33,10 +33,10 @@ const PROJECTS = {
     roleMark: "assets/images/feat_role_mide.png",
     dates: "May 2026 – Aug 2026",
     tags: ["UAS Research", "Flight Test", "Systems Integration"],
-    summary: "UAS Research Intern at a defense research institute: experimental unmanned platforms, flight-data readiness judgment, and end-to-end systems bring-up on real research aircraft.",
-    metric: "Status: Complete | UAS Research Internship",
+    summary: "Experimental unmanned platforms at a defense research institute: flight-data readiness judgment and end-to-end systems bring-up on real research aircraft.",
+    metric: "Status: Complete | Experimental UAS",
     problem: "Experimental research UAS had to be restored, integrated, and judged flight-ready after structural and configuration changes, without rewriting the flight controller.",
-    contribution: "As UAS Research Intern, supported experimental platforms through repair, flight-test ops, and calibration; used flight data to relate configuration to readiness.",
+    contribution: "Supported experimental platforms through repair, flight-test ops, and calibration; used flight data to relate configuration to readiness.",
     result: "Returned research aircraft to test-ready status with readiness calls grounded in measured flight behavior, not assumption.",
     constraint: "Multiple experimental research platforms with evolving hardware configurations",
     tradeoff: "Breadth across research vehicles vs depth on a single controller redesign",
@@ -100,15 +100,16 @@ const PROJECTS = {
     category: "featured",
     status: "complete",
     logoUrl: "assets/images/miro-lab.png",
+    photo: false,
     role: "Sensor Fusion Research Intern",
     roleIcon: "fa-wave-square",
     roleMark: "assets/images/feat_role_miro.png",
     dates: "May 2025 – Aug 2025",
     tags: ["Python", "MATLAB", "Sensor Fusion"],
-    summary: "Sensor Fusion Research Intern: multimodal IMU + EMG sensing, calibration, EKF-oriented estimation support, and human-subject validation.",
-    metric: "Status: Complete | Sensor Fusion Research Internship",
+    summary: "Multimodal IMU + EMG sensing, calibration, EKF-oriented estimation support, and human-subject validation.",
+    metric: "Status: Complete | Wearable Sensing",
     problem: "Synchronize noisy wearable sensor streams with visual tracking for reliable motion interpretation.",
-    contribution: "As Sensor Fusion Research Intern, built acquisition and calibration pipelines and prepared datasets for multi-sensor state estimation.",
+    contribution: "Built acquisition and calibration pipelines and prepared datasets for multi-sensor state estimation.",
     result: "Improved signal coherence and produced repeatable motion signatures across research trials.",
     constraint: "Asynchronous multi-sensor timing and drift",
     tradeoff: "Pipeline complexity vs reproducible synchronization",
@@ -373,7 +374,7 @@ function renderFeatured() {
       ? `<img src="${p.roleMark}" alt="" class="role-mark" width="38" height="38" loading="lazy" decoding="async">`
       : `<i class="fas ${roleIcon} text-blue-400 text-[10px]" aria-hidden="true"></i>`;
     html += `
-      <div id="${id}" class="feat-row flex ${rowDir} gap-12 items-center group scroll-mt-32">
+      <div id="${id}" class="feat-row flex ${rowDir} gap-10 md:gap-12 items-stretch group scroll-mt-32">
 
         <!-- Image panel: click target -->
         <button type="button" onclick="${action}" aria-label="Open ${p.title}"
@@ -381,29 +382,33 @@ function renderFeatured() {
           <img src="${p.logoUrl}" loading="lazy" alt=""
                ${p.imgPos ? `style="object-position:${p.imgPos};transform-origin:${p.imgPos}"` : ""}
                class="${p.photo ? "eg-photo " : ""}w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 pointer-events-none">
+          <div class="feat-fx pointer-events-none" aria-hidden="true">
+            <span class="feat-fx__scan"></span>
+            <span class="feat-fx__sheen"></span>
+            <span class="feat-fx__rim"></span>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/15 pointer-events-none"></div>
           <div class="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors pointer-events-none"></div>
-          <div class="absolute top-0 left-0 w-4 h-4 border-l border-t border-white/30 pointer-events-none"></div>
-          <div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-white/30 pointer-events-none"></div>
-          <div class="absolute bottom-0 left-0 px-3 py-1.5 bg-black/70 border-r border-t border-white/10 text-[9px] font-mono text-gray-500 tracking-widest uppercase pointer-events-none">
+          <div class="absolute top-0 left-0 w-4 h-4 border-l border-t border-white/30 pointer-events-none z-20"></div>
+          <div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-white/30 pointer-events-none z-20"></div>
+          <div class="feat-date-chip absolute bottom-0 left-0 px-3 py-1.5 bg-black/70 border-r border-t border-white/10 text-[9px] font-mono text-gray-500 tracking-widest uppercase pointer-events-none z-20">
             ${p.dates}
           </div>
         </button>
 
         <!-- Text panel: selectable copy; only CTA navigates -->
-        <div class="w-full md:w-1/2 flex ${copyDock}">
-          <div class="feat-copy flex flex-col items-start w-full max-w-xl">
-            <div class="inline-flex items-center gap-2.5 px-3 py-1.5 mb-4 role-badge">
+        <div class="w-full md:w-1/2 flex ${copyDock} items-center">
+          <div class="feat-copy flex flex-col items-start justify-center w-full max-w-xl py-1">
+            <h3 class="text-2xl font-semibold text-zinc-100 mb-2 group-hover:text-blue-300 transition-colors tracking-tight leading-snug">${p.title}</h3>
+            <div class="feat-role mb-3">
               ${roleMark}
-              <span class="role-badge__label font-mono font-bold text-xs tracking-wider uppercase">${p.role}</span>
+              <span class="feat-role__label">${p.role}</span>
             </div>
-            <h3 class="text-2xl font-semibold text-zinc-100 mb-4 group-hover:text-blue-300 transition-colors tracking-tight leading-snug">${p.title}</h3>
-            <div class="mb-4 font-mono text-[10px] text-emerald-500 tracking-widest border border-emerald-500/20 bg-emerald-500/5 px-2 py-1 inline-block">
-              ${p.metric}
-            </div>
-            <p class="text-gray-400 leading-relaxed mb-5">${p.summary}</p>
+            <div class="feat-status mb-3">${p.metric}</div>
+            <p class="feat-summary mb-4">${p.summary}</p>
 
             <!-- 2×2 proof grid -->
-            <div class="proof-grid mb-5">
+            <div class="proof-grid mb-2">
               <div class="proof-card"><div class="proof-k">Problem</div>    <div class="proof-v">${p.problem || ""}</div></div>
               <div class="proof-card"><div class="proof-k">Ownership</div>  <div class="proof-v">${p.contribution || p.role}</div></div>
               <div class="proof-card"><div class="proof-k">Stack</div>      <div class="proof-v">${p.tags.join(" | ")}</div></div>
@@ -411,7 +416,7 @@ function renderFeatured() {
             </div>
 
             <button type="button" onclick="${action}"
-                    class="feat-cta mt-6 text-[10px] font-mono text-white inline-flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest cursor-pointer bg-transparent border-0 p-0">
+                    class="feat-cta mt-5 text-[10px] font-mono text-white inline-flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest cursor-pointer bg-transparent border-0 p-0">
               <span>Initialize Protocol</span> <i class="fas fa-arrow-right text-blue-400" aria-hidden="true"></i>
             </button>
           </div>
@@ -1191,7 +1196,7 @@ function initScrollRestore() {
 }
 
 /* =============================================================================
-  13. HERO TAGLINE WASH | quiet steel emitter + cool plume across the line
+ 13. HERO TAGLINE WASH | propulsion-test plume: breathing throttle + flame sheet
 ============================================================================= */
 function initHeroWash() {
   const root = document.querySelector("[data-hero-wash]");
@@ -1209,6 +1214,7 @@ function initHeroWash() {
 
   const chars = [];
   const charHeat = [];
+  const charWarm = [];
   if (textEl) {
     const phrase = textEl.getAttribute("data-wash-phrase") || textEl.textContent || "";
     textEl.textContent = "";
@@ -1219,63 +1225,87 @@ function initHeroWash() {
       textEl.appendChild(span);
       chars.push(span);
       charHeat.push(0);
+      charWarm.push(0);
     }
   }
 
   const lerp = (a, b, t) => a + (b - a) * t;
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
   const lerpColor = (c0, c1, t) => {
-    const t2 = Math.max(0, Math.min(1, t));
+    const t2 = clamp01(t);
     return `rgb(${Math.round(lerp(c0[0], c1[0], t2))},${Math.round(lerp(c0[1], c1[1], t2))},${Math.round(lerp(c0[2], c1[2], t2))})`;
   };
-  // Cool steel palette only (no cartoon orange fire)
-  const C_BASE = [142, 182, 232];
-  const C_MID = [186, 214, 245];
-  const C_HOT = [255, 255, 255];
 
-  const colorFromHeat = (heat) => {
-    const h = Math.max(0, Math.min(1, heat));
-    if (h < 0.45) return lerpColor(C_BASE, C_MID, h / 0.45);
-    return lerpColor(C_MID, C_HOT, (h - 0.45) / 0.55);
+  // Dual exhaust: cool steel base, amber near nozzle, white-hot core
+  const C_COOL = [142, 182, 232];
+  const C_COOL_HOT = [220, 236, 255];
+  const C_WARM = [251, 170, 72];
+  const C_CORE = [255, 248, 230];
+
+  // heat = intensity, warm = 1 near nozzle / 0 at cool tip
+  const colorFromHeat = (heat, warm) => {
+    const h = clamp01(heat);
+    const w = clamp01(warm);
+    if (h < 0.2) return lerpColor(C_COOL, C_COOL_HOT, h / 0.2);
+    const coolSide = lerpColor(C_COOL, C_COOL_HOT, clamp01((h - 0.15) / 0.7));
+    const warmSide = h < 0.55
+      ? lerpColor(C_WARM, C_CORE, (h - 0.2) / 0.35)
+      : lerpColor(C_WARM, C_CORE, 0.55 + (h - 0.55) * 0.8);
+    return lerpColor(coolSide, warmSide, w * clamp01((h - 0.15) / 0.5));
   };
 
   const paintTextHeat = () => {
-    const n = chars.length;
-    if (!n) return;
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < chars.length; i++) {
       const heat = charHeat[i];
-      chars[i].style.color = colorFromHeat(heat);
-      if (heat > 0.5) {
-        chars[i].style.textShadow = `0 0 ${6 + heat * 12}px rgba(191,219,254,${0.25 + heat * 0.4})`;
+      const warm = charWarm[i];
+      chars[i].style.color = colorFromHeat(heat, warm);
+      if (heat > 0.55) {
+        const aW = (0.15 + heat * 0.35) * warm;
+        const aC = (0.2 + heat * 0.4) * (1 - warm * 0.45);
+        chars[i].style.textShadow =
+          `0 0 ${6 + heat * 12}px rgba(255,237,213,${aW}),` +
+          `0 0 ${5 + heat * 10}px rgba(251,146,60,${aW * 0.85}),` +
+          `0 0 ${8 + heat * 12}px rgba(147,197,253,${aC})`;
       } else if (heat > 0.18) {
-        chars[i].style.textShadow = `0 0 10px rgba(147,197,253,${heat * 0.45})`;
+        chars[i].style.textShadow =
+          `0 0 11px rgba(147,197,253,${heat * 0.42 * (1 - warm * 0.3)}),` +
+          `0 0 9px rgba(251,146,60,${heat * 0.35 * warm})`;
       } else {
-        chars[i].style.textShadow = "0 0 16px rgba(142,182,232,0.28)";
+        chars[i].style.textShadow = "0 0 16px rgba(142,182,232,0.26)";
       }
     }
   };
 
-  const applyFlameToText = (flameTipX, emitXLocal, hot) => {
-    if (!chars.length || !textEl) return;
+  const applyFlameToText = (flameTipX, emitXLocal, throttle) => {
+    if (!chars.length) return;
     const rootRect = root.getBoundingClientRect();
     const tipDocX = rootRect.left + flameTipX;
     const emitDocX = rootRect.left + emitXLocal;
-    const band = hot ? 48 : 34;
+    const span = Math.max(48, emitDocX - tipDocX);
+    const band = 30 + throttle * 26;
 
     for (let i = 0; i < chars.length; i++) {
       const r = chars[i].getBoundingClientRect();
       const cx = r.left + r.width * 0.5;
-      const inJet = cx <= emitDocX + 6 && cx >= tipDocX - 8;
+      const inJet = cx <= emitDocX + 8 && cx >= tipDocX - 10;
       const distToTip = Math.abs(cx - tipDocX);
       let hit = 0;
-      if (inJet) hit = 0.4 + 0.55 * (1 - Math.min(1, distToTip / band));
-      charHeat[i] = Math.max(hit, charHeat[i] * 0.97 - 0.0035);
+      let warm = 0;
+      if (inJet) {
+        hit = (0.32 + 0.68 * throttle) * (1 - Math.min(1, distToTip / band));
+        // Near nozzle = flame; toward tip = cool sheath
+        warm = clamp01(1 - (emitDocX - cx) / span);
+        warm = Math.pow(warm, 0.85);
+      }
+      charHeat[i] = Math.max(hit, charHeat[i] * 0.96 - 0.004);
       if (hit > charHeat[i]) charHeat[i] = hit;
+      charWarm[i] = lerp(charWarm[i], warm, hit > 0.1 ? 0.35 : 0.08);
     }
     paintTextHeat();
   };
 
   const particles = [];
-  const MAX = 90;
+  const MAX = 160;
   let raf = 0;
   let running = true;
   let hotUntil = 0;
@@ -1284,12 +1314,24 @@ function initHeroWash() {
   let dpr = 1;
   let emitX = 0;
   let emitY = 0;
+  let throttleSmoothed = 0.35;
+
+  /** Test-stand breathing: slow chamber swell + high-freq flutter */
+  const breathThrottle = (t, forced) => {
+    const phase = t * 0.00165;
+    const swell = Math.pow(0.5 + 0.5 * Math.sin(phase), 1.55);
+    const flutter = 0.82 + 0.18 * Math.sin(t * 0.011) * Math.sin(t * 0.0037);
+    const burble = 0.04 * Math.sin(t * 0.027 + Math.sin(t * 0.005));
+    let th = 0.22 + 0.78 * swell * flutter + burble;
+    if (forced) th = Math.max(th, 0.92);
+    return clamp01(th);
+  };
 
   const resize = () => {
     const rect = root.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = Math.max(1, Math.floor(rect.width));
-    h = Math.max(1, Math.floor(Math.max(rect.height, 44) * 1.85));
+    h = Math.max(1, Math.floor(Math.max(rect.height, 44) * 2.15));
     canvas.width = Math.floor(w * dpr);
     canvas.height = Math.floor(h * dpr);
     canvas.style.width = w + "px";
@@ -1306,62 +1348,94 @@ function initHeroWash() {
     }
   };
 
-  const spawnOne = (kind, hot) => {
+  // 0 core (hot) · 1 flame sheet (warm) · 2 cool sheath · 3 cool tip wash
+  const spawnOne = (kind, throttle) => {
     if (particles.length >= MAX) particles.shift();
-    const boost = hot ? 1.2 : 1;
-    const spread = kind === 0 ? 2.2 : kind === 1 ? 5 : 10;
-    const speed = (kind === 0 ? 7.2 : kind === 1 ? 5 : 3.1) * boost;
+    const boost = 0.7 + throttle * 0.85;
+    const spread =
+      kind === 0 ? 1.6 :
+      kind === 1 ? 3.8 + throttle * 2.4 :
+      kind === 2 ? 7 + throttle * 4 :
+      11 + throttle * 5;
+    const speed =
+      (kind === 0 ? 8.6 : kind === 1 ? 6.0 : kind === 2 ? 4.2 : 3.2) * boost;
     particles.push({
       kind,
-      x: emitX + Math.random() * 3,
+      x: emitX + Math.random() * 4,
       y: emitY + (Math.random() - 0.5) * spread,
-      vx: -(speed + Math.random() * 2.4),
-      vy: (Math.random() - 0.5) * (kind === 0 ? 0.25 : kind === 1 ? 0.65 : 1.15),
+      vx: -(speed + Math.random() * (2.0 + throttle * 2.4)),
+      vy: (Math.random() - 0.5) *
+        (kind === 0 ? 0.3 : kind === 1 ? 0.75 : kind === 2 ? 1.2 : 1.55) *
+        (0.7 + throttle),
       life: 1,
-      decay: kind === 0 ? 0.016 : kind === 1 ? 0.012 : 0.009,
-      size: kind === 0 ? 1.4 + Math.random() * 1.4 : kind === 1 ? 2.4 + Math.random() * 2.6 : 4 + Math.random() * 5,
-      stretch: kind === 0 ? 16 + Math.random() * 16 : kind === 1 ? 11 + Math.random() * 12 : 8 + Math.random() * 10,
-      grow: kind === 0 ? 0.02 : kind === 1 ? 0.05 : 0.1
+      decay: (kind === 0 ? 0.019 : kind === 1 ? 0.014 : kind === 2 ? 0.01 : 0.008) *
+        (1.05 - throttle * 0.18),
+      size:
+        kind === 0 ? 1.1 + Math.random() * 1.5 :
+        kind === 1 ? 2.0 + Math.random() * 2.8 :
+        kind === 2 ? 3.4 + Math.random() * 4.2 :
+        5 + Math.random() * 6,
+      stretch:
+        kind === 0 ? 13 + Math.random() * 16 :
+        kind === 1 ? 11 + Math.random() * 13 :
+        kind === 2 ? 12 + Math.random() * 14 :
+        10 + Math.random() * 12,
+      grow: kind === 0 ? 0.014 : kind === 1 ? 0.05 : kind === 2 ? 0.09 : 0.12,
+      phase: Math.random() * Math.PI * 2
     });
   };
 
-  const spawn = (burst, hot) => {
-    const n0 = burst ? 6 : 2;
-    const n1 = burst ? 7 : 3;
-    const n2 = burst ? 8 : 3;
-    for (let i = 0; i < n0; i++) spawnOne(0, hot);
-    for (let i = 0; i < n1; i++) spawnOne(1, hot);
-    for (let i = 0; i < n2; i++) spawnOne(2, hot);
+  const spawn = (burst, throttle) => {
+    const t = throttle;
+    const n0 = burst ? 7 : 1 + Math.floor(t * 2.5);
+    const n1 = burst ? 8 : 1 + Math.floor(t * 3);
+    const n2 = burst ? 8 : 2 + Math.floor(t * 3);
+    const n3 = burst ? 7 : 1 + Math.floor(t * 2.5);
+    for (let i = 0; i < n0; i++) spawnOne(0, t);
+    for (let i = 0; i < n1; i++) spawnOne(1, t);
+    for (let i = 0; i < n2; i++) spawnOne(2, t);
+    for (let i = 0; i < n3; i++) spawnOne(3, t);
   };
 
-  const paintParticle = (p, hot, t) => {
+  const paintParticle = (p, throttle, t) => {
     const life = Math.max(0, p.life);
-    const travel = Math.min(1, Math.max(0, (emitX - p.x) / Math.max(80, emitX)));
-    let a = life * (hot ? 0.85 : 0.65);
+    const travel = clamp01((emitX - p.x) / Math.max(90, emitX * 0.85));
+    let a = life * (0.48 + throttle * 0.42);
     let c0, c1, c2;
+
     if (p.kind === 0) {
-      a *= 0.9;
-      c0 = `rgba(255,255,255,${a})`;
-      c1 = `rgba(191,219,254,${a * 0.7})`;
-      c2 = `rgba(96,165,250,0)`;
+      // Hot core
+      a *= 0.95;
+      c0 = `rgba(255,252,245,${a})`;
+      c1 = `rgba(254,243,199,${a * 0.72})`;
+      c2 = `rgba(251,191,36,0)`;
     } else if (p.kind === 1) {
-      a *= 0.55;
+      // Flame sheet — strongest near nozzle (low travel)
+      a *= 0.58 * (1 - travel * 0.35);
+      c0 = `rgba(254,215,170,${a})`;
+      c1 = `rgba(251,146,60,${a * 0.52})`;
+      c2 = `rgba(194,65,12,0)`;
+    } else if (p.kind === 2) {
+      // Cool sheath — builds with travel
+      a *= 0.4 + travel * 0.22;
       c0 = `rgba(186,214,245,${a})`;
       c1 = `rgba(96,165,250,${a * 0.5})`;
-      c2 = `rgba(59,130,246,0)`;
+      c2 = `rgba(37,99,235,0)`;
     } else {
-      a *= 0.28;
+      // Cool tip wash / plasma edge
+      a *= 0.26 + travel * 0.2 + throttle * 0.08;
       c0 = `rgba(147,197,253,${a})`;
-      c1 = `rgba(59,130,246,${a * 0.4})`;
-      c2 = `rgba(30,58,100,0)`;
+      c1 = `rgba(59,130,246,${a * 0.42})`;
+      c2 = `rgba(30,58,138,0)`;
     }
 
-    const len = p.stretch * (1 + travel * 0.35);
-    const thick = p.size * (1 + travel * p.grow * 5);
-    const wobble = Math.sin(t * 0.006 + p.x * 0.04) * (0.25 + travel * 0.9);
-    const grd = ctx.createLinearGradient(p.x + len * 0.2, p.y, p.x - len, p.y);
+    const len = p.stretch * (1 + travel * (0.35 + throttle * 0.3));
+    const thick = p.size * (1 + travel * p.grow * (3.6 + throttle * 2.8));
+    const wobble =
+      Math.sin(t * 0.007 + p.phase + p.x * 0.045) * (0.35 + travel * 1.3 + throttle * 0.7);
+    const grd = ctx.createLinearGradient(p.x + len * 0.15, p.y, p.x - len, p.y);
     grd.addColorStop(0, c0);
-    grd.addColorStop(0.45, c1);
+    grd.addColorStop(0.42, c1);
     grd.addColorStop(1, c2);
     ctx.beginPath();
     ctx.fillStyle = grd;
@@ -1374,64 +1448,82 @@ function initHeroWash() {
     raf = requestAnimationFrame(frame);
     ctx.clearRect(0, 0, w, h);
 
-    const hot = performance.now() < hotUntil;
+    const forced = performance.now() < hotUntil;
+    const target = breathThrottle(t, forced);
+    throttleSmoothed = lerp(throttleSmoothed, target, 0.08);
+    const throttle = throttleSmoothed;
+    const hot = throttle > 0.62 || forced;
     root.classList.toggle("is-hot", hot);
-    if (disp) disp.setAttribute("scale", hot ? "5.5" : "3.2");
+    if (disp) disp.setAttribute("scale", String(2.8 + throttle * 3.4));
 
-    if (Math.random() < (hot ? 0.9 : 0.55)) spawn(false, hot);
+    // Continuous spit scaled by chamber breath
+    if (Math.random() < 0.35 + throttle * 0.6) spawn(false, throttle);
+    if (throttle > 0.78 && Math.random() < 0.22) spawn(true, throttle);
 
-    const bloomR = hot ? 22 : 14;
-    const bloom = ctx.createRadialGradient(emitX, emitY, 0, emitX, emitY, bloomR);
-    bloom.addColorStop(0, `rgba(255,255,255,${hot ? 0.45 : 0.22})`);
-    bloom.addColorStop(0.4, `rgba(191,219,254,${hot ? 0.28 : 0.14})`);
-    bloom.addColorStop(1, "rgba(59,130,246,0)");
-    ctx.fillStyle = bloom;
+    // Nozzle: warm core bloom + cool outer ring
+    const bloomR = 11 + throttle * 18;
+    const warmBloom = ctx.createRadialGradient(emitX, emitY, 0, emitX, emitY, bloomR * 0.72);
+    warmBloom.addColorStop(0, `rgba(255,252,240,${0.22 + throttle * 0.42})`);
+    warmBloom.addColorStop(0.45, `rgba(254,215,170,${0.14 + throttle * 0.24})`);
+    warmBloom.addColorStop(1, "rgba(251,146,60,0)");
+    ctx.fillStyle = warmBloom;
     ctx.beginPath();
-    ctx.arc(emitX, emitY, bloomR, 0, Math.PI * 2);
+    ctx.arc(emitX, emitY, bloomR * 0.72, 0, Math.PI * 2);
+    ctx.fill();
+
+    const coolBloom = ctx.createRadialGradient(emitX - 6, emitY, 0, emitX - 4, emitY, bloomR * 1.15);
+    coolBloom.addColorStop(0, `rgba(191,219,254,${0.08 + throttle * 0.16})`);
+    coolBloom.addColorStop(0.55, `rgba(96,165,250,${0.1 + throttle * 0.14})`);
+    coolBloom.addColorStop(1, "rgba(30,64,175,0)");
+    ctx.fillStyle = coolBloom;
+    ctx.beginPath();
+    ctx.arc(emitX - 4, emitY, bloomR * 1.15, 0, Math.PI * 2);
     ctx.fill();
 
     let tipX = emitX;
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.x += p.vx;
-      p.y += p.vy + Math.sin(t * 0.004 + p.x * 0.028) * (0.12 + p.kind * 0.1);
-      p.vy += (p.y - emitY) * 0.0007 * p.kind;
-      p.size += p.grow;
-      p.life -= p.decay * (hot ? 0.92 : 1);
-      if (p.life <= 0 || p.x < -40) {
+      p.y += p.vy + Math.sin(t * 0.005 + p.phase + p.x * 0.03) * (0.16 + p.kind * 0.11 + throttle * 0.1);
+      p.vy += (p.y - emitY) * (0.00045 + throttle * 0.00035) * Math.min(p.kind, 3);
+      p.vy *= 0.992;
+      p.size += p.grow * (0.7 + throttle * 0.5);
+      p.life -= p.decay * (forced ? 0.88 : 1);
+      if (p.life <= 0 || p.x < -50) {
         particles.splice(i, 1);
         continue;
       }
       if (p.x < tipX) tipX = p.x;
     }
 
-    for (let pass = 2; pass >= 0; pass--) {
+    for (let pass = 3; pass >= 0; pass--) {
       for (let i = 0; i < particles.length; i++) {
-        if (particles[i].kind === pass) paintParticle(particles[i], hot, t);
+        if (particles[i].kind === pass) paintParticle(particles[i], throttle, t);
       }
     }
 
-    applyFlameToText(tipX, emitX, hot);
+    applyFlameToText(tipX, emitX, throttle);
   };
 
   const pulse = () => {
-    hotUntil = performance.now() + 1100;
-    spawn(true, true);
+    hotUntil = performance.now() + 1400;
+    spawn(true, 1);
   };
 
   resize();
-  spawn(true, false);
+  spawn(true, 0.55);
   raf = requestAnimationFrame(frame);
 
   window.addEventListener("resize", resize, { passive: true });
   root.addEventListener("pointerenter", pulse);
   if (emitter) emitter.addEventListener("pointerenter", pulse);
 
+  // Occasional hard throttle blip (test-stand bang)
   const idle = window.setInterval(() => {
     if (document.hidden) return;
     if (root.getBoundingClientRect().bottom < 0) return;
     pulse();
-  }, 5200);
+  }, 6400);
 
   document.addEventListener("visibilitychange", () => {
     running = !document.hidden;

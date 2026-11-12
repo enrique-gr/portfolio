@@ -115,22 +115,23 @@ body {
   .hero-shell { padding: 8.5rem 0 5.5rem; }
 }
 
-/* --- Video background --- */
-.hero-video-bg {
+/* --- Static hero background --- */
+.hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
 }
 
-.hero-video-bg video {
+.hero-bg .hero-bg-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.68) contrast(1.14) saturate(0.95);
+  object-position: center 40%;
+  filter: brightness(0.72) contrast(1.12) saturate(0.85);
 }
 
-.hero-video-bg::after {
+.hero-bg::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -179,12 +180,12 @@ body {
   will-change: filter, color;
   transform: translateZ(0);
   color: #8eb6e8;
-  text-shadow: 0 0 18px rgba(142, 182, 232, 0.28);
+  text-shadow: 0 0 16px rgba(142, 182, 232, 0.26);
 }
 .hero-wash-text .wash-ch {
   display: inline-block;
   color: inherit;
-  transition: color 50ms linear, text-shadow 50ms linear;
+  transition: color 45ms linear, text-shadow 45ms linear;
 }
 .hero-wash-plume {
   position: absolute;
@@ -192,18 +193,18 @@ body {
   top: 50%;
   z-index: 2;
   width: 100%;
-  height: 180%;
+  height: 210%;
   transform: translateY(-50%);
   pointer-events: none;
   mix-blend-mode: screen;
-  opacity: 0.85;
+  opacity: 0.92;
 }
 .hero-wash-emitter {
   position: relative;
   z-index: 3;
-  flex: 0 0 0.7rem;
-  width: 0.7rem;
-  height: 1.85rem;
+  flex: 0 0 0.75rem;
+  width: 0.75rem;
+  height: 1.95rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -215,31 +216,35 @@ body {
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.18) 18%,
-    rgba(148, 163, 184, 0.55) 50%,
-    rgba(255, 255, 255, 0.18) 82%,
+    rgba(255, 255, 255, 0.16) 18%,
+    rgba(148, 163, 184, 0.5) 50%,
+    rgba(255, 255, 255, 0.16) 82%,
     transparent 100%
   );
 }
 .hero-wash-emitter__throat {
   width: 3px;
-  height: 58%;
+  height: 62%;
   border-radius: 1px;
   background: linear-gradient(
     180deg,
-    rgba(148, 163, 184, 0.35),
-    rgba(226, 232, 240, 0.95) 45%,
-    rgba(96, 165, 250, 0.75) 70%,
-    rgba(148, 163, 184, 0.3)
+    rgba(147, 197, 253, 0.55),
+    rgba(255, 248, 220, 0.95) 38%,
+    rgba(251, 146, 60, 0.8) 62%,
+    rgba(59, 130, 246, 0.55)
   );
   box-shadow:
-    -4px 0 12px rgba(147, 197, 253, 0.35),
-    0 0 8px rgba(255, 255, 255, 0.2);
-  transition: box-shadow 0.25s ease, background 0.25s ease;
+    -5px 0 12px rgba(251, 146, 60, 0.35),
+    -8px 0 16px rgba(96, 165, 250, 0.28),
+    0 0 8px rgba(255, 255, 255, 0.22);
+  transition: box-shadow 0.2s ease, background 0.2s ease, height 0.2s ease;
 }
 .hero-wash.is-hot .hero-wash-emitter__throat {
+  height: 72%;
   box-shadow:
-    -8px 0 18px rgba(191, 219, 254, 0.55),
+    -9px 0 18px rgba(251, 146, 60, 0.55),
+    -12px 0 22px rgba(96, 165, 250, 0.45),
+    -3px 0 10px rgba(254, 243, 199, 0.5),
     0 0 12px rgba(255, 255, 255, 0.35);
 }
 @media (max-width: 640px) {
@@ -576,9 +581,142 @@ body {
   padding: 1.25rem;
 }
 
-.feat-img-wrap { height: 320px; }
-@media (min-width: 768px) { .feat-img-wrap { height: auto; min-height: 420px; } }
-.feat-img-wrap > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.feat-row { width: 100%; }
+.feat-img-wrap {
+  height: 300px;
+  position: relative;
+  flex-shrink: 0;
+  isolation: isolate;
+}
+@media (min-width: 768px) {
+  .feat-img-wrap {
+    height: auto;
+    min-height: 440px;
+    align-self: stretch;
+  }
+}
+.feat-img-wrap > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Shared featured media FX: quiet scan, light hover only */
+.feat-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  overflow: hidden;
+  pointer-events: none;
+}
+.feat-fx__scan {
+  position: absolute;
+  left: -20%;
+  top: 0;
+  width: 18%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.0) 40%,
+    rgba(255, 255, 255, 0.045) 50%,
+    transparent 62%
+  );
+  transform: translateX(-40%);
+  animation: featScanDrift 11s ease-in-out infinite;
+  opacity: 0.35;
+}
+.feat-fx__sheen {
+  position: absolute;
+  inset: -40% -20%;
+  background: linear-gradient(
+    120deg,
+    transparent 44%,
+    rgba(255, 255, 255, 0.03) 50%,
+    transparent 56%
+  );
+  transform: translateX(-60%) rotate(8deg);
+  opacity: 0;
+}
+.feat-fx__rim {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  transition: box-shadow 0.3s ease;
+}
+.group:hover .feat-fx__scan { opacity: 0.55; }
+.group:hover .feat-fx__sheen {
+  opacity: 1;
+  animation: featSheenSweep 1.35s ease-out 1;
+}
+.group:hover .feat-fx__rim {
+  box-shadow: inset 0 0 0 1px rgba(191, 219, 254, 0.16);
+}
+.group:hover .feat-img-wrap {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+@keyframes featScanDrift {
+  0%, 18% { transform: translateX(-50%); }
+  55% { transform: translateX(360%); }
+  100% { transform: translateX(360%); }
+}
+@keyframes featSheenSweep {
+  0% { transform: translateX(-70%) rotate(8deg); }
+  100% { transform: translateX(70%) rotate(8deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feat-fx__scan,
+  .group:hover .feat-fx__sheen { animation: none; opacity: 0.2; }
+}
+
+/* Featured role: meta under title, not a glowing sticker above it */
+.feat-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.feat-role .role-mark {
+  width: 1.55rem;
+  height: 1.55rem;
+  filter: brightness(1.05) contrast(1.04) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.45));
+}
+.feat-row[id="mide"] .feat-role .role-mark,
+.feat-row[id="washu-dbf"] .feat-role .role-mark {
+  width: 1.85rem;
+  height: 1.3rem;
+}
+.feat-role__label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cbd5e1;
+  line-height: 1.2;
+}
+.group:hover .feat-role__label { color: #e2e8f0; }
+
+.feat-status {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #86efac;
+  border: 1px solid rgba(52, 211, 153, 0.42);
+  background: rgba(16, 185, 129, 0.12);
+  padding: 5px 9px;
+  line-height: 1.2;
+}
+.feat-summary {
+  color: #d1d5db;
+  line-height: 1.65;
+  font-size: 15px;
+}
 
 /* ---------------------------------------------------------------------------
    6. Interactive Skill Pills
@@ -634,24 +772,25 @@ body {
 .tab-inactive { color: #6b7280; border-bottom: 2px solid transparent; }
 .tab-inactive:hover { color: #d1d5db; background: rgba(255,255,255,.05); }
 
+/* Legacy role-badge kept for non-featured surfaces if needed */
 .role-badge {
   min-height: 2.5rem;
   padding-top: 0.35rem !important;
   padding-bottom: 0.35rem !important;
-  background: linear-gradient(90deg, rgba(59, 130, 246, 0.26), rgba(14, 22, 40, 0.9));
-  border: 1px solid rgba(147, 197, 253, 0.4);
-  border-left: 3px solid #93c5fd;
-  box-shadow: 0 0 16px rgba(59, 130, 246, 0.14);
-  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 2px solid rgba(148, 163, 184, 0.55);
+  box-shadow: none;
+  transition: border-color 0.25s ease, background 0.25s ease;
 }
 .role-badge__label {
-  color: #eff6ff !important;
-  letter-spacing: 0.14em;
+  color: #cbd5e1 !important;
+  letter-spacing: 0.1em;
 }
 .group:hover .role-badge {
-  background: linear-gradient(90deg, rgba(59, 130, 246, 0.34), rgba(20, 32, 56, 0.94));
-  border-color: rgba(191, 219, 254, 0.55);
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: none;
 }
 
 /* Pixel role marks: integrated, still readable */
@@ -667,12 +806,6 @@ body {
   filter: brightness(1.08) contrast(1.06) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
 }
 .role-badge .role-mark { width: 2.4rem; height: 2.4rem; }
-/* Wide airframes (MIDE UAS, DBF plane) need a bit more horizontal room */
-.feat-row[id="mide"] .role-mark,
-.feat-row[id="washu-dbf"] .role-mark {
-  width: 2.9rem;
-  height: 2rem;
-}
 
 /* Featured copy stack: keeps Initialize Protocol under the same content edge */
 .feat-copy { min-width: 0; user-select: text; cursor: text; }
@@ -824,20 +957,30 @@ body {
 @media (min-width: 768px) { .proof-grid { grid-template-columns: 1fr 1fr; } }
 
 .proof-card {
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.02);
-  padding: 10px 12px;
-  min-height: 82px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.035);
+  padding: 11px 12px 12px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
 }
 .proof-k {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: #64748b;
-  margin-bottom: 6px;
+  color: #94a3b8;
+  margin-bottom: 4px;
+  line-height: 1.2;
 }
-.proof-v { color: #cbd5e1; font-size: 12px; line-height: 1.45; }
+.proof-v {
+  color: #e2e8f0;
+  font-size: 12px;
+  line-height: 1.45;
+  flex: 1 1 auto;
+}
 
 .metric-pill {
   font-family: 'JetBrains Mono', monospace;
@@ -876,9 +1019,10 @@ body {
 }
 
 :root {
-  --mission-past: #94a3b8;
-  --mission-active: #34d399;
-  --mission-target: #FFD400;
+  /* Target amber ≠ Superman #FCD700 and ≠ GT gold (#C9B87A / #B3A369) */
+  --mission-past: #9aa3b2;
+  --mission-active: #3bcf98;
+  --mission-target: #e89b12;
 }
 
 .hero-mission-header {
@@ -892,30 +1036,32 @@ body {
   letter-spacing: 0.14em !important;
 }
 
-/* Legend: icon + label only (no boxes) */
+/* Legend: quiet meta, not a color billboard */
 .mission-legend {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   margin: 0;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 8px;
   letter-spacing: .1em;
   text-transform: uppercase;
+  opacity: 0.92;
 }
 .mission-legend__item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   white-space: nowrap;
   padding: 0;
   border: none;
   background: transparent;
+  color: #9ca3af;
 }
-.mission-legend__item--target { color: #FFD400; }
-.mission-legend__item--active { color: #34d399; }
-.mission-legend__item--done { color: #94a3b8; }
-.mission-legend__item i { font-size: 8px; }
+.mission-legend__item--target { color: var(--mission-target); }
+.mission-legend__item--active { color: var(--mission-active); }
+.mission-legend__item--done { color: var(--mission-past); }
+.mission-legend__item i { font-size: 6px; opacity: 0.95; font-weight: 400; }
 
 .hero-mission-scroll {
   max-height: min(440px, 52vh);
@@ -1011,21 +1157,23 @@ body {
   color: #9ca3af;
 }
 
-/* Status: colored icon + text, no chip chrome */
+/* Status: muted tint on icon+label, no neon */
 .mission-status {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: .12em;
+  font-size: 8px;
+  letter-spacing: .11em;
   text-transform: uppercase;
   line-height: 1;
   padding: 0;
   border: none;
   background: transparent;
+  opacity: 0.95;
 }
-.mission-status i { font-size: 8px; }
+.mission-status i { font-size: 6px; opacity: 1; font-weight: 400; }
+.mission-status--active i { font-size: 5px; }
 .mission-date {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
@@ -1044,11 +1192,11 @@ body {
   background: #0a0a0a;
 }
 .mission-thumb--active {
-  border-color: rgba(52, 211, 153, 0.45);
+  border-color: color-mix(in srgb, var(--mission-active) 55%, transparent);
   background: #fff;
 }
 .mission-thumb--target {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: color-mix(in srgb, var(--mission-target) 40%, transparent);
   background: #0a0a0a;
 }
 
@@ -1056,10 +1204,10 @@ body {
   opacity: 1;
 }
 .hero-mission-item.done::before {
-  border-color: #64748b;
-  background: #64748b;
+  border-color: #7b8494;
+  background: #7b8494;
 }
-.mission-status--done { color: #94a3b8; }
+.mission-status--done { color: var(--mission-past); }
 .hero-mission-item.done .mission-copy h3 { color: #d1d5db; }
 .hero-mission-item.done:hover {
   transform: translateX(3px);
@@ -1068,24 +1216,24 @@ body {
 }
 
 .hero-mission-item.active::before {
-  border-color: #34d399;
-  background: #10b981;
+  border-color: var(--mission-active);
+  background: #2bb884;
 }
-.mission-status--active { color: #34d399; }
+.mission-status--active { color: var(--mission-active); }
 .hero-mission-item.active:hover {
   transform: translateX(3px);
-  border-color: rgba(52, 211, 153, 0.35);
+  border-color: color-mix(in srgb, var(--mission-active) 45%, transparent);
   background: rgba(255, 255, 255, 0.05);
 }
 
 .hero-mission-item.target::before {
-  border: 1.5px solid #FFD400;
+  border: 1.5px solid var(--mission-target);
   background: transparent;
 }
-.mission-status--target { color: #FFD400; }
+.mission-status--target { color: var(--mission-target); }
 .hero-mission-item.target:hover {
   transform: translateX(3px);
-  border-color: rgba(255, 212, 0, 0.35);
+  border-color: color-mix(in srgb, var(--mission-target) 45%, transparent);
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -1138,7 +1286,80 @@ body {
   transform: scaleX(1);
 }
 
-/* Georgia Tech brand cues: Tech Gold + Navy (lifted for dark UI) */
+/* Brand mark — Superman blue / red / yellow frame */
+.brand-mark__logo {
+  --superman-blue: #0147AB;
+  --superman-red: #E4032E;
+  --superman-yellow: #FCD700;
+  background:
+    linear-gradient(#050505, #050505) padding-box,
+    linear-gradient(
+      135deg,
+      var(--superman-blue) 0%,
+      var(--superman-blue) 32%,
+      var(--superman-red) 32%,
+      var(--superman-red) 64%,
+      var(--superman-yellow) 64%,
+      var(--superman-yellow) 100%
+    ) border-box;
+  border: 1.5px solid transparent;
+  box-sizing: border-box;
+}
+.brand-mark__name {
+  --superman-blue: #0147AB;
+  --superman-red: #E4032E;
+  --superman-yellow: #FCD700;
+  color: #fff;
+  padding-bottom: 2px;
+  background-image: linear-gradient(
+    90deg,
+    var(--superman-blue) 0%,
+    var(--superman-blue) 34%,
+    var(--superman-red) 34%,
+    var(--superman-red) 66%,
+    var(--superman-yellow) 66%,
+    var(--superman-yellow) 100%
+  );
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: color 0.2s ease, background-size 0.2s ease;
+}
+.brand-mark:hover .brand-mark__name,
+.brand-mark:focus-visible .brand-mark__name {
+  color: #dbeafe;
+  background-size: 100% 2.5px;
+}
+.brand-mark:hover .brand-mark__logo,
+.brand-mark:focus-visible .brand-mark__logo {
+  filter: brightness(1.08);
+}
+.brand-mark__tagline {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #9ca3af;
+  font-weight: 400;
+}
+.brand-mark:hover .brand-mark__tagline,
+.brand-mark:focus-visible .brand-mark__tagline {
+  color: #b4bcc8;
+}
+
+/* Georgia Tech brand cues: White + Tech Gold + Navy */
+.nav-link--section,
+.mobile-nav-link--section {
+  color: #FFFFFF; /* GT White */
+}
+.nav-link--section:hover,
+.nav-link--section:focus-visible,
+.mobile-nav-link--section:hover,
+.mobile-nav-link--section:focus-visible {
+  color: #FFFFFF;
+}
+.nav-link--section::after {
+  background: #FFFFFF;
+}
+
 .nav-link--about {
   color: #C9B87A;
 }
@@ -1174,7 +1395,8 @@ body {
 .nav-mission-dots {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+  opacity: 0.9;
 }
 .nav-mission-dot {
   width: auto;
@@ -1183,13 +1405,17 @@ body {
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-  font-size: 8px;
+  font-size: 6px;
   line-height: 1;
   flex-shrink: 0;
+  font-weight: 400;
 }
-.nav-mission-dot--target { color: var(--mission-target, #FFD400); }
-.nav-mission-dot--active { color: var(--mission-active, #34d399); }
-.nav-mission-dot--done { color: var(--mission-past, #94a3b8); }
+.nav-mission-dot--target { color: var(--mission-target); }
+.nav-mission-dot--active {
+  color: var(--mission-active);
+  font-size: 5px;
+}
+.nav-mission-dot--done { color: var(--mission-past); }
 /* Keep scroll-active underline clear of the icon cluster */
 .nav-link--mission.nav-link-active::after {
   right: 28px;
