@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
-
-    <meta charset="UTF-8">
+  <link rel="icon" type="image/gif" href="assets/brand/favicon-live.gif?v=live2">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png?v=live2">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Nav EKF | Enrique Garcia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.css?v=tw1">
+  <link rel="stylesheet" href="css/hub-accents.css?v=hub2">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,7 +21,7 @@
             font-family: 'Inter', sans-serif; 
             background-color: #050505; 
             color: #e2e8f0; 
-            will-change: opacity, transform; /* Optimize animation */
+            /* will-change removed: breaks sticky section-nav */
         }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
@@ -38,10 +40,11 @@
         ::-webkit-scrollbar-thumb { background: #3f3f46; }
     </style>
   <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/section-nav.css?v=snav2">
 </head>
-<body class="antialiased bg-[#0f0f10] min-h-screen">
+<body class="hub-personal antialiased bg-[#0f0f10] min-h-screen">
 
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <nav class="fixed top-0 w-full bg-black z-50 border-b border-white/10">
     <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
         
         <!-- 
@@ -61,7 +64,20 @@
     </div>
 </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+    
+    <!-- SECTION NAV | shared project chrome -->
+    <div class="section-nav section-nav--personal">
+        <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+            <nav class="flex items-center gap-0" aria-label="Page sections">
+                    <button type="button" class="section-nav-btn active is-active" data-target="section-overview">Overview</button>
+                    <button type="button" class="section-nav-btn" data-target="section-built">Built</button>
+                    <button type="button" class="section-nav-btn" data-target="section-estimation">Estimation</button>
+                    <button type="button" class="section-nav-btn" data-target="section-implementation">Implementation</button>
+                    <button type="button" class="section-nav-btn" data-target="section-docs">Docs</button>
+            </nav>
+        </div>
+    </div>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
             <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
                 <img src="assets/images/sensor_fusion.png" alt="Sensor Fusion Icon" class="h-full w-full object-contain p-2" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';">
@@ -77,7 +93,7 @@
             <div class="lg:col-span-2 space-y-14">
 
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <h3 id="section-overview" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
                     <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
                         <p>
                             A real-time <span class="tech-highlight">12-state Extended Kalman Filter</span> on a Teensy 4.1 for UAV state estimation.
@@ -87,7 +103,7 @@
                 </div>
 
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Built</h3>
+                    <h3 id="section-built" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Built</h3>
                     <div class="space-y-3">
                         <div class="bg-black border border-white/10 p-5">
                             <div class="flex items-start gap-4">
@@ -151,7 +167,7 @@
 
                 <div class="bg-black border border-white/10 p-6 mb-12">
                     <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">State Estimation Loop</h3>
+                        <h3 id="section-estimation" class="font-bold text-white font-mono text-xs uppercase tracking-widest">State Estimation Loop</h3>
                         <i class="fas fa-project-diagram text-gray-600"></i>
                     </div>
                     
@@ -210,7 +226,7 @@
                     </div>
                 </div>
 
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Core Implementation (C++ / Eigen)</h3>
+                <h3 id="section-implementation" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Core Implementation (C++ / Eigen)</h3>
                 
                 <div class="space-y-6 mb-12">
                     
@@ -272,7 +288,7 @@
                 <div class="mb-16">
                     <div class="bg-black border border-white/10 p-1">
                         <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
-                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Technical Documentation</h3>
+                            <h3 id="section-docs" class="font-bold text-white font-mono text-xs uppercase tracking-widest">Technical Documentation</h3>
                             <div class="flex gap-4">
                                 <a href="docs/FlightNavEKF_Report.pdf" target="_blank" class="flex items-center gap-2 group transition-colors">
                                     <span class="text-[10px] text-gray-500 font-mono group-hover:text-white transition-colors">OPEN NEW TAB</span>
@@ -305,7 +321,7 @@
 
             <div class="space-y-10">
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <h3 id="section-stack" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">C++ / Python</span>
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Teensy 4.1</span>
@@ -332,5 +348,7 @@
         </div>
     </main>
   <script src="js/nav-persist.js?v=soft4"></script>
+  <script src="js/live-favicon.js?v=live2"></script>
+  <script src="js/section-nav.js?v=snav2"></script>
 </body>
 </html>

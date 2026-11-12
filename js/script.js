@@ -33,10 +33,10 @@ const PROJECTS = {
     roleMark: "assets/images/feat_role_mide.png",
     dates: "May 2026 – Aug 2026",
     tags: ["UAS Research", "Flight Test", "Systems Integration"],
-    summary: "Experimental unmanned platforms at a defense research institute: flight-data readiness judgment and end-to-end systems bring-up on real research aircraft.",
+    summary: "Mission-facing UAS research: flight-data readiness judgment and end-to-end systems bring-up on experimental research aircraft.",
     metric: "Status: Complete | Experimental UAS",
     problem: "Experimental research UAS had to be restored, integrated, and judged flight-ready after structural and configuration changes, without rewriting the flight controller.",
-    contribution: "Supported experimental platforms through repair, flight-test ops, and calibration; used flight data to relate configuration to readiness.",
+    contribution: "Brought experimental platforms through repair, flight-test ops, and calibration; used flight data to relate configuration to readiness.",
     result: "Returned research aircraft to test-ready status with readiness calls grounded in measured flight behavior, not assumption.",
     constraint: "Multiple experimental research platforms with evolving hardware configurations",
     tradeoff: "Breadth across research vehicles vs depth on a single controller redesign",
@@ -55,21 +55,21 @@ const PROJECTS = {
     status: "active",
     logoUrl: "assets/images/vtol.png",
     photo: true,
-    role: "Lead Avionics Engineer",
+    role: "Lead Avionics Engineer | Founding Member",
     roleIcon: "fa-microchip",
     roleMark: "assets/images/feat_role_vtol.png",
     dates: "Sep 2025 – Present",
-    tags: ["Pixhawk 6C", "PX4", "Quadcopter", "Hexacopter"],
-    summary: "Lead Avionics across two VFS cycles: Hexacopter flight proof in 2025–2026, now rebuilding a Quadcopter for Search and Rescue.",
-    metric: "Status: Active | Search and Rescue 2026–27",
-    problem: "Competition aircraft must keep sensing, power, flight control, and payload interfaces honest under flight-test and mission pressure.",
-    contribution: "Owned avionics architecture and bring-up; closed Hexacopter hover/transition/payload ops; driving 2026–27 Quadcopter system architecture for Search and Rescue.",
+    tags: ["VFS DBVF", "Pixhawk 6C", "PX4", "Quadcopter"],
+    summary: "Founding member and Lead Avionics on WashU VTOL (founded 2025): Hexacopter flight proof in VFS DBVF 2025–26, now rebuilding a Quadcopter for Search and Rescue.",
+    metric: "Status: Active | VFS DBVF | Search and Rescue 2026–27",
+    problem: "Competition aircraft must keep sensing, power, flight control, and payload interfaces honest under flight-test and mission pressure—with no inherited stack to lean on.",
+    contribution: "Stood up avionics end-to-end; closed Hexacopter hover/transition/payload ops; driving 2026–27 Quadcopter system architecture for Search and Rescue.",
     result: "Validated Hexacopter milestones with FTR evidence; active rebuild for the harder Search and Rescue fly-off cycle.",
     constraint: "Hard weight, lost-link, and payload rules with noisy embedded buses under mixed power loads",
     tradeoff: "Rapid feature tuning vs robust pre-flight validation under competition timelines",
     decision: "HIL-first gates before flight; architecture owned end-to-end before claiming mission readiness",
     outcome: "Lead Avionics on WashU VTOL: Hexacopter cycle closed, Quadcopter Search and Rescue cycle in build",
-    proof: ["Hexacopter hover + VTOL transition + payload ops", "2026–27 Quadcopter system architecture", "I2C noise fault resolved (VTOL-01)"],
+    proof: ["Founding member | VFS DBVF", "Hexacopter hover + VTOL transition + payload ops", "2026–27 Quadcopter system architecture"],
     externalLink: "washu-vtol.html"
   },
   "washu-dbf": {
@@ -83,7 +83,7 @@ const PROJECTS = {
     roleMark: "assets/images/feat_role_dbf.png",
     dates: "Aug 2024 – Present",
     tags: ["Structures", "Payload Systems", "Flight Test"],
-    summary: "Design and test structural and payload systems for competition UAVs across AIAA Design/Build/Fly and SAE Aero Design Micro Class.",
+    summary: "Mission-oriented structures and payload work for competition UAVs across AIAA Design/Build/Fly and SAE Aero Design Micro Class.",
     metric: "Status: Active | AIAA DBF + SAE Aero Micro",
     problem: "Field competition-ready structure and payload hardware under two distinct rule sets and mission profiles.",
     contribution: "Structures/payload design and test across AIAA DBF and SAE Aero Micro; first-iteration test plane flown Oct 2026.",
@@ -106,7 +106,7 @@ const PROJECTS = {
     roleMark: "assets/images/feat_role_miro.png",
     dates: "May 2025 – Aug 2025",
     tags: ["Python", "MATLAB", "Sensor Fusion"],
-    summary: "Multimodal IMU + EMG sensing, calibration, EKF-oriented estimation support, and human-subject validation.",
+    summary: "End-to-end multimodal IMU + EMG sensing: architecture, calibration, EKF-oriented estimation support, and human-subject validation.",
     metric: "Status: Complete | Wearable Sensing",
     problem: "Synchronize noisy wearable sensor streams with visual tracking for reliable motion interpretation.",
     contribution: "Built acquisition and calibration pipelines and prepared datasets for multi-sensor state estimation.",
@@ -171,17 +171,6 @@ const PROJECTS = {
     externalLink: "lander.html",
     fileSize: "3.2 MB"
   },
-  "faultline": {
-    title: "FAULTLINE",
-    category: "personal",
-    logoUrl: "assets/images/faultline.png",
-    role: "Systems Engineer",
-    tags: ["State Machines", "Diagnostics"],
-    summary: "Deterministic fault-detection console for robotic subsystems.",
-    externalLink: "faultline.html",
-    fileSize: "4.1 MB"
-  },
-
   /* ---------- Coursework ---------- */
   "towed-sensor-winch": {
     title: "Towed-Sensor Winch",
@@ -587,15 +576,15 @@ function switchTab(tabName) {
     }
   } catch (_) { /* ignore */ }
 
-  const activeClass   = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 text-white transition-colors hover:text-blue-400";
+  const activeClass   = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 text-white transition-colors";
   const inactiveClass = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-colors";
 
-  // Determine active border color per tab
+  // Hub accent borders (CSS tokens — not Tailwind CDN dynamic classes)
   tabPersonal.className   = tabName === "personal"
-    ? `${activeClass} border-blue-500`
+    ? `${activeClass} archive-tab--personal`
     : inactiveClass;
   tabCoursework.className = tabName === "coursework"
-    ? `${activeClass} border-orange-500`
+    ? `${activeClass} archive-tab--course`
     : inactiveClass;
 
   tabPersonal.setAttribute("aria-selected",   String(tabName === "personal"));
@@ -616,15 +605,10 @@ function switchTab(tabName) {
       .join("");
 
     const isCourse = tabName === "coursework";
-    const roleColor = isCourse ? "text-orange-400" : "text-blue-400";
-    const hoverBorder = isCourse ? "hover:border-orange-500/50" : "hover:border-blue-500/50";
-    const hoverTitle = isCourse ? "group-hover:text-orange-400" : "group-hover:text-blue-400";
-    const hoverMeta = isCourse ? "group-hover:text-orange-400" : "group-hover:text-blue-400";
-    const hoverDot = isCourse ? "group-hover:bg-orange-500" : "group-hover:bg-blue-500";
-    const sweep = isCourse ? "via-orange-500/10" : "via-blue-500/10";
+    const hubClass = isCourse ? "archive-card--course" : "archive-card--personal";
 
     grid.innerHTML += `
-      <div class="archive-card group relative bg-[#0a0a0a] border border-white/10 ${hoverBorder} transition-colors duration-300 overflow-hidden flex flex-col h-full">
+      <div class="archive-card ${hubClass} group relative bg-[#0a0a0a] border border-white/10 overflow-hidden flex flex-col h-full">
         <div class="corner-bracket tl"></div>
         <div class="corner-bracket tr"></div>
         <div class="corner-bracket bl"></div>
@@ -634,8 +618,8 @@ function switchTab(tabName) {
         <div class="flex justify-between items-center px-4 py-2 bg-white/5 border-b border-white/10">
           <span class="font-mono text-[9px] text-gray-500 uppercase tracking-widest">FILE: ${id.split("-")[0].toUpperCase()}</span>
           <div class="flex items-center gap-2">
-            <span class="text-[9px] font-mono text-gray-600 ${hoverMeta} transition-colors">${p.fileSize || "1.0 MB"}</span>
-            <span class="w-1.5 h-1.5 bg-gray-700 ${hoverDot} rounded-full transition-colors"></span>
+            <span class="archive-meta text-[9px] font-mono text-gray-600 transition-colors">${p.fileSize || "1.0 MB"}</span>
+            <span class="archive-dot w-1.5 h-1.5 bg-gray-700 rounded-full transition-colors"></span>
           </div>
         </div>
 
@@ -644,18 +628,18 @@ function switchTab(tabName) {
                 class="archive-hit h-48 w-full bg-[#0a0a0a] relative overflow-hidden border-b border-white/5 cursor-pointer p-0 border-0 text-left">
           <img src="${p.logoUrl}" loading="lazy" alt=""
                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100 pointer-events-none">
-          <div class="absolute inset-0 bg-gradient-to-b from-transparent ${sweep} to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 pointer-events-none z-20"></div>
+          <div class="archive-sweep absolute inset-0 translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 pointer-events-none z-20"></div>
         </button>
 
         <!-- Card body: selectable copy -->
         <div class="p-6 flex flex-col flex-grow bg-[#0a0a0a]">
-          <h4 class="text-lg font-bold text-white mb-1 ${hoverTitle} transition-colors tracking-tight">${p.title}</h4>
-          <p class="text-[10px] font-mono ${roleColor} mb-4 uppercase tracking-wider font-bold">${p.role}</p>
+          <h4 class="archive-title text-lg font-bold text-white mb-1 transition-colors tracking-tight">${p.title}</h4>
+          <p class="archive-role text-[10px] font-mono mb-4 uppercase tracking-wider font-bold">${p.role}</p>
           <p class="text-sm text-gray-400 font-light leading-relaxed mb-6 flex-grow border-l border-white/10 pl-3">${p.summary}</p>
           <div class="flex flex-wrap items-center justify-between gap-3 mt-auto">
             <div class="flex flex-wrap gap-2">${tagsHtml}</div>
             <button type="button" onclick="${action}"
-                    class="archive-cta text-[10px] font-mono uppercase tracking-widest text-white inline-flex items-center gap-2 ${hoverTitle} cursor-pointer bg-transparent border-0 p-0 shrink-0">
+                    class="archive-cta text-[10px] font-mono uppercase tracking-widest text-white inline-flex items-center gap-2 transition-colors cursor-pointer bg-transparent border-0 p-0 shrink-0">
               Open <i class="fas fa-arrow-right text-[9px]" aria-hidden="true"></i>
             </button>
           </div>
@@ -1295,77 +1279,7 @@ function initScrollRestore() {
 }
 
 /* =============================================================================
- 13. HERO NOZZLE FLAME | middle-jet aft orifice (image-space → cover mapping)
-============================================================================= */
-/**
- * Natural-image nozzle point on hero_bg.jpg (0–1).
- * Center jet, aft orifice of the dorsal spine (between the fins).
- * Anchored from the user's red annotation base on the 1024×682 plate.
- */
-const HERO_NOZZLE = { x: 0.497, y: 0.518 };
-
-/** Map a natural-image point through object-fit:cover + object-position into #hero-section. */
-function mapCoverPoint(img, hero, nx, ny) {
-  const nw = img.naturalWidth || 1;
-  const nh = img.naturalHeight || 1;
-  const imgRect = img.getBoundingClientRect();
-  const heroRect = hero.getBoundingClientRect();
-  const ew = imgRect.width || 1;
-  const eh = imgRect.height || 1;
-  const ir = nw / nh;
-  const er = ew / eh;
-
-  // Matches CSS: object-position: center 40%
-  const posX = 0.5;
-  const posY = 0.4;
-
-  let rw;
-  let rh;
-  let ox;
-  let oy;
-  if (ir > er) {
-    rh = eh;
-    rw = rh * ir;
-    ox = (ew - rw) * posX;
-    oy = 0;
-  } else {
-    rw = ew;
-    rh = rw / ir;
-    ox = 0;
-    oy = (eh - rh) * posY;
-  }
-
-  return {
-    x: (imgRect.left - heroRect.left) + ox + nx * rw,
-    y: (imgRect.top - heroRect.top) + oy + ny * rh
-  };
-}
-
-function placeHeroNozzleFlame() {
-  const hero = document.getElementById("hero-section");
-  const img = document.querySelector("[data-hero-bg-img]");
-  const flame = document.querySelector("[data-hero-nozzle-flame]");
-  if (!hero || !img || !flame) return;
-
-  const place = () => {
-    if (!img.naturalWidth) return;
-    const pt = mapCoverPoint(img, hero, HERO_NOZZLE.x, HERO_NOZZLE.y);
-    flame.style.left = pt.x + "px";
-    flame.style.top = pt.y + "px";
-  };
-
-  if (img.complete) place();
-  else img.addEventListener("load", place, { once: true });
-
-  window.addEventListener("resize", place, { passive: true });
-  if (typeof ResizeObserver !== "undefined") {
-    new ResizeObserver(place).observe(img);
-    new ResizeObserver(place).observe(hero);
-  }
-}
-
-/* =============================================================================
- 14. HERO TAGLINE WASH | cool steel stream: breathing throttle (no amber)
+ 13. HERO TAGLINE WASH | cool steel stream: breathing throttle (no amber)
 ============================================================================= */
 function initHeroWash() {
   const root = document.querySelector("[data-hero-wash]");
@@ -1737,6 +1651,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initFooterMetrics();
   initSyncClock();
   initNav();
-  placeHeroNozzleFlame();
   initHeroWash();
 });

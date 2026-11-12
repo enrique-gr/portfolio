@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
-    <meta charset="UTF-8">
+  <link rel="icon" type="image/gif" href="assets/brand/favicon-live.gif?v=live2">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png?v=live2">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Towed-Sensor Winch | Enrique Garcia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.css?v=tw1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #e2e8f0;
-            will-change: opacity, transform;
+            /* will-change removed: breaks sticky section-nav */
         }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         .tech-highlight { color: #fb923c; font-weight: 600; }
@@ -24,10 +25,11 @@
         ::-webkit-scrollbar-thumb { background: #3f3f46; }
     </style>
     <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/section-nav.css?v=snav2">
 </head>
-<body class="antialiased bg-[#0f0f10] min-h-screen">
+<body class="hub-course antialiased bg-[#0f0f10] min-h-screen">
 
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <nav class="fixed top-0 w-full bg-black z-50 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <a href="index.html?hub=coursework#collections"
                onclick="smoothExit(event, this.href)"
@@ -42,7 +44,19 @@
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+    
+    <!-- SECTION NAV | shared project chrome -->
+    <div class="section-nav section-nav--course">
+        <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+            <nav class="flex items-center gap-0" aria-label="Page sections">
+                    <button type="button" class="section-nav-btn active is-active" data-target="section-overview">Overview</button>
+                    <button type="button" class="section-nav-btn" data-target="section-work">Work</button>
+                    <button type="button" class="section-nav-btn" data-target="section-blocks">Blocks</button>
+                    <button type="button" class="section-nav-btn" data-target="section-evidence">Evidence</button>
+            </nav>
+        </div>
+    </div>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
             <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
@@ -64,7 +78,7 @@
 
             <div class="lg:col-span-2 space-y-14">
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <h3 id="section-overview" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
                     <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
                         <p>
                             Senior design for the AIAA Design/Build/Fly 2026–27 Mission 3 theme: a motorized winch that deploys a towed sensor on dual steel cables, switches light modes through the tow path, and docks on retract.
@@ -74,7 +88,7 @@
                 </div>
 
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Did</h3>
+                    <h3 id="section-work" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Did</h3>
                     <div class="space-y-3">
                         <div class="bg-black border border-white/10 p-5">
                             <div class="flex items-start gap-4">
@@ -138,7 +152,7 @@
 
                 <div class="bg-black border border-white/10 p-6 mb-12">
                     <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">System Blocks</h3>
+                        <h3 id="section-blocks" class="font-bold text-white font-mono text-xs uppercase tracking-widest">System Blocks</h3>
                         <i class="fas fa-cogs text-gray-600"></i>
                     </div>
 
@@ -159,7 +173,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Build Evidence</h3>
+                    <h3 id="section-evidence" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Build Evidence</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <figure class="border border-white/10 bg-black overflow-hidden m-0">
                             <img src="assets/images/me_winch_bench.jpg"
@@ -183,7 +197,7 @@
 
             <div class="space-y-10">
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <h3 id="section-stack" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Mechatronics</span>
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">3D Print</span>
@@ -206,5 +220,7 @@
     </main>
 
     <script src="js/nav-persist.js?v=soft4"></script>
+  <script src="js/live-favicon.js?v=live2"></script>
+  <script src="js/section-nav.js?v=snav2"></script>
 </body>
 </html>

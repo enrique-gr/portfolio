@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
-    <meta charset="UTF-8">
+  <link rel="icon" type="image/gif" href="assets/brand/favicon-live.gif?v=live2">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png?v=live2">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lander Control Sim | Enrique Garcia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.css?v=tw1">
+  <link rel="stylesheet" href="css/hub-accents.css?v=hub2">
+
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -19,7 +22,7 @@
             font-family: 'Inter', sans-serif; 
             background-color: #050505; 
             color: #e2e8f0; 
-            will-change: opacity, transform; /* Optimize animation */
+            /* will-change removed: breaks sticky section-nav */
         }
         .font-mono { 
             font-family: 'JetBrains Mono', monospace; 
@@ -46,10 +49,11 @@
         ::-webkit-scrollbar-thumb { background: #3f3f46; }
     </style>
   <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/section-nav.css?v=snav2">
 </head>
-<body class="antialiased bg-[#0f0f10] min-h-screen">
+<body class="hub-personal antialiased bg-[#0f0f10] min-h-screen">
 
-<nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+<nav class="fixed top-0 w-full bg-black z-50 border-b border-white/10">
     <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
         <!-- 
            UPDATED RETURN MECHANISM:
@@ -68,6 +72,16 @@
     </div>
 </nav>
 
+
+    <!-- SECTION NAV | shared project chrome -->
+    <div class="section-nav section-nav--personal">
+        <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+            <nav class="flex items-center gap-0" aria-label="Page sections">
+                    <button type="button" class="section-nav-btn active is-active" data-target="section-overview">Overview</button>
+                    <button type="button" class="section-nav-btn" data-target="section-telemetry">Telemetry</button>
+            </nav>
+        </div>
+    </div>
 <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
         <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
@@ -86,7 +100,7 @@
             
             <div class="space-y-6">
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Overview</h3>
+                    <h3 id="section-overview" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Overview</h3>
                     <p class="text-gray-300 leading-relaxed text-sm font-light">
                         Interactive 1D lander sim: a PID loop fights gravity and wind to land soft. The panel on the right runs in autopilot so you can watch the control logic settle.
                     </p>
@@ -138,7 +152,7 @@
             </div>
 
             <div>
-                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Core Tech</h3>
+                <h3 id="section-core-tech" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Core Tech</h3>
                 <div class="flex flex-wrap gap-2">
                     <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Control Theory</span>
                     <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">JS Physics</span>
@@ -155,7 +169,7 @@
                 <div class="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-[#0a0a0a] absolute top-0 w-full z-10">
                     <div class="flex gap-2 items-center">
                         <span class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Live Telemetry</h3>
+                        <h3 id="section-telemetry" class="font-bold text-white font-mono text-xs uppercase tracking-widest">Live Telemetry</h3>
                     </div>
                     <!-- MODE INDICATOR -->
                     <div class="font-mono text-[10px] text-gray-500">MODE: <span class="text-yellow-500">AUTOPILOT</span></div>
@@ -358,5 +372,7 @@
     loop();
 </script>
   <script src="js/nav-persist.js?v=soft4"></script>
+  <script src="js/live-favicon.js?v=live2"></script>
+  <script src="js/section-nav.js?v=snav2"></script>
 </body>
 </html>

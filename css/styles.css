@@ -131,85 +131,6 @@ body {
   filter: brightness(0.72) contrast(1.12) saturate(0.85);
 }
 
-/*
- * Middle-jet nozzle flame — warm afterburner plume sized to the dorsal orifice.
- * Position (left/top) is set in JS from natural-image nozzle coords.
- */
-#hero-section > .hero-nozzle-flame {
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  width: 72px;
-  height: 148px;
-  transform: translate(-50%, -90%);
-  /* Above hero copy so the orifice reads through the scene; below site nav. */
-  z-index: 12;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  opacity: 0.97;
-}
-.hero-nozzle-flame__core {
-  position: absolute;
-  left: 50%;
-  bottom: 6px;
-  width: 18px;
-  height: 18px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 252, 245, 1) 0%,
-    rgba(254, 215, 170, 0.95) 32%,
-    rgba(251, 146, 60, 0.78) 54%,
-    transparent 78%
-  );
-  box-shadow:
-    0 0 12px rgba(255, 247, 237, 0.78),
-    0 0 26px rgba(251, 146, 60, 0.58);
-}
-.hero-nozzle-flame__plume {
-  position: absolute;
-  left: 50%;
-  bottom: 12px;
-  width: 28px;
-  height: 122px;
-  transform: translateX(-50%);
-  border-radius: 46% 46% 40% 40% / 10% 10% 80% 80%;
-  background: radial-gradient(
-    ellipse 68% 96% at 50% 95%,
-    rgba(255, 248, 230, 0.98) 0%,
-    rgba(254, 215, 170, 0.92) 14%,
-    rgba(251, 146, 60, 0.8) 30%,
-    rgba(249, 115, 22, 0.45) 50%,
-    rgba(194, 65, 12, 0.2) 68%,
-    transparent 90%
-  );
-  filter: blur(0.5px);
-  transform-origin: 50% 100%;
-  animation: heroNozzleBreathe 3.2s ease-in-out infinite;
-}
-@keyframes heroNozzleBreathe {
-  0%, 100% { opacity: 0.84; transform: translateX(-50%) scaleY(0.96) scaleX(0.98); }
-  50%      { opacity: 1;    transform: translateX(-50%) scaleY(1.07) scaleX(1.04); }
-}
-@media (max-width: 768px) {
-  #hero-section > .hero-nozzle-flame {
-    width: 52px;
-    height: 108px;
-  }
-  .hero-nozzle-flame__core {
-    width: 14px;
-    height: 14px;
-  }
-  .hero-nozzle-flame__plume {
-    width: 20px;
-    height: 88px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-nozzle-flame__plume { animation: none; opacity: 0.95; }
-}
-
 .hero-bg::after {
   content: '';
   position: absolute;
@@ -235,7 +156,7 @@ body {
 
 .hero-tagline { text-shadow: 0 0 26px rgba(96,165,250,.4); }
 
-/* --- Tagline wash: cool steel / cyan stream (kept distinct from warm jet exhaust) --- */
+/* --- Tagline wash: cool steel / cyan thrust stream from UI nozzle --- */
 .hero-wash {
   position: relative;
   display: flex;
@@ -1030,6 +951,49 @@ body {
 }
 .archive-cta { user-select: none; cursor: pointer !important; }
 
+/* Hub-colored hover (CSS, not Tailwind CDN — classes are injected by JS) */
+.archive-card--personal { --archive-accent: var(--eg-personal); --archive-accent-deep: var(--eg-personal-deep); --archive-accent-soft: var(--eg-personal-soft); --archive-accent-border: var(--eg-personal-border); }
+.archive-card--course   { --archive-accent: var(--eg-course);   --archive-accent-deep: var(--eg-course-deep);   --archive-accent-soft: var(--eg-course-soft);   --archive-accent-border: var(--eg-course-border); }
+
+.archive-card--personal,
+.archive-card--course {
+  transition: border-color 0.3s ease;
+}
+.archive-card--personal:hover,
+.archive-card--course:hover {
+  border-color: var(--archive-accent-border);
+}
+.archive-card .archive-role {
+  color: var(--archive-accent);
+}
+.archive-card:hover .archive-title,
+.archive-card:hover .archive-meta,
+.archive-card:hover .archive-cta {
+  color: var(--archive-accent);
+}
+.archive-card:hover .archive-dot {
+  background: var(--archive-accent-deep);
+}
+.archive-card .archive-sweep {
+  background-image: linear-gradient(
+    to bottom,
+    transparent,
+    var(--archive-accent-soft),
+    transparent
+  );
+}
+
+.archive-tab--personal {
+  border-color: var(--eg-personal) !important;
+  color: #fff;
+}
+.archive-tab--personal:hover { color: var(--eg-personal); }
+.archive-tab--course {
+  border-color: var(--eg-course) !important;
+  color: #fff;
+}
+.archive-tab--course:hover { color: var(--eg-course); }
+
 /* Radar sweep overlay — kept inside the plot (under labels, clipped by panel) */
 @keyframes radar-sweep { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .radar-sweep-line {
@@ -1206,6 +1170,19 @@ body {
   --mission-past: #9aa3b2;
   --mission-active: #3bcf98;
   --mission-target: #e89b12;
+
+  /*
+   * Hub accents — personal azure is near-complementary to coursework orange
+   * (~172° hue split) and stays readable on #050505.
+   */
+  --eg-personal: #5b9eff;
+  --eg-personal-deep: #3b82f6;
+  --eg-personal-soft: rgba(91, 158, 255, 0.12);
+  --eg-personal-border: rgba(91, 158, 255, 0.45);
+  --eg-course: #fb923c;
+  --eg-course-deep: #f97316;
+  --eg-course-soft: rgba(249, 115, 22, 0.12);
+  --eg-course-border: rgba(249, 115, 22, 0.45);
 }
 
 .hero-mission-header {

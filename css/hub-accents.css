@@ -1,0 +1,38 @@
+/**
+ * Shared hub accents — personal azure vs coursework orange.
+ * Personal #5B9EFF is near-complementary to coursework #FB923C (~172° hue).
+ */
+:root {
+  --eg-personal: #5b9eff;
+  --eg-personal-deep: #3b82f6;
+  --eg-personal-soft: rgba(91, 158, 255, 0.12);
+  --eg-personal-border: rgba(91, 158, 255, 0.45);
+  --eg-course: #fb923c;
+  --eg-course-deep: #f97316;
+  --eg-course-soft: rgba(249, 115, 22, 0.12);
+  --eg-course-border: rgba(249, 115, 22, 0.45);
+}
+
+/* Semantic helpers for project pages */
+.hub-personal-text { color: var(--eg-personal) !important; }
+.hub-personal-border { border-color: var(--eg-personal-border) !important; }
+.hub-personal-bg-soft { background-color: var(--eg-personal-soft) !important; }
+.hub-course-text { color: var(--eg-course) !important; }
+.hub-course-border { border-color: var(--eg-course-border) !important; }
+.hub-course-bg-soft { background-color: var(--eg-course-soft) !important; }
+
+/*
+ * Personal pages used to remap Tailwind blue/sky via CDN config.
+ * Keep that azure accent when using the built stylesheet.
+ */
+.hub-personal .text-blue-400,
+.hub-personal .hover\:text-blue-400:hover,
+.hub-personal .group:hover .group-hover\:text-blue-400 { color: var(--eg-personal); }
+.hub-personal .text-sky-400 { color: var(--eg-personal); }
+.hub-personal .text-sky-300 { color: #7dd3fc; }
+.hub-personal .border-blue-500\/40,
+.hub-personal .border-blue-500\/30,
+.hub-personal .border-sky-500\/30 { border-color: var(--eg-personal-border); }
+.hub-personal .bg-sky-500\/10,
+.hub-personal .bg-blue-500\/5,
+.hub-personal .bg-blue-500\/10 { background-color: var(--eg-personal-soft); }

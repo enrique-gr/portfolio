@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
-
-    <meta charset="UTF-8">
+  <link rel="icon" type="image/gif" href="assets/brand/favicon-live.gif?v=live2">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png?v=live2">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIDE | Enrique Garcia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.css?v=tw1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #e2e8f0;
-            will-change: opacity, transform;
+            /* will-change removed: breaks sticky section-nav */
         }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
@@ -81,10 +81,11 @@
         }
     </style>
   <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/section-nav.css?v=snav2">
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <nav class="fixed top-0 w-full bg-black z-50 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                 <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
@@ -98,7 +99,18 @@
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+    
+    <!-- SECTION NAV | shared project chrome -->
+    <div class="section-nav section-nav--mide">
+        <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+            <nav class="flex items-center gap-0" aria-label="Page sections">
+                    <button type="button" class="section-nav-btn active is-active" data-target="section-overview">Overview</button>
+                    <button type="button" class="section-nav-btn" data-target="section-work">Work</button>
+<button type="button" class="section-nav-btn" data-target="section-focus">Focus</button>
+            </nav>
+        </div>
+    </div>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
         <!-- Header -->
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
@@ -122,23 +134,23 @@
 
                 <!-- Overview -->
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <h3 id="section-overview" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
                     <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
                         <p>
                             The Missouri Institute for Defense and Energy is a multidisciplinary research institute that bridges academia and industry to tackle complex defense and energy challenges. With over 80 researchers spanning engineering, physics, and beyond, MIDE collaborates with the Department of Defense, the Office of Naval Research, and the National Science Foundation across a wide range of programs.
                         </p>
                         <p>
-                            As a <span class="tech-highlight">UAS Research Intern</span>, I worked inside that research environment on experimental unmanned platforms.
-                            The internship was research-facing: return aircraft to a testable state after structural work, support flight-test operations, and use flight data to judge how configuration affected readiness.
-                            I also brought platforms up from hardware through calibration and bench checks, and verified that sensing, estimation, and actuation hung together on the vehicle.
-                            Controller redesign was out of scope; the work stayed on systems integration, measurement, and readiness judgment.
+                            As a <span class="tech-highlight">UAS Research Intern</span>, I worked mission-facing on experimental unmanned platforms:
+                            return aircraft to a testable state after structural work, support flight-test operations, and use flight data to judge how configuration affected readiness.
+                            Platforms had to be brought up end-to-end—hardware through calibration and bench checks—so sensing, estimation, and actuation hung together on the vehicle.
+                            Controller redesign was out of scope; the work stayed on systems integration, measurement, and readiness calls I could defend from data.
                         </p>
                     </div>
                 </div>
 
                 <!-- What I Did -->
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Did</h3>
+                    <h3 id="section-work" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Did</h3>
 
                     <div class="space-y-3">
 
@@ -212,7 +224,7 @@
 
                 <!-- Lab website link card -->
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">External Links</h3>
+                    <h3 id="section-links" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">External Links</h3>
                     <div class="space-y-4">
                         <a href="https://info.umkc.edu/mide/research-staging/" target="_blank" rel="noopener noreferrer"
                            class="group block border border-white/10 bg-[#0a0a0a] hover:border-blue-400/60 transition-colors overflow-hidden">
@@ -235,7 +247,7 @@
 
                 <!-- Focus Areas -->
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">My Focus Areas</h3>
+                    <h3 id="section-focus" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">My Focus Areas</h3>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">UAS Research</span>
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Experimental UAS</span>
@@ -295,5 +307,7 @@
         </div>
     </footer>
   <script src="js/nav-persist.js?v=soft4"></script>
+  <script src="js/live-favicon.js?v=live2"></script>
+  <script src="js/section-nav.js?v=snav2"></script>
 </body>
 </html>

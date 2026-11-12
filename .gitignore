@@ -13,3 +13,6 @@ georgia-tech-georgia-institute-of-technology-vector-logo-2022.svg
 # OS / unrelated
 desktop.ini
 portfolio/
+
+# Tailwind build tooling
+node_modules/

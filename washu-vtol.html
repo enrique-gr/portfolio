@@ -1,11 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
-    <meta charset="UTF-8">
+  <link rel="icon" type="image/gif" href="assets/brand/favicon-live.gif?v=live2">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png?v=live2">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WashU VTOL | Enrique Garcia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.css?v=tw1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -234,7 +235,7 @@
 
     <div id="pageWrap">
 
-        <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <nav class="fixed top-0 w-full bg-black z-50 border-b border-white/10">
             <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
                 <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                     <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
@@ -271,7 +272,14 @@
                 <div class="flex-1">
                     <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">WashU VTOL</h1>
                     <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Lead Avionics Engineer | Founding Member</p>
-                    <div class="mt-4 text-[10px] font-mono text-blue-400/90 border border-blue-500/30 px-2 py-1 uppercase inline-block">Sep 2025 – Present</div>
+                    <p class="mt-3 text-sm text-gray-400 max-w-2xl leading-relaxed">
+                        Competition aircraft for the Vertical Flight Society
+                        <span class="text-gray-200">Design-Build-Vertical Flight</span> program.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <div class="text-[10px] font-mono text-blue-400/90 border border-blue-500/30 px-2 py-1 uppercase">Sep 2025 – Present</div>
+                        <div class="text-[10px] font-mono text-gray-400 border border-white/15 px-2 py-1 uppercase">VFS DBVF</div>
+                    </div>
                 </div>
             </div>
 
@@ -284,17 +292,17 @@
                         <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Mission</h3>
                         <div class="text-lg text-gray-300 leading-relaxed font-light space-y-6 mb-10 max-w-3xl">
                             <p>
-                                WashU VTOL was founded in Fall 2025 to compete in the Vertical Flight Society
-                                Design-Build-Vertical Flight competition.
+                                WashU VTOL was founded in 2025 to compete in
+                                <span class="tech-highlight">VFS Design-Build-Vertical Flight</span>.
+                                I joined as a founding member and now lead avionics on a mission-oriented team building competition aircraft from a blank sheet.
                             </p>
                             <p>
-                                A new team meant no inherited designs and no prior aircraft to learn from.
-                                As a founding member and Lead Avionics Engineer, I am responsible for integrating sensing,
-                                flight control, RF links, and payload interfaces into one system that holds up in flight test.
+                                With no inherited designs or prior aircraft to lean on, the avionics stack had to be stood up end-to-end:
+                                sensing, flight control, RF links, and payload interfaces that hold together under flight-test pressure.
                             </p>
                             <p>
-                                Each cycle starts from a published rule set with hard limits on weight, altitude, time, and lost-link behavior.
-                                The avionics have to meet every one of them on a fixed fly-off date, and I own the result when they do not.
+                                Each cycle is driven by a published rule set with hard limits on weight, altitude, time, and lost-link behavior.
+                                The work stays mission-first: close the interfaces, prove them under load, and own the result on the fly-off date.
                             </p>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
@@ -385,9 +393,9 @@
                             <div class="border border-white/10 bg-black/40 p-3"><span class="text-gray-500 block mb-1">Lost-link</span><span class="text-white">&gt; 5 s &rarr; vertical LAND</span></div>
                         </div>
                         <button class="fig-card fig-glow text-left w-full" type="button"
-                            onclick="openModal('assets/images/Power%20x%20Avionics%20_%20High-level%20System%20Architecture%20_%20Working%20Document-CDR%20DIAGRAM.drawio.svg','2026–2027 System Architecture: Quadcopter')">
+                            onclick="openModal('assets/images/vtol_system_architecture_cdr.svg','2026–2027 System Architecture: Quadcopter')">
                             <span class="fig-badge font-mono text-blue-200">System Architecture | Authored</span>
-                            <img src="assets/images/Power%20x%20Avionics%20_%20High-level%20System%20Architecture%20_%20Working%20Document-CDR%20DIAGRAM.drawio.svg"
+                            <img src="assets/images/vtol_system_architecture_cdr.svg"
                                  alt="WashU VTOL 2026-2027 Quadcopter high-level power and avionics system architecture"
                                  class="w-full h-auto object-contain bg-white">
                             <div class="p-4 border-t border-white/10">
@@ -513,70 +521,76 @@
                         </div>
                     </section>
 
-                    <!-- PRIOR CYCLE: HEXACOPTER -->
-                    <div id="section-prior" class="bg-black border border-white/10 p-6 mb-12">
-                        <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
-                            <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">2025–2026 | Hexacopter | Closed Evidence</h3>
-                            <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Prior Cycle</span>
+                    <!-- PRIOR CYCLE: HEXACOPTER MISSION RECORD -->
+                    <div id="section-prior" class="mb-12">
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                            <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest">Mission Record | 2025–2026 VFS DBVF Hexacopter</h3>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 border border-emerald-500/30 px-2 py-0.5">Prior Cycle | Closed</span>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-8 font-light">
-                            First vehicle for a brand-new team. The Hexacopter cycle was about earning flight authority:
-                            architecture, wiring discipline, HIL, then hover, transition, and payload ops with proof in hand.
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 font-light max-w-2xl">
+                            Founding-year vehicle. Built the avionics stack from a blank sheet, then closed hover, transition, and payload ops with evidence.
                         </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-xs">
-                            <div>
-                                <h4 class="text-gray-500 mb-4 uppercase tracking-wider">&gt;&gt; Hexacopter Milestones</h4>
-                                <div class="space-y-2">
-                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                        <span>[SYS_ARCH] Avionics Architecture</span>
-                                        <span class="text-emerald-500">COMPLETE</span>
-                                    </div>
-                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                        <span>[HW_INT] Power &amp; Wiring</span>
-                                        <span class="text-emerald-500">COMPLETE</span>
-                                    </div>
-                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                        <span>[HIL_VAL] HIL Simulation</span>
-                                        <span class="text-emerald-500">COMPLETE</span>
-                                    </div>
-                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                        <span>[FLT_001] First Hover Test</span>
-                                        <span class="text-emerald-500">COMPLETE</span>
-                                    </div>
-                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                        <span>[FLT_002] VTOL Transition</span>
-                                        <span class="text-emerald-500">COMPLETE</span>
-                                    </div>
-                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
-                                        <span>[PAY_OPS] Manual Payload Ops</span>
-                                        <span class="text-emerald-500">COMPLETE</span>
-                                    </div>
-                                    <div class="flex justify-between p-2 bg-white/5 border-l-2 border-blue-400">
-                                        <span>[NEXT] Quadcopter Rebuild | Search and Rescue</span>
-                                        <span class="text-blue-400">ACTIVE</span>
-                                    </div>
+
+                        <!-- Visual evidence strip (existing Hexacopter media) -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                            <button class="fig-card text-left" type="button"
+                                onclick="openModal('assets/images/vtol_aircraft_assembly.png','Hexacopter assembly — first team airframe')">
+                                <span class="fig-badge font-mono text-gray-200">Airframe</span>
+                                <img src="assets/images/vtol_aircraft_assembly.png" alt="WashU VTOL Hexacopter assembly"
+                                     class="eg-photo w-full h-44 object-cover">
+                                <div class="p-3 border-t border-white/10">
+                                    <div class="text-white font-mono text-[10px] uppercase tracking-widest">Assembly</div>
+                                </div>
+                            </button>
+                            <button class="fig-card text-left" type="button"
+                                onclick="openModal('assets/images/vtol_wiring_diagram.png','Hexacopter wiring — power domains &amp; signal routing')">
+                                <span class="fig-badge font-mono text-gray-200">Avionics</span>
+                                <img src="assets/images/vtol_wiring_diagram.png" alt="WashU VTOL Hexacopter wiring diagram"
+                                     class="w-full h-44 object-cover object-top bg-white">
+                                <div class="p-3 border-t border-white/10">
+                                    <div class="text-white font-mono text-[10px] uppercase tracking-widest">Wiring / Power Domains</div>
+                                </div>
+                            </button>
+                            <a href="assets/videos/vtol_test_flight.mp4" target="_blank" rel="noopener noreferrer"
+                               class="fig-card fig-glow block text-left group">
+                                <span class="fig-badge font-mono text-blue-200">Flight Test</span>
+                                <div class="relative">
+                                    <img src="assets/images/vtol_flight_test_thumbnail.jpg" alt="Hexacopter flight test"
+                                         class="eg-photo w-full h-44 object-cover">
+                                    <span class="absolute inset-0 flex items-center justify-center bg-black/35 group-hover:bg-black/20 transition-colors">
+                                        <i class="fas fa-play text-white text-lg" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                                <div class="p-3 border-t border-white/10">
+                                    <div class="text-white font-mono text-[10px] uppercase tracking-widest">Flight Video</div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Compact proof + carry-forward (no essay cards) -->
+                        <div class="border border-white/10 bg-black p-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <div class="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-3">Proved</div>
+                                    <ul class="space-y-2 text-sm text-gray-300">
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>Hover in VTOL mode</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>VTOL → fixed-wing transition</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>Manual payload delivery</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-3">Carried to Quadcopter</div>
+                                    <ul class="space-y-2 text-sm text-gray-300">
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></span>Isolated propulsion / avionics rails</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></span>I2C EMI fix (VTOL-01)</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></span>HIL / bench gates before hover</li>
+                                    </ul>
                                 </div>
                             </div>
-
-                            <div class="relative p-4 border border-emerald-500/20 bg-emerald-900/5 rounded-sm">
-                                <h4 class="text-emerald-400 mb-6 text-center uppercase tracking-wider">Hexacopter Core Bus</h4>
-                                <div class="flex flex-col items-center gap-4 relative z-10">
-                                    <div class="w-32 py-2 text-center border border-white/40 bg-[#0f0f10] rounded">GPS &amp; COMPASS</div>
-                                    <div class="h-4 w-0.5 bg-emerald-500/50"></div>
-                                    <div class="w-40 py-3 text-center border-2 border-emerald-400 font-bold bg-[#0f0f10] rounded relative">
-                                        PIXHAWK 6C (FMU)
-                                        <div class="absolute -left-16 top-1/2 -translate-y-1/2 w-14 h-0.5 bg-emerald-500/30"></div>
-                                        <div class="absolute -right-16 top-1/2 -translate-y-1/2 w-14 h-0.5 bg-emerald-500/30"></div>
-                                    </div>
-                                    <div class="absolute left-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">POWER MODULE</div>
-                                    <div class="absolute right-2 top-[88px] w-24 py-1 text-center border border-white/20 text-[10px] bg-[#0f0f10]">TELEMETRY RADIO</div>
-                                    <div class="h-4 w-0.5 bg-emerald-500/50"></div>
-                                    <div class="w-52 py-2 text-center border border-white/40 bg-[#0f0f10] rounded flex justify-around gap-1 px-2">
-                                        <span>ESC 1–6 | Hexacopter</span>
-                                        <span>|</span>
-                                        <span>SERVOS (FW)</span>
-                                    </div>
-                                </div>
+                            <div class="mt-5 pt-4 border-t border-white/10 flex flex-wrap gap-4 text-[10px] font-mono uppercase tracking-widest">
+                                <a href="docs/WashU_VTOL_FTR.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-white transition-colors">FTR PDF</a>
+                                <a href="docs/VFS_DBVF_2025-2026_RFP.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-white transition-colors">2025–26 RFP</a>
+                                <a href="assets/images/vtol_test_bench_1.png" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors">Bench bring-up</a>
                             </div>
                         </div>
                     </div>
@@ -641,17 +655,17 @@
                     <div class="p-8 bg-blue-500/5 border border-blue-500/20">
                         <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">Ownership</h4>
                         <p class="text-sm text-blue-100/80 leading-relaxed">
-                            Founding member. Stood up the avionics function on a team with no prior aircraft, then carried
+                            Stood up the avionics function on a team founded in 2025 with no prior aircraft, then carried
                             the Hexacopter through hover, transition, and payload ops. On the Quadcopter I authored
                             the system architecture and own flight controller integration, RF links, and the payload
-                            electronics path, from bench to fly-off.
+                            electronics path from bench to fly-off.
                         </p>
                     </div>
 
                     <div class="p-5 border border-white/10 bg-white/5">
                         <div class="text-xs font-bold text-white font-mono uppercase tracking-widest mb-3">Quick Links</div>
                         <div class="space-y-2 text-xs font-mono">
-                            <a href="assets/images/Power%20x%20Avionics%20_%20High-level%20System%20Architecture%20_%20Working%20Document-CDR%20DIAGRAM.drawio.svg" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
+                            <a href="assets/images/vtol_system_architecture_cdr.svg" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
                                 <i class="fas fa-diagram-project mr-2"></i>2026–27 System Architecture
                             </a>
                             <a href="docs/VFS_DBVF_2026-2027_RFP.pdf" target="_blank" rel="noopener noreferrer" class="block text-blue-400 hover:text-blue-300 transition-colors">
@@ -778,5 +792,6 @@ function scrollToSection(id, btn) {
     });
 </script>
   <script src="js/nav-persist.js?v=soft4"></script>
+  <script src="js/live-favicon.js?v=live2"></script>
 </body>
 </html>

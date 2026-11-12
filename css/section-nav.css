@@ -1,0 +1,77 @@
+/**
+ * Shared sticky section nav — matched to Interests / VTOL / About / DBF.
+ * Solid black bar, sticks at 80px (just under the fixed Return nav).
+ * Do NOT put will-change:transform / transform on body — that breaks sticky.
+ */
+.section-nav {
+  position: sticky;
+  top: 80px; /* sits just below the main nav */
+  z-index: 40;
+  background: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.section-nav nav,
+.section-nav > div {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.section-nav::-webkit-scrollbar,
+.section-nav nav::-webkit-scrollbar,
+.section-nav > div::-webkit-scrollbar {
+  display: none;
+}
+.section-nav-btn {
+  position: relative;
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  text-decoration: none;
+}
+.section-nav-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: var(--section-nav-accent, #8eb6e8);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+  transform-origin: left;
+}
+.section-nav-btn:hover {
+  color: #d1d5db;
+}
+.section-nav-btn.is-active,
+.section-nav-btn.active {
+  color: #e5e7eb;
+}
+.section-nav-btn.is-active::after,
+.section-nav-btn.active::after {
+  transform: scaleX(1);
+}
+
+/* Hub accent underlines */
+body.hub-personal .section-nav,
+.section-nav--personal {
+  --section-nav-accent: #5b9eff;
+}
+body.hub-course .section-nav,
+.section-nav--course {
+  --section-nav-accent: #fb923c;
+}
+.section-nav--mide {
+  --section-nav-accent: #4ade80;
+}
+.section-nav--miro {
+  --section-nav-accent: #c084fc;
+}

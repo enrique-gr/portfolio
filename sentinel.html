@@ -2,13 +2,15 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
-
-    <meta charset="UTF-8">
+  <link rel="icon" type="image/gif" href="assets/brand/favicon-live.gif?v=live2">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png?v=live2">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Sentinel CV & Actuator | Enrique Garcia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.css?v=tw1">
+  <link rel="stylesheet" href="css/hub-accents.css?v=hub2">
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,7 +26,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #e2e8f0;
-            will-change: opacity, transform; /* Optimize animation */
+            /* will-change removed: breaks sticky section-nav */
         }
 
         .font-mono {
@@ -53,11 +55,12 @@
         }
     </style>
   <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/section-nav.css?v=snav2">
 </head>
 
-<body class="antialiased bg-[#0f0f10] min-h-screen">
+<body class="hub-personal antialiased bg-[#0f0f10] min-h-screen">
 
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <nav class="fixed top-0 w-full bg-black z-50 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <a href="index.html?hub=personal#collections" onclick="smoothExit(event, this.href)"
                class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
@@ -72,7 +75,18 @@
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+    
+    <!-- SECTION NAV | shared project chrome -->
+    <div class="section-nav section-nav--personal">
+        <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+            <nav class="flex items-center gap-0" aria-label="Page sections">
+                    <button type="button" class="section-nav-btn active is-active" data-target="section-overview">Overview</button>
+                    <button type="button" class="section-nav-btn" data-target="section-built">Built</button>
+                    <button type="button" class="section-nav-btn" data-target="section-hil">HIL</button>
+            </nav>
+        </div>
+    </div>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
             <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
@@ -95,7 +109,7 @@
             <div class="lg:col-span-2 space-y-14">
 
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
+                    <h3 id="section-overview" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
                     <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
                         <p>
                             Sentinel is a closed-loop perception-to-actuation prototype: detect a fast target, estimate its state, then drive a physical gimbal to track it.
@@ -108,7 +122,7 @@
                 </div>
 
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Built</h3>
+                    <h3 id="section-built" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">What I Built</h3>
                     <div class="space-y-3">
                         <div class="bg-black border border-white/10 p-5">
                             <div class="flex items-start gap-4">
@@ -162,7 +176,7 @@
                     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoNTYsIDE4OSwgMjQ4LCAwLjA1KSIvPjwvc3ZnPg==')] opacity-50"></div>
                     
                     <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4 relative z-10">
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
+                        <h3 id="section-hil" class="font-bold text-white font-mono text-xs uppercase tracking-widest">
                             Sentinel-Actuator // Hardware-in-the-Loop
                         </h3>
                         <i class="fas fa-microchip text-gray-600"></i>
@@ -221,56 +235,12 @@
                     </div>
                 </div>
 
-                <div class="bg-black border border-white/10 p-6">
-                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
-                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">
-                            HUD & Telemetry Preview
-                        </h3>
-                        <i class="fas fa-crosshairs text-gray-600"></i>
-                    </div>
-
-                    <div class="flex flex-col md:flex-row gap-6 items-center">
-                        <div class="w-full md:w-1/2">
-                            <div
-                                class="aspect-video border border-blue-500/40 bg-[#020617] relative overflow-hidden">
-                                <div
-                                    class="absolute inset-0 flex items-center justify-center text-blue-400/70 text-[10px] font-mono tracking-widest">
-                                    SENTINEL HUD // LIVE FEED MOCK
-                                </div>
-                                <div
-                                    class="absolute inset-4 border border-blue-500/40 rounded-full opacity-40"></div>
-                                <div
-                                    class="absolute top-2 left-2 text-[9px] text-blue-500/80 font-mono">
-                                    CAM_01 // OPTICAL
-                                </div>
-                                <div
-                                    class="absolute bottom-2 right-2 text-[9px] text-red-400 font-mono">
-                                    TRK_ID: 0492 // LOCKED
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-full md:w-1/2 space-y-3 text-sm text-gray-300">
-                            <p>
-                                The full-screen HUD validates the system in real-time. It visualizes the raw detection bounding boxes, the smoothed Kalman trajectory (predicted path), and the calculated intercept point.
-                            </p>
-                            <p class="text-xs text-gray-400">
-                                Future updates will overlay the Turret's real-time position feedback to visualize tracking error during live fire tests.
-                            </p>
-                            <a href="sentinel-hud.html"
-                               class="inline-flex items-center gap-2 text-blue-400 hover:text-white text-xs font-mono tracking-widest mt-2 border border-blue-500/40 px-3 py-2 bg-black/40">
-                                <i class="fas fa-play"></i>
-                                LAUNCH HUD DEMO
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <div class="space-y-10">
 
                 <div>
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
+                    <h3 id="section-stack" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">
                         Tech Stack
                     </h3>
                     <div class="flex flex-wrap gap-2">
@@ -330,5 +300,7 @@
         </div>
     </footer>
   <script src="js/nav-persist.js?v=soft4"></script>
+  <script src="js/live-favicon.js?v=live2"></script>
+  <script src="js/section-nav.js?v=snav2"></script>
 </body>
 </html>
