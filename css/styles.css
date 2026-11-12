@@ -28,20 +28,11 @@ html {
   background-color: var(--eg-bg, #050505);
 }
 
-/* Cross-document View Transitions (Chromium); ignored elsewhere */
-@view-transition {
-  navigation: auto;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 0.22s;
-}
-
+/* Soft page exit — used by navigateTo / smoothExit (no View Transition stacking) */
 html.page-exit body {
   opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transform: translateY(3px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
 }
 
 /* Skip one-shot entrances after back / Return */
@@ -410,9 +401,8 @@ body {
 }
 @media (max-width: 900px) { #featured .feat-inner { padding: 0 20px; } }
 
-/* Shared wide-content container used by capabilities, anomalies, collections */
+/* Shared wide-content container used by capabilities, collections */
 #capabilities,
-#anomalies,
 #collections {
   max-width: 1400px;
   margin-left: auto;
@@ -422,12 +412,7 @@ body {
 }
 @media (max-width: 900px) {
   #capabilities,
-  #anomalies,
   #collections { padding-left: 20px; padding-right: 20px; }
-}
-#anomalies-scroll { margin-left: -40px; margin-right: -40px; padding-left: 40px; padding-right: 40px; }
-@media (max-width: 900px) {
-  #anomalies-scroll { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
 }
 
 .feat-img-wrap { height: 320px; }
@@ -452,7 +437,7 @@ body {
 }
 @media (max-width: 640px) {
   .sp { font-size: 8px; padding: 4px 8px; letter-spacing: .06em; }
-  .hero-mission-scroll { max-height: none; overflow: visible; }
+  .hero-mission-scroll { max-height: min(380px, 48vh); }
   .hero-mission-item { padding: 8px 8px 8px 10px; }
 }
 .sp:hover  { border-color: rgba(255,255,255,.28); color: #fff; background: rgba(255,255,255,.04); }
@@ -490,6 +475,11 @@ body {
 
 .role-badge { box-shadow: -2px 0 0 0 #3b82f6; transition: all .3s ease; }
 .group:hover .role-badge { background: rgba(59,130,246,.15); box-shadow: -4px 0 0 0 #3b82f6; }
+
+/* Featured copy stack: keeps Initialize Protocol under the same content edge */
+.feat-copy { min-width: 0; }
+.feat-copy .proof-grid { max-width: none; width: 100%; }
+.feat-cta { align-self: flex-start; }
 
 /* Radar sweep overlay */
 @keyframes radar-sweep { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -648,8 +638,8 @@ body {
 
 :root {
   --mission-past: #94a3b8;
-  --mission-active: #8eb6e8;
-  --mission-target: #e0b84e;
+  --mission-active: #34d399;
+  --mission-target: #FFD400;
 }
 
 .hero-mission-header {
@@ -683,26 +673,26 @@ body {
   border: none;
   background: transparent;
 }
-.mission-legend__item--target { color: #e0b84e; }
-.mission-legend__item--active { color: #8eb6e8; }
+.mission-legend__item--target { color: #FFD400; }
+.mission-legend__item--active { color: #34d399; }
 .mission-legend__item--done { color: #94a3b8; }
 .mission-legend__item i { font-size: 8px; }
 
-.mission-expand-hint {
-  margin-left: auto;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: #6b7280;
-}
-.group:hover .mission-expand-hint { color: #d1d5db; }
-
 .hero-mission-scroll {
-  max-height: none;
-  overflow: visible;
-  padding-right: 0;
-  padding-bottom: 2px;
+  max-height: min(440px, 52vh);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding-right: 6px;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.22) transparent;
+}
+.hero-mission-scroll::-webkit-scrollbar { width: 4px; }
+.hero-mission-scroll::-webkit-scrollbar-track { background: transparent; }
+.hero-mission-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.22);
+  border-radius: 2px;
 }
 
 .hero-mission-list {
@@ -815,7 +805,7 @@ body {
   background: #0a0a0a;
 }
 .mission-thumb--active {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(52, 211, 153, 0.45);
   background: #fff;
 }
 .mission-thumb--target {
@@ -839,54 +829,35 @@ body {
 }
 
 .hero-mission-item.active::before {
-  border-color: #8eb6e8;
-  background: #6b9fd4;
+  border-color: #34d399;
+  background: #10b981;
 }
-.mission-status--active { color: #8eb6e8; }
+.mission-status--active { color: #34d399; }
 .hero-mission-item.active:hover {
   transform: translateX(3px);
-  border-color: rgba(142, 182, 232, 0.35);
+  border-color: rgba(52, 211, 153, 0.35);
   background: rgba(255, 255, 255, 0.05);
 }
 
 .hero-mission-item.target::before {
-  border: 1.5px solid #e0b84e;
+  border: 1.5px solid #FFD400;
   background: transparent;
 }
-.mission-status--target { color: #e0b84e; }
+.mission-status--target { color: #FFD400; }
 .hero-mission-item.target:hover {
   transform: translateX(3px);
-  border-color: rgba(224, 184, 78, 0.35);
+  border-color: rgba(255, 212, 0, 0.35);
   background: rgba(255, 255, 255, 0.05);
 }
 
 .hero-mission-item h4 { letter-spacing: .01em; }
 
-.mission-target-note {
-  margin: 0 12px 12px 14px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-.mission-target-note p {
-  margin: 0;
-  color: #c4cad5;
+.mission-target-note-inline {
+  margin: 6px 0 0;
+  color: #9ca3af;
   font-size: 12px;
-  line-height: 1.55;
-  max-width: 36ch;
-}
-
-/* Internship details: class-driven expand (cleaner than inline max-height) */
-#internship-mission-details {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--eg-duration-med, .35s) var(--eg-ease-out, ease);
-}
-#internship-mission-details > .mission-target-note {
-  overflow: hidden;
-  min-height: 0;
-}
-#internship-mission-details.is-open {
-  grid-template-rows: 1fr;
+  line-height: 1.5;
+  max-width: 34ch;
 }
 
 @keyframes missionJumpFlash {
@@ -928,6 +899,34 @@ body {
   transform: scaleX(1);
 }
 
+/* Georgia Tech brand cues: Tech Gold + Navy (lifted for dark UI) */
+.nav-link--about {
+  color: #C9B87A;
+}
+.nav-link--about::after {
+  background: #B3A369;
+  height: 2px;
+  opacity: 1;
+}
+.nav-link--about:hover { color: #E4D7A5; }
+
+.nav-link--interests {
+  color: #6A9BC4; /* readable lift of GT Navy #003057 */
+}
+.nav-link--interests::after {
+  background: #003057;
+  height: 2px;
+  opacity: 1;
+}
+.nav-link--interests:hover { color: #9BB8D3; }
+
+.mobile-nav-link--about { color: #C9B87A; }
+.mobile-nav-link--about:hover,
+.mobile-nav-link--about:focus-visible { color: #E4D7A5; }
+.mobile-nav-link--interests { color: #6A9BC4; }
+.mobile-nav-link--interests:hover,
+.mobile-nav-link--interests:focus-visible { color: #9BB8D3; }
+
 .nav-link--mission {
   display: inline-flex;
   align-items: center;
@@ -949,8 +948,8 @@ body {
   line-height: 1;
   flex-shrink: 0;
 }
-.nav-mission-dot--target { color: var(--mission-target, #e0b84e); }
-.nav-mission-dot--active { color: var(--mission-active, #8eb6e8); }
+.nav-mission-dot--target { color: var(--mission-target, #FFD400); }
+.nav-mission-dot--active { color: var(--mission-active, #34d399); }
 .nav-mission-dot--done { color: var(--mission-past, #94a3b8); }
 /* Keep scroll-active underline clear of the icon cluster */
 .nav-link--mission.nav-link-active::after {

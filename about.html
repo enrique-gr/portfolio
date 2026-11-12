@@ -21,30 +21,36 @@
   <link rel="stylesheet" href="css/site-theme.css">
 
     <style>
-        html { background-color: #000000; }
+        html { background-color: #0f0f10; }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #050505;
+            background-color: #0f0f10;
             color: #e2e8f0;
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-track { background: #0f0f10; }
         ::-webkit-scrollbar-thumb { background: #3f3f46; }
         ::-webkit-scrollbar-thumb:hover { background: #71717a; }
 
-        body { opacity: 0; animation: fadeInPage 0.4s ease forwards; }
+        body { opacity: 0; animation: fadeInPage 0.35s ease forwards; }
         html.nav-returning body { opacity: 1; animation: none; }
+        html.page-exit body {
+          opacity: 0 !important;
+          transform: translateY(3px);
+          transition: opacity 0.16s ease, transform 0.16s ease;
+          animation: none !important;
+        }
         @keyframes fadeInPage { to { opacity: 1; } }
 
         .reveal {
             opacity: 0;
-            transform: translateY(14px);
+            transform: translateY(22px);
             will-change: opacity, transform;
-            transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.visible {
             opacity: 1;
@@ -55,207 +61,144 @@
             .reveal { opacity: 1; transform: none; transition: none; }
         }
 
+        /* Quiet panels — no hover gimmicks */
         .info-card {
-            background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
-            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-            will-change: transform;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.12);
         }
-        .info-card:hover {
-            border-color: rgba(255,255,255,0.16);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+
+        .about-section-head {
+            margin-bottom: 1.35rem;
+            padding-bottom: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .about-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #C9B87A;
+            margin: 0 0 0.55rem;
+        }
+        .about-kicker::before {
+            content: '';
+            width: 18px;
+            height: 2px;
+            background: #B3A369;
+            flex-shrink: 0;
+        }
+        .about-section-title {
+            margin: 0;
+            color: #fff;
+            font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .about-section-sub {
+            margin: 0.55rem 0 0;
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.55;
+            max-width: 40rem;
+        }
+        .about-kicker--compact {
+            margin-bottom: 0.85rem;
         }
 
         .stat-box {
-            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-            transition: border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
-            cursor: default;
-            will-change: transform;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.12);
         }
-        .stat-box:hover {
-            border-color: rgba(16,185,129,0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 0 16px rgba(16,185,129,0.06);
-        }
-        .stat-box:hover .stat-label { color: rgba(16,185,129,0.7); }
-        .stat-box:hover .stat-value { color: #a7f3d0; }
 
         .soft-divider { border-color: rgba(255,255,255,0.08); }
 
-        .tab-button {
-            transition: color 0.2s, border-color 0.2s, transform 0.15s;
-        }
-        .tab-button:hover:not(.active) {
-            color: #d1d5db;
-            border-color: rgba(255,255,255,0.2);
-            transform: translateY(-1px);
-        }
         .tab-button.active {
             color: #e5e7eb;
-            border-color: rgba(16,185,129,0.45);
-            background: rgba(16,185,129,0.08);
+            border-color: rgba(179,163,105,0.45);
+            background: rgba(179,163,105,0.08);
         }
+        .tab-button:hover:not(.active) { color: #d1d5db; }
 
-        .focus-panel, .principle-panel {
-            display: none;
-            animation: panelIn 0.25s ease;
-        }
+        .focus-panel, .principle-panel { display: none; }
         .focus-panel.active, .principle-panel.active { display: block; }
-        @keyframes panelIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
 
-        .focus-card {
-            transition: border-color 0.2s ease, transform 0.2s ease;
-            will-change: transform;
-        }
-        .focus-card:hover {
-            border-color: rgba(16,185,129,0.25);
-            transform: translateY(-2px);
-            box-shadow: inset 0 0 0 9999px rgba(16,185,129,0.04);
-        }
+        .focus-card { background: #0a0a0a; }
 
-        .workflow-step {
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-            position: relative;
-            will-change: transform;
-        }
-        .workflow-step::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 2px;
-            background: rgba(16,185,129,0.5);
-            transform: scaleX(0);
-            transition: transform 0.25s ease;
-            transform-origin: left;
-            will-change: transform;
-        }
-        .workflow-step:hover::after,
-        .workflow-step.active::after { transform: scaleX(1); }
-
-        .workflow-step:hover,
-        .workflow-step.active {
-            transform: translateY(-2px);
-            border-color: rgba(16,185,129,0.35);
-            box-shadow: inset 0 0 0 9999px rgba(16,185,129,0.06), 0 4px 16px rgba(0,0,0,0.3);
-        }
-        .workflow-step.active .step-num { color: #6ee7b7; }
-        .workflow-step.active .step-label { color: #a7f3d0; }
-
-        .accordion-btn {
-            transition: color 0.2s, border-color 0.2s, transform 0.15s;
-        }
-        .accordion-btn:hover:not(.active) {
-            border-color: rgba(255,255,255,0.18);
-            transform: translateX(2px);
-        }
         .accordion-btn.active {
-            border-color: rgba(16,185,129,0.35);
-            background: rgba(16,185,129,0.06);
+            border-color: rgba(179,163,105,0.35);
+            background: rgba(179,163,105,0.06);
             color: #e5e7eb;
-        }
-        .accordion-btn .acc-icon {
-            transition: transform 0.3s ease, color 0.2s;
         }
         .accordion-btn.active .acc-icon {
             transform: rotate(45deg);
-            color: rgba(16,185,129,0.8);
+            color: #C9B87A;
         }
-
-        .accordion-content {
-            display: none;
-            overflow: hidden;
-            animation: accordionOpen 0.25s ease;
-        }
+        .accordion-content { display: none; }
         .accordion-content.active { display: block; }
-        @keyframes accordionOpen {
-            from { opacity: 0; transform: translateY(-4px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
 
-        .gridline-bg {
-            background-image:
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
-            transform: translateZ(0);
+        .snapshot {
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 22px 22px 20px;
         }
-
+        .snapshot-head {
+            margin-bottom: 4px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .snapshot-head__label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #C9B87A;
+        }
         .snapshot-row {
-            transition: background 0.15s ease;
-            border-radius: 2px;
+            display: grid;
+            grid-template-columns: 7.5rem 1fr;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            align-items: start;
         }
-        .snapshot-row:hover { background: rgba(255,255,255,0.03); }
-
-        .aim-item {
-            transition: color 0.2s ease, transform 0.2s ease;
-            cursor: default;
-            will-change: transform;
+        .snapshot-row:last-of-type { border-bottom: none; }
+        .snapshot-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #9ca3af;
+            padding-top: 1px;
         }
-        .aim-item:hover { color: #d1fae5; transform: translateX(6px); }
-        .aim-item:hover .aim-bullet { color: #34d399; }
-
-        .pulse-dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: #34d399;
-            animation: pulse 2s ease-in-out infinite;
-            will-change: transform, opacity;
+        .snapshot-value {
+            font-size: 14px;
+            color: #f3f4f6;
+            line-height: 1.45;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(52,211,153,0.4); }
-            50% { opacity: 0.7; transform: scale(1.1); box-shadow: 0 0 0 4px rgba(52,211,153,0); }
+        .snapshot-value--accent { color: #C9B87A; }
+        .snapshot-note {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #c4cad5;
+            font-size: 13px;
+            line-height: 1.55;
         }
 
         .kw-chip {
             display: inline-block;
             font-family: 'JetBrains Mono', monospace;
             font-size: 10px;
-            color: #6ee7b7;
-            background: rgba(16,185,129,0.08);
-            border: 1px solid rgba(16,185,129,0.2);
+            color: #bfb37c;
+            background: rgba(179,163,105,0.08);
+            border: 1px solid rgba(179,163,105,0.2);
             padding: 2px 7px;
             margin: 2px 3px 2px 0;
-            transition: border-color 0.15s, transform 0.15s;
-            will-change: transform;
-            cursor: default;
         }
-        .kw-chip:hover {
-            background: rgba(16,185,129,0.16);
-            border-color: rgba(16,185,129,0.45);
-            transform: translateY(-1px);
-        }
-
-        .stack-item {
-            transition: color 0.2s ease, transform 0.2s ease;
-            cursor: default;
-            will-change: transform;
-        }
-        .stack-item:hover { color: #a7f3d0; transform: translateX(4px); }
-
-        .has-tip { position: relative; cursor: default; }
-        .has-tip .tip {
-            position: absolute;
-            bottom: calc(100% + 6px);
-            left: 50%;
-            transform: translateX(-50%) translateY(4px);
-            background: #18181b;
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #d1d5db;
-            font-size: 10px;
-            font-family: 'JetBrains Mono', monospace;
-            white-space: nowrap;
-            padding: 4px 8px;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            z-index: 100;
-            will-change: opacity, transform;
-        }
-        .has-tip:hover .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         .progress-bar {
             height: 2px;
@@ -265,7 +208,7 @@
         }
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, rgba(16,185,129,0.5), rgba(16,185,129,0.9));
+            background: linear-gradient(90deg, rgba(179,163,105,0.5), rgba(179,163,105,0.9));
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 1.2s cubic-bezier(0.4,0,0.2,1);
@@ -273,49 +216,64 @@
             will-change: transform;
         }
 
-        .body-copy { color: #c4cad5; line-height: 1.8; letter-spacing: 0.01em; }
-        .panel-text { color: #b8bec8; line-height: 1.75; font-size: 0.875rem; }
+        .body-copy {
+            color: #d7dbe3;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            letter-spacing: 0.01em;
+        }
+        .body-copy p + p { margin-top: 1rem; }
+        .panel-text { color: #c4cad5; line-height: 1.65; font-size: 0.9rem; }
 
-        .about-subnav {
+        /* Same sticky section-nav chrome as Interests; gold = About identity */
+        .section-nav {
             position: sticky;
-            top: 80px; /* sits just below the main nav */
+            top: 80px;
             z-index: 40;
-            background: rgba(5, 5, 5, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: #000;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .about-subnav nav {
+        .section-nav nav,
+        .section-nav > div {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        .about-subnav nav::-webkit-scrollbar { display: none; }
-        .about-subnav a {
+        .section-nav::-webkit-scrollbar,
+        .section-nav nav::-webkit-scrollbar,
+        .section-nav > div::-webkit-scrollbar { display: none; }
+        .section-nav-btn {
             position: relative;
+            display: inline-block;
             font-family: 'JetBrains Mono', monospace;
             font-size: 10px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: #6b7280;
             padding: 14px 16px;
-            transition: color 0.22s ease;
+            cursor: pointer;
+            transition: color 0.2s ease;
             white-space: nowrap;
+            background: none;
+            border: none;
+            text-decoration: none;
         }
-        .about-subnav a::after {
+        .section-nav-btn::after {
             content: '';
             position: absolute;
-            left: 16px; right: 16px; bottom: 0;
+            bottom: 0;
+            left: 16px;
+            right: 16px;
             height: 1px;
-            background: #10b981;
+            background: #B3A369;
             transform: scaleX(0);
+            transition: transform 0.2s ease;
             transform-origin: left;
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .about-subnav a:hover { color: #d1d5db; }
-        .about-subnav a.is-active { color: #e5e7eb; }
-        .about-subnav a.is-active::after {
-            transform: scaleX(1);
-        }
+        .section-nav-btn:hover { color: #d1d5db; }
+        .section-nav-btn.is-active,
+        .section-nav-btn.active { color: #e5e7eb; }
+        .section-nav-btn.is-active::after,
+        .section-nav-btn.active::after { transform: scaleX(1); }
 
         .workflow-rail {
             display: grid;
@@ -326,7 +284,7 @@
             position: relative;
             padding: 14px 12px;
             border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.2);
+            background: #000;
         }
         .workflow-rail li + li { border-left: none; }
         @media (max-width: 768px) {
@@ -337,47 +295,43 @@
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center relative">
-            <a href="index.html" onclick="smoothExit(event, this.href)"
-               class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors z-10 cursor-pointer">
-                <i class="fas fa-arrow-left text-sm group-hover:-translate-x-1 transition-transform"></i>
+    <!-- MAIN NAV — same chrome as Interests; gold accent keeps About distinct -->
+    <nav class="fixed top-0 w-full bg-black z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                 <span class="font-mono font-bold tracking-wider uppercase text-sm">RETURN</span>
             </a>
-
-            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block text-center">
-                <span class="font-mono text-xs text-gray-500 italic tracking-widest uppercase hover:text-emerald-400 transition-colors duration-500 cursor-default">
-                    "Failure is not an option"
-                </span>
-            </div>
-
-            <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest z-10">
+            <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
                 <span class="hidden md:inline">About</span>
-                <span class="pulse-dot"></span>
+                <span class="w-1 h-1 rounded-full bg-[#C9B87A] animate-pulse" aria-hidden="true"></span>
             </div>
         </div>
     </nav>
 
-    <!-- SECTION NAV (sticky under fixed header, same pattern as interests) -->
-    <div class="about-subnav">
-        <nav class="max-w-7xl mx-auto px-6 flex items-center gap-0 overflow-x-auto scrollbar-hide" aria-label="About sections">
-            <a href="#overview" data-nav="overview">Overview</a>
-            <a href="#focus" data-nav="focus">Focus</a>
-            <a href="#stack" data-nav="stack">Stack</a>
-            <a href="#approach" data-nav="approach">Approach</a>
-            <a href="#aims" data-nav="aims">Aims</a>
-        </nav>
+    <!-- SECTION NAV — Interests pattern; Tech Gold underline -->
+    <div class="section-nav">
+        <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+            <nav class="flex items-center gap-0" aria-label="About sections">
+                <a href="#overview" data-nav="overview" class="section-nav-btn is-active">Overview</a>
+                <a href="#shop" data-nav="shop" class="section-nav-btn">In the shop</a>
+                <a href="#focus" data-nav="focus" class="section-nav-btn">Focus</a>
+                <a href="#stack" data-nav="stack" class="section-nav-btn">Stack</a>
+                <a href="#approach" data-nav="approach" class="section-nav-btn">Approach</a>
+                <a href="#aims" data-nav="aims" class="section-nav-btn">Aims</a>
+            </nav>
+        </div>
     </div>
 
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
         <!-- HEADER -->
-        <section id="overview" class="reveal mb-10 border-b border-white/10 pb-10 scroll-mt-40">
-            <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
+        <section id="overview" class="reveal mb-8 scroll-mt-40">
+            <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-6 items-start">
 
                 <!-- LEFT -->
-                <div class="flex items-start gap-8">
-                    <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                <div class="flex items-start gap-6 md:gap-8">
+                    <div class="h-24 w-24 bg-black border border-white/15 p-1 flex items-center justify-center overflow-hidden shrink-0">
                         <img
                             src="assets/images/about_icon.png"
                             alt="About Icon"
@@ -386,22 +340,22 @@
                         />
                     </div>
 
-                    <div>
+                    <div class="min-w-0">
                         <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">About</h1>
-                        <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">
+                        <p class="text-[#C9B87A] font-mono text-sm uppercase tracking-widest">
                             Systems · Engineering · Steady Work
                         </p>
-                        <div class="mt-5 space-y-4 text-sm md:text-base body-copy font-light max-w-3xl">
+                        <div class="mt-6 body-copy font-light max-w-2xl">
                             <p>
-                                I am a senior Mechanical Engineering student at Washington University in St. Louis.
-                                My work sits where UAV systems, embedded sensing, controls, and hardware integration meet:
-                                building, integrating, and validating systems that have to behave under real constraints.
+                                I'm a senior Mechanical Engineering student at Washington University in St. Louis.
+                                Most weeks I'm at a bench with a laptop next to printed parts, wiring, and a vehicle
+                                that has to work under real constraints.
                             </p>
                             <p>
-                                I am most drawn to problems where mechanical systems, sensing, controls, and software must
-                                agree. I reduce them to constraints first, then clarify assumptions, tighten interfaces,
-                                and trace behavior back to data. Graduate study in Mechanical or Aerospace Engineering is
-                                on the table, centered on aerospace and autonomous systems with a focus on integration,
+                                My focus is UAV systems, sensing, controls, and hardware integration. I start from
+                                constraints, keep interfaces clear, and check claims against test data. I'm looking
+                                for a Summer 2027 engineering or research internship in aerospace or autonomous systems,
+                                and for graduate study in Mechanical or Aerospace Engineering centered on integration,
                                 test, and controls.
                             </p>
                         </div>
@@ -409,90 +363,122 @@
                 </div>
 
                 <!-- RIGHT: Snapshot -->
-                <aside class="info-card border border-white/10 p-5 gridline-bg">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-gray-500 uppercase tracking-widest text-xs font-mono">Snapshot</span>
-                        <span class="pulse-dot"></span>
+                <aside class="snapshot" aria-label="Profile snapshot">
+                    <div class="snapshot-head">
+                        <span class="snapshot-head__label">Snapshot</span>
                     </div>
 
-                    <div class="space-y-2 text-[11px] font-mono">
-                        <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Location</span>
-                            <span class="text-gray-200 text-right">St. Louis</span>
+                    <div>
+                        <div class="snapshot-row">
+                            <span class="snapshot-label">Location</span>
+                            <span class="snapshot-value">St. Louis</span>
                         </div>
-                        <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Degree</span>
-                            <span class="text-gray-200 text-right">B.S. Mechanical Engineering</span>
+                        <div class="snapshot-row">
+                            <span class="snapshot-label">Degree</span>
+                            <span class="snapshot-value">B.S. Mechanical Engineering</span>
                         </div>
-                        <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Graduation</span>
-                            <span class="text-gray-200 text-right">May 2027</span>
+                        <div class="snapshot-row">
+                            <span class="snapshot-label">Graduation</span>
+                            <span class="snapshot-value">May 2027</span>
                         </div>
-                        <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Graduate Interest</span>
-                            <span class="text-gray-200 text-right">Aerospace / ME · Integration · Controls</span>
+                        <div class="snapshot-row">
+                            <span class="snapshot-label">Seeking</span>
+                            <span class="snapshot-value snapshot-value--accent">Summer 2027 internship · industry or research</span>
                         </div>
-                        <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Interest Areas</span>
-                            <span class="text-emerald-300 text-right">UAV Systems · Estimation · Flight Test</span>
+                        <div class="snapshot-row">
+                            <span class="snapshot-label">Grad focus</span>
+                            <span class="snapshot-value">Aerospace / ME · Integration · Controls</span>
                         </div>
-                        <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Recent Internship</span>
-                            <span class="text-emerald-300 text-right">MIDE · UAS Research Intern (Summer 2026)</span>
+                        <div class="snapshot-row">
+                            <span class="snapshot-label">Focus</span>
+                            <span class="snapshot-value">UAV systems, estimation, flight test</span>
                         </div>
-                        <div class="snapshot-row flex justify-between gap-4 py-1">
-                            <span class="text-gray-500">Active Missions</span>
-                            <span class="text-gray-200 text-right">WashU VTOL · Lead Avionics Engineer<br>WashU DBF · Structures and Test</span>
+                        <div class="snapshot-row">
+                            <span class="snapshot-label">Recent</span>
+                            <span class="snapshot-value">MIDE · UAS Research Intern, Summer 2026</span>
+                        </div>
+                        <div class="snapshot-row">
+                            <span class="snapshot-label">Active</span>
+                            <span class="snapshot-value">VTOL Lead Avionics · DBF Structures &amp; Test</span>
                         </div>
                     </div>
 
-                    <div class="mt-5 pt-4 border-t soft-divider text-[11px] text-gray-400 leading-relaxed">
-                        I aim to be the kind of engineer who takes ownership, stays grounded in data, and makes the system clearer for everyone around him.
-                    </div>
+                    <p class="snapshot-note">
+                        Own the hard parts. Trust the data. Leave the system clearer than you found it.
+                    </p>
                 </aside>
             </div>
         </section>
 
         <!-- STATS -->
         <section class="reveal grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" aria-label="Quick traits">
-            <div class="stat-box border border-white/10 p-4 has-tip">
-                <div class="tip">Primary reasoning mode</div>
-                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Core Mode</div>
-                <div class="text-white text-sm stat-value transition-colors duration-200">Systems Thinking</div>
+            <div class="stat-box p-4">
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">Core Mode</div>
+                <div class="text-white text-sm">Systems Thinking</div>
             </div>
-            <div class="stat-box border border-white/10 p-4 has-tip">
-                <div class="tip">Current active focus</div>
-                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Current Lane</div>
-                <div class="text-white text-sm stat-value transition-colors duration-200">Flight Systems</div>
+            <div class="stat-box p-4">
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">Current Lane</div>
+                <div class="text-white text-sm">Flight Systems</div>
             </div>
-            <div class="stat-box border border-white/10 p-4 has-tip">
-                <div class="tip">Graduate study interest</div>
-                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Grad Interest</div>
-                <div class="text-white text-sm stat-value transition-colors duration-200">Integration · Controls</div>
+            <div class="stat-box p-4">
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">Grad Interest</div>
+                <div class="text-white text-sm">Integration · Controls</div>
             </div>
-            <div class="stat-box border border-white/10 p-4 has-tip">
-                <div class="tip">How decisions get made</div>
-                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Approach</div>
-                <div class="text-white text-sm stat-value transition-colors duration-200">Data Before Ego</div>
+            <div class="stat-box p-4">
+                <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">Approach</div>
+                <div class="text-white text-sm">Data Before Ego</div>
+            </div>
+        </section>
+
+        <!-- IN THE SHOP — real person / hands-on -->
+        <section id="shop" class="reveal info-card p-6 md:p-7 mb-8 scroll-mt-40" aria-labelledby="shop-heading">
+            <header class="about-section-head">
+                <p class="about-kicker">Hands-on</p>
+                <h2 id="shop-heading" class="about-section-title">In the shop</h2>
+                <p class="about-section-sub">
+                    MEMS 4110 senior design: a motorized towed-sensor winch for the AIAA DBF 2026–27 Mission 3 theme.
+                </p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                <figure class="border border-white/10 bg-black overflow-hidden m-0">
+                    <img src="assets/images/me_winch_bench.jpg"
+                         alt="Enrique at the workbench assembling the towed-sensor winch electronics and printed sensor body"
+                         class="eg-photo w-full h-64 md:h-80 object-cover object-center">
+                </figure>
+                <figure class="border border-white/10 bg-black overflow-hidden m-0">
+                    <img src="assets/images/me_winch_assembly.jpg"
+                         alt="Enrique integrating the winch prototype on the bench with laptop, motor, and sensor body"
+                         class="eg-photo w-full h-64 md:h-80 object-cover object-[center_40%]">
+                </figure>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 border-t border-white/10 pt-4">
+                <p class="text-sm text-gray-300 max-w-xl leading-relaxed">
+                    Initial prototype built and tested. Final prototype is printing. Mechanical design, electronics,
+                    and embedded control on one bench.
+                </p>
+                <a href="towed-sensor-winch.html"
+                   class="font-mono text-[10px] uppercase tracking-widest text-[#C9B87A] hover:text-white transition-colors inline-flex items-center gap-2 shrink-0">
+                    Project brief <i class="fas fa-arrow-right text-[9px]" aria-hidden="true"></i>
+                </a>
             </div>
         </section>
 
         <!-- INTERACTIVE FOCUS -->
-        <section id="focus" class="reveal info-card border border-white/10 p-6 md:p-7 mb-8 scroll-mt-40">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-                <div>
-                    <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">Focus Areas</h2>
-                    <p class="mt-2 text-sm text-gray-400 max-w-2xl">The parts of engineering I naturally move toward most.</p>
-                </div>
-                <div class="flex flex-wrap gap-2" role="tablist" aria-label="Focus areas">
+        <section id="focus" class="reveal info-card p-6 md:p-7 mb-8 scroll-mt-40">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 about-section-head">
+                <header>
+                    <p class="about-kicker">Direction</p>
+                    <h2 class="about-section-title">Focus areas</h2>
+                    <p class="about-section-sub">The parts of engineering I move toward most.</p>
+                </header>
+                <div class="flex flex-wrap gap-2 mb-1" role="tablist" aria-label="Focus areas">
                     <button type="button" class="tab-button active px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('flight', this)">Flight Systems</button>
                     <button type="button" class="tab-button px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('robotics', this)">Robotics</button>
                     <button type="button" class="tab-button px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('validation', this)">Validation</button>
                 </div>
             </div>
-            <p class="mb-6 text-[12px] font-mono uppercase tracking-widest text-emerald-400/80">
-                Flight systems · Robotics · Validation — sensing, control, and proof under real constraints
-            </p>
 
             <div id="focus-flight" class="focus-panel active">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -565,14 +551,14 @@
         </section>
 
         <!-- SYSTEMS WORKFLOW -->
-        <section class="reveal info-card border border-white/10 p-6 md:p-7 mb-8">
-            <div class="mb-6">
-                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">Systems Workflow</h2>
-                <p class="mt-2 text-sm text-gray-400 max-w-2xl">
-                    How I usually move from problem framing to refinement: start with what must be true,
-                    make interfaces explicit, run a small honest check, read the data, then refine the weak point.
+        <section class="reveal info-card p-6 md:p-7 mb-8">
+            <header class="about-section-head">
+                <p class="about-kicker">Process</p>
+                <h2 class="about-section-title">Systems workflow</h2>
+                <p class="about-section-sub">
+                    Define what must be true, make interfaces explicit, run a small honest check, read the data, then fix the weak point.
                 </p>
-            </div>
+            </header>
 
             <ol class="workflow-rail list-none m-0 p-0" aria-label="Systems workflow">
                 <li>
@@ -600,8 +586,8 @@
 
         <!-- ENGINEERING STACK -->
         <section id="stack" class="reveal grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8 scroll-mt-40">
-            <div class="info-card border border-white/10 p-5">
-                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Languages</h2>
+            <div class="info-card p-5">
+                <h2 class="about-kicker about-kicker--compact">Languages</h2>
                 <div class="space-y-3">
                     <div>
                         <div class="flex justify-between items-center mb-1">
@@ -624,8 +610,8 @@
                 </div>
             </div>
 
-            <div class="info-card border border-white/10 p-5">
-                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Embedded / Control</h2>
+            <div class="info-card p-5">
+                <h2 class="about-kicker about-kicker--compact">Embedded / Control</h2>
                 <div class="space-y-2 text-sm text-gray-300">
                     <div class="stack-item">Pixhawk</div>
                     <div class="stack-item">PX4</div>
@@ -634,8 +620,8 @@
                 </div>
             </div>
 
-            <div class="info-card border border-white/10 p-5">
-                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Design / Analysis</h2>
+            <div class="info-card p-5">
+                <h2 class="about-kicker about-kicker--compact">Design / Analysis</h2>
                 <div class="space-y-2 text-sm text-gray-300">
                     <div class="stack-item">SolidWorks</div>
                     <div class="stack-item">ANSYS</div>
@@ -644,25 +630,26 @@
                 </div>
             </div>
 
-            <div class="info-card border border-white/10 p-5">
-                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Current Missions</h2>
+            <div class="info-card p-5">
+                <h2 class="about-kicker about-kicker--compact">Focus Domains</h2>
                 <div class="space-y-2 text-sm text-gray-300">
-                    <div class="stack-item text-emerald-300/90">Nasril</div>
-                    <div class="stack-item">Sentinel</div>
-                    <div class="stack-item">Hyperion</div>
-                    <div class="stack-item">Faultline</div>
-                    <div class="stack-item">WebTunnel</div>
-                    <div class="stack-item">Lander</div>
+                    <div class="stack-item text-[#C9B87A]/90">Dynamics &amp; Controls</div>
+                    <div class="stack-item">State Estimation</div>
+                    <div class="stack-item">Vehicle Integration</div>
+                    <div class="stack-item">Flight Test</div>
+                    <div class="stack-item">Embedded Systems</div>
+                    <div class="stack-item">Simulation</div>
                 </div>
             </div>
         </section>
 
         <!-- ENGINEERING PRINCIPLES -->
-        <section id="approach" class="reveal info-card border border-white/10 p-6 md:p-7 mb-8 scroll-mt-40">
-            <div class="mb-6">
-                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">Engineering Principles</h2>
-                <p class="mt-2 text-sm text-gray-400 max-w-2xl">Expand the principles that matter most to how I work.</p>
-            </div>
+        <section id="approach" class="reveal info-card p-6 md:p-7 mb-8 scroll-mt-40">
+            <header class="about-section-head">
+                <p class="about-kicker">Approach</p>
+                <h2 class="about-section-title">Engineering principles</h2>
+                <p class="about-section-sub">The habits that show up most in how I approach problems.</p>
+            </header>
 
             <div class="space-y-3">
                 <button type="button" class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-1', this)">
@@ -708,24 +695,27 @@
         </section>
 
         <!-- CLOSING -->
-        <section id="aims" class="reveal info-card border border-white/10 p-6 md:p-7 scroll-mt-40">
-            <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">What I am aiming for</h2>
-            <ul class="space-y-3 text-sm leading-relaxed">
-                <li class="aim-item flex gap-3 text-gray-300">
-                    <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
-                    <span>Contribute to aerospace and robotics teams that turn ambitious goals into testable engineering steps.</span>
+        <section id="aims" class="reveal info-card p-6 md:p-7 scroll-mt-40">
+            <header class="about-section-head">
+                <p class="about-kicker">Next</p>
+                <h2 class="about-section-title">What I'm aiming for</h2>
+            </header>
+            <ul class="space-y-3 text-[15px] leading-relaxed">
+                <li class="aim-item flex gap-3 text-gray-200">
+                    <span class="aim-bullet text-[#C9B87A] shrink-0 transition-colors duration-200">•</span>
+                    <span>Take a Summer 2027 internship in aerospace or autonomous systems, then join teams that turn hard goals into testable steps.</span>
                 </li>
-                <li class="aim-item flex gap-3 text-gray-300">
-                    <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
-                    <span>Build tools, documentation, and integration workflows that reduce friction for the rest of the team.</span>
+                <li class="aim-item flex gap-3 text-gray-200">
+                    <span class="aim-bullet text-[#C9B87A] shrink-0 transition-colors duration-200">•</span>
+                    <span>Build tools and workflows that make integration easier for the whole team.</span>
                 </li>
-                <li class="aim-item flex gap-3 text-gray-300">
-                    <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
-                    <span>Stay close to hardware, telemetry, and validation so design choices stay tied to real system behavior.</span>
+                <li class="aim-item flex gap-3 text-gray-200">
+                    <span class="aim-bullet text-[#C9B87A] shrink-0 transition-colors duration-200">•</span>
+                    <span>Stay close to hardware, telemetry, and test so design choices match real behavior.</span>
                 </li>
-                <li class="aim-item flex gap-3 text-gray-300">
-                    <span class="aim-bullet text-gray-500 shrink-0 transition-colors duration-200">•</span>
-                    <span>Grow into a systems-minded engineer who can simplify complexity, stay calm under pressure, and make sound decisions with incomplete information.</span>
+                <li class="aim-item flex gap-3 text-gray-200">
+                    <span class="aim-bullet text-[#C9B87A] shrink-0 transition-colors duration-200">•</span>
+                    <span>Grow into a systems engineer who simplifies complexity and decides well with incomplete data.</span>
                 </li>
             </ul>
         </section>
@@ -775,7 +765,7 @@
         }
 
         (function initAboutSubnav() {
-            const links = [...document.querySelectorAll('.about-subnav a[data-nav]')];
+            const links = [...document.querySelectorAll('.section-nav-btn[data-nav]')];
             const sections = links
                 .map(a => document.getElementById(a.dataset.nav))
                 .filter(Boolean);

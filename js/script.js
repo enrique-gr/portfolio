@@ -2,18 +2,17 @@
    ENRIQUE GARCIA — Main Site Script
    Sections:
      1. Data — projects, hw items, skill descriptions, coursework
-     2. Hardware Log Ticker
+     2. Work Log Ticker
      3. Featured Section
      4. Archive Tabs
      5. Skill Detail Pills
      6. Coursework Terminal
-     7. Anomalies Scroll & Drag
-     8. Engineering Skills Radar
-     9. Mission Panel — MIDE toggle
-    10. Utilities — toast, email copy, profile scan, scroll progress
-    11. Live Footer Metrics
-    12. Navigation — mobile menu + active section
-    13. Init
+     7. Engineering Skills Radar
+     8. Mission Panel
+     9. Utilities — toast, email copy, profile scan, scroll progress
+    10. Live Footer Metrics
+    11. Navigation — mobile menu + active section
+    12. Init
 ============================================================================= */
 
 /* =============================================================================
@@ -25,10 +24,12 @@ const PROJECTS = {
   "mide": {
     title: "Missouri Institute for Defense and Energy",
     category: "featured",
+    status: "complete",
     logoUrl: "assets/images/mide.png",
     photo: true,
     imgPos: "left center",
     role: "UAS Research Intern",
+    roleIcon: "fa-helicopter",
     dates: "May 2026 – Aug 2026",
     tags: ["UAS Systems", "Flight Test", "Hardware Integration"],
     summary: "Worked experimental unmanned aircraft as systems: returning vehicles to test-ready after structural work, supporting flight test, and using flight data to relate configuration to readiness. Brought platforms up through calibration and bench checks and verified that sensing, estimation, and actuation hung together on the vehicle.",
@@ -50,9 +51,11 @@ const PROJECTS = {
   "washu-vtol": {
     title: "WashU VTOL",
     category: "featured",
+    status: "active",
     logoUrl: "assets/images/vtol.png",
     photo: true,
     role: "Lead Avionics Engineer",
+    roleIcon: "fa-microchip",
     dates: "Sep 2025 – Present",
     tags: ["Pixhawk 6C", "PX4", "Quadcopter", "Hexacopter"],
     summary: "Lead Avionics across two VFS cycles: Hexacopter flight proof in 2025–2026, now rebuilding a Quadcopter X-frame for Search and Rescue.",
@@ -70,9 +73,11 @@ const PROJECTS = {
   "washu-dbf": {
     title: "WashU Design/Build/Fly",
     category: "featured",
+    status: "active",
     logoUrl: "assets/images/dbf.png",
     photo: true,
     role: "Structures and Test Engineer",
+    roleIcon: "fa-compass-drafting",
     dates: "Aug 2024 – Present",
     tags: ["ANSYS FEA", "Flight Test", "Composites"],
     summary: "Structures and Test on WashU’s AIAA Design/Build/Fly team, supporting Mission 3 and ground-mission work, with prior structures, aerodynamics, and payload experience.",
@@ -90,8 +95,10 @@ const PROJECTS = {
   "miro-lab": {
     title: "Multiplatform Interactive Robotics Lab",
     category: "featured",
+    status: "complete",
     logoUrl: "assets/images/miro-lab.png",
     role: "Sensor Fusion Research Intern",
+    roleIcon: "fa-wave-square",
     dates: "May 2025 – Aug 2025",
     tags: ["Python", "MATLAB", "Sensor Fusion"],
     summary: "Developed a wearable sensor fusion system (IMU + EMG) and visual tracking pipeline.",
@@ -171,6 +178,18 @@ const PROJECTS = {
   },
 
   /* ---------- Coursework ---------- */
+  "towed-sensor-winch": {
+    title: "Towed-Sensor Winch",
+    category: "coursework",
+    logoUrl: "assets/images/me_winch_bench.jpg",
+    photo: true,
+    role: "Mechatronics · MEMS 4110",
+    dates: "2026 – Present",
+    tags: ["Mechatronics", "Embedded", "3D Print"],
+    summary: "Motorized winch that deploys a towed sensor on dual steel cables, switches light modes through the tow path, and reels back to dock. Initial prototype tested; final print in progress.",
+    externalLink: "towed-sensor-winch.html",
+    fileSize: "Active"
+  },
   "cad-foosball": {
     title: "Regulation Foosball",
     category: "coursework",
@@ -223,9 +242,10 @@ const PROJECTS = {
   }
 };
 
-/** Hardware Log ticker items */
+/** Work Log ticker items (builds, lab work, writing) */
 const HW_ITEMS = [
   { type: "Flight Test", title: "MIDE Experimental UAS",           sub: "Repair · Integration · Test-Readiness",             src: "assets/images/mide.png",               date: "2026-08", status: "complete",  link: "mide.html" },
+  { type: "Mechatronics", title: "Towed-Sensor Winch Bench",       sub: "MEMS 4110 · Deploy · Retract · Light Modes",        src: "assets/images/me_winch_assembly.jpg",  date: "2026-11", status: "active",    link: "towed-sensor-winch.html" },
   { type: "Avionics",   title: "VTOL Hexacopter Integration",      sub: "Frame Assembly · Power Layout · Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
   { type: "Structural", title: "DBF Wing Layup",                   sub: "NACA 4415 · Carbon Spar",                            src: "assets/images/hw_dbf_wing.jpg",        date: "2025-11", status: "verified",  link: "washu-dbf.html" },
   { type: "Research",   title: "MIRO Wearable Sensor",             sub: "IMU Array · EMG Electrodes",                         src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "validated", link: "miro-lab.html" },
@@ -299,7 +319,7 @@ const COURSEWORK = {
 function renderHW() {
   const track = document.getElementById("hwtrack");
   const count = document.getElementById("hw-count");
-  if (count) count.textContent = `${HW_ITEMS.length} builds logged`;
+  if (count) count.textContent = `${HW_ITEMS.length} entries logged`;
   // Duplicate items for seamless infinite scroll
   const allItems = [...HW_ITEMS, ...HW_ITEMS];
 
@@ -340,11 +360,12 @@ function renderFeatured() {
 
     const isEven  = idx % 2 === 0;
     const rowDir  = isEven ? "flex-col md:flex-row" : "flex-col md:flex-row-reverse";
-    const textAlign = isEven ? "items-start" : "items-start md:items-end";
+    // MIDE/DBF (even): copy docks left. VTOL/MIRO (odd): copy docks right on desktop.
+    const copyDock = isEven ? "justify-start" : "justify-start md:justify-end";
     const action  = p.externalLink
       ? `navigateTo('${p.externalLink}')`
       : `openProjectDetail('${id}')`;
-
+    const roleIcon = p.roleIcon || "fa-user-gear";
     html += `
       <div id="${id}" onclick="${action}"
            class="flex ${rowDir} gap-12 items-center group cursor-pointer scroll-mt-32">
@@ -362,28 +383,30 @@ function renderFeatured() {
           </div>
         </div>
 
-        <!-- Text panel -->
-        <div class="w-full md:w-1/2 flex flex-col ${textAlign}">
-          <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border-l-2 border-blue-500 mb-4 role-badge">
-            <i class="fas fa-id-badge text-blue-400 text-[10px]"></i>
-            <span class="font-mono font-bold text-blue-400 text-xs tracking-wider uppercase">${p.role}</span>
-          </div>
-          <h3 class="text-3xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors tracking-tight">${p.title}</h3>
-          <div class="mb-4 font-mono text-[10px] text-emerald-500 tracking-widest border border-emerald-500/20 bg-emerald-500/5 px-2 py-1 inline-block">
-            ${p.metric}
-          </div>
-          <p class="text-gray-400 leading-relaxed mb-5 max-w-xl">${p.summary}</p>
+        <!-- Text panel: shared copy stack so CTA always sits under the same edge -->
+        <div class="w-full md:w-1/2 flex ${copyDock}">
+          <div class="feat-copy flex flex-col items-start w-full max-w-xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border-l-2 border-blue-500 mb-4 role-badge">
+              <i class="fas ${roleIcon} text-blue-400 text-[10px]" aria-hidden="true"></i>
+              <span class="font-mono font-bold text-blue-400 text-xs tracking-wider uppercase">${p.role}</span>
+            </div>
+            <h3 class="text-3xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors tracking-tight">${p.title}</h3>
+            <div class="mb-4 font-mono text-[10px] text-emerald-500 tracking-widest border border-emerald-500/20 bg-emerald-500/5 px-2 py-1 inline-block">
+              ${p.metric}
+            </div>
+            <p class="text-gray-400 leading-relaxed mb-5">${p.summary}</p>
 
-          <!-- 2×2 proof grid -->
-          <div class="proof-grid mb-5">
-            <div class="proof-card"><div class="proof-k">Problem</div>    <div class="proof-v">${p.problem      || "Mission objective requiring robust engineering execution."}</div></div>
-            <div class="proof-card"><div class="proof-k">Ownership</div>  <div class="proof-v">${p.contribution || p.role}</div></div>
-            <div class="proof-card"><div class="proof-k">Stack</div>      <div class="proof-v">${p.tags.join(" · ")}</div></div>
-            <div class="proof-card"><div class="proof-k">Result</div>     <div class="proof-v">${p.result       || p.metric}</div></div>
-          </div>
+            <!-- 2×2 proof grid -->
+            <div class="proof-grid mb-5">
+              <div class="proof-card"><div class="proof-k">Problem</div>    <div class="proof-v">${p.problem || ""}</div></div>
+              <div class="proof-card"><div class="proof-k">Ownership</div>  <div class="proof-v">${p.contribution || p.role}</div></div>
+              <div class="proof-card"><div class="proof-k">Stack</div>      <div class="proof-v">${p.tags.join(" · ")}</div></div>
+              <div class="proof-card"><div class="proof-k">Result</div>     <div class="proof-v">${p.result || p.metric}</div></div>
+            </div>
 
-          <div class="mt-6 text-[10px] font-mono text-white flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest">
-            <span>Initialize Protocol</span> <i class="fas fa-arrow-right text-blue-400"></i>
+            <div class="feat-cta mt-6 text-[10px] font-mono text-white inline-flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest">
+              <span>Initialize Protocol</span> <i class="fas fa-arrow-right text-blue-400" aria-hidden="true"></i>
+            </div>
           </div>
         </div>
       </div>`;
@@ -397,11 +420,15 @@ function renderFeatured() {
 /* =============================================================================
    4. ARCHIVE TABS
 ============================================================================= */
+/** Active archive hub — used when saving scroll for Return */
+let currentArchiveHub = "personal";
+
 function switchTab(tabName) {
   const grid    = document.getElementById("archive-grid");
   const tabPersonal    = document.getElementById("tab-personal");
   const tabCoursework  = document.getElementById("tab-coursework");
   if (!grid || !tabPersonal || !tabCoursework) return;
+  currentArchiveHub = tabName === "coursework" ? "coursework" : "personal";
 
   const activeClass   = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 text-white transition-colors hover:text-blue-400";
   const inactiveClass = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-colors";
@@ -411,7 +438,7 @@ function switchTab(tabName) {
     ? `${activeClass} border-blue-500`
     : inactiveClass;
   tabCoursework.className = tabName === "coursework"
-    ? `${activeClass} border-emerald-500`
+    ? `${activeClass} border-orange-500`
     : inactiveClass;
 
   tabPersonal.setAttribute("aria-selected",   String(tabName === "personal"));
@@ -431,9 +458,17 @@ function switchTab(tabName) {
       .map(t => `<span class="text-[9px] bg-white/5 border border-white/5 px-2 py-1 text-gray-500 font-mono uppercase tracking-wider">${t}</span>`)
       .join("");
 
+    const isCourse = tabName === "coursework";
+    const roleColor = isCourse ? "text-orange-400" : "text-blue-400";
+    const hoverBorder = isCourse ? "hover:border-orange-500/50" : "hover:border-blue-500/50";
+    const hoverTitle = isCourse ? "group-hover:text-orange-400" : "group-hover:text-blue-400";
+    const hoverMeta = isCourse ? "group-hover:text-orange-400" : "group-hover:text-blue-400";
+    const hoverDot = isCourse ? "group-hover:bg-orange-500" : "group-hover:bg-blue-500";
+    const sweep = isCourse ? "via-orange-500/10" : "via-blue-500/10";
+
     grid.innerHTML += `
       <div onclick="${action}"
-           class="group relative bg-[#0a0a0a] border border-white/10 hover:border-blue-500/50 transition-colors duration-300 cursor-pointer overflow-hidden flex flex-col h-full">
+           class="group relative bg-[#0a0a0a] border border-white/10 ${hoverBorder} transition-colors duration-300 cursor-pointer overflow-hidden flex flex-col h-full">
         <div class="corner-bracket tl"></div>
         <div class="corner-bracket tr"></div>
         <div class="corner-bracket bl"></div>
@@ -443,8 +478,8 @@ function switchTab(tabName) {
         <div class="flex justify-between items-center px-4 py-2 bg-white/5 border-b border-white/10">
           <span class="font-mono text-[9px] text-gray-500 uppercase tracking-widest">FILE: ${id.split("-")[0].toUpperCase()}</span>
           <div class="flex items-center gap-2">
-            <span class="text-[9px] font-mono text-gray-600 group-hover:text-blue-400 transition-colors">${p.fileSize || "1.0 MB"}</span>
-            <span class="w-1.5 h-1.5 bg-gray-700 group-hover:bg-blue-500 rounded-full transition-colors"></span>
+            <span class="text-[9px] font-mono text-gray-600 ${hoverMeta} transition-colors">${p.fileSize || "1.0 MB"}</span>
+            <span class="w-1.5 h-1.5 bg-gray-700 ${hoverDot} rounded-full transition-colors"></span>
           </div>
         </div>
 
@@ -453,13 +488,13 @@ function switchTab(tabName) {
           <img src="${p.logoUrl}" loading="lazy"
                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">
           <!-- Scan sweep on hover -->
-          <div class="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/10 to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 pointer-events-none z-20"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-transparent ${sweep} to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-1000 pointer-events-none z-20"></div>
         </div>
 
         <!-- Card body -->
         <div class="p-6 flex flex-col flex-grow bg-[#0a0a0a]">
-          <h4 class="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors tracking-tight">${p.title}</h4>
-          <p class="text-[10px] font-mono text-blue-400 mb-4 uppercase tracking-wider font-bold">${p.role}</p>
+          <h4 class="text-lg font-bold text-white mb-1 ${hoverTitle} transition-colors tracking-tight">${p.title}</h4>
+          <p class="text-[10px] font-mono ${roleColor} mb-4 uppercase tracking-wider font-bold">${p.role}</p>
           <p class="text-sm text-gray-400 font-light leading-relaxed mb-6 flex-grow border-l border-white/10 pl-3">${p.summary}</p>
           <div class="flex flex-wrap gap-2 mt-auto">${tagsHtml}</div>
         </div>
@@ -566,36 +601,7 @@ function switchCoursework(view) {
 }
 
 /* =============================================================================
-   7. ANOMALIES — Scroll controls & mouse-drag
-============================================================================= */
-function scrollAnomalies(direction) {
-  document.getElementById("anomalies-scroll").scrollBy({ left: direction * 430, behavior: "smooth" });
-}
-
-function initAnomaliesDrag() {
-  const el = document.getElementById("anomalies-scroll");
-  if (!el) return;
-
-  let isDragging = false;
-  let startX, scrollLeft;
-
-  el.addEventListener("mousedown", e => {
-    isDragging = true;
-    startX     = e.pageX - el.offsetLeft;
-    scrollLeft = el.scrollLeft;
-    el.style.cursor = "grabbing";
-  });
-  el.addEventListener("mouseleave", () => { isDragging = false; el.style.cursor = "grab"; });
-  el.addEventListener("mouseup",    () => { isDragging = false; el.style.cursor = "grab"; });
-  el.addEventListener("mousemove",  e => {
-    if (!isDragging) return;
-    e.preventDefault();
-    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
-  });
-}
-
-/* =============================================================================
-   8. ENGINEERING SKILLS RADAR
+   7. ENGINEERING SKILLS RADAR
 ============================================================================= */
 function initRadar() {
   const ctx    = document.getElementById("skillsChart").getContext("2d");
@@ -650,16 +656,6 @@ function initRadar() {
 /* =============================================================================
    9. MISSION PANEL — internship accordion + smooth jumps to featured cards
 ============================================================================= */
-function toggleInternshipMission() {
-  const section = document.getElementById("internship-mission-details");
-  const trigger = document.getElementById("internship-toggle");
-  if (!section) return;
-
-  const open = !section.classList.contains("is-open");
-  section.classList.toggle("is-open", open);
-  if (trigger) trigger.setAttribute("aria-expanded", String(open));
-}
-
 function initMissionJumps() {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.querySelectorAll(".hero-mission-list a.hero-mission-link[href^='#']").forEach(a => {
@@ -803,9 +799,10 @@ function initSyncClock() {
 /* =============================================================================
   12. NAVIGATION — mobile menu, active section, cross-page persistence
 ============================================================================= */
-const NAV_SCROLL_KEY = "eg-portfolio-index-scroll";
-const NAV_RETURN_KEY = "eg-portfolio-returning";
-const NAV_HUB_KEY    = "eg-portfolio-hub";
+const NAV_SCROLL_KEY  = "eg-portfolio-index-scroll";
+const NAV_RETURN_KEY  = "eg-portfolio-returning";
+const NAV_HUB_KEY     = "eg-portfolio-hub";
+const NAV_SECTION_KEY = "eg-portfolio-return-section";
 
 function toggleMobileNav(force) {
   const panel  = document.getElementById("mobile-nav");
@@ -818,27 +815,37 @@ function toggleMobileNav(force) {
   document.body.classList.toggle("nav-open", open);
 }
 
-/** Persist index scroll before leaving for a detail page */
+/** Persist index scroll before leaving for a detail page.
+ *  Does NOT set RETURN_KEY — that flag is set only when leaving a subpage
+ *  so About/Interests don't treat first arrival as a "return". */
 function saveIndexScroll() {
   try {
     sessionStorage.setItem(NAV_SCROLL_KEY, String(window.scrollY));
-    sessionStorage.setItem(NAV_RETURN_KEY, "1");
+    // Remember nearest in-page section so Return still lands correctly if scrollY is lost
+    const spyY = Math.min(160, Math.round(window.innerHeight * 0.22));
+    let sectionId = "featured";
+    for (const id of ["featured", "capabilities", "collections"]) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= spyY) sectionId = id;
+    }
+    sessionStorage.setItem(NAV_SECTION_KEY, sectionId);
     const params = new URLSearchParams(window.location.search);
-    const hub = params.get("hub");
-    if (hub) sessionStorage.setItem(NAV_HUB_KEY, hub);
+    const hub = params.get("hub") || currentArchiveHub || "personal";
+    sessionStorage.setItem(NAV_HUB_KEY, hub === "coursework" ? "coursework" : "personal");
   } catch (_) { /* private mode */ }
 }
 
-/** Soft navigate with optional View Transition; saves scroll on index */
+/** Soft navigate from index; saves scroll, then fades out */
 function navigateTo(url) {
   saveIndexScroll();
   const go = () => { window.location.href = url; };
-  if (document.startViewTransition) {
-    document.startViewTransition(go);
-  } else {
-    document.documentElement.classList.add("page-exit");
-    setTimeout(go, 180);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) {
+    go();
+    return;
   }
+  document.documentElement.classList.add("page-exit");
+  setTimeout(go, 160);
 }
 
 function initNav() {
@@ -846,9 +853,11 @@ function initNav() {
   const sections = [
     { id: "featured",     key: "featured" },
     { id: "capabilities", key: "capabilities" },
-    { id: "anomalies",    key: "anomalies" },
     { id: "collections",  key: "collections" }
   ];
+
+  let lockKey = null;
+  let lockUntil = 0;
 
   const setActive = (key) => {
     links.forEach(link => {
@@ -859,22 +868,57 @@ function initNav() {
     });
   };
 
-  const observer = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-    if (!visible.length) {
-      if (window.scrollY < 200) setActive(null);
+  /** Sticky-nav offset — last section whose top has crossed this line wins */
+  const spyLine = () => Math.min(160, Math.round(window.innerHeight * 0.22));
+
+  const keyForHash = (id) => {
+    if (!id) return null;
+    const direct = sections.find(s => s.id === id);
+    if (direct) return direct.key;
+    const featured = document.getElementById("featured");
+    const target = document.getElementById(id);
+    if (featured && target && featured.contains(target)) return "featured";
+    return null;
+  };
+
+  const updateActive = () => {
+    if (Date.now() < lockUntil && lockKey) {
+      setActive(lockKey);
       return;
     }
-    const match = sections.find(s => s.id === visible[0].target.id);
-    if (match) setActive(match.key);
-  }, { rootMargin: "-20% 0px -55% 0px", threshold: [0.1, 0.25, 0.5] });
+    lockKey = null;
 
-  sections.forEach(({ id }) => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
+    if (window.scrollY < 120) {
+      setActive(null);
+      return;
+    }
+
+    const y = spyLine();
+    let current = null;
+    for (const { id, key } of sections) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      if (el.getBoundingClientRect().top <= y) current = key;
+    }
+    setActive(current);
+  };
+
+  // Clicking Projects/Skills/Archive (or a featured card anchor) highlights immediately
+  // while smooth-scroll runs — avoids the tall Featured section losing to Skills.
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener("click", () => {
+      const id = (a.getAttribute("href") || "").slice(1);
+      const key = keyForHash(id);
+      if (!key) return;
+      lockKey = key;
+      lockUntil = Date.now() + 900;
+      setActive(key);
+    });
   });
+
+  window.addEventListener("scroll", updateActive, { passive: true });
+  window.addEventListener("resize", updateActive);
+  updateActive();
 
   document.querySelectorAll("#mobile-nav a").forEach(a => {
     a.addEventListener("click", () => toggleMobileNav(false));
@@ -895,14 +939,10 @@ function initNav() {
       navigateTo(a.href);
     });
   });
-
-  if (window.scrollY < 200) setActive(null);
 }
 
 /** Restore scroll / skip entrance animations after back or Return */
 function initScrollRestore() {
-  const SECTION_KEY = "eg-portfolio-return-section";
-
   const readReturnState = () => {
     let returning = false;
     let savedY = null;
@@ -911,7 +951,7 @@ function initScrollRestore() {
     try {
       returning = sessionStorage.getItem(NAV_RETURN_KEY) === "1";
       savedY = sessionStorage.getItem(NAV_SCROLL_KEY);
-      sectionId = sessionStorage.getItem(SECTION_KEY);
+      sectionId = sessionStorage.getItem(NAV_SECTION_KEY);
       hub = sessionStorage.getItem(NAV_HUB_KEY);
     } catch (_) { /* ignore */ }
     return { returning, savedY, sectionId, hub };
@@ -925,9 +965,20 @@ function initScrollRestore() {
   const consumeFlags = () => {
     try {
       sessionStorage.removeItem(NAV_RETURN_KEY);
-      sessionStorage.removeItem(SECTION_KEY);
+      sessionStorage.removeItem(NAV_SECTION_KEY);
       sessionStorage.removeItem(NAV_HUB_KEY);
     } catch (_) { /* ignore */ }
+  };
+
+  /** After restore settles, re-enable normal scroll-smooth for in-page jumps */
+  const releaseReturning = () => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove("nav-returning");
+        document.documentElement.classList.add("scroll-smooth");
+        document.documentElement.style.scrollBehavior = "";
+      });
+    });
   };
 
   const restore = (opts = {}) => {
@@ -949,7 +1000,10 @@ function initScrollRestore() {
 
     // bfcache already restored scroll — don't fight it unless we have savedY.
     if (fromBfcache && savedY === null) {
-      if (returning) consumeFlags();
+      if (returning) {
+        consumeFlags();
+        releaseReturning();
+      }
       return;
     }
 
@@ -964,6 +1018,7 @@ function initScrollRestore() {
         if (opts.clearScroll) {
           try { sessionStorage.removeItem(NAV_SCROLL_KEY); } catch (_) { /* ignore */ }
           consumeFlags();
+          releaseReturning();
         }
         return;
       }
@@ -977,10 +1032,14 @@ function initScrollRestore() {
         try { history.replaceState(null, "", window.location.pathname + window.location.search); } catch (_) { /* ignore */ }
       }
       consumeFlags();
+      releaseReturning();
       return;
     }
 
-    if (returning) consumeFlags();
+    if (returning) {
+      consumeFlags();
+      releaseReturning();
+    }
   };
 
   restore();
@@ -994,11 +1053,7 @@ function initScrollRestore() {
     document.body.style.opacity = "1";
     document.body.style.transform = "none";
     if (e.persisted) document.documentElement.classList.add("nav-returning");
-    restore({ fromBfcache: e.persisted });
-  });
-
-  window.addEventListener("hashchange", () => {
-    document.documentElement.classList.add("nav-returning");
+    restore({ fromBfcache: e.persisted, clearScroll: e.persisted });
   });
 }
 
@@ -1006,18 +1061,24 @@ function initScrollRestore() {
   13. INIT — runs after DOM is ready
 ============================================================================= */
 document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  let hub = params.get("hub");
+  try {
+    if (!hub && sessionStorage.getItem(NAV_RETURN_KEY) === "1") {
+      hub = sessionStorage.getItem(NAV_HUB_KEY);
+    }
+  } catch (_) { /* ignore */ }
+
+  // Restore hub before painting archive so Return lands on the same tab
+  switchTab(hub === "coursework" ? "coursework" : "personal");
   initScrollRestore();
   renderHW();
   renderFeatured();
-  const params = new URLSearchParams(window.location.search);
-  const hub = params.get("hub");
-  switchTab(hub === "coursework" ? "coursework" : "personal");
   switchCoursework("active");
   initRadar();
   initMissionJumps();
   initSectionReveals();
   initSmoothAnchors();
-  initAnomaliesDrag();
   initScrollProgress();
   initFooterMetrics();
   initSyncClock();

@@ -110,12 +110,6 @@
       <!-- Primary nav links (desktop) -->
       <ul class="hidden lg:flex gap-8 text-[13px] font-mono font-bold tracking-widest uppercase text-gray-400 items-center list-none m-0 p-0">
         <li>
-          <a href="about.html" class="nav-link flex items-center gap-2 hover:text-white transition-colors py-2">
-            <span>About</span>
-            <i class="fas fa-arrow-up-right-from-square text-[9px] opacity-60" aria-hidden="true"></i>
-          </a>
-        </li>
-        <li>
           <a href="#featured"
              data-nav-section="featured"
              class="nav-link nav-link--mission hover:text-white transition-colors py-2">
@@ -128,12 +122,17 @@
           </a>
         </li>
         <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link hover:text-white transition-colors py-2">Skills</a></li>
-        <li><a href="#anomalies"    data-nav-section="anomalies"    class="nav-link hover:text-white transition-colors py-2">Challenges</a></li>
         <li><a href="#collections"  data-nav-section="collections"  class="nav-link hover:text-white transition-colors py-2">Archive</a></li>
         <li>
-          <a href="interests.html" class="nav-link hover:text-blue-400 transition-colors flex items-center gap-1.5 py-2">
+          <a href="about.html" class="nav-link nav-link--about flex items-center gap-2 py-2">
+            <span>About</span>
+            <i class="fas fa-arrow-up-right-from-square text-[9px] opacity-70" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="interests.html" class="nav-link nav-link--interests flex items-center gap-1.5 py-2">
             <span>Interests</span>
-            <i class="fas fa-arrow-up-right-from-square text-[9px] opacity-60" aria-hidden="true"></i>
+            <i class="fas fa-arrow-up-right-from-square text-[9px] opacity-70" aria-hidden="true"></i>
           </a>
         </li>
       </ul>
@@ -163,7 +162,6 @@
     <!-- Mobile drawer -->
     <div id="mobile-nav" class="mobile-nav lg:hidden">
       <ul class="list-none m-0 p-0 flex flex-col">
-        <li><a href="about.html" class="mobile-nav-link">About</a></li>
         <li>
           <a href="#featured" class="mobile-nav-link mobile-nav-link--mission">
             <span>Projects</span>
@@ -175,9 +173,9 @@
           </a>
         </li>
         <li><a href="#capabilities" class="mobile-nav-link">Skills</a></li>
-        <li><a href="#anomalies" class="mobile-nav-link">Challenges</a></li>
         <li><a href="#collections" class="mobile-nav-link">Archive</a></li>
-        <li><a href="interests.html" class="mobile-nav-link">Interests</a></li>
+        <li><a href="about.html" class="mobile-nav-link mobile-nav-link--about">About</a></li>
+        <li><a href="interests.html" class="mobile-nav-link mobile-nav-link--interests">Interests</a></li>
         <!-- Hidden until docs/EG_Portfolio.pdf is regenerated:
         <li><a href="portfolio.html" target="_blank" rel="noopener noreferrer" class="mobile-nav-link">Portfolio PDF</a></li> -->
         <li><a href="resume.html" target="_blank" rel="noopener noreferrer" class="mobile-nav-link mobile-nav-cta">Download Resume</a></li>
@@ -233,8 +231,8 @@
 
             <!-- Bio tagline -->
             <p class="text-lg md:text-xl text-gray-200 leading-relaxed font-light max-w-xl">
-              Building the interface between <strong class="text-white font-medium">physical systems and embedded logic</strong>
-              through dynamics, controls, simulation, and hardware validation.
+              I go from <strong class="text-white font-medium">model to vehicle</strong>:
+              dynamics and controls in simulation, then bring-up and validation on hardware.
             </p>
 
             <!-- Primary CTAs + social links -->
@@ -297,38 +295,24 @@
                 <!-- Newest / future first; oldest at bottom. Status via class + label + icon (not color alone). -->
                 <ol class="hero-mission-list">
 
-                  <!-- TARGET: Summer 2027 internship -->
+                  <!-- TARGET: Summer 2027 internship (details always visible) -->
                   <li class="hero-mission-item target group" data-mission-status="target">
-                    <button type="button"
-                            id="internship-toggle"
-                            onclick="toggleInternshipMission()"
-                            aria-expanded="false"
-                            aria-controls="internship-mission-details"
-                            class="hero-mission-link w-full text-left cursor-pointer">
+                    <div class="hero-mission-link">
                       <span class="mission-meta">
                         <span class="mission-status mission-status--target"><i class="fas fa-bullseye" aria-hidden="true"></i> Target</span>
                         <span class="mission-date">Summer 2027</span>
-                        <span class="mission-expand-hint" aria-hidden="true">Details</span>
                       </span>
                       <span class="mission-main">
                         <span class="h-10 w-10 mission-thumb mission-thumb--target shrink-0 z-10 flex items-center justify-center" aria-hidden="true">
                           <i class="fas fa-flag text-gray-400 text-sm"></i>
                         </span>
                         <span class="mission-copy min-w-0">
-                          <span class="block text-gray-100 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering / Research Internship</span>
+                          <span class="block text-gray-100 font-bold text-sm">Engineering / Research Internship</span>
+                          <p class="mission-target-note-inline">
+                            Aerospace or autonomous systems: dynamics and controls, vehicle integration, or flight test. Industry or research lab.
+                          </p>
                         </span>
                       </span>
-                    </button>
-
-                    <div id="internship-mission-details"
-                         role="region"
-                         aria-labelledby="internship-toggle">
-                      <div class="mission-target-note">
-                        <p>
-                          Summer 2027 role in aerospace or autonomous systems: dynamics and controls,
-                          vehicle integration, or flight test. Industry or research lab.
-                        </p>
-                      </div>
                     </div>
                   </li>
 
@@ -419,19 +403,19 @@
   </div><!-- /hero-section -->
 
   <!-- =====================================================================
-       HARDWARE LOG TICKER
+       WORK LOG TICKER
   ====================================================================== -->
   <section id="hwlog" aria-labelledby="hwlog-heading">
     <div class="hw-hdr">
       <div class="hw-hdr-l">
-        <h2 id="hwlog-heading">Hardware Log</h2>
-        <span class="hw-evidence">Physical builds</span>
+        <h2 id="hwlog-heading">Work Log</h2>
+        <span class="hw-evidence">Builds &amp; writing</span>
       </div>
       <span class="hw-hdr-r" id="hw-count" aria-hidden="true"></span>
     </div>
     <div class="hw-outer">
       <!-- Items injected by renderHW() in script.js -->
-      <div class="hw-track" id="hwtrack" aria-label="Hardware evidence ticker"></div>
+      <div class="hw-track" id="hwtrack" aria-label="Work evidence ticker"></div>
     </div>
   </section>
 
@@ -633,137 +617,18 @@
     </section>
 
     <!-- =================================================================
-         SECTION 03 — ENGINEERING CHALLENGES
-    ================================================================== -->
-    <section id="anomalies"
-             aria-labelledby="anomalies-heading"
-             class="eg-reveal scroll-anchor py-20 max-w-7xl mx-auto px-6 border-t border-white/5">
-
-      <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-6 gap-4">
-        <div>
-          <h2 id="anomalies-heading" class="text-3xl font-bold text-white tracking-tight">Engineering Challenges</h2>
-          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Root cause · Fix</p>
-        </div>
-        <div class="flex gap-1 shrink-0">
-          <button type="button"
-                  onclick="scrollAnomalies(-1)"
-                  aria-label="Scroll incidents left"
-                  class="w-9 h-9 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors">
-            <i class="fas fa-chevron-left" aria-hidden="true"></i>
-          </button>
-          <button type="button"
-                  onclick="scrollAnomalies(1)"
-                  aria-label="Scroll incidents right"
-                  class="w-9 h-9 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors">
-            <i class="fas fa-chevron-right" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Scrollable / drag-scroll incident list -->
-      <ul id="anomalies-scroll"
-          class="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory cursor-grab scrollbar-hide scroll-smooth list-none">
-
-        <!-- VTOL-01 -->
-        <li class="snap-center shrink-0">
-          <article class="anomaly-card bg-[#0a0a0a] border border-white/10 p-7 w-[300px] md:w-[360px] relative hover:border-white/25 transition-colors"
-                   aria-label="Incident VTOL-01, Resolved">
-            <header class="mb-5">
-              <p class="mb-2 font-mono text-[10px] text-gray-500 uppercase tracking-widest">VTOL-01 · Resolved</p>
-              <h3 class="text-lg font-bold text-white leading-snug">Sensor Dropouts on Bench Test</h3>
-            </header>
-            <dl class="space-y-4 pl-4 border-l border-white/10">
-              <div>
-                <dt class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Root Cause</dt>
-                <dd class="text-gray-400 text-sm mt-1">Electrical noise from high-current motor wiring interfering with I2C lines.</dd>
-              </div>
-              <div>
-                <dt class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest">The Fix</dt>
-                <dd class="text-gray-300 text-sm mt-1">Re-routed and shielded avionics wiring; added pull-up resistors.</dd>
-              </div>
-            </dl>
-          </article>
-        </li>
-
-        <!-- HYPERION-01 -->
-        <li class="snap-center shrink-0">
-          <article class="anomaly-card bg-[#0a0a0a] border border-white/10 p-7 w-[300px] md:w-[360px] relative hover:border-white/25 transition-colors"
-                   aria-label="Incident HYPERION-01, Resolved">
-            <header class="mb-5">
-              <p class="mb-2 font-mono text-[10px] text-gray-500 uppercase tracking-widest">HYPERION-01 · Resolved</p>
-              <h3 class="text-lg font-bold text-white leading-snug">Thread Contention Jitter</h3>
-            </header>
-            <dl class="space-y-4 pl-4 border-l border-white/10">
-              <div>
-                <dt class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Root Cause</dt>
-                <dd class="text-gray-400 text-sm mt-1">Physics and telemetry threads competing for mutex, delaying integration steps.</dd>
-              </div>
-              <div>
-                <dt class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest">The Fix</dt>
-                <dd class="text-gray-300 text-sm mt-1">Implemented double-buffered state handoff to eliminate blocking.</dd>
-              </div>
-            </dl>
-          </article>
-        </li>
-
-        <!-- PROP-09 -->
-        <li class="snap-center shrink-0">
-          <article class="anomaly-card bg-[#0a0a0a] border border-white/10 p-7 w-[300px] md:w-[360px] relative hover:border-white/25 transition-colors"
-                   aria-label="Incident PROP-09, Resolved">
-            <header class="mb-5">
-              <p class="mb-2 font-mono text-[10px] text-gray-500 uppercase tracking-widest">PROP-09 · Resolved</p>
-              <h3 class="text-lg font-bold text-white leading-snug">Igniter Continuity False Positive</h3>
-            </header>
-            <dl class="space-y-4 pl-4 border-l border-white/10">
-              <div>
-                <dt class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Root Cause</dt>
-                <dd class="text-gray-400 text-sm mt-1">ADC float voltage on the sense pin was interpreted as a valid continuity high.</dd>
-              </div>
-              <div>
-                <dt class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest">The Fix</dt>
-                <dd class="text-gray-300 text-sm mt-1">Added hardware pulldown resistor and debounce logic to MCU firmware.</dd>
-              </div>
-            </dl>
-          </article>
-        </li>
-
-        <!-- DBF-01 -->
-        <li class="snap-center shrink-0">
-          <article class="anomaly-card bg-[#0a0a0a] border border-white/10 p-7 w-[300px] md:w-[360px] relative hover:border-white/25 transition-colors"
-                   aria-label="Incident DBF-01, Resolved">
-            <header class="mb-5">
-              <p class="mb-2 font-mono text-[10px] text-gray-500 uppercase tracking-widest">DBF-01 · Resolved</p>
-              <h3 class="text-lg font-bold text-white leading-snug">Pitch Stability Hunting</h3>
-            </header>
-            <dl class="space-y-4 pl-4 border-l border-white/10">
-              <div>
-                <dt class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Root Cause</dt>
-                <dd class="text-gray-400 text-sm mt-1">CG shifted aft due to battery placement, reducing static margin.</dd>
-              </div>
-              <div>
-                <dt class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest">The Fix</dt>
-                <dd class="text-gray-300 text-sm mt-1">Shifted mass forward and increased tail authority.</dd>
-              </div>
-            </dl>
-          </article>
-        </li>
-
-      </ul>
-    </section>
-
-    <!-- =================================================================
-         SECTION 04 — PROJECT ARCHIVES
+         SECTION 03 — PROJECT ARCHIVES
     ================================================================== -->
     <section id="collections"
              aria-labelledby="archives-heading"
              class="eg-reveal scroll-anchor py-20 max-w-7xl mx-auto px-6 border-t border-white/5">
 
-      <div class="mb-10 border-b border-white/10 pb-6">
+      <div class="mb-8">
         <h2 id="archives-heading" class="text-3xl font-bold text-white tracking-tight">Project Archives</h2>
         <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Personal builds and coursework</p>
       </div>
 
-      <!-- Tab bar -->
+      <!-- Tab bar — single archive rule -->
       <div class="flex gap-8 mb-10 border-b border-white/10" role="tablist" aria-label="Archive categories">
         <button type="button"
                 id="tab-personal"

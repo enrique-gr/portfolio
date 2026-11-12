@@ -24,8 +24,8 @@
         }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
-        .tech-highlight { color: #38bdf8; font-weight: 600; } /* sky-400 */
-        .sensor-highlight { color: #10b981; font-weight: 600; } /* emerald-500 */
+        .tech-highlight { color: #60a5fa; font-weight: 600; }
+        .sensor-highlight { color: #60a5fa; font-weight: 600; }
         .metric-label { font-size: 0.65rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace; }
         .metric-value { font-size: 0.875rem; color: #e2e8f0; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
 
@@ -52,30 +52,14 @@
            1. Links to index.html?hub=personal#collections
            2. onclick triggers smoothExit() animation
         -->
-        <a href="index.html?hub=personal" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+        <a href="index.html?hub=personal#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
             <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
             <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
         </a>
 
-        <!-- RIGHT SIDE -->
-        <div class="flex items-center gap-6">
-
-            <!-- ✅ Launch Console button FIRST -->
-            <a href="demos/telemetry.html" 
-               class="flex items-center gap-2 px-4 py-2 border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-white transition-all group rounded-sm">
-                <div class="flex flex-col items-end leading-none">
-                    <span class="font-bold font-mono text-xs tracking-widest">LAUNCH CONSOLE</span>
-                    <span class="text-[8px] font-mono opacity-60">LIVE FLIGHT DATA</span>
-                </div>
-                <i class="fas fa-external-link-alt text-sm group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
-            <!-- ✅ Personal Project badge SECOND -->
-            <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
-                <span class="hidden md:inline">Personal Project</span>
-                <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
-            </div>
-
+        <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
+            <span class="hidden md:inline">Personal Project</span>
+            <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
         </div>
     </div>
 </nav>
@@ -87,7 +71,7 @@
             </div>
             <div>
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Flight Nav EKF</h1>
-                <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">Embedded State Estimation · Sensor Fusion</p>
+                <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Personal Project · Embedded State Estimation</p>
             </div>
         </div>
 
@@ -101,7 +85,7 @@
                     <p>
                         This project implements a high-fidelity <strong>12-State Extended Kalman Filter (EKF)</strong> running on a Teensy 4.1 microcontroller. It fuses asynchronous data streams to provide stable real-time state estimation for UAVs, solving the drift issues inherent in raw sensor data.
                     </p>
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-emerald-500/30 pl-4">
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-blue-500/30 pl-4">
                         <li>
                             <strong class="text-white uppercase font-mono text-sm tracking-wider">Multi-Sensor Fusion:</strong> 
                             Synchronizes high-rate <span class="sensor-highlight">IMU (1kHz)</span> data with lower-rate <span class="sensor-highlight">GPS (5Hz)</span> and <span class="sensor-highlight">Barometer</span> updates.
@@ -131,9 +115,9 @@
                         <div>
                             <h4 class="text-gray-500 mb-4 uppercase tracking-wider">>> Sensor Inputs</h4>
                             <div class="space-y-2">
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-blue-500">
                                     <span>[IMU] Accel/Gyro</span>
-                                    <span class="text-emerald-400">1000 Hz</span>
+                                    <span class="text-blue-400">1000 Hz</span>
                                 </div>
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
                                     <span>[GPS] Pos/Vel</span>
@@ -150,18 +134,18 @@
                             </div>
                         </div>
 
-                        <div class="relative p-4 border border-emerald-500/20 bg-emerald-900/5 rounded-sm flex flex-col gap-2">
-                            <h4 class="text-emerald-400 mb-2 text-center uppercase tracking-wider">EKF Algorithm</h4>
+                        <div class="relative p-4 border border-blue-500/20 bg-blue-900/5 rounded-sm flex flex-col gap-2">
+                            <h4 class="text-blue-400 mb-2 text-center uppercase tracking-wider">EKF Algorithm</h4>
                             
                             <div class="w-full p-2 border border-white/20 bg-[#0f0f10] text-center">
-                                <span class="text-emerald-300 font-bold">TIME UPDATE (PREDICT)</span><br>
+                                <span class="text-blue-300 font-bold">TIME UPDATE (PREDICT)</span><br>
                                 <span class="text-[9px] text-gray-500">INTEGRATE IMU KINEMATICS (<i>x<sub>k|k-1</sub></i>)</span>
                             </div>
                             
                             <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
 
                             <div class="w-full p-2 border border-white/20 bg-[#0f0f10] text-center">
-                                <span class="text-emerald-300 font-bold">ERROR COVARIANCE</span><br>
+                                <span class="text-blue-300 font-bold">ERROR COVARIANCE</span><br>
                                 <span class="text-[9px] text-gray-500">PROPAGATE UNCERTAINTY (<i>P<sub>k|k-1</sub></i>)</span>
                             </div>
 
@@ -189,7 +173,7 @@
                     <div class="bg-[#151515] border border-white/10 rounded-sm overflow-hidden">
                         <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center">
                             <span class="text-[10px] font-mono text-gray-400">ekf_types.h</span>
-                            <span class="text-[10px] font-mono text-emerald-400">12-State Struct</span>
+                            <span class="text-[10px] font-mono text-blue-400">12-State Struct</span>
                         </div>
                         <pre class="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-gray-300"><span class="code-kwd">struct</span> <span class="code-type">EKF_State</span> {
     <span class="code-type">Vector3f</span> pos;      <span class="code-comment">// Position (NED)</span>
@@ -245,7 +229,7 @@
                     <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
                         <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Validation & Results</h3>
                         <a href="demos/telemetry.html" class="flex gap-2 hover:text-blue-400 transition-colors cursor-pointer group">
-                            <i class="fas fa-play-circle text-emerald-400 group-hover:text-blue-400 transition-colors"></i>
+                            <i class="fas fa-play-circle text-blue-400 group-hover:text-blue-400 transition-colors"></i>
                             <span class="text-[10px] text-gray-500 font-mono group-hover:text-blue-300">OPEN INTERACTIVE REPLAY ></span>
                         </a>
                     </div>
@@ -275,15 +259,15 @@
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-black/30 p-4 border border-white/5">
                                 <div>
                                     <div class="metric-label">Position X/Y</div>
-                                    <div class="metric-value text-emerald-400">&lt; 0.15 m</div>
+                                    <div class="metric-value text-blue-400">&lt; 0.15 m</div>
                                 </div>
                                 <div>
                                     <div class="metric-label">Altitude Z</div>
-                                    <div class="metric-value text-emerald-400">&lt; 0.08 m</div>
+                                    <div class="metric-value text-blue-400">&lt; 0.08 m</div>
                                 </div>
                                 <div>
                                     <div class="metric-label">Attitude (RPY)</div>
-                                    <div class="metric-value text-emerald-400">&lt; 1.5&deg;</div>
+                                    <div class="metric-value text-blue-400">&lt; 1.5&deg;</div>
                                 </div>
                                 <div>
                                     <div class="metric-label">Loop Rate</div>
@@ -294,7 +278,7 @@
                     </div>
                     
                     <div class="text-[10px] font-mono text-gray-400 text-center py-3 border-t border-white/5 flex justify-center gap-8">
-                        <span>DRIFT REDUCTION: <span class="text-emerald-400">12&deg;/min &rarr; &lt;1&deg;/min</span></span>
+                        <span>DRIFT REDUCTION: <span class="text-blue-400">12&deg;/min &rarr; &lt;1&deg;/min</span></span>
                         <span>MCU LOAD: <span class="text-purple-400">14% (Teensy 4.1)</span></span>
                     </div>
                 </div>
@@ -310,8 +294,8 @@
                                     <i class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors text-xs"></i>
                                 </a>
                                 <a href="docs/FlightNavEKF_Report.pdf" download class="flex items-center gap-2 group transition-colors">
-                                    <span class="text-[10px] text-gray-500 font-mono group-hover:text-emerald-400 transition-colors">DOWNLOAD</span>
-                                    <i class="fas fa-download text-gray-500 group-hover:text-emerald-400 transition-colors text-xs"></i>
+                                    <span class="text-[10px] text-gray-500 font-mono group-hover:text-blue-400 transition-colors">DOWNLOAD</span>
+                                    <i class="fas fa-download text-gray-500 group-hover:text-blue-400 transition-colors text-xs"></i>
                                 </a>
                             </div>
                         </div>
@@ -320,7 +304,7 @@
                              <iframe src="docs/FlightNavEKF_Report.pdf" class="w-full h-full border-none" title="Project Report PDF">
                                 <div class="flex flex-col items-center justify-center h-full text-gray-400 gap-4">
                                     <p class="text-sm font-mono">Unable to display PDF file directly.</p>
-                                    <a href="docs/FlightNavEKF_Report.pdf" class="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs hover:bg-emerald-500/20 transition-all rounded-sm">
+                                    <a href="docs/FlightNavEKF_Report.pdf" class="px-4 py-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono text-xs hover:bg-blue-500/20 transition-all rounded-sm">
                                         Download Report (.pdf)
                                     </a>
                                 </div>
@@ -346,12 +330,12 @@
                     </div>
                 </div>
 
-                <div class="p-8 bg-emerald-500/5 border border-emerald-500/20">
-                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">Engineering Impact</h4>
-                    <p class="text-sm text-emerald-100/80 leading-relaxed mb-4">
+                <div class="p-8 bg-blue-500/5 border border-blue-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">Engineering Impact</h4>
+                    <p class="text-sm text-blue-100/80 leading-relaxed mb-4">
                         Replaced raw IMU integration with a sensor-fused state estimator, enabling stable autonomous flight in GPS-denied environments.
                     </p>
-                    <div class="text-xs font-mono text-gray-400 border-t border-emerald-500/20 pt-4 mt-4">
+                    <div class="text-xs font-mono text-gray-400 border-t border-blue-500/20 pt-4 mt-4">
                         APPLICATIONS:<br>
                         > UAV Path Planning<br>
                         > Robotics Localization<br>

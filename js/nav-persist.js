@@ -1,10 +1,17 @@
 /* Cross-page navigation: soft exit, bfcache recovery, smart Return.
    Single source of truth for smoothExit / softNavigate — do not redefine on pages. */
 (function () {
-  const RETURN_KEY = "eg-portfolio-returning";
-  const SCROLL_KEY = "eg-portfolio-index-scroll";
-  const HUB_KEY = "eg-portfolio-hub";
+  const RETURN_KEY  = "eg-portfolio-returning";
+  const SCROLL_KEY  = "eg-portfolio-index-scroll";
+  const HUB_KEY     = "eg-portfolio-hub";
   const SECTION_KEY = "eg-portfolio-return-section";
+
+  function isIndexPath(pathname) {
+    const path = String(pathname || "").replace(/\\/g, "/");
+    return /(^|\/)index(?:[\w.-]*)?\.html?$|\/$/.test(path)
+      || /\/Portfolio\/?$/i.test(path)
+      || /\/portfolio\/?$/i.test(path);
+  }
 
   function markReturning(extra) {
     try {
@@ -21,13 +28,24 @@
     document.body.style.transition = "";
   }
 
-  /** Build a hash-free index URL; hub/section are restored via sessionStorage. */
+  /** One exit path — short opacity fade. Avoids stacking View Transitions. */
+  function fadeThen(go, ms) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      go();
+      return;
+    }
+    document.documentElement.classList.add("page-exit");
+    document.body.style.transition = "opacity 0.16s ease, transform 0.16s ease";
+    document.body.style.opacity = "0";
+    document.body.style.transform = "translateY(3px)";
+    setTimeout(go, typeof ms === "number" ? ms : 160);
+  }
+
   function normalizeIndexReturnUrl(url) {
     try {
       const u = new URL(url, window.location.href);
-      const path = u.pathname.replace(/\\/g, "/");
-      const isIndex = /(^|\/)index(?:[\w.-]*)?\.html?$|\/$/.test(path) || path.endsWith("/Portfolio/") || path.endsWith("/portfolio/");
-      if (!isIndex) return url;
+      if (!isIndexPath(u.pathname)) return url;
 
       const hub = u.searchParams.get("hub");
       const section = (u.hash || "").replace(/^#/, "");
@@ -36,6 +54,7 @@
         section: section || undefined
       });
 
+      // Hash is restored via SECTION_KEY / SCROLL_KEY — avoid browser hash jump on load
       u.hash = "";
       return u.pathname + u.search;
     } catch (_) {
@@ -43,13 +62,12 @@
     }
   }
 
+  /** True only when the previous document was the portfolio index. */
   function referrerIsIndex() {
     try {
       if (!document.referrer) return false;
       const ref = new URL(document.referrer);
-      const here = window.location;
-      if (ref.origin !== here.origin) return false;
-      return /(^|\/)index(?:[\w.-]*)?\.html?$|\/$/.test(ref.pathname);
+      return ref.origin === window.location.origin && isIndexPath(ref.pathname);
     } catch (_) {
       return false;
     }
@@ -60,45 +78,39 @@
     if (e.persisted) document.documentElement.classList.add("nav-returning");
   });
 
-  /** Soft navigate (View Transitions when available) */
+  /** Soft navigate (fade out, then assign location). */
   window.softNavigate = function softNavigate(url) {
-    markReturning();
     const target = normalizeIndexReturnUrl(url);
-    const go = () => { window.location.href = target; };
-    if (document.startViewTransition) {
-      document.startViewTransition(go);
-    } else {
-      document.documentElement.classList.add("page-exit");
-      document.body.style.transition = "opacity 0.18s ease, transform 0.18s ease";
-      document.body.style.opacity = "0";
-      document.body.style.transform = "translateY(4px)";
-      setTimeout(go, 180);
+    try {
+      const u = new URL(target, window.location.href);
+      if (!isIndexPath(u.pathname)) markReturning();
+    } catch (_) {
+      markReturning();
     }
+    fadeThen(() => { window.location.href = target; });
   };
 
   /**
-   * Prefer history.back() when the prior page was same-origin index so
-   * bfcache can restore scroll without a hard reload. Otherwise soft-navigate
-   * to a hash-free index URL and let index restore the saved scrollY.
+   * Prefer history.back() only when the prior page is the index (bfcache + exact scroll).
+   * About → Interests → Return must soft-navigate to index, not back to About.
    */
   window.smoothExit = function smoothExit(e, url) {
     if (e) e.preventDefault();
+    const fallback = url || "index.html";
 
-    markReturning();
+    let targetIsIndex = true;
+    try {
+      targetIsIndex = isIndexPath(new URL(fallback, window.location.href).pathname);
+    } catch (_) { /* keep true */ }
 
-    if (referrerIsIndex() && window.history.length > 1) {
-      const goBack = () => history.back();
-      if (document.startViewTransition) document.startViewTransition(goBack);
-      else {
-        document.documentElement.classList.add("page-exit");
-        setTimeout(goBack, 100);
-      }
+    if (targetIsIndex && referrerIsIndex() && window.history.length > 1) {
+      markReturning();
+      fadeThen(() => { history.back(); }, 140);
       return;
     }
 
-    softNavigate(url || "index.html");
+    softNavigate(fallback);
   };
 
-  // Expose keys for index restore helpers (optional)
-  window.__EG_NAV = { RETURN_KEY, SCROLL_KEY, HUB_KEY, SECTION_KEY };
+  window.__EG_NAV = { RETURN_KEY, SCROLL_KEY, HUB_KEY, SECTION_KEY, isIndexPath };
 })();

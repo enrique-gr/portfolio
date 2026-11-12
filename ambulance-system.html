@@ -23,7 +23,7 @@
             will-change: opacity, transform; /* Optimize animation */
         }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .tech-highlight { color: #f87171; font-weight: 600; }
+        .tech-highlight { color: #fb923c; font-weight: 600; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #050505; }
@@ -41,14 +41,14 @@
                1. Links to index.html?hub=coursework#collections (COURSEWORK)
                2. onclick triggers smoothExit() animation
             -->
-            <a href="index.html?hub=coursework" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+            <a href="index.html?hub=coursework#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                 <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                 <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
             </a>
 
-            <div class="flex items-center gap-3 text-xs font-mono text-emerald-400 uppercase tracking-widest">
+            <div class="flex items-center gap-3 text-xs font-mono text-orange-400 uppercase tracking-widest">
                 <span class="hidden md:inline">Coursework Project</span>
-                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="w-1 h-1 rounded-full bg-orange-400 animate-pulse"></span>
             </div>
 
         </div>
@@ -69,7 +69,7 @@
             </div>
             <div>
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Autonomous Ambulance System</h1>
-                <p class="text-red-400 font-mono text-sm uppercase tracking-widest">Coursework (Team Project - Fall 2024)</p>
+                <p class="text-orange-400 font-mono text-sm uppercase tracking-widest">Coursework (Team Project - Fall 2024)</p>
             </div>
         </div>
 
@@ -85,7 +85,7 @@
                         Collaborating with a team of engineers, I helped architect an embedded navigation system integrating sensor data with motor actuation for autonomous obstacle avoidance. My contributions focused on control logic and sensor fusion:
                     </p>
 
-                    <ul class="space-y-4 list-disc list-inside border-l-2 border-red-500/30 pl-4">
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-orange-500/30 pl-4">
                         <li>
                             <strong class="text-white font-mono text-sm uppercase">Embedded Sensing:</strong>
                             Integrated <span class="tech-highlight">Ultrasonic sensors (HC-SR04)</span> for real-time distance measurements.
@@ -120,31 +120,31 @@
                         <div>
                             <h4 class="text-gray-500 mb-4 uppercase tracking-wider">>> Hardware I/O Map</h4>
                             <div class="space-y-2">
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-red-500">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-orange-500">
                                     <span>[INPUT] Trigger/Echo</span>
-                                    <span class="text-red-400">GPIO</span>
+                                    <span class="text-orange-400">GPIO</span>
                                 </div>
 
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-red-500">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-orange-500">
                                     <span>[OUTPUT] Motor Enable</span>
-                                    <span class="text-red-400">PWM</span>
+                                    <span class="text-orange-400">PWM</span>
                                 </div>
 
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-red-500">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-orange-500">
                                     <span>[LOGIC] Poll Rate</span>
-                                    <span class="text-red-400">50 Hz</span>
+                                    <span class="text-orange-400">50 Hz</span>
                                 </div>
 
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-500">
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-orange-500">
                                     <span>[STATE] Evasion Mode</span>
-                                    <span class="text-emerald-500">ACTIVE</span>
+                                    <span class="text-orange-500">ACTIVE</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="relative p-4 border border-red-500/20 bg-red-900/5 rounded-sm flex flex-col items-center justify-center gap-3">
+                        <div class="relative p-4 border border-orange-500/20 bg-orange-900/5 rounded-sm flex flex-col items-center justify-center gap-3">
 
-                            <h4 class="text-red-400 mb-2 text-center uppercase tracking-wider">Signal Path</h4>
+                            <h4 class="text-orange-400 mb-2 text-center uppercase tracking-wider">Signal Path</h4>
 
                             <div class="w-full p-2 text-center border border-white/20 bg-[#0f0f10] text-[10px]">
                                 <div class="text-blue-300 font-bold">ULTRASONIC</div>
@@ -156,14 +156,14 @@
                             <div class="w-full p-3 text-center border border-white/40 bg-[#0f0f10] text-[10px] shadow-[0_0_10px_rgba(248,113,113,0.2)]">
                                 <div class="text-white font-bold">ARDUINO MCU</div>
                                 <div class="text-gray-500">STATE MACHINE</div>
-                                <div class="text-red-400/50 text-[8px] mt-1 font-bold">if (d < 20cm) → EVADE</div>
+                                <div class="text-orange-400/50 text-[8px] mt-1 font-bold">if (d < 20cm) → EVADE</div>
                             </div>
 
                             <i class="fas fa-arrow-down text-[10px] text-gray-600"></i>
 
                             <div class="w-full flex gap-2">
-                                <div class="w-1/2 p-2 text-center border border-red-500/40 bg-[#0f0f10] text-[10px]">
-                                    <div class="text-red-400 font-bold">L298N</div>
+                                <div class="w-1/2 p-2 text-center border border-orange-500/40 bg-[#0f0f10] text-[10px]">
+                                    <div class="text-orange-400 font-bold">L298N</div>
                                     <div class="text-gray-500">H-BRIDGE</div>
                                 </div>
 
@@ -182,7 +182,7 @@
                     <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
                         <h3 class="font-bold font-mono text-xs uppercase tracking-widest">System Demonstration</h3>
                         <div class="flex gap-2">
-                            <i class="fas fa-video text-red-500"></i>
+                            <i class="fas fa-video text-orange-500"></i>
                             <span class="text-[10px] text-gray-500 font-mono">MP4</span>
                         </div>
                     </div>
@@ -205,8 +205,8 @@
                                     <i class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors text-xs"></i>
                                 </a>
                                 <a href="docs/Ambulance_System_Report.pdf" download class="flex items-center gap-2 group transition-colors">
-                                    <span class="text-[10px] text-gray-500 font-mono group-hover:text-red-400 transition-colors">DOWNLOAD</span>
-                                    <i class="fas fa-download text-gray-500 group-hover:text-red-400 transition-colors text-xs"></i>
+                                    <span class="text-[10px] text-gray-500 font-mono group-hover:text-orange-400 transition-colors">DOWNLOAD</span>
+                                    <i class="fas fa-download text-gray-500 group-hover:text-orange-400 transition-colors text-xs"></i>
                                 </a>
                             </div>
                         </div>
@@ -215,7 +215,7 @@
                              <iframe src="docs/Ambulance_System_Report.pdf" class="w-full h-full border-none" title="Project Report PDF">
                                 <div class="flex flex-col items-center justify-center h-full text-gray-400 gap-4">
                                     <p class="text-sm font-mono">Unable to display PDF file directly.</p>
-                                    <a href="docs/Ambulance_System_Report.pdf" class="px-4 py-2 bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-xs hover:bg-red-500/20 transition-all rounded-sm">
+                                    <a href="docs/Ambulance_System_Report.pdf" class="px-4 py-2 bg-orange-500/10 border border-orange-500/30 text-orange-400 font-mono text-xs hover:bg-orange-500/20 transition-all rounded-sm">
                                         Download Report (.pdf)
                                     </a>
                                 </div>
@@ -243,9 +243,9 @@
                     </div>
                 </div>
 
-                <div class="p-8 bg-red-500/5 border border-red-500/20">
-                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-red-400">Outcome</h4>
-                    <p class="text-sm text-red-100/80 leading-relaxed">
+                <div class="p-8 bg-orange-500/5 border border-orange-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-orange-400">Outcome</h4>
+                    <p class="text-sm text-orange-100/80 leading-relaxed">
                         Built a functional autonomous robot capable of detecting and navigating around obstacles, validated through repeated physical tests.
                     </p>
                 </div>

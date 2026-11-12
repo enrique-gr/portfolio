@@ -6,6 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interests | Enrique Garcia</title>
+    <script>
+      try {
+        if (sessionStorage.getItem("eg-portfolio-returning") === "1") {
+          document.documentElement.classList.add("nav-returning");
+        }
+      } catch (e) { /* ignore */ }
+    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,10 +29,20 @@
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #e2e8f0;
+            opacity: 0;
+            animation: fadeInPage 0.35s ease forwards;
         }
+        html.nav-returning body { opacity: 1; animation: none; }
+        html.page-exit body {
+            opacity: 0 !important;
+            transform: translateY(3px);
+            transition: opacity 0.16s ease, transform 0.16s ease;
+            animation: none !important;
+        }
+        @keyframes fadeInPage { to { opacity: 1; } }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .tech-highlight { color: #10b981; font-weight: 600; }
+        .tech-highlight { color: #6A9BC4; font-weight: 600; }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #050505; }
@@ -41,7 +58,7 @@
 
         model-viewer::part(default-progress-bar) {
             height: 2px;
-            background-color: #10b981;
+            background-color: #6A9BC4;
         }
 
         .aircraft-card,
@@ -69,7 +86,7 @@
             content: "";
             position: absolute;
             inset: 10px 14px;
-            background: radial-gradient(circle, rgba(99,102,241,0.22), rgba(16,185,129,0.10) 48%, transparent 75%);
+            background: radial-gradient(circle, rgba(0,48,87,0.35), rgba(0,48,87,0.12) 48%, transparent 75%);
             filter: blur(12px);
             opacity: 0.9;
             pointer-events: none;
@@ -93,9 +110,7 @@
             position: sticky;
             top: 80px; /* sits just below the main nav */
             z-index: 40;
-            background: rgba(5,5,5,0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: #000;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
 
@@ -121,7 +136,7 @@
             left: 16px;
             right: 16px;
             height: 1px;
-            background: #10b981;
+            background: #6A9BC4;
             transform: scaleX(0);
             transition: transform 0.2s ease;
             transform-origin: left;
@@ -161,17 +176,6 @@
         }
         .film-card:hover img { opacity: 0.85; transition: opacity 0.2s ease; }
 
-        /* ── Mission cards ── */
-        .mission-card {
-            transition: border-color 0.2s ease, transform 0.2s ease;
-            will-change: transform;
-        }
-        .mission-card:hover {
-            border-color: rgba(56,189,248,0.3);
-            transform: translateY(-2px);
-        }
-        .mission-card:hover img { opacity: 0.85; transition: opacity 0.2s ease; }
-
         @media (max-width: 768px) {
             .header-sword-shell { width: 72px; height: 112px; }
             .aircraft-card, .space-card { min-width: 320px; max-width: 320px; }
@@ -183,7 +187,7 @@
 <body class="antialiased bg-[#0f0f10] min-h-screen">
 
     <!-- MAIN NAV -->
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <nav class="fixed top-0 w-full bg-black z-50 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <a href="index.html" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                 <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
@@ -191,7 +195,7 @@
             </a>
             <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
                 <span class="hidden md:inline">Interests</span>
-                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="w-1 h-1 rounded-full bg-[#6A9BC4] animate-pulse"></span>
             </div>
         </div>
     </nav>
@@ -202,9 +206,6 @@
             <div class="flex items-center gap-0">
                 <button class="section-nav-btn active" onclick="scrollToSection('section-aerospace', this)">
                     Aerospace & Flight
-                </button>
-                <button class="section-nav-btn" onclick="scrollToSection('section-missions', this)">
-                    Missions
                 </button>
                 <button class="section-nav-btn" onclick="scrollToSection('section-training', this)">
                     Training
@@ -239,7 +240,7 @@
 
                 <div>
                     <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Interests</h1>
-                    <p class="text-emerald-400 font-mono text-sm uppercase tracking-widest">
+                    <p class="text-[#6A9BC4] font-mono text-sm uppercase tracking-widest">
                         Aircraft · Spacecraft · Training · Film · Books
                     </p>
                     <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono text-gray-500">
@@ -258,7 +259,6 @@
                     </div>
                 </div>
             </div>
-            <span class="text-xl font-mono text-white/20">05</span>
         </div>
 
         <!-- LAYOUT GRID -->
@@ -378,19 +378,19 @@
                     <!-- SPACECRAFT -->
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <h4 class="text-[11px] font-mono uppercase tracking-[0.25em] text-emerald-300">Spacecraft & Exploration Systems</h4>
+                            <h4 class="text-[11px] font-mono uppercase tracking-[0.25em] text-[#6A9BC4]">Spacecraft & Exploration Systems</h4>
                             <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Launch Vehicles · Crewed Flight · Planetary Systems</span>
                         </div>
                         <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
 
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
-                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.45),_transparent_60%)]"></div></div>
+                                <div class="absolute inset-x-0 -top-10 h-16 opacity-40 pointer-events-none"><div class="w-full h-full bg-[radial-gradient(circle_at_top,_rgba(0,48,87,0.45),_transparent_60%)]"></div></div>
                                 <header class="relative mb-3">
-                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-emerald-300 uppercase tracking-widest">Saturn V</span><span class="text-[10px] font-mono text-gray-500">Moon Rocket</span></div>
+                                    <div class="flex items-center justify-between mb-1"><span class="text-[11px] font-mono text-[#6A9BC4] uppercase tracking-widest">Saturn V</span><span class="text-[10px] font-mono text-gray-500">Moon Rocket</span></div>
                                     <h4 class="text-sm font-semibold text-white">Brute force with precision.</h4>
                                 </header>
                                 <p class="relative text-xs text-gray-400 leading-relaxed mb-4">The Saturn V is engineering at full scale. Staging decisions, clustered engines, and a mission profile that demanded reliability under enormous forces. Every part of the vehicle reflects disciplined systems engineering.</p>
-                                <div class="space-viewer-shell relative bg-[#020617] border border-emerald-500/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/saturn_v.glb" alt="Saturn V 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="0deg 75deg 160%" field-of-view="25deg" loading="lazy"></model-viewer></div>
+                                <div class="space-viewer-shell relative bg-[#020617] border border-[#003057]/40 rounded-sm overflow-hidden"><model-viewer src="assets/models/saturn_v.glb" alt="Saturn V 3D model" auto-rotate camera-controls interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.8" environment-image="neutral" camera-orbit="0deg 75deg 160%" field-of-view="25deg" loading="lazy"></model-viewer></div>
                             </article>
 
                             <article class="space-card snap-start bg-black border border-white/10 p-6 relative">
@@ -467,36 +467,6 @@
                     </div>
                 </section>
 
-                <!-- MISSIONS -->
-                <section id="section-missions">
-                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Favorite Real-World Missions</h3>
-                    <div class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base font-light space-y-4">
-                        <p>These missions shaped how I think about engineering under pressure: making decisions with incomplete data, building systems that tolerate failure, and staying calm when the margin for error is effectively zero.</p>
-                    </div>
-                    <div class="flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
-                        <article class="mission-card snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
-                            <img src="assets/missions/apollo13.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Apollo 13" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-rocket text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Apollo 13</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Real-time systems engineering under pressure.</p>'">
-                            <h4 class="text-sm font-semibold text-white mb-1">Apollo 13</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Real-time systems engineering: reconfiguring hardware, procedures, and checklists on the fly to bring a damaged spacecraft home safely.</p>
-                        </article>
-                        <article class="mission-card snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
-                            <img src="assets/missions/falcon9.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Falcon 9 First Landing" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-shuttle-space text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Falcon 9 First Landing</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Closed-loop control and telemetry-driven decision making.</p>'">
-                            <h4 class="text-sm font-semibold text-white mb-1">Falcon 9 First Landing</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Closed-loop control, iteration, and telemetry-driven decision-making. Turning something that looked impossible into a repeatable, reliable system.</p>
-                        </article>
-                        <article class="mission-card snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
-                            <img src="assets/missions/perseverance_heli.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Perseverance and Ingenuity" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-robot text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Perseverance & Ingenuity</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Precision robotics in an untouchable environment.</p>'">
-                            <h4 class="text-sm font-semibold text-white mb-1">Perseverance & Ingenuity</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Precision robotics and control in an environment you can't touch. Every gram, watt, and line of code has to earn its place.</p>
-                        </article>
-                        <article class="mission-card snap-start bg-black border border-white/10 p-4 min-w-[260px] max-w-[260px]">
-                            <img src="assets/missions/c_uas.png" class="w-full h-40 object-cover border border-white/10 mb-4" alt="Counter-UAS" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-40 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-shield-halved text-2xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Counter-UAS</h4><p class=\'text-xs text-gray-400 leading-relaxed\'>Sensor fusion and autonomy in dynamic airspace.</p>'">
-                            <h4 class="text-sm font-semibold text-white mb-1">Counter-UAS Field Exercise</h4>
-                            <p class="text-xs text-gray-400 leading-relaxed">Sensor fusion, autonomy, and fast decision loops. Treating the airspace as a dynamic system that has to be understood, not just observed.</p>
-                        </article>
-                    </div>
-                </section>
-
                 <!-- TRAINING -->
                 <section id="section-training">
                     <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Training & Movement</h3>
@@ -518,12 +488,12 @@
                         <div class="bg-black border border-white/10 p-6">
                             <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
                                 <div><h4 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Strength Training</h4><p class="text-[11px] text-gray-500 mt-1 font-mono uppercase tracking-widest">No reps left in reserve</p></div>
-                                <i class="fas fa-dumbbell text-emerald-300/80"></i>
+                                <i class="fas fa-dumbbell text-[#6A9BC4]/80"></i>
                             </div>
                             <p class="text-xs text-gray-300 leading-relaxed mb-4">Most of my working sets are done at a high effort level, usually 0–1 RIR. It feels similar to tuning a control loop: push hard, observe the response, adjust, and build resilience over time.</p>
                             <div class="grid grid-cols-1 gap-2 font-mono text-[11px]">
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400"><span>Philosophy</span><span class="text-emerald-300">Make top sets memorable</span></div>
-                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-emerald-400"><span>Carryover</span><span class="text-emerald-300">Same mindset as debugging & EKF tuning</span></div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-[#003057]"><span>Philosophy</span><span class="text-[#6A9BC4]">Make top sets memorable</span></div>
+                                <div class="flex justify-between p-2 bg-white/5 border-l-2 border-[#003057]"><span>Carryover</span><span class="text-[#6A9BC4]">Same mindset as debugging & EKF tuning</span></div>
                             </div>
                         </div>
                     </div>
@@ -590,8 +560,8 @@
 
                         <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
                             <img src="assets/books/intro_to_flight.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Introduction to Flight" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
-                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-emerald-300/50"></i></div>
-                            <div class="text-[10px] font-mono text-emerald-300 uppercase tracking-widest mb-1">John D. Anderson</div>
+                            <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-[#6A9BC4]/50"></i></div>
+                            <div class="text-[10px] font-mono text-[#6A9BC4] uppercase tracking-widest mb-1">John D. Anderson</div>
                             <h4 class="text-sm font-semibold text-white mb-1">Introduction to Flight</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">A foundation for understanding flight mechanics, aerodynamics, propulsion, and aircraft performance.</p>
                         </article>
@@ -676,7 +646,7 @@
                 <div>
                     <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Spacecraft Roster</h3>
                     <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
-                        <div class="flex items-center justify-between"><span>[LV] Saturn V</span><span class="text-emerald-300">Moon Rocket</span></div>
+                        <div class="flex items-center justify-between"><span>[LV] Saturn V</span><span class="text-[#6A9BC4]">Moon Rocket</span></div>
                         <div class="flex items-center justify-between"><span>[ORB] Space Shuttle</span><span class="text-cyan-300">Reusable Orbiter</span></div>
                         <div class="flex items-center justify-between"><span>[LV] Falcon 9</span><span class="text-teal-300">Reusable Booster</span></div>
                         <div class="flex items-center justify-between"><span>[LV] Starship</span><span class="text-orange-300">Heavy Lift</span></div>
@@ -688,11 +658,11 @@
                 </div>
                 <div>
                     <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Training Snapshot</h3>
-                    <div class="p-6 bg-emerald-500/5 border border-emerald-500/20 text-xs font-mono space-y-3">
-                        <div class="flex items-center justify-between"><span>Primary Focus</span><span class="text-emerald-300">Weighted pull & push</span></div>
-                        <div class="flex items-center justify-between"><span>Effort Level</span><span class="text-emerald-300">0–1 RIR / work set</span></div>
-                        <div class="flex items-center justify-between"><span>Approach</span><span class="text-emerald-300">Progressive overload</span></div>
-                        <p class="pt-2 text-[11px] text-emerald-100/80 leading-relaxed">Same mindset across both engineering and training: pick a target, measure honestly, and keep showing up when it stops being easy.</p>
+                    <div class="p-6 bg-[#003057]/5 border border-[#003057]/20 text-xs font-mono space-y-3">
+                        <div class="flex items-center justify-between"><span>Primary Focus</span><span class="text-[#6A9BC4]">Weighted pull & push</span></div>
+                        <div class="flex items-center justify-between"><span>Effort Level</span><span class="text-[#6A9BC4]">0–1 RIR / work set</span></div>
+                        <div class="flex items-center justify-between"><span>Approach</span><span class="text-[#6A9BC4]">Progressive overload</span></div>
+                        <p class="pt-2 text-[11px] text-[#9BB8D3]/80 leading-relaxed">Same mindset across both engineering and training: pick a target, measure honestly, and keep showing up when it stops being easy.</p>
                     </div>
                 </div>
                 <div>
@@ -700,7 +670,7 @@
                     <div class="space-y-2 text-xs font-mono bg-black border border-white/10 p-4">
                         <div class="flex items-center justify-between"><span>Skunk Works</span><span class="text-sky-300">Ben R. Rich & Leo Janos</span></div>
                         <div class="flex items-center justify-between"><span>Stealth Warplanes</span><span class="text-purple-300">Doug Richardson</span></div>
-                        <div class="flex items-center justify-between"><span>Introduction to Flight</span><span class="text-emerald-300">Anderson</span></div>
+                        <div class="flex items-center justify-between"><span>Introduction to Flight</span><span class="text-[#6A9BC4]">Anderson</span></div>
                         <div class="flex items-center justify-between"><span>Meditations</span><span class="text-amber-300">Marcus Aurelius</span></div>
                         <div class="flex items-center justify-between"><span>Nicomachean Ethics</span><span class="text-stone-300">Aristotle</span></div>
                         <div class="flex items-center justify-between"><span>The Lord of the Rings</span><span class="text-yellow-300">J.R.R. Tolkien</span></div>
@@ -731,10 +701,9 @@ function scrollToSection(id, btn) {
 
         const sections = [
             { id: 'section-aerospace', btn: 0 },
-            { id: 'section-missions', btn: 1 },
-            { id: 'section-training', btn: 2 },
-            { id: 'section-films', btn: 3 },
-            { id: 'section-books', btn: 4 },
+            { id: 'section-training', btn: 1 },
+            { id: 'section-films', btn: 2 },
+            { id: 'section-books', btn: 3 },
         ];
 
         const navBtns = document.querySelectorAll('.section-nav-btn');

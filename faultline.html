@@ -52,14 +52,14 @@
             1. Links to index.html?hub=personal#collections
             2. onclick triggers smoothExit() animation
          -->
-         <a href="index.html?hub=personal" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+         <a href="index.html?hub=personal#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
             <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
             <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
         </a>
 
          <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
                 <span class="hidden md:inline">Personal Project</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]"></span>
+                <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
             </div>
     </div>
 </nav>
@@ -81,8 +81,8 @@
             <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight">
                 FAULTLINE
             </h1>
-            <p class="text-sky-400 font-mono text-sm uppercase tracking-widest mt-2">
-                Robotic System State & Fault Awareness
+            <p class="text-blue-400 font-mono text-sm uppercase tracking-widest mt-2">
+                Personal Project · Robotic State & Fault Awareness
             </p>
         </div>
     </div>
@@ -168,8 +168,8 @@
                     <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center shrink-0">
                         <span class="text-[10px] font-mono text-gray-400">mission_control.log</span>
                         <div class="flex items-center gap-2">
-                            <span id="sys-status-indicator" class="w-2 h-2 rounded-full bg-green-500"></span>
-                            <span id="sys-status-text" class="text-[10px] font-mono text-green-500 font-bold">ONLINE</span>
+                            <span id="sys-status-indicator" class="w-2 h-2 rounded-full bg-blue-500"></span>
+                            <span id="sys-status-text" class="text-[10px] font-mono text-blue-500 font-bold">ONLINE</span>
                         </div>
                     </div>
                     <pre id="console-output" class="console-scroll p-4 text-xs font-mono leading-relaxed text-gray-300 overflow-y-auto whitespace-pre-wrap flex-grow"></pre>

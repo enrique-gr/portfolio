@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="assets/brand/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Towed-Sensor Winch | Enrique Garcia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        html { background-color: #000000; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #e2e8f0;
+            will-change: opacity, transform;
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .tech-highlight { color: #fb923c; font-weight: 600; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; }
+    </style>
+    <link rel="stylesheet" href="css/site-theme.css">
+</head>
+<body class="antialiased bg-[#0f0f10] min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="index.html?hub=coursework#collections"
+               onclick="smoothExit(event, this.href)"
+               class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
+            </a>
+            <div class="flex items-center gap-3 text-xs font-mono text-orange-400 uppercase tracking-widest">
+                <span class="hidden md:inline">Coursework Project</span>
+                <span class="w-1 h-1 rounded-full bg-orange-400 animate-pulse"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+        <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
+            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                <img
+                    src="assets/images/me_winch_bench.jpg"
+                    alt="Towed-sensor winch project"
+                    class="h-full w-full object-cover"
+                >
+            </div>
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Towed-Sensor Winch</h1>
+                <p class="text-orange-400 font-mono text-sm uppercase tracking-widest">
+                    Coursework (MEMS 4110 · ME Design · Active)
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+            <div class="lg:col-span-2">
+                <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Mechatronics Brief</h3>
+
+                <div class="text-gray-300 leading-relaxed text-lg mb-10 font-light space-y-6">
+                    <p>
+                        Senior design build for the AIAA Design/Build/Fly 2026–27 Mission 3 theme: a motorized winch
+                        that lowers a towed sensor on two steel cables, switches the sensor lights through those cables,
+                        and reels it back into a dock. The work sits across mechanical design, electronics, and embedded control.
+                    </p>
+                    <ul class="space-y-4 list-disc list-inside border-l-2 border-orange-500/30 pl-4">
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Mechanical Design:</strong>
+                            Printed frame, drum, and a <span class="tech-highlight">streamlined sensor body</span> sized for stable tow and reliable docking.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Electronics:</strong>
+                            Battery, motor driver, microcontrollers, and a <span class="tech-highlight">slip ring</span> so power and light commands ride the tow path.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Embedded Control:</strong>
+                            Encoder feedback for cable length, with commands from a laptop or an
+                            <span class="tech-highlight">RC transmitter</span>.
+                        </li>
+                        <li>
+                            <strong class="text-white uppercase font-mono text-sm tracking-wider">Goals:</strong>
+                            Deploy and retract to a set length, keep the sensor stable while towed, and switch light modes on command.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-black border border-white/10 p-6 mb-12">
+                    <div class="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                        <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">System Blocks</h3>
+                        <i class="fas fa-cogs text-gray-600"></i>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                        <div class="p-4 border border-white/10 bg-white/[0.02]">
+                            <div class="text-orange-400 uppercase tracking-wider mb-2">Mechanical</div>
+                            <div class="text-gray-400 leading-relaxed">Frame · drum · sensor body · dual steel tow cables · dock</div>
+                        </div>
+                        <div class="p-4 border border-white/10 bg-white/[0.02]">
+                            <div class="text-orange-400 uppercase tracking-wider mb-2">Electronics</div>
+                            <div class="text-gray-400 leading-relaxed">Battery · motor driver · MCUs · slip ring · light path</div>
+                        </div>
+                        <div class="p-4 border border-white/10 bg-white/[0.02]">
+                            <div class="text-orange-400 uppercase tracking-wider mb-2">Control</div>
+                            <div class="text-gray-400 leading-relaxed">Encoder length · laptop / RC commands · deploy-retract</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Build Evidence</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <figure class="border border-white/10 bg-black overflow-hidden m-0">
+                            <img src="assets/images/me_winch_bench.jpg"
+                                 alt="Enrique assembling the towed-sensor winch and electronics at the workbench"
+                                 class="eg-photo w-full h-56 object-cover object-center">
+                            <figcaption class="px-4 py-3 border-t border-white/10 text-[10px] text-gray-500 font-mono uppercase tracking-widest">
+                                Bench bring-up · sensor body and drive electronics
+                            </figcaption>
+                        </figure>
+                        <figure class="border border-white/10 bg-black overflow-hidden m-0">
+                            <img src="assets/images/me_winch_assembly.jpg"
+                                 alt="Enrique integrating the winch prototype with laptop, motor, and printed parts"
+                                 class="eg-photo w-full h-56 object-cover object-[center_40%]">
+                            <figcaption class="px-4 py-3 border-t border-white/10 text-[10px] text-gray-500 font-mono uppercase tracking-widest">
+                                Integration · encoder feedback and cable path
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-10">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Tech Stack</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Mechatronics</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">3D Print</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Motor Driver</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Microcontrollers</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Encoder Feedback</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Slip Ring</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">RC / Laptop</span>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-orange-500/5 border border-orange-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-orange-400">Outcome</h4>
+                    <p class="text-sm text-orange-100/80 leading-relaxed">
+                        Simplified initial prototype is built and tested. Final prototype is being printed.
+                        Deploy, retract, and light-mode switching are proven on the bench path before the flight-ready package.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/nav-persist.js"></script>
+</body>
+</html>

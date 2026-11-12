@@ -56,14 +56,13 @@
            1. Links to index.html?hub=personal#collections
            2. onclick triggers smoothExit() animation
         -->
-        <a href="index.html?hub=personal" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+        <a href="index.html?hub=personal#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
             <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
             <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
         </a>
 
-        <!-- Personal Project badge -->
         <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
-            <span class="hidden md:inline">Project Overview</span>
+            <span class="hidden md:inline">Personal Project</span>
             <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
         </div>
     </div>
@@ -76,7 +75,7 @@
         </div>
         <div>
             <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Lander Control Playground</h1>
-            <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Interactive Simulation</p>
+            <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Personal Project · Interactive Simulation</p>
         </div>
     </div>
 
@@ -98,7 +97,7 @@
                 
                 <div class="mb-8">
                     <h4 class="text-[10px] text-gray-500 mb-3 uppercase tracking-widest font-bold">System Status</h4>
-                    <div class="flex items-center gap-2 text-emerald-400 font-mono text-sm">
+                    <div class="flex items-center gap-2 text-blue-400 font-mono text-sm">
                         <i class="fas fa-check-circle"></i> PREVIEW ONLINE
                     </div>
                 </div>
@@ -242,7 +241,7 @@
         ctx.beginPath(); 
         ctx.moveTo(0, targetY); 
         ctx.lineTo(canvas.width, targetY);
-        ctx.strokeStyle = '#10b981'; 
+        ctx.strokeStyle = '#60a5fa'; 
         ctx.setLineDash([5, 5]); 
         ctx.stroke(); 
         ctx.setLineDash([]);
@@ -304,7 +303,7 @@
                 y: historyTarget, 
                 type: 'scatter', 
                 mode: 'lines', 
-                line: { color: '#10b981', width: 1, dash: 'dot' } 
+                line: { color: '#60a5fa', width: 1, dash: 'dot' } 
             }
         ], { 
             ...plotLayout, 

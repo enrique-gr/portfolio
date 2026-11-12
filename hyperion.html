@@ -66,24 +66,14 @@
            1. Links to index.html?hub=personal#collections
            2. onclick triggers smoothExit() animation
         -->
-        <a href="index.html?hub=personal" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
+        <a href="index.html?hub=personal#collections" onclick="smoothExit(event, this.href)" class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
             <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
             <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
         </a>
 
-        <div class="flex items-center gap-6">
-
-            <a href="https://github.com/enrique-gr/hyperion-engine" target="_blank" 
-               class="flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-white transition-colors border border-white/10 px-3 py-1.5 rounded-sm hover:bg-white/10">
-                <i class="fab fa-github"></i>
-                <span>SOURCE CODE</span>
-            </a>
-
-            <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
-                <span class="hidden md:inline">Personal Project</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]"></span>
-            </div>
-
+        <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
+            <span class="hidden md:inline">Personal Project</span>
+            <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
         </div>
     </div>
 </nav>
@@ -102,8 +92,8 @@
             </div>
             <div>
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Hyperion 6-DOF Engine</h1>
-                <p class="text-purple-400 font-mono text-sm uppercase tracking-widest flex items-center gap-2">
-                    <i class="fas fa-code-branch"></i> Flight Software Infrastructure
+                <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">
+                    Personal Project · Flight Software Infrastructure
                 </p>
             </div>
         </div>
@@ -157,7 +147,7 @@
                             <div class="p-3 border-2 border-white/10 bg-[#0a0a0a] text-center w-full relative">
                                 <div class="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#0f0f10] px-2 text-[8px] text-gray-500 uppercase">Critical Section</div>
                                 <div class="font-bold text-white">SHARED STATE</div>
-                                <div class="text-[9px] text-emerald-400 mt-1"><i class="fas fa-lock mr-1"></i>std::mutex</div>
+                                <div class="text-[9px] text-blue-400 mt-1"><i class="fas fa-lock mr-1"></i>std::mutex</div>
                             </div>
                             
                             <i class="fas fa-arrow-down text-gray-700 text-[10px]"></i>
@@ -185,7 +175,7 @@
                             <div class="flex gap-2">
                                 <div class="w-2 h-2 rounded-full bg-red-500/50"></div>
                                 <div class="w-2 h-2 rounded-full bg-yellow-500/50"></div>
-                                <div class="w-2 h-2 rounded-full bg-green-500/50"></div>
+                                <div class="w-2 h-2 rounded-full bg-blue-500/50"></div>
                             </div>
                         </div>
                         <pre class="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-gray-300"><span class="code-type">Vec3</span> <span class="code-func">compute_acceleration</span>(<span class="code-kwd">const</span> <span class="code-type">State</span>& state) {
@@ -238,7 +228,7 @@
                     <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
                         <h3 class="font-bold text-white font-mono text-xs uppercase tracking-widest">Performance Validation</h3>
                         <div class="flex gap-2 items-center">
-                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                             <span class="text-[10px] text-gray-500 font-mono">LIVE: UDP:8080</span>
                         </div>
                     </div>
@@ -246,7 +236,7 @@
                     <div class="p-4 bg-[#151515] space-y-4">
                         <div class="w-full bg-black border border-white/10 p-3 font-mono text-[10px] leading-relaxed text-gray-400 h-48 overflow-hidden relative">
                             <div class="absolute top-2 right-2 opacity-30"><i class="fas fa-terminal"></i></div>
-                            <p class="text-emerald-400 font-bold mb-2">user@hyperion:~/build$ ./Hyperion_Sim</p>
+                            <p class="text-blue-400 font-bold mb-2">user@hyperion:~/build$ ./Hyperion_Sim</p>
                             <p class="text-white">=== HYPERION 6-DOF SIMULATION ENGINE ===</p>
                             <p>[PHYSICS] Thread initializing @ 10000 Hz</p>
                             <p>[COMMS] UDP Stream target: 127.0.0.1:8080</p>
@@ -321,14 +311,9 @@
 
                 <div class="p-8 bg-purple-500/5 border border-purple-500/20">
                     <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-purple-400">Engineering Impact</h4>
-                    <p class="text-sm text-purple-100/80 leading-relaxed mb-4">
+                    <p class="text-sm text-purple-100/80 leading-relaxed">
                         Demonstrated ability to architect high-performance, thread-safe simulation infrastructure required for validating flight control software without expensive hardware.
                     </p>
-                    <div class="mt-6">
-                        <a href="https://github.com/enrique-gr/hyperion-engine" target="_blank" class="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-500 text-white py-3 text-xs font-bold uppercase tracking-widest transition-colors rounded-sm">
-                            <i class="fab fa-github text-sm"></i> View Source
-                        </a>
-                    </div>
                 </div>
             </div>
 

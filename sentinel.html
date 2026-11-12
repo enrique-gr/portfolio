@@ -59,27 +59,23 @@
 
     <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            
-            <a href="index.html" onclick="smoothExit(event, this.href)"
+            <a href="index.html?hub=personal#collections" onclick="smoothExit(event, this.href)"
                class="flex items-center gap-3 group text-gray-400 hover:text-white transition-colors cursor-pointer">
                 <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
                 <span class="font-mono font-bold tracking-wider uppercase text-sm">Return</span>
             </a>
 
-            <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest
-                        text-emerald-400 drop-shadow-[0_0_4px_rgba(52,211,153,0.35)]">
-                <span class="hidden md:inline font-semibold">System Operational – Complete</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+            <div class="flex items-center gap-3 text-xs font-mono text-blue-400 uppercase tracking-widest">
+                <span class="hidden md:inline">Personal Project</span>
+                <span class="w-1 h-1 rounded-full bg-blue-400 animate-pulse"></span>
             </div>
-
         </div>
     </nav>
 
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
-            <div
-                class="h-24 w-24 bg-white border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+            <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
                 <img src="assets/images/sentinel_logo.png" alt="Sentinel CV System"
                      class="h-full w-full object-cover"
                      onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-crosshairs text-4xl text-white\'></i>'">
@@ -88,19 +84,9 @@
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">
                     Sentinel: Tracking &amp; Kinetic Intercept
                 </h1>
-                <p class="text-sky-400 font-mono text-sm uppercase tracking-widest">
-                    Computer Vision Pipeline + High-Dynamic Actuation System
+                <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">
+                    Personal Project · Winter 2025
                 </p>
-                <div class="mt-4 flex flex-wrap gap-2 items-center">
-                    <div
-                        class="text-[10px] font-mono text-gray-500 border border-white/10 px-2 py-1 uppercase inline-block">
-                        Completed Winter 2025
-                    </div>
-                    <div
-                        class="text-[10px] font-mono text-emerald-300 border border-emerald-500/40 px-2 py-1 uppercase inline-block bg-emerald-500/10">
-                        Status: Mission Complete
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -219,15 +205,15 @@
                     <div class="flex flex-col md:flex-row gap-6 items-center">
                         <div class="w-full md:w-1/2">
                             <div
-                                class="aspect-video border border-emerald-500/40 bg-[#020617] relative overflow-hidden">
+                                class="aspect-video border border-blue-500/40 bg-[#020617] relative overflow-hidden">
                                 <div
-                                    class="absolute inset-0 flex items-center justify-center text-emerald-400/70 text-[10px] font-mono tracking-widest">
+                                    class="absolute inset-0 flex items-center justify-center text-blue-400/70 text-[10px] font-mono tracking-widest">
                                     SENTINEL HUD // LIVE FEED MOCK
                                 </div>
                                 <div
-                                    class="absolute inset-4 border border-emerald-500/40 rounded-full opacity-40"></div>
+                                    class="absolute inset-4 border border-blue-500/40 rounded-full opacity-40"></div>
                                 <div
-                                    class="absolute top-2 left-2 text-[9px] text-emerald-500/80 font-mono">
+                                    class="absolute top-2 left-2 text-[9px] text-blue-500/80 font-mono">
                                     CAM_01 // OPTICAL
                                 </div>
                                 <div
@@ -244,7 +230,7 @@
                                 Future updates will overlay the Turret's real-time position feedback to visualize tracking error during live fire tests.
                             </p>
                             <a href="sentinel-hud.html"
-                               class="inline-flex items-center gap-2 text-emerald-400 hover:text-white text-xs font-mono tracking-widest mt-2 border border-emerald-500/40 px-3 py-2 bg-black/40">
+                               class="inline-flex items-center gap-2 text-blue-400 hover:text-white text-xs font-mono tracking-widest mt-2 border border-blue-500/40 px-3 py-2 bg-black/40">
                                 <i class="fas fa-play"></i>
                                 LAUNCH HUD DEMO
                             </a>
@@ -292,39 +278,18 @@
                     </div>
                 </div>
 
-                <div class="p-8 bg-emerald-500/5 border border-emerald-500/30">
-                    <h4
-                        class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-emerald-400">
-                        Execution Log
+                <div class="p-8 bg-blue-500/5 border border-blue-500/20">
+                    <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">
+                        Outcome
                     </h4>
-                    <ul class="text-xs text-emerald-50/70 space-y-3 leading-relaxed">
-                        <li class="flex items-start gap-2">
-                            <i class="fas fa-check mt-0.5 text-emerald-500"></i>
-                            <span><span class="font-mono text-emerald-300">Phase 1</span>: Vision Pipeline & Kalman Filter (C++).</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fas fa-check mt-0.5 text-emerald-500"></i>
-                            <span><span class="font-mono text-emerald-300">Phase 2</span>: Hardware Build (Gimbal + Teensy integration).</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fas fa-check mt-0.5 text-emerald-500"></i>
-                            <span><span class="font-mono text-emerald-300">Phase 3</span>: Comms Bridge (Serial Protocol).</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fas fa-check mt-0.5 text-emerald-500"></i>
-                            <span><span class="font-mono text-emerald-300">Phase 4</span>: Live intercept tests & latency tuning.</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="p-8 bg-sky-500/5 border border-sky-500/30">
-                    <h4
-                        class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-sky-400">
-                        Project Goal
-                    </h4>
-                    <p class="text-sm text-sky-50/80 leading-relaxed">
-                        To engineer a complete "Detect-Track-Engage" loop from scratch. This project demonstrates proficiency in full-stack robotics: from low-level hardware actuation and embedded control to high-level computer vision and state estimation.
+                    <p class="text-sm text-blue-100/80 leading-relaxed mb-4">
+                        Closed the detect-track-engage loop: vision + Kalman estimation on PC, Teensy actuation on the gimbal, and live intercept tests with latency tuning.
                     </p>
+                    <ul class="text-xs text-blue-100/70 space-y-2 leading-relaxed">
+                        <li>Vision pipeline and Kalman filter in C++</li>
+                        <li>Gimbal hardware + Teensy integration</li>
+                        <li>Serial comms bridge and live tracking tests</li>
+                    </ul>
                 </div>
 
             </div>
