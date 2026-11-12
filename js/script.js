@@ -401,9 +401,10 @@ function switchTab(tabName) {
   const grid    = document.getElementById("archive-grid");
   const tabPersonal    = document.getElementById("tab-personal");
   const tabCoursework  = document.getElementById("tab-coursework");
+  if (!grid || !tabPersonal || !tabCoursework) return;
 
-  const activeClass   = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 text-white transition-all hover:text-blue-400";
-  const inactiveClass = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-all";
+  const activeClass   = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 text-white transition-colors hover:text-blue-400";
+  const inactiveClass = "pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-colors";
 
   // Determine active border color per tab
   tabPersonal.className   = tabName === "personal"
@@ -416,6 +417,7 @@ function switchTab(tabName) {
   tabPersonal.setAttribute("aria-selected",   String(tabName === "personal"));
   tabCoursework.setAttribute("aria-selected", String(tabName === "coursework"));
 
+  const paint = () => {
   grid.innerHTML = "";
 
   for (const [id, p] of Object.entries(PROJECTS)) {
@@ -431,7 +433,7 @@ function switchTab(tabName) {
 
     grid.innerHTML += `
       <div onclick="${action}"
-           class="group relative bg-[#0a0a0a] border border-white/10 hover:border-blue-500/50 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col h-full">
+           class="group relative bg-[#0a0a0a] border border-white/10 hover:border-blue-500/50 transition-colors duration-300 cursor-pointer overflow-hidden flex flex-col h-full">
         <div class="corner-bracket tl"></div>
         <div class="corner-bracket tr"></div>
         <div class="corner-bracket bl"></div>
@@ -463,6 +465,20 @@ function switchTab(tabName) {
         </div>
       </div>`;
   }
+  };
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion || !grid.childElementCount) {
+    paint();
+    grid.classList.remove("is-switching");
+    return;
+  }
+
+  grid.classList.add("is-switching");
+  window.setTimeout(() => {
+    paint();
+    requestAnimationFrame(() => grid.classList.remove("is-switching"));
+  }, 160);
 }
 
 /* =============================================================================
@@ -581,307 +597,124 @@ function initAnomaliesDrag() {
 /* =============================================================================
    8. ENGINEERING SKILLS RADAR
 ============================================================================= */
-/** Evidence tiers. Flight = flown on an aircraft; Hardware = built or bench-tested on physical hardware. */
-const RADAR_TIERS = {
-  flight:   { label: "Flight",   weight: 4, hw: true  },
-  hardware: { label: "Hardware", weight: 3, hw: true  },
-  analysis: { label: "Analysis", weight: 2, hw: false },
-  course:   { label: "Course",   weight: 1, hw: false }
-};
-
-/** Each axis is scored only from the work listed here. Edit this list to change the chart. */
-const RADAR_EVIDENCE = [
-  { axis: "Dynamics & Estimation", short: "Dynamics", focus: true, items: [
-    { tier: "flight",   text: "CG and static-margin calls from MIDE flight logs", link: "mide.html" },
-    { tier: "hardware", text: "12-state EKF propagating attitude on a Teensy 4.1", link: "ekf-nav.html" },
-    { tier: "analysis", text: "Hyperion 6-DOF rigid-body engine",                  link: "hyperion.html" },
-    { tier: "analysis", text: "Lander descent dynamics sim",                       link: "lander.html" },
-    { tier: "course",   text: "Vibrations · Vibrations Lab · Flight Dynamics" }
-  ]},
-  { axis: "Controls & Automation", short: "Controls", focus: true, items: [
-    { tier: "flight",   text: "PX4 setup through Hexacopter hover and transition", link: "washu-vtol.html" },
-    { tier: "flight",   text: "Attitude loop checks on Cube / ArduPilot at MIDE",  link: "mide.html" },
-    { tier: "hardware", text: "Sentinel 2-axis visual-servo gimbal",               link: "sentinel.html" },
-    { tier: "analysis", text: "Lander PID thrust control",                         link: "lander.html" },
-    { tier: "analysis", text: "Adaptive Cruise Control in Simulink",               link: "cruise-control.html" },
-    { tier: "course",   text: "Modeling, Simulation and Control" }
-  ]},
-  { axis: "Modeling & Simulation", short: "Modeling", items: [
-    { tier: "hardware", text: "MATLAB CG models checked against MIDE flight data", link: "mide.html" },
-    { tier: "analysis", text: "Hyperion 6-DOF engine at 10 kHz",                   link: "hyperion.html" },
-    { tier: "analysis", text: "WebTunnel browser CFD solver",                      link: "webtunnel-cfd.html" },
-    { tier: "analysis", text: "Lander control sim",                                link: "lander.html" },
-    { tier: "analysis", text: "Adaptive Cruise Control plant model",               link: "cruise-control.html" },
-    { tier: "course",   text: "Modeling, Simulation and Control" }
-  ]},
-  { axis: "Aero / Thermal-Fluids", short: "Aero", items: [
-    { tier: "analysis", text: "DBF airfoil and wing trades in XFLR5",              link: "washu-dbf.html" },
-    { tier: "analysis", text: "DBF wing-section CFD in ANSYS CFX",                 link: "washu-dbf.html" },
-    { tier: "analysis", text: "WebTunnel Navier-Stokes solver",                    link: "webtunnel-cfd.html" },
-    { tier: "course",   text: "Fluid Mechanics · Fluids and Heat Lab" },
-    { tier: "course",   text: "Thermodynamics · Heat Transfer · Thermal Systems" },
-    { tier: "course",   text: "Aircraft Design" }
-  ]},
-  { axis: "Mechanical Design", short: "Mech Design", items: [
-    { tier: "flight",   text: "DBF spar FEA and wing layup on the flown airframe", link: "washu-dbf.html" },
-    { tier: "flight",   text: "MIDE structural repair back to test-ready",         link: "mide.html" },
-    { tier: "hardware", text: "DBF payload-release mechanism",                     link: "washu-dbf.html" },
-    { tier: "analysis", text: "Foosball table, 200+ part CAD assembly",            link: "cad-foosball.html" },
-    { tier: "analysis", text: "Nose landing gear FEA for 3g impact",               link: "solid-mechanics.html" },
-    { tier: "course",   text: "Machine Elements · Solid Mechanics" },
-    { tier: "course",   text: "ME Design Project · Manufacturing" }
-  ]},
-  { axis: "Embedded / Test Systems", short: "Embedded / Test", items: [
-    { tier: "flight",   text: "Lead Avionics: Hexacopter bring-up to flight test", link: "washu-vtol.html" },
-    { tier: "flight",   text: "MIDE calibration, bench checks, flight-test ops",   link: "mide.html" },
-    { tier: "hardware", text: "VTOL HIL gates and bench validation",               link: "washu-vtol.html" },
-    { tier: "hardware", text: "I2C noise fault traced and fixed (VTOL-01)",        link: "washu-vtol.html" },
-    { tier: "hardware", text: "MIRO synchronized IMU + EMG acquisition",           link: "miro-lab.html" },
-    { tier: "hardware", text: "12-state EKF running on a Teensy 4.1",              link: "ekf-nav.html" },
-    { tier: "hardware", text: "Sentinel Teensy-driven actuator loop",              link: "sentinel.html" },
-    { tier: "hardware", text: "RF priority system on Arduino",                     link: "ambulance-system.html" },
-    { tier: "analysis", text: "FAULTLINE fault-detection console",                 link: "faultline.html" }
-  ]}
-];
-
-/** Saturating score: more evidence always helps, but nothing reaches 100. */
-const RADAR_K = 15;
-const radarScore = w => Math.round(100 * (1 - Math.exp(-w / RADAR_K)));
-
 function initRadar() {
-  const canvas = document.getElementById("skillsChart");
-  const fx     = document.getElementById("radarFx");
-  const stage  = document.getElementById("radar-stage");
-  const readEl = document.getElementById("radar-readout");
-  if (!canvas || !fx || !stage || !readEl || typeof Chart === "undefined") return;
+  const ctx    = document.getElementById("skillsChart").getContext("2d");
+  const isMob  = window.innerWidth < 768;
 
-  const scores = RADAR_EVIDENCE.map(a => {
-    const total = a.items.reduce((s, i) => s + RADAR_TIERS[i.tier].weight, 0);
-    const hw    = a.items.reduce((s, i) => s + (RADAR_TIERS[i.tier].hw ? RADAR_TIERS[i.tier].weight : 0), 0);
-    return { all: radarScore(total), hw: radarScore(hw) };
-  });
-  const allData = scores.map(s => s.all);
-  const hwData  = scores.map(s => s.hw);
-  const focusIdx = RADAR_EVIDENCE.map((a, i) => (a.focus ? i : -1)).filter(i => i >= 0);
-  let selected  = focusIdx.reduce((b, i) => (allData[i] > allData[b] ? i : b), focusIdx[0] ?? 0);
-  let fxReady   = false;
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const zeros = allData.map(() => 0);
-  const narrow = window.innerWidth < 640;
-  const HW  = "52,211,153";
-  const ALL = "142,182,232";
-
-  const chart = new Chart(canvas.getContext("2d"), {
+  new Chart(ctx, {
     type: "radar",
     data: {
-      labels: RADAR_EVIDENCE.map(a => (narrow ? a.short.split(/ (?=\/)| (?=Design)/) : a.axis)),
-      datasets: [
-        {
-          label: "Hardware-proven", data: reduceMotion ? hwData : [...zeros], order: 1,
-          backgroundColor: `rgba(${HW},.16)`, borderColor: `rgba(${HW},.95)`, borderWidth: 1.5,
-          pointRadius: ctx => (ctx.dataIndex === selected ? 4 : 2.5),
-          pointBackgroundColor: `rgb(${HW})`, pointBorderWidth: 0
-        },
-        {
-          label: "All evidence", data: reduceMotion ? allData : [...zeros], order: 2,
-          backgroundColor: `rgba(${ALL},.07)`, borderColor: `rgba(${ALL},.85)`, borderWidth: 1.5,
-          borderDash: [4, 3],
-          pointRadius: ctx => (ctx.dataIndex === selected ? 4 : 2.5),
-          pointBackgroundColor: "#0a0a0a", pointBorderColor: `rgb(${ALL})`, pointBorderWidth: 1.5
-        }
-      ]
+      labels: [
+        "Dynamics & Vibrations",
+        "Controls & Automation",
+        "Modeling & Simulation",
+        "Aero / Thermal-Fluids",
+        "Mechanical Design",
+        "Embedded / Test Systems"
+      ],
+      datasets: [{
+        label: "Competency",
+        data: [75, 70, 72, 70, 72, 70],
+        backgroundColor:   "rgba(59,130,246,.1)",
+        borderColor:       "#3b82f6",
+        borderWidth:       2,
+        pointBackgroundColor: "#000",
+        pointBorderColor:     "#3b82f6",
+        pointBorderWidth:     2,
+        pointRadius:          5,
+        pointHoverRadius:     7,
+        pointStyle:           "crossRot"
+      }]
     },
     options: {
-      maintainAspectRatio: false,
-      animation: { duration: reduceMotion ? 0 : 1100, easing: "easeOutQuart" },
-      layout: { padding: { top: 6, bottom: 10, left: 8, right: 8 } },
-      events: [],
+      layout: { padding: 30 },
       scales: {
         r: {
           min: 0, max: 100,
-          angleLines: { color: "rgba(255,255,255,.07)" },
-          grid: { circular: true, color: ctx => (ctx.index === 4 ? "rgba(255,255,255,.12)" : "rgba(255,255,255,.045)") },
+          angleLines: { color: "rgba(255,255,255,.1)" },
+          grid:       { color: "rgba(255,255,255,.05)" },
           pointLabels: {
-            color: ctx => (ctx.index === selected ? "#f3f4f6" : RADAR_EVIDENCE[ctx.index].focus ? "#8eb6e8" : "#6b7280"),
-            font: { size: narrow ? 9 : 10, family: "'JetBrains Mono'", weight: "bold" },
-            padding: narrow ? 5 : 8
+            color: "#94a3b8",
+            font: { size: isMob ? 9 : 11, family: "'JetBrains Mono'", weight: "bold" },
+            padding: 10
           },
-          ticks: { display: false, stepSize: 20 }
+          ticks: { display: false, stepSize: 25, backdropColor: "transparent" }
         }
       },
-      plugins: { legend: { display: false }, tooltip: { enabled: false } }
+      plugins: { legend: { display: false } },
+      maintainAspectRatio: false
     }
   });
-
-  /* Selected-area summary: name, scores, evidence mix, strongest proof */
-  const N = RADAR_EVIDENCE.length;
-  function select(i) {
-    selected = (i + N) % N;
-    const a = RADAR_EVIDENCE[selected], s = scores[selected];
-    const mix = Object.keys(RADAR_TIERS)
-      .map(k => [k, a.items.filter(it => it.tier === k).length])
-      .filter(([, c]) => c)
-      .map(([k, c]) => `<span class="radar-mix radar-mix--${k}">${c} ${RADAR_TIERS[k].label}</span>`).join("");
-    const top = a.items[0];
-    readEl.innerHTML = `
-      <div class="flex items-center justify-between gap-3">
-        <p class="flex items-center gap-2 min-w-0 text-[10px] sm:text-[11px] text-white uppercase tracking-widest">
-          ${a.focus ? `<span class="radar-focus-tag">Core focus</span>` : ""}
-          <span class="truncate sm:hidden">${a.short}</span><span class="truncate hidden sm:inline">${a.axis}</span>
-        </p>
-        <div class="flex items-center gap-3 shrink-0 text-[10px] uppercase tracking-widest">
-          <span><span class="text-emerald-400">${s.hw}</span><span class="text-gray-600"> hw · </span><span class="radar-all-score">${s.all}</span><span class="text-gray-600"> all</span></span>
-          <span class="flex">
-            <button type="button" class="radar-step" data-step="-1" aria-label="Previous area">&lsaquo;</button>
-            <button type="button" class="radar-step" data-step="1" aria-label="Next area">&rsaquo;</button>
-          </span>
-        </div>
-      </div>
-      <div class="radar-bar my-2.5" aria-hidden="true">
-        <span class="radar-bar__all" style="width:${s.all}%"></span>
-        <span class="radar-bar__hw" style="width:${s.hw}%"></span>
-      </div>
-      <div class="flex items-center justify-between gap-4 text-[10px]">
-        <a href="${top.link}" class="truncate text-gray-400 hover:text-white transition-colors">
-          <span class="text-gray-600 uppercase tracking-widest">Top proof</span> ${top.text} &rarr;</a>
-        <span class="hidden md:flex gap-2 shrink-0">${mix}</span>
-      </div>`;
-    chart.update("none");
-    if (fxReady && !running) drawFx(0);
-  }
-  readEl.addEventListener("click", e => {
-    const b = e.target.closest(".radar-step");
-    if (b) select(selected + +b.dataset.step);
-  });
-  stage.addEventListener("keydown", e => {
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); select(selected + 1); }
-    if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   { e.preventDefault(); select(selected - 1); }
-  });
-
-  /* Pointing at a sector of the chart selects that axis */
-  function axisAt(evt) {
-    const r = chart.scales.r, box = canvas.getBoundingClientRect();
-    const x = evt.clientX - box.left - r.xCenter, y = evt.clientY - box.top - r.yCenter;
-    if (Math.hypot(x, y) > r.drawingArea * 1.45) return -1;
-    const n = RADAR_EVIDENCE.length, step = (2 * Math.PI) / n;
-    const a = (Math.atan2(y, x) + Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
-    return Math.round(a / step) % n;
-  }
-  stage.addEventListener("mousemove", e => { const i = axisAt(e); if (i >= 0 && i !== selected) select(i); });
-  stage.addEventListener("click", e => { const i = axisAt(e); if (i >= 0) select(i); });
-
-  /* Sweep overlay, drawn in the chart's own geometry so it stays centered */
-  const g = fx.getContext("2d");
-  const glow = new Array(RADAR_EVIDENCE.length).fill(0);
-  let sweep = -Math.PI / 2, last = performance.now(), running = false, raf = 0;
-
-  function sizeFx() {
-    const dpr = window.devicePixelRatio || 1;
-    fx.width = stage.clientWidth * dpr;
-    fx.height = stage.clientHeight * dpr;
-    g.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function drawFx(dt) {
-    const r = chart.scales.r;
-    const cx = r.xCenter, cy = r.yCenter, R = r.drawingArea;
-    g.clearRect(0, 0, fx.width, fx.height);
-
-    if (!reduceMotion) {
-      const prev = sweep;
-      sweep += dt * (2 * Math.PI / 5000);
-      const n = RADAR_EVIDENCE.length;
-      for (let i = 0; i < n; i++) {
-        const ang = r.getIndexAngle(i) - Math.PI / 2;
-        const d0 = ((prev - ang) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
-        const d1 = ((sweep - ang) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
-        if (d1 < d0) glow[i] = 1;
-        glow[i] = Math.max(0, glow[i] - dt / 1800);
-      }
-
-      const TRAIL = Math.PI / 3, SLICES = 28;
-      for (let s = 0; s < SLICES; s++) {
-        const a0 = sweep - TRAIL * (s + 1) / SLICES, a1 = sweep - TRAIL * s / SLICES;
-        g.beginPath(); g.moveTo(cx, cy); g.arc(cx, cy, R, a0, a1); g.closePath();
-        g.fillStyle = `rgba(${ALL},${0.11 * (1 - s / SLICES) ** 2})`;
-        g.fill();
-      }
-      g.beginPath(); g.moveTo(cx, cy);
-      g.lineTo(cx + R * Math.cos(sweep), cy + R * Math.sin(sweep));
-      g.strokeStyle = `rgba(${ALL},.55)`; g.lineWidth = 1; g.stroke();
-    }
-
-    [[0, HW], [1, ALL]].forEach(([ds, rgb]) => {
-      chart.getDatasetMeta(ds).data.forEach((p, i) => {
-        const k = reduceMotion ? (i === selected ? 0.6 : 0) : glow[i];
-        if (k <= 0.01 || !chart.data.datasets[ds].data[i]) return;
-        const grad = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, 14);
-        grad.addColorStop(0, `rgba(${rgb},${0.55 * k})`);
-        grad.addColorStop(1, `rgba(${rgb},0)`);
-        g.fillStyle = grad;
-        g.beginPath(); g.arc(p.x, p.y, 14, 0, 2 * Math.PI); g.fill();
-      });
-    });
-
-    if (focusIdx.length) {
-      const pad = Math.PI / N * 0.45;
-      const a0 = r.getIndexAngle(focusIdx[0]) - Math.PI / 2 - pad;
-      const a1 = r.getIndexAngle(focusIdx[focusIdx.length - 1]) - Math.PI / 2 + pad;
-      g.beginPath(); g.arc(cx, cy, R + 4, a0, a1);
-      g.strokeStyle = `rgba(${ALL},.55)`; g.lineWidth = 2; g.stroke();
-    }
-
-    g.beginPath(); g.arc(cx, cy, 2, 0, 2 * Math.PI);
-    g.fillStyle = `rgba(${ALL},.8)`; g.fill();
-  }
-
-  function loop(now) {
-    drawFx(Math.min(now - last, 64));
-    last = now;
-    if (running) raf = requestAnimationFrame(loop);
-  }
-
-  select(selected);
-  sizeFx();
-  fxReady = true;
-  new ResizeObserver(() => { sizeFx(); if (!running) drawFx(0); }).observe(stage);
-
-  if (reduceMotion) { setTimeout(() => drawFx(0), 50); return; }
-  let revealed = false;
-  new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting && !revealed) {
-      revealed = true;
-      chart.data.datasets[0].data = hwData;
-      chart.data.datasets[1].data = allData;
-      chart.update();
-    }
-    if (entry.isIntersecting && !running) { running = true; last = performance.now(); raf = requestAnimationFrame(loop); }
-    else if (!entry.isIntersecting && running) { running = false; cancelAnimationFrame(raf); }
-  }, { threshold: 0.35 }).observe(stage);
 }
 
 /* =============================================================================
-   9. MISSION PANEL — MIDE + internship target accordions
+   9. MISSION PANEL — internship accordion + smooth jumps to featured cards
 ============================================================================= */
-function toggleMideMission() {
-  const section = document.getElementById("mide-mission-details");
-  const trigger = document.getElementById("mide-toggle");
-  if (!section) return;
-
-  const isOpen = section.style.maxHeight && section.style.maxHeight !== "0px";
-  section.style.maxHeight = isOpen ? "0px" : section.scrollHeight + "px";
-  if (trigger) trigger.setAttribute("aria-expanded", String(!isOpen));
-}
-
 function toggleInternshipMission() {
   const section = document.getElementById("internship-mission-details");
   const trigger = document.getElementById("internship-toggle");
   if (!section) return;
 
-  const isOpen = section.style.maxHeight && section.style.maxHeight !== "0px";
-  section.style.maxHeight = isOpen ? "0px" : section.scrollHeight + "px";
-  if (trigger) trigger.setAttribute("aria-expanded", String(!isOpen));
+  const open = !section.classList.contains("is-open");
+  section.classList.toggle("is-open", open);
+  if (trigger) trigger.setAttribute("aria-expanded", String(open));
+}
+
+function initMissionJumps() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".hero-mission-list a.hero-mission-link[href^='#']").forEach(a => {
+    a.addEventListener("click", (e) => {
+      const id = (a.getAttribute("href") || "").slice(1);
+      const el = id && document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      try { history.pushState(null, "", "#" + id); } catch (_) { /* ignore */ }
+      el.classList.remove("mission-jump-flash");
+      void el.offsetWidth;
+      el.classList.add("mission-jump-flash");
+      window.setTimeout(() => el.classList.remove("mission-jump-flash"), 1000);
+    });
+  });
+}
+
+/** One-shot fade/slide for major sections as they enter the viewport */
+function initSectionReveals() {
+  const nodes = document.querySelectorAll(".eg-reveal");
+  if (!nodes.length) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      document.documentElement.classList.contains("nav-returning")) {
+    nodes.forEach(el => el.classList.add("is-visible"));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+
+  nodes.forEach(el => io.observe(el));
+}
+
+/** Smooth in-page jumps for nav / CTA hash links */
+function initSmoothAnchors() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    if (a.classList.contains("hero-mission-link")) return;
+    a.addEventListener("click", (e) => {
+      const id = (a.getAttribute("href") || "").slice(1);
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      try { history.pushState(null, "", "#" + id); } catch (_) { /* ignore */ }
+    });
+  });
 }
 
 /* =============================================================================
@@ -928,23 +761,30 @@ function initScrollProgress() {
   11. LIVE FOOTER METRICS
 ============================================================================= */
 function initFooterMetrics() {
-  // Uptime counter
-  const start = Date.now();
-  setInterval(() => {
-    const elapsed = Math.floor((Date.now() - start) / 1000);
-    const h = String(Math.floor(elapsed / 3600)).padStart(2, "0");
-    const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, "0");
-    const s = String(elapsed % 60).padStart(2, "0");
-    document.getElementById("uptime-counter").innerText = `T+ ${h}:${m}:${s}`;
-  }, 1000);
+  const uptime = document.getElementById("uptime-counter");
+  const loadBar = document.getElementById("sys-load-bar");
+  const memBar = document.getElementById("mem-usage-bar");
+  if (!uptime && !loadBar && !memBar) return;
 
-  // Randomised load / memory bars
-  function updateBars() {
-    document.getElementById("sys-load-bar").style.width  = (30 + Math.random() * 40) + "%";
-    document.getElementById("mem-usage-bar").style.width = (50 + Math.random() * 30) + "%";
+  if (uptime) {
+    const start = Date.now();
+    setInterval(() => {
+      const elapsed = Math.floor((Date.now() - start) / 1000);
+      const h = String(Math.floor(elapsed / 3600)).padStart(2, "0");
+      const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, "0");
+      const s = String(elapsed % 60).padStart(2, "0");
+      uptime.innerText = `T+ ${h}:${m}:${s}`;
+    }, 1000);
   }
-  updateBars();
-  setInterval(updateBars, 2000);
+
+  if (loadBar || memBar) {
+    function updateBars() {
+      if (loadBar) loadBar.style.width = (30 + Math.random() * 40) + "%";
+      if (memBar) memBar.style.width = (50 + Math.random() * 30) + "%";
+    }
+    updateBars();
+    setInterval(updateBars, 2000);
+  }
 }
 
 /** Live clock sync label in the mission panel */
@@ -1174,6 +1014,9 @@ document.addEventListener("DOMContentLoaded", () => {
   switchTab(hub === "coursework" ? "coursework" : "personal");
   switchCoursework("active");
   initRadar();
+  initMissionJumps();
+  initSectionReveals();
+  initSmoothAnchors();
   initAnomaliesDrag();
   initScrollProgress();
   initFooterMetrics();

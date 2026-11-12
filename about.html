@@ -43,12 +43,16 @@
             opacity: 0;
             transform: translateY(14px);
             will-change: opacity, transform;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
             will-change: auto;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
         }
 
         .info-card {
@@ -271,6 +275,64 @@
 
         .body-copy { color: #c4cad5; line-height: 1.8; letter-spacing: 0.01em; }
         .panel-text { color: #b8bec8; line-height: 1.75; font-size: 0.875rem; }
+
+        .about-subnav {
+            position: sticky;
+            top: 80px; /* sits just below the main nav */
+            z-index: 40;
+            background: rgba(5, 5, 5, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .about-subnav nav {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .about-subnav nav::-webkit-scrollbar { display: none; }
+        .about-subnav a {
+            position: relative;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #6b7280;
+            padding: 14px 16px;
+            transition: color 0.22s ease;
+            white-space: nowrap;
+        }
+        .about-subnav a::after {
+            content: '';
+            position: absolute;
+            left: 16px; right: 16px; bottom: 0;
+            height: 1px;
+            background: #10b981;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .about-subnav a:hover { color: #d1d5db; }
+        .about-subnav a.is-active { color: #e5e7eb; }
+        .about-subnav a.is-active::after {
+            transform: scaleX(1);
+        }
+
+        .workflow-rail {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0;
+        }
+        .workflow-rail li {
+            position: relative;
+            padding: 14px 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2);
+        }
+        .workflow-rail li + li { border-left: none; }
+        @media (max-width: 768px) {
+            .workflow-rail { grid-template-columns: 1fr; }
+            .workflow-rail li + li { border-left: 1px solid rgba(255,255,255,0.1); border-top: none; }
+        }
     </style>
 </head>
 <body class="antialiased bg-[#0f0f10] min-h-screen">
@@ -296,10 +358,21 @@
         </div>
     </nav>
 
+    <!-- SECTION NAV (sticky under fixed header, same pattern as interests) -->
+    <div class="about-subnav">
+        <nav class="max-w-7xl mx-auto px-6 flex items-center gap-0 overflow-x-auto scrollbar-hide" aria-label="About sections">
+            <a href="#overview" data-nav="overview">Overview</a>
+            <a href="#focus" data-nav="focus">Focus</a>
+            <a href="#stack" data-nav="stack">Stack</a>
+            <a href="#approach" data-nav="approach">Approach</a>
+            <a href="#aims" data-nav="aims">Aims</a>
+        </nav>
+    </div>
+
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
         <!-- HEADER -->
-        <section class="reveal mb-10 border-b border-white/10 pb-10">
+        <section id="overview" class="reveal mb-10 border-b border-white/10 pb-10 scroll-mt-40">
             <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
 
                 <!-- LEFT -->
@@ -320,19 +393,16 @@
                         </p>
                         <div class="mt-5 space-y-4 text-sm md:text-base body-copy font-light max-w-3xl">
                             <p>
-                                I am a senior Mechanical Engineering student at Washington University in St. Louis, with hands-on experience in UAV avionics, experimental UAS systems, structures and flight test, embedded sensing, and hardware integration.
+                                I am a senior Mechanical Engineering student at Washington University in St. Louis.
+                                My work sits where UAV systems, embedded sensing, controls, and hardware integration meet:
+                                building, integrating, and validating systems that have to behave under real constraints.
                             </p>
                             <p>
-                                Most recently I completed a Summer 2026 internship at the Missouri Institute for Defense and Energy (MIDE) in Kansas City, working experimental unmanned aircraft as systems: repair and test-readiness, flight-test support, and configuration-linked readiness from flight data.
-                            </p>
-                            <p>
-                                On campus I stay active on WashU VTOL as Lead Avionics Engineer (Hexacopter flight proof in 2025–2026; now a Quadcopter X-frame for Search and Rescue) and on WashU Design/Build/Fly (structures and test), where I like work that ties analysis to hardware and flight behavior.
-                            </p>
-                            <p>
-                                I am most drawn to problems where mechanical systems, sensing, controls, and software have to behave reliably together. I like reducing problems to constraints first, then making the system clear by defining assumptions, tightening interfaces, and tracing behavior back to data.
-                            </p>
-                            <p>
-                                As I prepare for graduate study (M.S. in Mechanical or Aerospace Engineering is both on the table), I am interested in aerospace and autonomous systems with a focus on hardware integration, test, and controls. I want to contribute to demanding teams through robust design, calm decision-making under pressure, and ownership of how the vehicle comes together.
+                                I am most drawn to problems where mechanical systems, sensing, controls, and software must
+                                agree. I reduce them to constraints first, then clarify assumptions, tighten interfaces,
+                                and trace behavior back to data. Graduate study in Mechanical or Aerospace Engineering is
+                                on the table, centered on aerospace and autonomous systems with a focus on integration,
+                                test, and controls.
                             </p>
                         </div>
                     </div>
@@ -348,7 +418,7 @@
                     <div class="space-y-2 text-[11px] font-mono">
                         <div class="snapshot-row flex justify-between gap-4 py-1">
                             <span class="text-gray-500">Location</span>
-                            <span class="text-gray-200 text-right">St. Louis, MO / Kansas City, MO</span>
+                            <span class="text-gray-200 text-right">St. Louis</span>
                         </div>
                         <div class="snapshot-row flex justify-between gap-4 py-1">
                             <span class="text-gray-500">Degree</span>
@@ -384,7 +454,7 @@
         </section>
 
         <!-- STATS -->
-        <section class="reveal grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <section class="reveal grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" aria-label="Quick traits">
             <div class="stat-box border border-white/10 p-4 has-tip">
                 <div class="tip">Primary reasoning mode</div>
                 <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 stat-label transition-colors duration-200">Core Mode</div>
@@ -408,18 +478,21 @@
         </section>
 
         <!-- INTERACTIVE FOCUS -->
-        <section class="reveal info-card border border-white/10 p-6 md:p-7 mb-8">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <section id="focus" class="reveal info-card border border-white/10 p-6 md:p-7 mb-8 scroll-mt-40">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
                 <div>
                     <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">Focus Areas</h2>
                     <p class="mt-2 text-sm text-gray-400 max-w-2xl">The parts of engineering I naturally move toward most.</p>
                 </div>
-                <div class="flex flex-wrap gap-2">
-                    <button class="tab-button active px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('flight', this)">Flight Systems</button>
-                    <button class="tab-button px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('robotics', this)">Robotics</button>
-                    <button class="tab-button px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('validation', this)">Validation</button>
+                <div class="flex flex-wrap gap-2" role="tablist" aria-label="Focus areas">
+                    <button type="button" class="tab-button active px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('flight', this)">Flight Systems</button>
+                    <button type="button" class="tab-button px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('robotics', this)">Robotics</button>
+                    <button type="button" class="tab-button px-3 py-2 text-[11px] font-mono uppercase tracking-widest text-gray-400 border border-white/10" onclick="showFocus('validation', this)">Validation</button>
                 </div>
             </div>
+            <p class="mb-6 text-[12px] font-mono uppercase tracking-widest text-emerald-400/80">
+                Flight systems · Robotics · Validation — sensing, control, and proof under real constraints
+            </p>
 
             <div id="focus-flight" class="focus-panel active">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -493,60 +566,40 @@
 
         <!-- SYSTEMS WORKFLOW -->
         <section class="reveal info-card border border-white/10 p-6 md:p-7 mb-8">
-            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-                <div>
-                    <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">Systems Workflow</h2>
-                    <p class="mt-2 text-sm text-gray-400 max-w-2xl">Click through the way I usually move from problem framing to refinement.</p>
-                </div>
+            <div class="mb-6">
+                <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">Systems Workflow</h2>
+                <p class="mt-2 text-sm text-gray-400 max-w-2xl">
+                    How I usually move from problem framing to refinement: start with what must be true,
+                    make interfaces explicit, run a small honest check, read the data, then refine the weak point.
+                </p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-                <button class="workflow-step active border border-white/10 p-4 text-left" onclick="showWorkflow('constraints', this)">
-                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">01</div>
-                    <div class="text-sm text-white step-label transition-colors duration-200">Constraints</div>
-                </button>
-                <button class="workflow-step border border-white/10 p-4 text-left" onclick="showWorkflow('interfaces', this)">
-                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">02</div>
-                    <div class="text-sm text-white step-label transition-colors duration-200">Interfaces</div>
-                </button>
-                <button class="workflow-step border border-white/10 p-4 text-left" onclick="showWorkflow('test', this)">
-                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">03</div>
-                    <div class="text-sm text-white step-label transition-colors duration-200">Test</div>
-                </button>
-                <button class="workflow-step border border-white/10 p-4 text-left" onclick="showWorkflow('data', this)">
-                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">04</div>
-                    <div class="text-sm text-white step-label transition-colors duration-200">Data</div>
-                </button>
-                <button class="workflow-step border border-white/10 p-4 text-left" onclick="showWorkflow('refine', this)">
-                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2 step-num transition-colors duration-200">05</div>
-                    <div class="text-sm text-white step-label transition-colors duration-200">Refine</div>
-                </button>
-            </div>
-
-            <div id="workflow-constraints" class="principle-panel active border border-white/10 p-5">
-                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Constraints</div>
-                <p class="panel-text">Start by identifying what must be true. Weight, power, geometry, timing, sensing, communication, and safety boundaries usually define the real problem before any detailed solution does.</p>
-            </div>
-            <div id="workflow-interfaces" class="principle-panel border border-white/10 p-5">
-                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Interfaces</div>
-                <p class="panel-text">Most systems become clearer once interfaces are explicit. I try to define what talks to what, what assumptions each subsystem is making, and where failure can hide between components.</p>
-            </div>
-            <div id="workflow-test" class="principle-panel border border-white/10 p-5">
-                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Test</div>
-                <p class="panel-text">Before scaling effort, I want a small honest check. A simple bench test, simulation check, logging pass, or hardware integration step can expose bad assumptions early.</p>
-            </div>
-            <div id="workflow-data" class="principle-panel border border-white/10 p-5">
-                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Data</div>
-                <p class="panel-text">Once the system runs, I care about what the logs and measurements actually say. Data keeps the mental model honest and helps separate intuition from reality.</p>
-            </div>
-            <div id="workflow-refine" class="principle-panel border border-white/10 p-5">
-                <div class="text-[11px] font-mono uppercase tracking-widest text-emerald-400 mb-3">Refine</div>
-                <p class="panel-text">After that, refinement becomes targeted. Improve the weak interface, simplify the noisy part, tighten the assumption, or redesign the piece that keeps violating expectations.</p>
-            </div>
+            <ol class="workflow-rail list-none m-0 p-0" aria-label="Systems workflow">
+                <li>
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">01</div>
+                    <div class="text-sm text-white">Constraints</div>
+                </li>
+                <li>
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">02</div>
+                    <div class="text-sm text-white">Interfaces</div>
+                </li>
+                <li>
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">03</div>
+                    <div class="text-sm text-white">Test</div>
+                </li>
+                <li>
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">04</div>
+                    <div class="text-sm text-white">Data</div>
+                </li>
+                <li>
+                    <div class="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-2">05</div>
+                    <div class="text-sm text-white">Refine</div>
+                </li>
+            </ol>
         </section>
 
         <!-- ENGINEERING STACK -->
-        <section class="reveal grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+        <section id="stack" class="reveal grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8 scroll-mt-40">
             <div class="info-card border border-white/10 p-5">
                 <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Languages</h2>
                 <div class="space-y-3">
@@ -594,35 +647,35 @@
             <div class="info-card border border-white/10 p-5">
                 <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">Current Missions</h2>
                 <div class="space-y-2 text-sm text-gray-300">
-                    <div class="stack-item">WashU VTOL · Lead Avionics Engineer</div>
-                    <div class="stack-item">WashU DBF · Structures and Test Engineer</div>
-                    <div class="stack-item">Systems Integration</div>
-                    <div class="stack-item">Validation Workflow</div>
-                    <div class="stack-item text-emerald-300/90">MIDE UAS Intern · Complete (Summer 2026)</div>
-                    <div class="stack-item">Hardware Integration · Test · Controls</div>
+                    <div class="stack-item text-emerald-300/90">Nasril</div>
+                    <div class="stack-item">Sentinel</div>
+                    <div class="stack-item">Hyperion</div>
+                    <div class="stack-item">Faultline</div>
+                    <div class="stack-item">WebTunnel</div>
+                    <div class="stack-item">Lander</div>
                 </div>
             </div>
         </section>
 
         <!-- ENGINEERING PRINCIPLES -->
-        <section class="reveal info-card border border-white/10 p-6 md:p-7 mb-8">
+        <section id="approach" class="reveal info-card border border-white/10 p-6 md:p-7 mb-8 scroll-mt-40">
             <div class="mb-6">
                 <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500">Engineering Principles</h2>
                 <p class="mt-2 text-sm text-gray-400 max-w-2xl">Expand the principles that matter most to how I work.</p>
             </div>
 
             <div class="space-y-3">
-                <button class="accordion-btn active w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-1', this)">
+                <button type="button" class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-1', this)">
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-white">Start from first principles</span>
                         <i class="fas fa-plus text-xs text-gray-500 acc-icon"></i>
                     </div>
                 </button>
-                <div id="principle-1" class="accordion-content active border border-white/10 border-t-0 p-4">
+                <div id="principle-1" class="accordion-content border border-white/10 border-t-0 p-4">
                     <p class="panel-text">I try to understand what the system is actually being asked to do before jumping into tools, opinions, or complexity. That usually makes better decisions possible much earlier.</p>
                 </div>
 
-                <button class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-2', this)">
+                <button type="button" class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-2', this)">
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-white">Make assumptions visible</span>
                         <i class="fas fa-plus text-xs text-gray-500 acc-icon"></i>
@@ -632,7 +685,7 @@
                     <p class="panel-text">Hidden assumptions create fragile systems. I would rather expose them early, write them down clearly, and let testing decide whether they survive.</p>
                 </div>
 
-                <button class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-3', this)">
+                <button type="button" class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-3', this)">
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-white">Stay close to data</span>
                         <i class="fas fa-plus text-xs text-gray-500 acc-icon"></i>
@@ -642,7 +695,7 @@
                     <p class="panel-text">Logs, measurements, and behavior matter more than what the design was supposed to do. Staying close to data keeps the work honest and cuts through ego quickly.</p>
                 </div>
 
-                <button class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-4', this)">
+                <button type="button" class="accordion-btn w-full text-left border border-white/10 p-4" onclick="toggleAccordion('principle-4', this)">
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-white">Reduce friction for the team</span>
                         <i class="fas fa-plus text-xs text-gray-500 acc-icon"></i>
@@ -655,7 +708,7 @@
         </section>
 
         <!-- CLOSING -->
-        <section class="reveal info-card border border-white/10 p-6 md:p-7">
+        <section id="aims" class="reveal info-card border border-white/10 p-6 md:p-7 scroll-mt-40">
             <h2 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-4">What I am aiming for</h2>
             <ul class="space-y-3 text-sm leading-relaxed">
                 <li class="aim-item flex gap-3 text-gray-300">
@@ -710,13 +763,6 @@
             btn.classList.add('active');
         }
 
-        function showWorkflow(target, btn) {
-            document.querySelectorAll('.principle-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.workflow-step').forEach(s => s.classList.remove('active'));
-            document.getElementById('workflow-' + target).classList.add('active');
-            btn.classList.add('active');
-        }
-
         function toggleAccordion(target, btn) {
             const content = document.getElementById(target);
             const isActive = content.classList.contains('active');
@@ -727,6 +773,38 @@
                 btn.classList.add('active');
             }
         }
+
+        (function initAboutSubnav() {
+            const links = [...document.querySelectorAll('.about-subnav a[data-nav]')];
+            const sections = links
+                .map(a => document.getElementById(a.dataset.nav))
+                .filter(Boolean);
+            if (!links.length || !sections.length) return;
+
+            const setActive = (id) => {
+                links.forEach(a => a.classList.toggle('is-active', a.dataset.nav === id));
+            };
+
+            const spy = new IntersectionObserver((entries) => {
+                const visible = entries
+                    .filter(e => e.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+                if (visible) setActive(visible.target.id);
+            }, { rootMargin: '-30% 0px -55% 0px', threshold: [0.1, 0.35, 0.6] });
+
+            sections.forEach(s => spy.observe(s));
+            setActive(sections[0].id);
+
+            links.forEach(a => {
+                a.addEventListener('click', (e) => {
+                    const target = document.getElementById(a.dataset.nav);
+                    if (!target) return;
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setActive(a.dataset.nav);
+                });
+            });
+        })();
     </script>
 
   <script src="js/nav-persist.js"></script>

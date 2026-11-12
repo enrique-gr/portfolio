@@ -93,56 +93,56 @@
        SITE NAVIGATION
   ====================================================================== -->
   <nav aria-label="Site navigation" id="site-nav"
-       class="fixed top-0 w-full bg-[#050505]/95 backdrop-blur-md z-50 border-b border-white/5">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center gap-4">
+       class="fixed top-0 w-full bg-[#050505]/95 backdrop-blur-md z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center gap-6">
 
       <!-- Logo -->
-      <a href="#about" aria-label="Enrique Garcia home" class="flex items-center gap-3 group shrink-0">
-        <div class="h-8 w-8 bg-black border border-white/20 flex items-center justify-center overflow-hidden" aria-hidden="true">
-          <img src="assets/brand/EG.png" alt="" class="h-full w-full object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+      <a href="#about" aria-label="Enrique Garcia home" class="flex items-center gap-3.5 group shrink-0">
+        <div class="h-11 w-11 bg-black border border-white/25 flex items-center justify-center overflow-hidden" aria-hidden="true">
+          <img src="assets/brand/EG.png" alt="" class="h-full w-full object-contain opacity-90 group-hover:opacity-100 transition-opacity">
         </div>
-        <div class="flex flex-col">
-          <span class="font-mono font-bold text-white tracking-widest uppercase text-xs group-hover:text-blue-400 transition-colors">E.Garcia</span>
-          <span class="text-[9px] text-gray-600 font-mono tracking-tighter" aria-hidden="true">ID: EGR-26 // MECH → AE</span>
+        <div class="flex flex-col leading-tight">
+          <span class="font-mono font-bold text-white tracking-widest uppercase text-sm group-hover:text-blue-400 transition-colors">E.Garcia</span>
+          <span class="text-[10px] text-gray-500 font-mono tracking-wider mt-0.5" aria-hidden="true">ID: EGR-26 // MECH → AE</span>
         </div>
       </a>
 
       <!-- Primary nav links (desktop) -->
-      <ul class="hidden lg:flex space-x-6 text-[10px] font-mono font-bold tracking-widest uppercase text-gray-500 items-center list-none m-0 p-0">
+      <ul class="hidden lg:flex gap-8 text-[13px] font-mono font-bold tracking-widest uppercase text-gray-400 items-center list-none m-0 p-0">
         <li>
-          <a href="about.html" class="nav-link flex items-center gap-2 hover:text-white transition-colors">
+          <a href="about.html" class="nav-link flex items-center gap-2 hover:text-white transition-colors py-2">
             <span>About</span>
-            <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60" aria-hidden="true"></i>
+            <i class="fas fa-arrow-up-right-from-square text-[9px] opacity-60" aria-hidden="true"></i>
           </a>
         </li>
         <li>
           <a href="#featured"
              data-nav-section="featured"
-             class="nav-link nav-link--mission hover:text-white transition-colors">
+             class="nav-link nav-link--mission hover:text-white transition-colors py-2">
             <span>Projects</span>
             <span class="nav-mission-dots" aria-hidden="true">
-              <span class="nav-mission-dot nav-mission-dot--target" title="Target"></span>
-              <span class="nav-mission-dot nav-mission-dot--active" title="Active"></span>
-              <span class="nav-mission-dot nav-mission-dot--done" title="Past"></span>
+              <i class="fas fa-bullseye nav-mission-dot nav-mission-dot--target" title="Target"></i>
+              <i class="fas fa-location-crosshairs nav-mission-dot nav-mission-dot--active" title="Active"></i>
+              <i class="fas fa-check nav-mission-dot nav-mission-dot--done" title="Past"></i>
             </span>
           </a>
         </li>
-        <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link hover:text-white transition-colors">Skills</a></li>
-        <li><a href="#anomalies"    data-nav-section="anomalies"    class="nav-link hover:text-white transition-colors">Challenges</a></li>
-        <li><a href="#collections"  data-nav-section="collections"  class="nav-link hover:text-white transition-colors">Archive</a></li>
+        <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link hover:text-white transition-colors py-2">Skills</a></li>
+        <li><a href="#anomalies"    data-nav-section="anomalies"    class="nav-link hover:text-white transition-colors py-2">Challenges</a></li>
+        <li><a href="#collections"  data-nav-section="collections"  class="nav-link hover:text-white transition-colors py-2">Archive</a></li>
         <li>
-          <a href="interests.html" class="nav-link hover:text-blue-400 transition-colors flex items-center gap-1">
+          <a href="interests.html" class="nav-link hover:text-blue-400 transition-colors flex items-center gap-1.5 py-2">
             <span>Interests</span>
-            <i class="fas fa-arrow-up-right-from-square text-[8px] opacity-60" aria-hidden="true"></i>
+            <i class="fas fa-arrow-up-right-from-square text-[9px] opacity-60" aria-hidden="true"></i>
           </a>
         </li>
       </ul>
 
       <!-- CTA + mobile toggle -->
-      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <div class="flex items-center gap-3 shrink-0">
         <a href="resume.html"
            target="_blank" rel="noopener noreferrer"
-           class="hidden sm:flex items-center px-4 py-1.5 bg-white text-black text-[10px] font-mono uppercase font-bold hover:bg-blue-400 hover:text-white transition-all tracking-wide">
+           class="hidden sm:inline-flex items-center px-5 py-2.5 bg-white text-black text-xs font-mono uppercase font-bold hover:bg-blue-400 hover:text-white transition-all tracking-wide">
           Resume
         </a>
         <button type="button"
@@ -168,9 +168,9 @@
           <a href="#featured" class="mobile-nav-link mobile-nav-link--mission">
             <span>Projects</span>
             <span class="nav-mission-dots" aria-hidden="true">
-              <span class="nav-mission-dot nav-mission-dot--target"></span>
-              <span class="nav-mission-dot nav-mission-dot--active"></span>
-              <span class="nav-mission-dot nav-mission-dot--done"></span>
+              <i class="fas fa-bullseye nav-mission-dot nav-mission-dot--target"></i>
+              <i class="fas fa-location-crosshairs nav-mission-dot nav-mission-dot--active"></i>
+              <i class="fas fa-check nav-mission-dot nav-mission-dot--done"></i>
             </span>
           </a>
         </li>
@@ -197,35 +197,30 @@
       </video>
     </div>
 
-    <!-- Decorative overlays -->
+    <!-- Soft atmosphere overlay -->
     <div class="hero-grid-overlay" aria-hidden="true"></div>
-    <div class="hero-scanbeam"     aria-hidden="true"></div>
     <!-- Page header -->
-    <header id="about" class="pt-32 pb-20 md:pt-48 md:pb-32 relative z-10">
+    <header id="about" class="hero-shell relative z-10">
       <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-center">
 
           <!-- ── LEFT: Identity + CTAs ───────────────────────────────── -->
           <div class="lg:col-span-7 flex flex-col justify-center hero-stagger">
 
-            <p class="flex items-center gap-2 mb-3 text-[10px] font-mono text-emerald-400 tracking-widest uppercase" aria-hidden="true">
-              <span class="hero-status-dot w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
-              System Status: Nominal
-            </p>
-            <p class="mb-8 text-[11px] font-mono text-gray-400 tracking-widest uppercase">
+            <p class="mb-7 text-xs font-mono text-gray-300/90 tracking-widest uppercase">
               WashU Mechanical Engineering · Class of 2027 · St. Louis
             </p>
 
             <!-- Profile photo + name -->
-            <div class="flex items-center gap-6 mb-6">
+            <div class="flex items-center gap-6 md:gap-8 mb-7">
               <!-- Profile photo as a <button> so it's keyboard-activatable -->
               <button type="button"
                       id="pfp-container"
                       onclick="triggerScan()"
                       aria-label="Trigger identity scan easter egg"
-                      class="h-24 w-24 md:h-28 md:w-28 shrink-0 border border-white/20 p-1 bg-black/40 backdrop-blur-md relative cursor-pointer transition-all duration-300 hover:scale-105 hover:border-blue-400">
-                <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/50" aria-hidden="true"></span>
-                <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/50" aria-hidden="true"></span>
+                      class="h-28 w-28 md:h-32 md:w-32 shrink-0 border border-white/30 p-1.5 bg-black/50 backdrop-blur-md relative cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:border-blue-400">
+                <span class="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-white/60" aria-hidden="true"></span>
+                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-white/60" aria-hidden="true"></span>
                 <img src="assets/images/pfpv2.png" alt="Enrique Garcia" class="h-full w-full object-cover">
               </button>
 
@@ -234,28 +229,28 @@
               </h1>
             </div>
 
-            <p class="hero-tagline text-lg md:text-xl font-mono text-blue-400 mb-5">Dynamic. Model driven. Systems focused.</p>
+            <p class="hero-tagline text-xl md:text-2xl font-mono text-blue-400 mb-5">Dynamic. Model driven. Systems focused.</p>
 
             <!-- Bio tagline -->
-            <p class="text-lg text-gray-300 leading-relaxed font-light max-w-xl">
+            <p class="text-lg md:text-xl text-gray-200 leading-relaxed font-light max-w-xl">
               Building the interface between <strong class="text-white font-medium">physical systems and embedded logic</strong>
               through dynamics, controls, simulation, and hardware validation.
             </p>
 
             <!-- Primary CTAs + social links -->
-            <div class="mt-8 flex flex-wrap items-center gap-3">
+            <div class="mt-9 flex flex-wrap items-center gap-3.5">
               <a href="#featured"
-                 class="hero-cta hero-cta-primary px-4 py-2 inline-flex items-center gap-2">
+                 class="hero-cta hero-cta-primary px-5 py-3 inline-flex items-center gap-2.5">
                 View Featured Work
-                <i class="fas fa-arrow-right text-[9px]" aria-hidden="true"></i>
+                <i class="fas fa-arrow-right text-[10px]" aria-hidden="true"></i>
               </a>
               <a href="resume.html"
                  target="_blank" rel="noopener noreferrer"
-                 class="hero-cta hero-cta-secondary px-4 py-2 inline-flex items-center gap-2">
+                 class="hero-cta hero-cta-secondary px-5 py-3 inline-flex items-center gap-2.5">
                 Download Resume
-                <i class="fas fa-file-arrow-down text-[9px]" aria-hidden="true"></i>
+                <i class="fas fa-file-arrow-down text-[10px]" aria-hidden="true"></i>
               </a>
-            <ul class="flex items-center gap-5 ml-3 text-lg text-gray-400 list-none m-0 p-0">
+            <ul class="flex items-center gap-5 ml-2 sm:ml-3 text-xl text-gray-400 list-none m-0 p-0">
               <li>
                 <a href="https://linkedin.com/in/enrique-gr"
                    target="_blank" rel="noopener noreferrer"
@@ -289,8 +284,13 @@
           <aside class="lg:col-span-5" aria-label="Mission timeline">
             <div class="hero-mission-panel">
 
-              <div class="hero-mission-header flex justify-between items-center gap-3">
-                <h2 class="text-[11px] font-bold text-gray-300 font-mono uppercase tracking-widest">Mission Timeline</h2>
+              <div class="hero-mission-header flex flex-wrap justify-between items-center gap-x-4 gap-y-2">
+                <h2 class="text-xs font-bold text-gray-200 font-mono uppercase tracking-widest">Mission Timeline</h2>
+                <p class="mission-legend" aria-hidden="true">
+                  <span class="mission-legend__item mission-legend__item--target"><i class="fas fa-bullseye"></i> Target</span>
+                  <span class="mission-legend__item mission-legend__item--active"><i class="fas fa-location-crosshairs"></i> Active</span>
+                  <span class="mission-legend__item mission-legend__item--done"><i class="fas fa-check"></i> Past</span>
+                </p>
               </div>
 
               <div class="mission-scroll hero-mission-scroll">
@@ -298,161 +298,113 @@
                 <ol class="hero-mission-list">
 
                   <!-- TARGET: Summer 2027 internship -->
-                  <li class="hero-mission-item target flex items-start gap-4 group" data-mission-status="target">
-                    <div class="h-10 w-10 mission-thumb mission-thumb--target shrink-0 z-10 flex items-center justify-center" aria-hidden="true">
-                      <i class="fas fa-flag text-amber-400/90 text-sm"></i>
-                    </div>
-                    <div class="w-full">
-                      <button type="button"
-                              id="internship-toggle"
-                              onclick="toggleInternshipMission()"
-                              aria-expanded="false"
-                              aria-controls="internship-mission-details"
-                              class="w-full text-left cursor-pointer">
-                        <span class="mission-meta">
-                          <span class="mission-status mission-status--target"><i class="fas fa-bullseye" aria-hidden="true"></i> Target</span>
-                          <span class="mission-date">Summer 2027</span>
+                  <li class="hero-mission-item target group" data-mission-status="target">
+                    <button type="button"
+                            id="internship-toggle"
+                            onclick="toggleInternshipMission()"
+                            aria-expanded="false"
+                            aria-controls="internship-mission-details"
+                            class="hero-mission-link w-full text-left cursor-pointer">
+                      <span class="mission-meta">
+                        <span class="mission-status mission-status--target"><i class="fas fa-bullseye" aria-hidden="true"></i> Target</span>
+                        <span class="mission-date">Summer 2027</span>
+                        <span class="mission-expand-hint" aria-hidden="true">Details</span>
+                      </span>
+                      <span class="mission-main">
+                        <span class="h-10 w-10 mission-thumb mission-thumb--target shrink-0 z-10 flex items-center justify-center" aria-hidden="true">
+                          <i class="fas fa-flag text-gray-400 text-sm"></i>
                         </span>
-                        <span class="block text-gray-200 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering / Research Internship</span>
-                        <span class="block text-xs text-gray-400 mt-0.5">Hardware integration · Test · Controls</span>
-                      </button>
+                        <span class="mission-copy min-w-0">
+                          <span class="block text-gray-100 font-bold text-sm group-hover:text-white transition-colors duration-300">Engineering / Research Internship</span>
+                        </span>
+                      </span>
+                    </button>
 
-                      <div id="internship-mission-details"
-                           role="region"
-                           aria-labelledby="internship-toggle"
-                           class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
-                        <div class="mt-6 p-5 bg-black/40 border border-dashed border-amber-500/25 backdrop-blur-sm text-sm text-gray-300 space-y-4">
-                          <p>
-                            Seeking a Summer 2027 engineering or research role in aerospace or autonomous systems,
-                            with room to contribute on hardware integration, test, and controls.
-                          </p>
-                          <p class="text-gray-400">
-                            Especially interested in work where sensing, actuation, and software have to behave
-                            reliably together on real platforms.
-                          </p>
-                          <p class="font-mono text-amber-400 text-xs tracking-wider">&gt;&gt; TARGET CONTRIBUTIONS</p>
-                          <ul class="space-y-2 list-disc list-inside">
-                            <li>Support bring-up, calibration, and integration of electromechanical or unmanned systems</li>
-                            <li>Build or run tests, collect data, and close the loop between configuration and performance</li>
-                            <li>Contribute to controls, estimation, or validation workflows grounded in hardware</li>
-                            <li>Work across mechanical, electrical, software, and research teams</li>
-                          </ul>
-                          <p class="font-mono text-amber-400 text-xs tracking-wider">&gt;&gt; OPEN TO</p>
-                          <p class="text-gray-400">
-                            Industry roles, R&amp;D teams, and research labs. Graduate path may be M.S. in Mechanical
-                            or Aerospace Engineering; interests stay centered on hardware integration, test, and controls
-                            rather than a single named subdiscipline.
-                          </p>
-                        </div>
+                    <div id="internship-mission-details"
+                         role="region"
+                         aria-labelledby="internship-toggle">
+                      <div class="mission-target-note">
+                        <p>
+                          Summer 2027 role in aerospace or autonomous systems: dynamics and controls,
+                          vehicle integration, or flight test. Industry or research lab.
+                        </p>
                       </div>
                     </div>
                   </li>
 
                   <!-- ACTIVE: WashU VTOL (you are here) -->
-                  <li class="hero-mission-item active flex items-start gap-4 group" data-mission-status="active">
-                    <a href="#washu-vtol" class="contents" aria-label="Jump to WashU VTOL project">
-                      <div class="h-10 w-10 mission-thumb mission-thumb--active shrink-0 z-10">
-                        <img src="assets/images/washu_vtol_logo.jpg" alt="" class="h-full w-full object-contain">
-                      </div>
-                      <div>
-                        <span class="mission-meta">
-                          <span class="mission-status mission-status--active"><i class="fas fa-location-crosshairs" aria-hidden="true"></i> Active</span>
-                          <span class="mission-date">Sep 2025 – Present</span>
+                  <li class="hero-mission-item active group" data-mission-status="active">
+                    <a href="#washu-vtol" class="hero-mission-link" aria-label="Jump to WashU VTOL project">
+                      <span class="mission-meta">
+                        <span class="mission-status mission-status--active"><i class="fas fa-location-crosshairs" aria-hidden="true"></i> Active</span>
+                        <span class="mission-date">Sep 2025 – Present</span>
+                      </span>
+                      <span class="mission-main">
+                        <span class="h-10 w-10 mission-thumb mission-thumb--active shrink-0 z-10">
+                          <img src="assets/images/washu_vtol_logo.jpg" alt="" class="h-full w-full object-contain">
                         </span>
-                        <h3 class="text-white font-bold text-sm group-hover:text-blue-300 transition-colors">WashU VTOL</h3>
-                        <p class="text-xs text-gray-300">Lead Avionics Engineer</p>
-                      </div>
+                        <span class="mission-copy min-w-0">
+                          <h3 class="text-white font-bold text-sm group-hover:text-blue-300 transition-colors">WashU VTOL</h3>
+                          <p class="text-xs text-gray-300">Lead Avionics Engineer</p>
+                        </span>
+                      </span>
                     </a>
                   </li>
 
                   <!-- ACTIVE: WashU DBF -->
-                  <li class="hero-mission-item active flex items-start gap-4 group" data-mission-status="active">
-                    <a href="#washu-dbf" class="contents" aria-label="Jump to WashU Design/Build/Fly project">
-                      <div class="h-10 w-10 mission-thumb mission-thumb--active shrink-0 z-10">
-                        <img src="assets/images/washu_dbf.jpg" alt="" class="h-full w-full object-contain">
-                      </div>
-                      <div>
-                        <span class="mission-meta">
-                          <span class="mission-status mission-status--active"><i class="fas fa-location-crosshairs" aria-hidden="true"></i> Active</span>
-                          <span class="mission-date">Aug 2024 – Present</span>
+                  <li class="hero-mission-item active group" data-mission-status="active">
+                    <a href="#washu-dbf" class="hero-mission-link" aria-label="Jump to WashU Design/Build/Fly project">
+                      <span class="mission-meta">
+                        <span class="mission-status mission-status--active"><i class="fas fa-location-crosshairs" aria-hidden="true"></i> Active</span>
+                        <span class="mission-date">Aug 2024 – Present</span>
+                      </span>
+                      <span class="mission-main">
+                        <span class="h-10 w-10 mission-thumb mission-thumb--active shrink-0 z-10">
+                          <img src="assets/images/washu_dbf.jpg" alt="" class="h-full w-full object-contain">
                         </span>
-                        <h3 class="text-white font-bold text-sm group-hover:text-blue-300 transition-colors">WashU Design/Build/Fly</h3>
-                        <p class="text-xs text-gray-300">Structures and Test Engineer</p>
-                      </div>
+                        <span class="mission-copy min-w-0">
+                          <h3 class="text-white font-bold text-sm group-hover:text-blue-300 transition-colors">WashU Design/Build/Fly</h3>
+                          <p class="text-xs text-gray-300">Structures and Test Engineer</p>
+                        </span>
+                      </span>
                     </a>
                   </li>
 
                   <!-- PAST: MIDE internship -->
-                  <li class="hero-mission-item done flex items-start gap-4 group" data-mission-status="done">
-                    <div class="h-10 w-10 mission-thumb mission-thumb--done shrink-0 z-10" aria-hidden="true">
-                      <img src="assets/images/mide_logo.png" alt="" class="h-full w-full object-contain opacity-80">
-                    </div>
-                    <div class="w-full">
-                      <button type="button"
-                              id="mide-toggle"
-                              onclick="toggleMideMission()"
-                              aria-expanded="false"
-                              aria-controls="mide-mission-details"
-                              class="w-full text-left cursor-pointer">
-                        <span class="mission-meta">
-                          <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
-                          <span class="mission-date">May – Aug 2026</span>
+                  <li class="hero-mission-item done group" data-mission-status="done">
+                    <a href="#mide" class="hero-mission-link" aria-label="Jump to MIDE project">
+                      <span class="mission-meta">
+                        <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
+                        <span class="mission-date">May – Aug 2026</span>
+                      </span>
+                      <span class="mission-main">
+                        <span class="h-10 w-10 mission-thumb mission-thumb--done shrink-0 z-10">
+                          <img src="assets/images/mide_logo.png" alt="" class="h-full w-full object-contain opacity-80">
                         </span>
-                        <span class="block text-gray-300 font-bold text-sm group-hover:text-white transition-colors duration-300">Missouri Institute for Defense and Energy</span>
-                        <span class="block text-xs text-gray-400 mt-0.5">UAS Research Intern</span>
-                      </button>
-
-                      <div id="mide-mission-details"
-                           role="region"
-                           aria-labelledby="mide-toggle"
-                           class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
-                        <div class="mt-6 p-5 bg-black/40 border border-white/10 backdrop-blur-sm text-sm text-gray-300 space-y-4">
-                          <p>
-                            Worked experimental unmanned aircraft as systems. Helped return vehicles to test-ready after
-                            structural work, supported flight test, and used flight data to understand how configuration
-                            affected whether an aircraft was ready to fly. Brought platforms up from hardware through
-                            calibration and bench checks, and verified that sensing, estimation, and actuation hung
-                            together on the vehicle.
-                          </p>
-                          <p class="font-mono text-gray-400 text-xs tracking-wider">&gt;&gt; IMPACT</p>
-                          <ul class="space-y-2 list-disc list-inside">
-                            <li>Supported experimental UAS through repair, flight-test operations, and test-readiness.</li>
-                            <li>Used flight data to relate vehicle configuration to whether an aircraft was ready to test.</li>
-                            <li>Brought unmanned platforms up as integrated systems and checked the sense-to-actuate path on hardware.</li>
-                          </ul>
-                          <p class="text-xs text-gray-500 font-mono">Deputy Director: Dr. Travis Fields</p>
-                          <div class="flex flex-wrap gap-2 mt-2">
-                            <a href="mide.html"
-                               data-nav-exit
-                               onclick="event.stopPropagation()"
-                               class="inline-flex items-center gap-2 text-[10px] font-mono text-gray-300 hover:text-white transition-colors uppercase tracking-widest border border-white/20 px-3 py-1.5 hover:border-white/40">
-                              View Full Page <i class="fas fa-arrow-right text-[8px]"></i>
-                            </a>
-                            <a href="#mide"
-                               onclick="event.stopPropagation()"
-                               class="inline-flex items-center gap-2 text-[10px] font-mono text-blue-400 hover:text-white transition-colors uppercase tracking-widest border border-blue-500/30 px-3 py-1.5 hover:border-blue-400">
-                              Jump to Featured <i class="fas fa-arrow-down text-[8px]"></i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                        <span class="mission-copy min-w-0">
+                          <h3 class="text-white font-bold text-sm group-hover:text-blue-300 transition-colors">Missouri Institute for Defense and Energy</h3>
+                          <p class="text-xs text-gray-400">UAS Research Intern</p>
+                        </span>
+                      </span>
+                    </a>
                   </li>
 
                   <!-- PAST: MIRO Lab -->
-                  <li class="hero-mission-item done flex items-start gap-4 group" data-mission-status="done">
-                    <a href="#miro-lab" class="contents" aria-label="Jump to MIRO Lab project">
-                      <div class="h-10 w-10 mission-thumb mission-thumb--done shrink-0 z-10">
-                        <img src="assets/images/mirolab.ico" alt="" class="h-full w-full object-contain opacity-80">
-                      </div>
-                      <div>
-                        <span class="mission-meta">
-                          <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
-                          <span class="mission-date">May – Aug 2025</span>
+                  <li class="hero-mission-item done group" data-mission-status="done">
+                    <a href="#miro-lab" class="hero-mission-link" aria-label="Jump to MIRO Lab project">
+                      <span class="mission-meta">
+                        <span class="mission-status mission-status--done"><i class="fas fa-check" aria-hidden="true"></i> Past</span>
+                        <span class="mission-date">May – Aug 2025</span>
+                      </span>
+                      <span class="mission-main">
+                        <span class="h-10 w-10 mission-thumb mission-thumb--done shrink-0 z-10">
+                          <img src="assets/images/mirolab.ico" alt="" class="h-full w-full object-contain opacity-80">
                         </span>
-                        <h3 class="text-gray-300 font-bold text-sm group-hover:text-white transition-colors">Multiplatform Interactive Robotics Lab</h3>
-                        <p class="text-xs text-gray-400">Sensor Fusion Research Intern</p>
-                      </div>
+                        <span class="mission-copy min-w-0">
+                          <h3 class="text-white font-bold text-sm group-hover:text-blue-300 transition-colors">Multiplatform Interactive Robotics Lab</h3>
+                          <p class="text-xs text-gray-400">Sensor Fusion Research Intern</p>
+                        </span>
+                      </span>
                     </a>
                   </li>
 
@@ -473,8 +425,7 @@
     <div class="hw-hdr">
       <div class="hw-hdr-l">
         <h2 id="hwlog-heading">Hardware Log</h2>
-        <span class="hw-evidence">Physical Evidence</span>
-        <span class="hidden sm:inline">Hover to pause · Click to explore</span>
+        <span class="hw-evidence">Physical builds</span>
       </div>
       <span class="hw-hdr-r" id="hw-count" aria-hidden="true"></span>
     </div>
@@ -492,19 +443,18 @@
     <!-- =================================================================
          SECTION 01 — FEATURED PROJECTS
     ================================================================== -->
-    <section id="featured" aria-labelledby="featured-heading">
+    <section id="featured" class="eg-reveal scroll-anchor" aria-labelledby="featured-heading">
       <div class="feat-inner">
 
-        <div class="flex items-end justify-between mb-20 border-b border-white/10 pb-6">
+        <div class="flex items-end justify-between mb-14 border-b border-white/10 pb-6">
           <div>
             <h2 id="featured-heading" class="text-3xl font-bold text-white tracking-tight">Featured Engineering</h2>
-            <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Problem · Ownership · Stack · Measured Outcome</p>
+            <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Selected work with ownership and outcomes</p>
           </div>
-          <span class="text-xl font-mono text-white/20" aria-hidden="true">01</span>
         </div>
 
         <!-- Populated by renderFeatured() in script.js -->
-        <div id="featured-container" class="flex flex-col gap-24"></div>
+        <div id="featured-container" class="flex flex-col gap-20"></div>
 
       </div>
     </section>
@@ -514,25 +464,23 @@
     ================================================================== -->
     <section id="capabilities"
              aria-labelledby="capabilities-heading"
-             class="py-12 max-w-7xl mx-auto px-6 border-t border-white/5">
+             class="eg-reveal scroll-anchor py-20 max-w-7xl mx-auto px-6 border-t border-white/5">
 
-      <div class="flex items-end justify-between mb-8 border-b border-white/10 pb-6">
+      <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-6">
         <div>
           <h2 id="capabilities-heading" class="text-3xl font-bold text-white tracking-tight">System Capabilities</h2>
-          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Diagnostic &amp; Academic Kernel</p>
+          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Skills · Coursework · Competency map</p>
         </div>
-        <span class="text-xl font-mono text-white/20" aria-hidden="true">02</span>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
 
         <!-- ── LEFT: Skill pills + coursework terminal ─────────────── -->
-        <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-6">
 
-          <p class="text-gray-400 leading-relaxed">
-            Core focus: dynamics and controls, from modeling and estimation to embedded
-            integration, flight-test support, and data review on real hardware.
-            <span class="text-gray-600 font-mono text-xs ml-1" aria-hidden="true">// Click any skill to inspect</span>
+          <p class="text-gray-400 leading-relaxed max-w-xl">
+            Languages, flight stack, CAD/analysis tools, and methods used across the work above.
+            Click a skill for a short note on where it shows up.
           </p>
 
           <!-- Skill pills grouped by domain -->
@@ -602,7 +550,7 @@
                aria-label="Coursework log">
 
             <div class="flex items-center justify-between gap-3 border-b border-white/10 pb-4 mb-4 text-gray-500 tracking-widest text-[10px]">
-              <span class="min-w-0 truncate" aria-hidden="true">root@washu-edu:~/academic_kernel</span>
+              <span class="text-gray-400 uppercase">Coursework</span>
               <!-- Coursework view tabs -->
               <div class="flex shrink-0 gap-2 sm:gap-4" role="tablist" aria-label="Coursework view">
                 <button type="button"
@@ -612,7 +560,7 @@
                         aria-controls="coursework-list"
                         onclick="switchCoursework('active')"
                         class="tab-active px-2 py-1 uppercase tracking-wider transition-colors">
-                  [ACTIVE_PROCESSES]
+                  Active
                 </button>
                 <button type="button"
                         id="btn-history"
@@ -621,16 +569,16 @@
                         aria-controls="coursework-list"
                         onclick="switchCoursework('history')"
                         class="tab-inactive px-2 py-1 uppercase tracking-wider transition-colors">
-                  [LOG_HISTORY]
+                  History
                 </button>
               </div>
             </div>
 
             <!-- Column headers (presentational) -->
             <div class="grid grid-cols-4 gap-4 mb-2 text-[10px] text-gray-600 border-b border-white/5 pb-2" aria-hidden="true">
-              <span>PID</span>
-              <span class="col-span-2">PROCESS_NAME</span>
-              <span>STATUS</span>
+              <span>ID</span>
+              <span class="col-span-2">Course</span>
+              <span>Status</span>
             </div>
 
             <!-- Rows injected by switchCoursework() in script.js -->
@@ -639,11 +587,6 @@
                  aria-label="Coursework list"
                  class="scrollbar-hide overflow-y-auto"></div>
 
-            <div class="mt-4 pt-4 border-t border-white/10 flex justify-between text-[10px] text-gray-600" aria-hidden="true">
-              <span>CORE: MECH_ENG // FOCUS: DYNAMICS · CONTROLS · TEST</span>
-              <span class="animate-pulse text-emerald-500">● SYSTEM_OPTIMAL</span>
-            </div>
-
           </div><!-- /coursework terminal -->
 
         </div><!-- /LEFT -->
@@ -651,48 +594,34 @@
         <!-- ── RIGHT: Radar chart + roadmap ──────────────────────────── -->
         <div class="flex flex-col justify-between gap-4 h-full">
 
-          <!-- Competency radar: scores computed from RADAR_EVIDENCE in script.js -->
-          <div class="radar-box relative w-full h-[260px] sm:h-[300px] md:h-[340px] lg:h-[380px] xl:h-[540px] flex flex-col bg-[#0a0a0a] border border-white/10 overflow-hidden">
-            <span class="corner-bracket tl" aria-hidden="true"></span>
-            <span class="corner-bracket tr" aria-hidden="true"></span>
-            <span class="corner-bracket bl" aria-hidden="true"></span>
-            <span class="corner-bracket br" aria-hidden="true"></span>
-
-            <div id="radar-stage" class="relative flex-1 min-h-0 cursor-crosshair outline-none" tabindex="0"
-                 aria-label="Capability radar. Use the arrow keys to change area.">
-              <canvas id="skillsChart" class="absolute inset-0 w-full h-full" role="img"
-                      aria-label="Evidence-weighted capability radar. Core focus: dynamics and controls."></canvas>
-              <canvas id="radarFx" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
-              <div class="absolute top-3 left-4 hidden sm:flex flex-col gap-1 text-[8px] font-mono uppercase tracking-widest text-gray-500 pointer-events-none">
-                <span class="flex items-center gap-1.5"><span class="radar-key radar-key--hw" aria-hidden="true"></span>Hardware-proven</span>
-                <span class="flex items-center gap-1.5"><span class="radar-key radar-key--all" aria-hidden="true"></span>All evidence</span>
-              </div>
-              <span class="absolute top-3 right-4 text-[8px] font-mono uppercase tracking-widest text-gray-600 pointer-events-none hidden sm:inline"
-                    title="Flight 4 · Hardware 3 · Analysis 2 · Course 1">Evidence-weighted</span>
-            </div>
-
-            <!-- Selected-area summary (filled by initRadar) -->
-            <div id="radar-readout" class="shrink-0 border-t border-white/10 px-4 py-3 font-mono" aria-live="polite"></div>
+          <!-- Competency radar -->
+          <div class="relative w-full h-[260px] sm:h-[300px] md:h-[340px] lg:h-[380px] xl:h-[480px] flex items-center justify-center bg-[#0a0a0a] border border-white/10 p-4 overflow-hidden">
+            <span class="radar-sweep-line" aria-hidden="true"></span>
+            <canvas id="skillsChart"
+                    class="relative z-10 w-full h-full"
+                    role="img"
+                    aria-label="Radar chart showing engineering competency across: Dynamics & Vibrations, Controls & Automation, Modeling & Simulation, Aero/Thermal-Fluids, Mechanical Design, and Embedded/Test Systems">
+            </canvas>
           </div>
 
           <!-- Learning roadmap -->
-          <div class="border border-white/10 bg-[#0f0f10] p-6 space-y-4 shrink-0">
-            <h3 class="text-sm font-mono text-gray-400 uppercase tracking-wider">Roadmap // Dynamics &amp; Controls</h3>
-            <div class="grid grid-cols-2 gap-4 text-xs text-gray-300">
-              <div class="border border-white/10 bg-black/20 p-3">
+          <div class="border border-white/10 bg-[#0f0f10] p-5 shrink-0">
+            <h3 class="text-xs font-mono text-gray-400 uppercase tracking-wider mb-4">Roadmap</h3>
+            <div class="grid grid-cols-2 gap-6 text-xs text-gray-300">
+              <div>
                 <h4 class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Current</h4>
-                <ul class="space-y-1 list-disc list-inside">
+                <ul class="space-y-1.5 list-none m-0 p-0">
                   <li>Dynamic systems modeling</li>
-                  <li>State estimation (EKF)</li>
-                  <li>Flight-test integration</li>
+                  <li>Thermal-fluids analysis</li>
+                  <li>Mechanical design &amp; testing</li>
                 </ul>
               </div>
-              <div class="border border-white/10 bg-black/20 p-3">
-                <h4 class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Next Steps</h4>
-                <ul class="space-y-1 list-disc list-inside">
-                  <li>Flight dynamics &amp; control design</li>
-                  <li>Guidance and autonomy on real platforms</li>
-                  <li>Graduate study in dynamics &amp; controls</li>
+              <div>
+                <h4 class="text-gray-500 font-mono mb-2 uppercase tracking-wider text-[9px]">Next</h4>
+                <ul class="space-y-1.5 list-none m-0 p-0">
+                  <li>Hardware integration &amp; flight test</li>
+                  <li>Controls &amp; estimation on hardware</li>
+                  <li>Aerospace / autonomous systems</li>
                 </ul>
               </div>
             </div>
@@ -708,29 +637,26 @@
     ================================================================== -->
     <section id="anomalies"
              aria-labelledby="anomalies-heading"
-             class="py-20 max-w-7xl mx-auto px-6 border-t border-white/5">
+             class="eg-reveal scroll-anchor py-20 max-w-7xl mx-auto px-6 border-t border-white/5">
 
-      <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-6">
+      <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-6 gap-4">
         <div>
           <h2 id="anomalies-heading" class="text-3xl font-bold text-white tracking-tight">Engineering Challenges</h2>
-          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Incident &amp; Resolution Log // Anomalies</p>
+          <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Root cause · Fix</p>
         </div>
-        <div class="flex items-center gap-4">
-          <div class="flex gap-1">
-            <button type="button"
-                    onclick="scrollAnomalies(-1)"
-                    aria-label="Scroll incidents left"
-                    class="w-8 h-8 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors">
-              <i class="fas fa-chevron-left" aria-hidden="true"></i>
-            </button>
-            <button type="button"
-                    onclick="scrollAnomalies(1)"
-                    aria-label="Scroll incidents right"
-                    class="w-8 h-8 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors">
-              <i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </button>
-          </div>
-          <span class="text-xl font-mono text-white/20 hidden md:block ml-4" aria-hidden="true">03</span>
+        <div class="flex gap-1 shrink-0">
+          <button type="button"
+                  onclick="scrollAnomalies(-1)"
+                  aria-label="Scroll incidents left"
+                  class="w-9 h-9 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <button type="button"
+                  onclick="scrollAnomalies(1)"
+                  aria-label="Scroll incidents right"
+                  class="w-9 h-9 border border-white/20 text-white hover:bg-white hover:text-black flex items-center justify-center transition-colors">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
 
@@ -740,17 +666,11 @@
 
         <!-- VTOL-01 -->
         <li class="snap-center shrink-0">
-          <article class="bg-[#0a0a0a] border border-white/10 p-8 w-[320px] md:w-[400px] relative hover:border-red-500/30 transition-colors group"
+          <article class="anomaly-card bg-[#0a0a0a] border border-white/10 p-7 w-[300px] md:w-[360px] relative hover:border-white/25 transition-colors"
                    aria-label="Incident VTOL-01, Resolved">
-            <span class="corner-bracket tl" aria-hidden="true"></span><span class="corner-bracket tr" aria-hidden="true"></span>
-            <span class="corner-bracket bl" aria-hidden="true"></span><span class="corner-bracket br" aria-hidden="true"></span>
-            <div class="absolute top-0 right-0 px-3 py-1 bg-red-500/10 border-l border-b border-red-500/20 text-[9px] font-mono text-red-400 font-bold uppercase tracking-widest" aria-hidden="true">Resolved</div>
-            <header class="mb-6">
-              <p class="flex items-center gap-3 mb-2 font-mono text-xs text-red-400">
-                <i class="fas fa-satellite-dish text-red-500" aria-hidden="true"></i>
-                INCIDENT #VTOL-01
-              </p>
-              <h3 class="text-xl font-bold text-white">Sensor Dropouts on Bench Test</h3>
+            <header class="mb-5">
+              <p class="mb-2 font-mono text-[10px] text-gray-500 uppercase tracking-widest">VTOL-01 · Resolved</p>
+              <h3 class="text-lg font-bold text-white leading-snug">Sensor Dropouts on Bench Test</h3>
             </header>
             <dl class="space-y-4 pl-4 border-l border-white/10">
               <div>
@@ -767,17 +687,11 @@
 
         <!-- HYPERION-01 -->
         <li class="snap-center shrink-0">
-          <article class="bg-[#0a0a0a] border border-white/10 p-8 w-[320px] md:w-[400px] relative hover:border-orange-500/30 transition-colors group"
+          <article class="anomaly-card bg-[#0a0a0a] border border-white/10 p-7 w-[300px] md:w-[360px] relative hover:border-white/25 transition-colors"
                    aria-label="Incident HYPERION-01, Resolved">
-            <span class="corner-bracket tl" aria-hidden="true"></span><span class="corner-bracket tr" aria-hidden="true"></span>
-            <span class="corner-bracket bl" aria-hidden="true"></span><span class="corner-bracket br" aria-hidden="true"></span>
-            <div class="absolute top-0 right-0 px-3 py-1 bg-orange-500/10 border-l border-b border-orange-500/20 text-[9px] font-mono text-orange-400 font-bold uppercase tracking-widest" aria-hidden="true">Resolved</div>
-            <header class="mb-6">
-              <p class="flex items-center gap-3 mb-2 font-mono text-xs text-orange-400">
-                <i class="fas fa-microchip text-orange-500" aria-hidden="true"></i>
-                INCIDENT #HYPERION-01
-              </p>
-              <h3 class="text-xl font-bold text-white">Thread Contention Jitter</h3>
+            <header class="mb-5">
+              <p class="mb-2 font-mono text-[10px] text-gray-500 uppercase tracking-widest">HYPERION-01 · Resolved</p>
+              <h3 class="text-lg font-bold text-white leading-snug">Thread Contention Jitter</h3>
             </header>
             <dl class="space-y-4 pl-4 border-l border-white/10">
               <div>
@@ -794,17 +708,11 @@
 
         <!-- PROP-09 -->
         <li class="snap-center shrink-0">
-          <article class="bg-[#0a0a0a] border border-white/10 p-8 w-[320px] md:w-[400px] relative hover:border-rose-500/30 transition-colors group"
+          <article class="anomaly-card bg-[#0a0a0a] border border-white/10 p-7 w-[300px] md:w-[360px] relative hover:border-white/25 transition-colors"
                    aria-label="Incident PROP-09, Resolved">
-            <span class="corner-bracket tl" aria-hidden="true"></span><span class="corner-bracket tr" aria-hidden="true"></span>
-            <span class="corner-bracket bl" aria-hidden="true"></span><span class="corner-bracket br" aria-hidden="true"></span>
-            <div class="absolute top-0 right-0 px-3 py-1 bg-rose-500/10 border-l border-b border-rose-500/20 text-[9px] font-mono text-rose-400 font-bold uppercase tracking-widest" aria-hidden="true">Resolved</div>
-            <header class="mb-6">
-              <p class="flex items-center gap-3 mb-2 font-mono text-xs text-rose-400">
-                <i class="fas fa-fire-burner text-rose-500" aria-hidden="true"></i>
-                INCIDENT #PROP-09
-              </p>
-              <h3 class="text-xl font-bold text-white">Igniter Continuity False Positive</h3>
+            <header class="mb-5">
+              <p class="mb-2 font-mono text-[10px] text-gray-500 uppercase tracking-widest">PROP-09 · Resolved</p>
+              <h3 class="text-lg font-bold text-white leading-snug">Igniter Continuity False Positive</h3>
             </header>
             <dl class="space-y-4 pl-4 border-l border-white/10">
               <div>
@@ -821,17 +729,11 @@
 
         <!-- DBF-01 -->
         <li class="snap-center shrink-0">
-          <article class="bg-[#0a0a0a] border border-white/10 p-8 w-[320px] md:w-[400px] relative hover:border-purple-500/30 transition-colors group"
+          <article class="anomaly-card bg-[#0a0a0a] border border-white/10 p-7 w-[300px] md:w-[360px] relative hover:border-white/25 transition-colors"
                    aria-label="Incident DBF-01, Resolved">
-            <span class="corner-bracket tl" aria-hidden="true"></span><span class="corner-bracket tr" aria-hidden="true"></span>
-            <span class="corner-bracket bl" aria-hidden="true"></span><span class="corner-bracket br" aria-hidden="true"></span>
-            <div class="absolute top-0 right-0 px-3 py-1 bg-purple-500/10 border-l border-b border-purple-500/20 text-[9px] font-mono text-purple-400 font-bold uppercase tracking-widest" aria-hidden="true">Resolved</div>
-            <header class="mb-6">
-              <p class="flex items-center gap-3 mb-2 font-mono text-xs text-purple-400">
-                <i class="fas fa-plane text-purple-500" aria-hidden="true"></i>
-                INCIDENT #DBF-01
-              </p>
-              <h3 class="text-xl font-bold text-white">Pitch Stability Hunting</h3>
+            <header class="mb-5">
+              <p class="mb-2 font-mono text-[10px] text-gray-500 uppercase tracking-widest">DBF-01 · Resolved</p>
+              <h3 class="text-lg font-bold text-white leading-snug">Pitch Stability Hunting</h3>
             </header>
             <dl class="space-y-4 pl-4 border-l border-white/10">
               <div>
@@ -854,18 +756,15 @@
     ================================================================== -->
     <section id="collections"
              aria-labelledby="archives-heading"
-             class="py-24 max-w-7xl mx-auto px-6 border-t border-white/5 min-h-[800px]">
+             class="eg-reveal scroll-anchor py-20 max-w-7xl mx-auto px-6 border-t border-white/5">
 
-      <div class="flex items-end justify-between mb-12">
-        <div>
-          <h2 id="archives-heading" class="text-3xl font-bold text-white tracking-tight">Project Archives</h2>
-            <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Personal Builds &amp; Coursework Logs</p>
-        </div>
-        <span class="text-xl font-mono text-white/20" aria-hidden="true">04</span>
+      <div class="mb-10 border-b border-white/10 pb-6">
+        <h2 id="archives-heading" class="text-3xl font-bold text-white tracking-tight">Project Archives</h2>
+        <p class="text-gray-500 font-mono text-[10px] mt-2 uppercase tracking-widest">Personal builds and coursework</p>
       </div>
 
       <!-- Tab bar -->
-      <div class="flex gap-8 mb-12 border-b border-white/10" role="tablist" aria-label="Archive categories">
+      <div class="flex gap-8 mb-10 border-b border-white/10" role="tablist" aria-label="Archive categories">
         <button type="button"
                 id="tab-personal"
                 role="tab"
@@ -873,7 +772,7 @@
                 aria-controls="archive-grid"
                 onclick="switchTab('personal')"
                 class="pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-blue-500 text-white transition-all hover:text-blue-400">
-          <i class="fas fa-code mr-2" aria-hidden="true"></i>Personal Projects
+          Personal
         </button>
         <button type="button"
                 id="tab-coursework"
@@ -882,7 +781,7 @@
                 aria-controls="archive-grid"
                 onclick="switchTab('coursework')"
                 class="pb-4 text-xs font-mono uppercase tracking-widest border-b-2 border-transparent text-gray-500 hover:text-white hover:border-white/20 transition-all">
-          <i class="fas fa-university mr-2" aria-hidden="true"></i>Coursework
+          Coursework
         </button>
       </div>
 
@@ -899,34 +798,10 @@
   <!-- =====================================================================
        FOOTER
   ====================================================================== -->
-  <footer class="py-12 bg-black border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-600 text-[10px] font-mono tracking-widest uppercase">
-
-      <div>
-        <p class="text-white"><small>&copy; 2026 Enrique Garcia // System Nominal.</small></p>
-        <p class="mt-1">STL / KC · 38.6° N, 90.3° W</p>
-      </div>
-
-      <!-- Live system metrics (decorative, hidden from AT) -->
-      <div class="mt-8 md:mt-0 flex gap-12 border-l border-white/10 pl-12" aria-hidden="true">
-        <div>
-          <span class="block text-gray-700 mb-1">SYS_LOAD</span>
-          <div class="w-24 h-1 bg-gray-900 overflow-hidden">
-            <div id="sys-load-bar" class="h-full bg-blue-500 transition-all duration-1000" style="width:45%"></div>
-          </div>
-        </div>
-        <div>
-          <span class="block text-gray-700 mb-1">MEM_USAGE</span>
-          <div class="w-24 h-1 bg-gray-900 overflow-hidden">
-            <div id="mem-usage-bar" class="h-full bg-emerald-500 transition-all duration-1000" style="width:62%"></div>
-          </div>
-        </div>
-        <div>
-          <span class="block text-gray-700 mb-1">SESSION_TIME</span>
-          <p id="uptime-counter" class="text-gray-400">T+ 00:00:00</p>
-        </div>
-      </div>
-
+  <footer class="py-10 bg-black border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <p class="text-white text-sm font-mono tracking-wider">&copy; 2026 Enrique Garcia</p>
+      <p class="text-gray-500 text-xs font-mono tracking-widest uppercase">Mechanical Engineering · WashU</p>
     </div>
   </footer>
 

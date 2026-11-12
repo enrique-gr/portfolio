@@ -22,7 +22,21 @@
   --eg-ok: #6ee7b7;
   --eg-ok-soft: rgba(16, 185, 129, 0.10);
   --eg-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --eg-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --eg-duration: 0.22s;
+  --eg-duration-med: 0.35s;
+  --eg-duration-long: 0.55s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Remap common Tailwind blues → steel accent (visual only; no content change) */
