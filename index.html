@@ -73,7 +73,7 @@
   <link rel="stylesheet" href="css/tailwind.css?v=tw1">
 
   <!-- ── Site stylesheet ───────────────────────────────────────────────── -->
-  <link rel="stylesheet" href="css/styles.css?v=wash57">
+  <link rel="stylesheet" href="css/styles.css?v=wash58">
   <script>
     try {
       if (sessionStorage.getItem("eg-portfolio-returning") === "1") {
@@ -122,11 +122,11 @@
       </a>
 
       <!-- Primary nav links (desktop) -->
-      <ul class="hidden lg:flex gap-8 text-[13px] font-mono font-bold tracking-widest uppercase text-gray-400 items-center list-none m-0 p-0">
+      <ul class="nav-primary hidden lg:flex list-none m-0 p-0">
         <li>
           <a href="#featured"
              data-nav-section="featured"
-             class="nav-link nav-link--section nav-link--mission transition-colors py-2">
+             class="nav-link nav-link--section nav-link--mission">
             <span>Projects</span>
             <span class="nav-mission-dots" aria-hidden="true">
               <i class="far fa-circle nav-mission-dot nav-mission-dot--target" title="Target"></i>
@@ -135,18 +135,18 @@
             </span>
           </a>
         </li>
-        <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link nav-link--section transition-colors py-2">Skills</a></li>
-        <li><a href="#collections"  data-nav-section="collections"  class="nav-link nav-link--section transition-colors py-2">Archive</a></li>
+        <li><a href="#capabilities" data-nav-section="capabilities" class="nav-link nav-link--section"><span>Skills</span></a></li>
+        <li><a href="#collections"  data-nav-section="collections"  class="nav-link nav-link--section"><span>Archive</span></a></li>
         <li>
-          <a href="about.html" class="nav-link nav-link--about flex items-center gap-2 py-2">
+          <a href="about.html" class="nav-link nav-link--about">
             <span>About</span>
-            <i class="fas fa-arrow-up-right-from-square text-[9px] opacity-70" aria-hidden="true"></i>
+            <i class="fas fa-arrow-up-right-from-square nav-link__ext" aria-hidden="true"></i>
           </a>
         </li>
         <li>
-          <a href="interests.html" class="nav-link nav-link--interests flex items-center gap-1.5 py-2">
+          <a href="interests.html" class="nav-link nav-link--interests">
             <span>Interests</span>
-            <i class="fas fa-arrow-up-right-from-square text-[9px] opacity-70" aria-hidden="true"></i>
+            <i class="fas fa-arrow-up-right-from-square nav-link__ext" aria-hidden="true"></i>
           </a>
         </li>
       </ul>
