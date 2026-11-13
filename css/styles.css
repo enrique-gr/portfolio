@@ -26,6 +26,8 @@
 html {
   font-size: 90%;
   background-color: var(--eg-bg, #050505);
+  /* Prefer dynamic viewport on mobile; avoid 100vw scrollbar overflow. */
+  overflow-x: clip;
 }
 
 /* page-exit kept inert: Return uses soft shell (index never unloads) */
@@ -68,12 +70,40 @@ html.eg-soft-away #eg-soft-frame {
 body {
   font-family: 'Inter', sans-serif;
   color: var(--eg-fg, #e8eaed);
-  overflow-x: hidden;
+  overflow-x: clip;
   letter-spacing: 0.005em;
+  max-width: 100%;
 }
 
 .font-mono {
   font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---------------------------------------------------------------------------
+   0b. Responsive foundation | kill sideways scroll, tame media
+--------------------------------------------------------------------------- */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+iframe {
+  max-width: 100%;
+  display: block;
+}
+/* PDF / media embeds in project pages */
+iframe[src*=".pdf"],
+iframe[title*="PDF"],
+iframe[title*="Report"] {
+  width: 100%;
+}
+table {
+  max-width: 100%;
+}
+pre, code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* ---------------------------------------------------------------------------
@@ -96,11 +126,9 @@ body {
 --------------------------------------------------------------------------- */
 #hero-section {
   position: relative;
-  width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  /* 100% not 100vw — vw includes scrollbar and causes horizontal scroll */
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
   min-height: 100svh;
 }
@@ -109,7 +137,7 @@ body {
   min-height: calc(100svh - 5rem);
   display: flex;
   align-items: center;
-  padding: 7.5rem 0 4.5rem;
+  padding: 6.5rem 0 3.25rem;
 }
 @media (min-width: 768px) {
   .hero-shell { padding: 8.5rem 0 5.5rem; }
@@ -460,8 +488,8 @@ body {
 .hw-label-always { display: none; }
 
 @media (max-width: 640px) {
-  .hw-card  { width: 300px; height: 210px; }
-  .hw-title { font-size: 1.2rem; }
+  .hw-card  { width: min(280px, 78vw); height: 200px; }
+  .hw-title { font-size: 1.15rem; }
 }
 
 .hw-meta {
@@ -520,6 +548,10 @@ body {
   padding: 0 40px;
 }
 @media (max-width: 900px) { #featured .feat-inner { padding: 0 20px; } }
+@media (max-width: 640px) {
+  #featured { padding: 72px 0; }
+  #featured .feat-inner { padding: 0 16px; }
+}
 
 /* Shared wide-content rail: capabilities, collections, footer */
 #capabilities,
@@ -535,6 +567,15 @@ body {
   #capabilities,
   #collections,
   .eg-content-rail { padding-left: 20px; padding-right: 20px; }
+}
+@media (max-width: 640px) {
+  #capabilities,
+  #collections,
+  .eg-content-rail { padding-left: 16px; padding-right: 16px; }
+  #capabilities {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
 }
 
 /* Capabilities: same firm black + proof-panel language as Featured */
@@ -825,8 +866,8 @@ body {
   display: inline-block;
 }
 @media (max-width: 640px) {
-  .sp { font-size: 8px; padding: 4px 8px; letter-spacing: .06em; }
-  .hero-mission-scroll { max-height: min(380px, 48vh); }
+  .sp { font-size: 9px; padding: 7px 10px; letter-spacing: .06em; min-height: 36px; }
+  .hero-mission-scroll { max-height: min(320px, 42vh); }
   .hero-mission-item { padding: 8px 8px 8px 10px; }
 }
 .sp:hover  { border-color: rgba(255,255,255,.45); color: #fff; background: rgba(255,255,255,.08); }
@@ -1024,7 +1065,8 @@ body {
 --------------------------------------------------------------------------- */
 #toast {
   visibility: hidden;
-  min-width: 250px;
+  min-width: min(250px, calc(100% - 2rem));
+  max-width: calc(100% - 2rem);
   background-color: #0f0f10;
   color: #fff;
   text-align: center;
@@ -1588,31 +1630,45 @@ body {
   gap: 12px;
 }
 
+/* Resume + burger share one control height so the pair reads as one tool */
+.nav-actions {
+  gap: 8px;
+}
+.nav-cta,
 .nav-burger {
-  width: 44px;
-  height: 44px;
+  height: 36px;
+  box-sizing: border-box;
+}
+.nav-cta {
+  padding: 0 1.1rem;
+  line-height: 1;
+}
+.nav-burger {
+  width: 36px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  border: 1px solid rgba(255,255,255,.32);
+  gap: 5px;
+  border: 1px solid rgba(255,255,255,.38);
   background: transparent;
   cursor: pointer;
   padding: 0;
   transition: border-color .2s ease;
 }
-.nav-burger:hover { border-color: rgba(255,255,255,.6); }
+.nav-burger:hover { border-color: rgba(255,255,255,.7); }
 .nav-burger span {
   display: block;
-  width: 18px;
-  height: 2px;
+  width: 14px;
+  height: 1.5px;
   background: #e5e7eb;
+  border-radius: 1px;
   transition: transform .2s ease, opacity .2s ease;
 }
-body.nav-open .nav-burger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+/* 5px gap + 1.5px bar → center-to-center = 6.5px */
+body.nav-open .nav-burger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 body.nav-open .nav-burger span:nth-child(2) { opacity: 0; }
-body.nav-open .nav-burger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+body.nav-open .nav-burger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 .mobile-nav {
   display: block;
@@ -1717,4 +1773,173 @@ a:focus-visible,
 button:focus-visible {
   outline: 1px solid var(--eg-accent, #8eb6e8);
   outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   16. Phone pass | hero, site nav, featured, capabilities (≤640px)
+--------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  /* Site nav */
+  #site-nav > .max-w-7xl {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 0.75rem;
+  }
+  .brand-mark__tagline { display: none; }
+  .brand-mark__logo { height: 2.5rem; width: 2.5rem; }
+  .mobile-nav {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mobile-nav.is-open {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-height: min(80vh, calc(100svh - 5rem));
+  }
+  .mobile-nav-link {
+    padding: 14px 0;
+    min-height: 44px;
+  }
+
+  /* Hero */
+  #hero-section .max-w-7xl {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .hero-shell {
+    min-height: auto;
+    padding: 5.75rem 0 2.5rem;
+  }
+  #hero-section .grid.gap-10 {
+    gap: 1.75rem;
+  }
+  #pfp-container {
+    height: 5.5rem;
+    width: 5.5rem;
+  }
+  #about h1 {
+    font-size: clamp(2.35rem, 11vw, 3rem);
+    line-height: 0.95;
+  }
+  #about > .max-w-7xl > .grid > .lg\:col-span-7 > p.mb-7 {
+    margin-bottom: 1.1rem;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+  }
+  #about .flex.items-center.gap-6 {
+    gap: 1rem;
+    margin-bottom: 1.15rem;
+  }
+  #about .text-lg.md\:text-xl {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  #about .mt-9.flex {
+    margin-top: 1.5rem;
+    gap: 0.65rem;
+  }
+  .hero-cta {
+    flex: 1 1 calc(50% - 0.4rem);
+    justify-content: center;
+    min-height: 44px;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+    text-align: center;
+  }
+  #about .mt-9.flex > ul {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 0.15rem;
+  }
+  .hero-mission-panel {
+    padding: 12px 10px 10px;
+  }
+  .mission-legend {
+    font-size: 9px;
+    gap: 0.55rem;
+  }
+  .hw-outer::before,
+  .hw-outer::after {
+    width: 48px;
+  }
+
+  /* Featured */
+  #featured-container {
+    gap: 3.25rem;
+  }
+  #featured .feat-inner > .flex.items-end,
+  #capabilities > .flex.items-end {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+  }
+  #featured-heading,
+  #capabilities-heading {
+    font-size: 1.5rem;
+  }
+  .feat-row {
+    gap: 1.25rem;
+  }
+  .feat-img-wrap {
+    height: 220px;
+  }
+  .feat-summary {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .feat-copy h3 {
+    font-size: 1.25rem;
+  }
+  .feat-role .role-mark {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+  .feat-row[id="mide"] .feat-role .role-mark,
+  .feat-row[id="washu-dbf"] .feat-role .role-mark {
+    width: 1.6rem;
+    height: 1.15rem;
+  }
+  .proof-card {
+    padding: 10px;
+  }
+  .proof-v {
+    font-size: 11px;
+  }
+
+  /* Capabilities */
+  #cap-grid {
+    gap: 1.75rem;
+  }
+  #capabilities .cap-skill-group {
+    padding: 12px 12px 14px;
+  }
+  #capabilities .cap-terminal {
+    padding: 1rem;
+  }
+  #capabilities .cap-cw-head,
+  #capabilities #coursework-list .grid {
+    gap: 0.5rem;
+  }
+  #capabilities #coursework-list {
+    min-height: 220px;
+    max-height: 240px;
+  }
+  #capabilities .cap-cw-head,
+  #capabilities #coursework-list .grid.grid-cols-4 {
+    font-size: 11px;
+  }
+  #capabilities .cap-roadmap {
+    padding: 1rem;
+  }
+  #capabilities .cap-roadmap-card {
+    padding: 0.75rem;
+  }
+  #capabilities .cap-roadmap .grid.grid-cols-2 {
+    gap: 0.5rem;
+  }
+  .skill-visible {
+    max-height: 360px;
+  }
 }
