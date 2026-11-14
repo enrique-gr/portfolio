@@ -33,11 +33,11 @@ const PROJECTS = {
     roleMark: "assets/images/feat_role_mide.png",
     dates: "May 2026 – Aug 2026",
     tags: ["UAS Research", "Flight Test", "Systems Integration"],
-    summary: "Mission-facing UAS research: flight-data readiness judgment and end-to-end systems bring-up on experimental research aircraft.",
+    summary: "Flight-data readiness and systems bring-up on experimental UAS.",
     metric: "Status: Complete | Experimental UAS",
-    problem: "Experimental research UAS had to be restored, integrated, and judged flight-ready after structural and configuration changes, without rewriting the flight controller.",
-    contribution: "Brought experimental platforms through repair, flight-test ops, and calibration; used flight data to relate configuration to readiness.",
-    result: "Returned research aircraft to test-ready status with readiness calls grounded in measured flight behavior, not assumption.",
+    problem: "Restore and flight-qualify experimental UAS after hardware changes—without rewriting the controller.",
+    contribution: "Repair, calibration, and flight-test ops; readiness calls from measured data.",
+    result: "Research aircraft returned to test-ready status.",
     constraint: "Multiple experimental research platforms with evolving hardware configurations",
     tradeoff: "Breadth across research vehicles vs depth on a single controller redesign",
     decision: "Stay on the research systems path: integration, calibration, flight data, and readiness judgment",
@@ -60,11 +60,11 @@ const PROJECTS = {
     roleMark: "assets/images/feat_role_vtol.png",
     dates: "Sep 2025 – Present",
     tags: ["VFS DBVF", "Pixhawk 6C", "PX4", "Quadcopter"],
-    summary: "Founding member and Lead Avionics on WashU VTOL (founded 2025): Hexacopter flight proof in VFS DBVF 2025–26, now rebuilding a Quadcopter for Search and Rescue.",
+    summary: "Lead Avionics and founding member. Hexacopter flight proof done; Quadcopter Search and Rescue in build.",
     metric: "Status: Active | VFS DBVF | Search and Rescue 2026–27",
-    problem: "Competition aircraft must keep sensing, power, flight control, and payload interfaces honest under flight-test and mission pressure—with no inherited stack to lean on.",
-    contribution: "Stood up avionics end-to-end; closed Hexacopter hover/transition/payload ops; driving 2026–27 Quadcopter system architecture for Search and Rescue.",
-    result: "Validated Hexacopter milestones with FTR evidence; active rebuild for the harder Search and Rescue fly-off cycle.",
+    problem: "Stand up sensing, power, and flight control with no inherited stack.",
+    contribution: "End-to-end avionics; Hexacopter hover/transition/payload; Quadcopter architecture.",
+    result: "Hexacopter milestones closed; Search and Rescue rebuild underway.",
     constraint: "Hard weight, lost-link, and payload rules with noisy embedded buses under mixed power loads",
     tradeoff: "Rapid feature tuning vs robust pre-flight validation under competition timelines",
     decision: "HIL-first gates before flight; architecture owned end-to-end before claiming mission readiness",
@@ -83,11 +83,11 @@ const PROJECTS = {
     roleMark: "assets/images/feat_role_dbf.png",
     dates: "Aug 2024 – Present",
     tags: ["Structures", "Payload Systems", "Flight Test"],
-    summary: "Mission-oriented structures and payload work for competition UAVs across AIAA Design/Build/Fly and SAE Aero Design Micro Class.",
+    summary: "Structures and payload for AIAA DBF and SAE Aero Micro competition UAVs.",
     metric: "Status: Active | AIAA DBF + SAE Aero Micro",
-    problem: "Field competition-ready structure and payload hardware under two distinct rule sets and mission profiles.",
-    contribution: "Structures/payload design and test across AIAA DBF and SAE Aero Micro; first-iteration test plane flown Oct 2026.",
-    result: "Active structures and test support spanning both competitions after prior-season groundwork.",
+    problem: "Field competition-ready structure and payload under two rule sets.",
+    contribution: "Structures/payload design and test; first-iteration test plane flown Oct 2026.",
+    result: "Active support across both competition programs.",
     constraint: "Competition rules, airframe mass/balance, and integration practicality",
     tradeoff: "Mission capability vs weight, complexity, and reliability",
     decision: "Keep one structures/payload path that serves both AIAA DBF and SAE Aero Micro airframes",
@@ -106,11 +106,11 @@ const PROJECTS = {
     roleMark: "assets/images/feat_role_miro.png",
     dates: "May 2025 – Aug 2025",
     tags: ["Python", "MATLAB", "Sensor Fusion"],
-    summary: "End-to-end multimodal IMU + EMG sensing: architecture, calibration, EKF-oriented estimation support, and human-subject validation.",
+    summary: "IMU + EMG sensing: calibration, estimation support, and human-subject validation.",
     metric: "Status: Complete | Wearable Sensing",
-    problem: "Synchronize noisy wearable sensor streams with visual tracking for reliable motion interpretation.",
-    contribution: "Built acquisition and calibration pipelines and prepared datasets for multi-sensor state estimation.",
-    result: "Improved signal coherence and produced repeatable motion signatures across research trials.",
+    problem: "Sync noisy wearable streams with visual tracking for reliable motion data.",
+    contribution: "Acquisition and calibration pipelines for multi-sensor estimation.",
+    result: "Repeatable motion signatures across research trials.",
     constraint: "Asynchronous multi-sensor timing and drift",
     tradeoff: "Pipeline complexity vs reproducible synchronization",
     decision: "Built deterministic alignment and validation tooling",
@@ -470,14 +470,13 @@ function renderFeatured() {
                 class="w-full md:w-1/2 feat-img-wrap feat-hit relative border border-white/10 bg-[#0a0a0a] overflow-hidden text-left cursor-pointer">
           <img src="${p.logoUrl}" loading="lazy" alt=""
                ${p.imgPos ? `style="object-position:${p.imgPos};transform-origin:${p.imgPos}"` : ""}
-               class="${p.photo ? "eg-photo " : ""}w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 pointer-events-none">
+               class="${p.photo ? "eg-photo " : ""}w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03] pointer-events-none">
           <div class="feat-fx pointer-events-none" aria-hidden="true">
             <span class="feat-fx__scan"></span>
             <span class="feat-fx__sheen"></span>
             <span class="feat-fx__rim"></span>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/15 pointer-events-none"></div>
-          <div class="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none"></div>
           <div class="absolute top-0 left-0 w-4 h-4 border-l border-t border-white/30 pointer-events-none z-20"></div>
           <div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-white/30 pointer-events-none z-20"></div>
           <div class="feat-date-chip absolute bottom-0 left-0 px-3 py-1.5 bg-black/70 border-r border-t border-white/10 text-[9px] font-mono text-gray-500 tracking-widest uppercase pointer-events-none z-20">
@@ -505,8 +504,8 @@ function renderFeatured() {
             </div>
 
             <button type="button" onclick="${action}"
-                    class="feat-cta mt-5 text-[10px] font-mono text-white inline-flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest cursor-pointer bg-transparent border-0 p-0">
-              <span>Initialize Protocol</span> <i class="fas fa-arrow-right text-blue-400" aria-hidden="true"></i>
+                    class="feat-cta mt-5 text-xs font-mono text-white inline-flex items-center gap-2 group-hover:gap-4 transition-all uppercase tracking-widest cursor-pointer bg-transparent border-0 p-0">
+              <span>Open project</span> <i class="fas fa-arrow-right text-blue-400" aria-hidden="true"></i>
             </button>
           </div>
         </div>

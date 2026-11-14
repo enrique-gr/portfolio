@@ -30,7 +30,7 @@
         /* SECTION NAV */
         .section-nav {
             position: sticky;
-            top: 80px;
+            top: var(--eg-nav-h, 5rem);
             z-index: 40;
             background: rgba(5,5,5,0.92);
             backdrop-filter: blur(12px);
@@ -40,10 +40,10 @@
         .section-nav-btn {
             position: relative;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.12em;
+            font-size: 11px;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: #6b7280;
+            color: #9ca3af;
             padding: 14px 16px;
             cursor: pointer;
             transition: color 0.2s ease;
@@ -228,7 +228,7 @@
         }
         .modal-close:hover { background: rgba(255,255,255,0.10); }
     </style>
-  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/site-theme.css?v=read3">
 </head>
 
 <body class="antialiased bg-[#0f0f10] min-h-screen">
@@ -250,7 +250,7 @@
 
         <!-- SECTION NAV -->
         <div class="section-nav">
-            <div class="max-w-7xl mx-auto px-6 overflow-x-auto">
+            <div class="max-w-7xl mx-auto px-6 overflow-x-auto eg-h-rail">
                 <div class="flex items-center gap-0">
                     <button class="section-nav-btn active" onclick="scrollToSection('section-methodology', this)">Mission Brief</button>
                     <button class="section-nav-btn" onclick="scrollToSection('section-cycles', this)">Competition Cycles</button>

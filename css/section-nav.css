@@ -5,7 +5,7 @@
  */
 .section-nav {
   position: sticky;
-  top: 80px; /* sits just below the main nav */
+  top: var(--eg-nav-h, 5rem); /* sits just below the main Return nav */
   z-index: 40;
   background: #000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -24,10 +24,10 @@
   position: relative;
   display: inline-block;
   font-family: "JetBrains Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #6b7280;
+  color: #9ca3af;
   padding: 14px 16px;
   cursor: pointer;
   transition: color 0.2s ease;

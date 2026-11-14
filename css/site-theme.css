@@ -103,11 +103,121 @@ html.eg-soft-away #eg-soft-frame {
   display: block;
 }
 
-/* Hairline scrollbars (Anduril / Mach restraint) */
+/* Hairline scrollbars (page chrome) */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: var(--eg-bg); }
 ::-webkit-scrollbar-thumb { background: #3f3f46; }
 ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+/* ---------------------------------------------------------------------------
+   Shared horizontal nav / gallery slide rails
+   Use .eg-h-rail (and .craft-rail-track) everywhere a carousel needs a scrubber.
+--------------------------------------------------------------------------- */
+:root {
+  --eg-rail-track: #1a1a1a;
+  --eg-rail-track-edge: rgba(255, 255, 255, 0.12);
+  --eg-rail-thumb: var(--eg-accent-core, #6b9fd4);
+  --eg-rail-thumb-hover: var(--eg-accent-bright, #a8c5e8);
+  --eg-rail-h: 8px;
+}
+
+.eg-h-rail,
+.craft-rail-track {
+  scrollbar-width: thin;
+  scrollbar-color: var(--eg-rail-thumb) var(--eg-rail-track);
+}
+
+.eg-h-rail::-webkit-scrollbar,
+.craft-rail-track::-webkit-scrollbar {
+  height: var(--eg-rail-h);
+  width: var(--eg-rail-h);
+}
+
+.eg-h-rail::-webkit-scrollbar-track,
+.craft-rail-track::-webkit-scrollbar-track {
+  background: var(--eg-rail-track);
+  border: 1px solid var(--eg-rail-track-edge);
+  border-radius: 999px;
+}
+
+.eg-h-rail::-webkit-scrollbar-thumb,
+.craft-rail-track::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--eg-rail-thumb-hover), var(--eg-rail-thumb));
+  border: 2px solid var(--eg-rail-track);
+  border-radius: 999px;
+  min-width: 56px;
+  min-height: 56px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.eg-h-rail::-webkit-scrollbar-thumb:hover,
+.craft-rail-track::-webkit-scrollbar-thumb:hover {
+  background: var(--eg-rail-thumb-hover);
+}
+
+.eg-h-rail::-webkit-scrollbar-thumb:active,
+.craft-rail-track::-webkit-scrollbar-thumb:active {
+  background: #fff;
+}
+
+/* Drop native end-arrows — the pill thumb is the control */
+.eg-h-rail::-webkit-scrollbar-button,
+.craft-rail-track::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.eg-h-rail::-webkit-scrollbar-corner,
+.craft-rail-track::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Section chapter rails (sticky sub-nav) share the same scrubber language */
+.section-nav nav.eg-h-rail,
+.section-nav > .eg-h-rail,
+.section-nav .max-w-7xl.eg-h-rail,
+.section-nav .overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: var(--eg-rail-thumb) var(--eg-rail-track);
+}
+.section-nav .overflow-x-auto::-webkit-scrollbar,
+.section-nav nav.eg-h-rail::-webkit-scrollbar,
+.section-nav > .eg-h-rail::-webkit-scrollbar,
+.section-nav .max-w-7xl.eg-h-rail::-webkit-scrollbar {
+  height: 8px;
+}
+.section-nav .overflow-x-auto::-webkit-scrollbar-track,
+.section-nav nav.eg-h-rail::-webkit-scrollbar-track,
+.section-nav > .eg-h-rail::-webkit-scrollbar-track,
+.section-nav .max-w-7xl.eg-h-rail::-webkit-scrollbar-track {
+  background: var(--eg-rail-track);
+  border: 1px solid var(--eg-rail-track-edge);
+  border-radius: 999px;
+}
+.section-nav .overflow-x-auto::-webkit-scrollbar-thumb,
+.section-nav nav.eg-h-rail::-webkit-scrollbar-thumb,
+.section-nav > .eg-h-rail::-webkit-scrollbar-thumb,
+.section-nav .max-w-7xl.eg-h-rail::-webkit-scrollbar-thumb {
+  background: var(--eg-rail-thumb);
+  border: 2px solid var(--eg-rail-track);
+  border-radius: 999px;
+  min-width: 48px;
+}
+.section-nav .overflow-x-auto::-webkit-scrollbar-thumb:hover,
+.section-nav nav.eg-h-rail::-webkit-scrollbar-thumb:hover,
+.section-nav > .eg-h-rail::-webkit-scrollbar-thumb:hover,
+.section-nav .max-w-7xl.eg-h-rail::-webkit-scrollbar-thumb:hover {
+  background: var(--eg-rail-thumb-hover);
+}
+.section-nav .overflow-x-auto::-webkit-scrollbar-button,
+.section-nav nav.eg-h-rail::-webkit-scrollbar-button,
+.section-nav > .eg-h-rail::-webkit-scrollbar-button,
+.section-nav .max-w-7xl.eg-h-rail::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
 
 /* Links & buttons: quieter, white-forward hovers */
 a, button {
@@ -137,20 +247,19 @@ a.group:hover img {
   filter: brightness(1) contrast(1.04) saturate(0.98);
 }
 
-/* Hangar grade: low-key, warm, matte treatment for hardware photography.
-   Vignette is a mask, so edges fall off into the dark surface behind the image. */
+/* Hardware photos: clean and readable on first look (no muddy fade/vignette). */
 :root {
-  --eg-grade: brightness(0.84) contrast(1.14) saturate(0.82) sepia(0.16);
-  --eg-grade-hover: brightness(0.98) contrast(1.08) saturate(0.94) sepia(0.06);
-  --eg-vignette: radial-gradient(ellipse 76% 80% at 50% 42%, #000 48%, rgba(0, 0, 0, 0.38) 100%);
+  --eg-grade: brightness(1) contrast(1.05) saturate(1);
+  --eg-grade-hover: brightness(1.03) contrast(1.06) saturate(1.02);
+  --eg-nav-h: 5rem; /* 80px — shared Return / hub bar */
 }
 .fig-badge { z-index: 2; }
 img.eg-photo,
 .hw-card img:not(.hw-img-cfd) {
   filter: var(--eg-grade) !important;
-  -webkit-mask-image: var(--eg-vignette);
-  mask-image: var(--eg-vignette);
-  transition: filter 0.6s ease, transform 0.65s var(--eg-ease);
+  -webkit-mask-image: none;
+  mask-image: none;
+  transition: filter 0.45s ease, transform 0.65s var(--eg-ease);
 }
 .group:hover img.eg-photo,
 a:hover > img.eg-photo,
@@ -159,14 +268,37 @@ button:hover > img.eg-photo,
   filter: var(--eg-grade-hover) !important;
 }
 
+/* Kill the old “dim until hover” photo habit across project pages */
+main img.opacity-80,
+main .opacity-80 > img,
+.group img.opacity-80,
+button img.opacity-80,
+a img.opacity-80 {
+  opacity: 1 !important;
+}
+
 /* Section nav underlines on case studies → steel accent */
 .section-nav-btn.active::after {
   background: var(--eg-accent-core);
 }
 
-/* Return / sticky nav chrome */
+/* Return / sticky nav chrome — bigger, easier to read on every page */
 nav.fixed {
   border-bottom-color: var(--eg-border);
+}
+nav.fixed > .max-w-7xl.h-20,
+nav.fixed .max-w-7xl.h-20 {
+  height: var(--eg-nav-h);
+  min-height: var(--eg-nav-h);
+}
+nav.fixed .font-mono.uppercase.text-sm {
+  font-size: 0.875rem; /* 14px */
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+nav.fixed .font-mono.uppercase.text-xs {
+  font-size: 0.8125rem; /* 13px */
+  letter-spacing: 0.1em;
 }
 
 /* =============================================================================
