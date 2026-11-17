@@ -35,11 +35,11 @@ const PROJECTS = {
     tags: ["UAS Research", "Flight Test", "Systems Integration"],
     summary: "Flight-data readiness and systems bring-up on experimental UAS.",
     metric: "Status: Complete | Experimental UAS",
-    problem: "Restore and flight-qualify experimental UAS after hardware changes—without rewriting the controller.",
+    problem: "Restore and flight-qualify experimental UAS after hardware changes.",
     contribution: "Repair, calibration, and flight-test ops; readiness calls from measured data.",
     result: "Research aircraft returned to test-ready status.",
     constraint: "Multiple experimental research platforms with evolving hardware configurations",
-    tradeoff: "Breadth across research vehicles vs depth on a single controller redesign",
+    tradeoff: "Breadth across research vehicles vs depth on a single platform",
     decision: "Stay on the research systems path: integration, calibration, flight data, and readiness judgment",
     outcome: "Hands-on UAS research experience: test-ready platforms, verified sense-to-actuate paths, and data-backed readiness criteria",
     proof: [
