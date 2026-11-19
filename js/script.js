@@ -607,7 +607,7 @@ function switchTab(tabName) {
     const hubClass = isCourse ? "archive-card--course" : "archive-card--personal";
 
     grid.innerHTML += `
-      <div class="archive-card ${hubClass} group relative bg-[#0a0a0a] border border-white/10 overflow-hidden flex flex-col h-full">
+      <div id="${id}" class="archive-card scroll-mt-32 ${hubClass} group relative bg-[#0a0a0a] border border-white/10 overflow-hidden flex flex-col h-full">
         <div class="corner-bracket tl"></div>
         <div class="corner-bracket tr"></div>
         <div class="corner-bracket bl"></div>
@@ -1192,7 +1192,7 @@ function initScrollRestore() {
       document.documentElement.classList.add("nav-returning");
       document.documentElement.classList.remove("scroll-smooth");
       try { history.scrollRestoration = "manual"; } catch (_) { /* ignore */ }
-      if (hub && typeof switchTab === "function") {
+      if (hub && hub !== currentArchiveHub) {
         switchTab(hub === "coursework" ? "coursework" : "personal");
       }
     }
@@ -1631,16 +1631,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const section = sessionStorage.getItem(NAV_SECTION_KEY);
       const savedHub = sessionStorage.getItem(NAV_HUB_KEY);
       // Only reopen coursework when Return is actually to Archive
-      if (section === "collections") hub = savedHub || hub || "personal";
+      const category = PROJECTS[section]?.category;
+      if (section === "collections" || category === "coursework" || category === "personal") {
+        hub = savedHub || hub || "personal";
+      }
       else hub = "personal";
     }
   } catch (_) { /* ignore */ }
 
   // Restore hub before painting archive so Archive Return lands on the same tab
   switchTab(hub === "coursework" ? "coursework" : "personal");
-  initScrollRestore();
   renderHW();
   renderFeatured();
+  initScrollRestore();
   switchCoursework("active");
   initRadar();
   initMissionJumps();
