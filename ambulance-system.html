@@ -75,7 +75,7 @@
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 border-b border-white/10 pb-10">
             <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
                 <img 
-                    src="assets/images/amb.png" 
+                    src="assets/optimized/images-amb.webp" decoding="async"
                     alt="Ambulance System Icon" 
                     class="h-full w-full object-contain p-2" 
                     onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';"
@@ -244,8 +244,8 @@
                     </div>
 
                     <div class="w-full h-[400px] bg-[#0f0f10] flex items-center justify-center">
-                        <video controls class="max-w-full max-h-full">
-                            <source src="assets/videos/ambulance_demo.mp4" type="video/mp4">
+                        <video preload="none" controls class="max-w-full max-h-full">
+                            <source src="assets/videos/ambulance_demo-optimized.mp4" type="video/mp4">
                         </video>
                     </div>
                 </div>
@@ -268,7 +268,7 @@
                         </div>
                         
                         <div class="w-full h-[600px] bg-[#151515] relative">
-                             <iframe src="docs/Ambulance_System_Report.pdf" class="w-full h-full border-none" title="Project Report PDF">
+                             <iframe loading="lazy" src="docs/Ambulance_System_Report.pdf" class="w-full h-full border-none" title="Project Report PDF">
                                 <div class="flex flex-col items-center justify-center h-full text-gray-400 gap-4">
                                     <p class="text-sm font-mono">Unable to display PDF file directly.</p>
                                     <a href="docs/Ambulance_System_Report.pdf" class="px-4 py-2 bg-orange-500/10 border border-orange-500/30 text-orange-400 font-mono text-xs hover:bg-orange-500/20 transition-all rounded-sm">

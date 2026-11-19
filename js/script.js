@@ -25,7 +25,7 @@ const PROJECTS = {
     title: "Missouri Institute for Defense and Energy",
     category: "featured",
     status: "complete",
-    logoUrl: "assets/images/mide.png",
+    logoUrl: "assets/optimized/images-mide.webp",
     photo: true,
     imgPos: "left center",
     role: "UAS Research Intern",
@@ -76,7 +76,7 @@ const PROJECTS = {
     title: "WashU Design/Build/Fly",
     category: "featured",
     status: "active",
-    logoUrl: "assets/images/dbf.png",
+    logoUrl: "assets/optimized/images-dbf.webp",
     photo: true,
     role: "Structures and Test Engineer",
     roleIcon: "fa-compass-drafting",
@@ -123,7 +123,7 @@ const PROJECTS = {
   "sentinel-cv": {
     title: "Sentinel Computer Vision",
     category: "personal",
-    logoUrl: "assets/images/sentinel.png",
+    logoUrl: "assets/optimized/images-sentinel.webp",
     role: "Algorithm Engineer",
     dates: "Winter 2025",
     tags: ["C++", "OpenCV", "Kalman Filter"],
@@ -144,7 +144,7 @@ const PROJECTS = {
   "webtunnel-cfd": {
     title: "WebTunnel CFD",
     category: "personal",
-    logoUrl: "assets/images/cfd_v2.png",
+    logoUrl: "assets/optimized/images-cfd_v2.webp",
     role: "Independent Dev",
     tags: ["JS", "Navier-Stokes", "Physics"],
     summary: "Zero-dependency real-time fluid simulation running in the browser.",
@@ -164,7 +164,7 @@ const PROJECTS = {
   "gnc-sim": {
     title: "Lander Control Sim",
     category: "personal",
-    logoUrl: "assets/images/gnc.png",
+    logoUrl: "assets/optimized/images-gnc.webp",
     role: "Sim Engineer",
     tags: ["Control Theory", "PID"],
     summary: "Interactive rocket landing simulator with real-time PID tuning for thrust and descent control.",
@@ -175,7 +175,7 @@ const PROJECTS = {
   "towed-sensor-winch": {
     title: "Towed-Sensor Winch",
     category: "coursework",
-    logoUrl: "assets/images/me_winch_bench.jpg",
+    logoUrl: "assets/optimized/images-me_winch_bench.webp",
     photo: true,
     role: "Mechatronics",
     dates: "2026 – Present",
@@ -187,7 +187,7 @@ const PROJECTS = {
   "cad-foosball": {
     title: "Regulation Foosball",
     category: "coursework",
-    logoUrl: "assets/images/foosball.png",
+    logoUrl: "assets/optimized/images-foosball.webp",
     role: "Mechanical Design",
     tags: ["SolidWorks", "DFM"],
     summary: "Bottom-up CAD design of a playable table with 200+ part assembly.",
@@ -207,7 +207,7 @@ const PROJECTS = {
   "ambulance-system": {
     title: "RF Priority System",
     category: "coursework",
-    logoUrl: "assets/images/amb.png",
+    logoUrl: "assets/optimized/images-amb.webp",
     role: "Embedded Systems",
     tags: ["Arduino", "RF Comms"],
     summary: "Wireless traffic preemption system for emergency vehicles.",
@@ -217,7 +217,7 @@ const PROJECTS = {
   "solid-mechanics": {
     title: "Landing Gear FEA",
     category: "coursework",
-    logoUrl: "assets/images/solids.png",
+    logoUrl: "assets/optimized/images-solids.webp",
     role: "Solid Mechanics",
     tags: ["ANSYS", "FEA"],
     summary: "Designing a nose landing gear built to withstand 3g impacts through focused structural modeling.",
@@ -227,7 +227,7 @@ const PROJECTS = {
   "who-is-responsible": {
     title: "Who Is Responsible When an AI Kills?",
     category: "coursework",
-    logoUrl: "assets/images/x62_vista.png",
+    logoUrl: "assets/optimized/images-x62_vista.webp",
     role: "Technical Writing & Policy Analysis",
     tags: ["Autonomous Systems", "AI Ethics", "Defense Policy"],
     summary: "Magazine-style technical writing on the accountability gap in autonomous weapons and Collaborative Combat Aircraft (CCA), with a call for engineers in the policy loop. Nominated for the 2026 McKelvey Technical Writing awards.",
@@ -239,11 +239,11 @@ const PROJECTS = {
 /** Work Log ticker items (builds, lab work, writing) */
 const HW_ITEMS = [
   { type: "Research",   title: "MIDE UAS Research Internship",     sub: "Experimental UAS | Flight Data | Systems Bring-Up", src: "assets/images/hw_mide_flight.jpg",     date: "2026-08", status: "complete",  link: "mide.html" },
-  { type: "Mechatronics", title: "Towed-Sensor Winch Bench",       sub: "MEMS 4110 | Deploy | Retract | Light Modes",        src: "assets/images/me_winch_assembly.jpg",  date: "2026-11", status: "active",    link: "towed-sensor-winch.html" },
-  { type: "Avionics",   title: "VTOL Hexacopter Integration",      sub: "Frame Assembly | Power Layout | Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
-  { type: "Research",   title: "MIRO Sensor Fusion Internship",    sub: "IMU + EMG | Calibration | Validation",               src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "complete",  link: "miro-lab.html" },
+  { type: "Mechatronics", title: "Towed-Sensor Winch Bench",       sub: "MEMS 4110 | Deploy | Retract | Light Modes",        src: "assets/optimized/images-me_winch_assembly.webp",  date: "2026-11", status: "active",    link: "towed-sensor-winch.html" },
+  { type: "Avionics",   title: "VTOL Hexacopter Integration",      sub: "Frame Assembly | Power Layout | Bench Prep",         src: "assets/optimized/images-hw_vtol_assembly.webp",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
+  { type: "Research",   title: "MIRO Sensor Fusion Internship",    sub: "IMU + EMG | Calibration | Validation",               src: "assets/optimized/images-hw_miro_wearable.webp",   date: "2025-08", status: "complete",  link: "miro-lab.html" },
   { type: "Flight Test", title: "Competition UAV Test Plane",      sub: "First Iteration | AIAA DBF + SAE Aero Micro",        src: "assets/images/hw_dbf_testplane.jpg",   date: "2026-10", status: "verified",  link: "washu-dbf.html" },
-  { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up | Wiring Validation | Multimeter Test", src: "assets/images/hw_vtol_test_bench.jpg", date: "2026-01", status: "verified",  link: "washu-vtol.html" },
+  { type: "Embedded",   title: "Flight Electronics Debug Bench",   sub: "Controller Bring-Up | Wiring Validation | Multimeter Test", src: "assets/optimized/images-hw_vtol_test_bench.webp", date: "2026-01", status: "verified",  link: "washu-vtol.html" },
   {
     type: "Writing",
     title: "Autonomous Weapons Analysis",
@@ -767,13 +767,39 @@ function syncCapRails() {
   }
 }
 
+function loadRadarWhenVisible() {
+  const panel = document.getElementById("cap-radar-panel");
+  if (!panel) return;
+  syncCapRails();
+
+  const load = () => {
+    if (typeof window.Chart === "function") {
+      initRadar();
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
+    script.addEventListener("load", initRadar, { once: true });
+    document.head.appendChild(script);
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    load();
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    observer.disconnect();
+    load();
+  }, { rootMargin: "240px 0px" });
+  observer.observe(panel);
+}
+
 function initRadar() {
   const canvas = document.getElementById("skillsChart");
   const panel  = document.getElementById("cap-radar-panel") || (canvas && canvas.parentElement);
-  if (!canvas || !panel) return;
+  if (!canvas || !panel || typeof window.Chart !== "function") return;
   const ctx = canvas.getContext("2d");
-
-  syncCapRails();
 
   const radarLayout = () => {
     const narrow = window.innerWidth < 768 || panel.clientWidth < 420;
@@ -1642,7 +1668,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHW();
   renderFeatured();
   switchCoursework("active");
-  initRadar();
+  loadRadarWhenVisible();
   initMissionJumps();
   initSectionReveals();
   initSmoothAnchors();

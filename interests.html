@@ -332,14 +332,14 @@
             <div class="flex items-start gap-6 md:gap-8">
 
                 <div class="h-24 w-24 bg-black border border-white/10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-                    <img src="assets/images/interests.png" alt="Interests Icon" class="object-contain w-full h-full"
+                    <img src="assets/optimized/images-interests.webp" decoding="async" alt="Interests Icon" class="object-contain w-full h-full"
                          onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-star text-4xl text-white\'></i>'"/>
                 </div>
 
                 <div class="header-sword-shell">
                     <div class="header-sword-viewer">
                         <!-- CHANGED: removed disable-zoom, interaction-prompt="none", min-camera-orbit, max-camera-orbit for full 360° rotation -->
-                        <model-viewer src="assets/models/anduril.glb" alt="Anduril sword" camera-controls touch-action="pan-y" shadow-intensity="0" environment-image="neutral" camera-orbit="0deg 88deg 110%" field-of-view="18deg" loading="eager"></model-viewer>
+                        <model-viewer src="assets/models/anduril.glb" alt="Anduril sword" camera-controls touch-action="pan-y" shadow-intensity="0" environment-image="neutral" camera-orbit="0deg 88deg 110%" field-of-view="18deg" loading="lazy"></model-viewer>
                     </div>
                 </div>
 
@@ -604,7 +604,7 @@
                     </div>
                     <div class="eg-h-rail flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
                         <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/meditations.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Meditations" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <img src="assets/optimized/books-meditations.webp" decoding="async" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Meditations" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
                             <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-amber-300/50"></i></div>
                             <div class="text-[10px] font-mono text-amber-300 uppercase tracking-widest mb-1">Marcus Aurelius</div>
                             <h4 class="text-sm font-semibold text-white mb-1">Meditations</h4>
@@ -645,17 +645,17 @@
                             <p class="text-xs text-gray-400 leading-relaxed">A story about patience, discipline, and long-term persistence. Even when progress feels invisible.</p>
                         </article>
                         <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/movies/taxi_driver.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="Taxi Driver" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Taxi Driver</h4>'">
+                            <img src="assets/optimized/movies-taxi_driver.webp" decoding="async" class="w-full h-72 object-cover border border-white/10 mb-4" alt="Taxi Driver" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>Taxi Driver</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">Taxi Driver</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">A character study with atmosphere and intensity. Slow-burn storytelling that builds pressure deliberately.</p>
                         </article>
                         <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/movies/dark_knight.png" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Dark Knight" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Dark Knight</h4>'">
+                            <img src="assets/optimized/movies-dark_knight.webp" decoding="async" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Dark Knight" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Dark Knight</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">The Dark Knight</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">Tight pacing and moral pressure. Every scene feels deliberate.</p>
                         </article>
                         <article class="film-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/movies/lotr_trilogy.webp" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Lord of the Rings film trilogy title cards" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Lord of the Rings Trilogy</h4>'">
+                            <img src="assets/optimized/movies-lotr_trilogy.webp" decoding="async" class="w-full h-72 object-cover border border-white/10 mb-4" alt="The Lord of the Rings film trilogy title cards" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'w-full h-72 flex items-center justify-center border border-white/10 text-gray-500 mb-4\'><i class=\'fas fa-film text-4xl\'></i></div><h4 class=\'text-sm font-semibold text-white mb-1\'>The Lord of the Rings Trilogy</h4>'">
                             <h4 class="text-sm font-semibold text-white mb-1">The Lord of the Rings Trilogy</h4>
                             <p class="text-xs text-gray-400 leading-relaxed">Three films built as one long campaign. Endurance, loyalty, and a small team carrying a mission no one else could finish.</p>
                         </article>
@@ -704,7 +704,7 @@
                     </div>
                     <div class="eg-h-rail flex gap-6 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
                         <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/skunk_works.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Skunk Works" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <img src="assets/optimized/books-skunk_works.webp" decoding="async" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Skunk Works" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
                             <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-sky-300/50"></i></div>
                             <div class="text-[10px] font-mono text-sky-300 uppercase tracking-widest mb-1">Ben R. Rich & Leo Janos</div>
                             <h4 class="text-sm font-semibold text-white mb-1">Skunk Works</h4>
@@ -718,7 +718,7 @@
                             <p class="text-xs text-gray-400 leading-relaxed">A relentless pursuit of spaceflight, shaped by the ambition to reach it and the circumstances of his time.</p>
                         </article>
                         <article class="book-card snap-start bg-black border border-white/10 p-4 min-w-[240px] max-w-[240px]">
-                            <img src="assets/books/stealth_warplanes.png" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Stealth Warplanes" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
+                            <img src="assets/optimized/books-stealth_warplanes.webp" decoding="async" class="book-cover w-full h-72 object-cover border border-white/10 mb-4 transition-opacity duration-200" alt="Stealth Warplanes" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.book-fallback').style.display='flex'">
                             <div class="book-fallback w-full h-72 hidden items-center justify-center border border-white/10 mb-4"><i class="fas fa-book text-4xl text-purple-300/50"></i></div>
                             <div class="text-[10px] font-mono text-purple-300 uppercase tracking-widest mb-1">Doug Richardson</div>
                             <h4 class="text-sm font-semibold text-white mb-1">Stealth Warplanes</h4>
