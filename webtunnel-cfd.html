@@ -15,7 +15,7 @@
 </style>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebTunnel | Interactive Wind Tunnel | Enrique Garcia</title>
+    <title>WebTunnel CFD | Enrique Garcia</title>
   <link rel="stylesheet" href="css/tailwind.css?v=tw1">
   <link rel="stylesheet" href="css/hub-accents.css?v=hub2">
 
@@ -70,7 +70,6 @@
     </style>
   <link rel="stylesheet" href="css/site-theme.css?v=read3">
   <link rel="stylesheet" href="css/section-nav.css?v=snav3">
-  <link rel="stylesheet" href="css/demo.css?v=1">
 </head>
 <body class="hub-personal antialiased bg-[#0f0f10] min-h-screen">
 
@@ -110,34 +109,99 @@
                 <img src="assets/images/cfd_v2.png" alt="CFD Logo" class="h-full w-full object-contain p-2" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-wind text-4xl text-white\'></i>'">
             </div>
             <div>
-                <h1 class="personal-project-name">WebTunnel</h1>
-                <p class="personal-project-descriptor">Interactive Wind Tunnel</p>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">WebTunnel CFD</h1>
                 <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Personal Project | Independent Build</p>
             </div>
         </div>
-
-        <section class="project-brief" aria-label="Project at a glance">
-            <div class="project-brief-head">
-                <h2>Browser simulation</h2>
-                <a class="demo-action" href="demos/windtunnel.html">Open Wind Tunnel <span aria-hidden="true">→</span></a>
-            </div>
-            <dl>
-                <div><dt>What I built</dt><dd>A two-dimensional flow solver with selectable geometry, inlet speed, and viscosity.</dd></div>
-                <div><dt>What to look for</dt><dd>Compare wakes, pressure, and tracers. The live divergence readout shows how well the solver enforces volume conservation on its grid.</dd></div>
-                <div><dt>Scope</dt><dd>The coarse grid and simplified walls support qualitative exploration. The demo does not predict aerodynamic loads.</dd></div>
-            </dl>
-        </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
             
             <div class="lg:col-span-2">
                 
+                <!-- MISSION CONTROL (Final / Command-Priority) -->
+<div class="border border-white/10 bg-[#0a0a0c] rounded-sm overflow-hidden mb-10 border-t border-t-sky-500/40">
+
+  <!-- Header -->
+  <div class="bg-black/80 border-b border-white/5 px-4 py-2 flex justify-between items-center">
+    <span class="text-[10px] font-mono text-sky-500/70 tracking-widest uppercase">
+      Mission Control // Solver_Link
+    </span>
+
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
+      <span class="text-[10px] font-mono text-blue-400 tracking-widest uppercase">
+        ONLINE
+      </span>
+    </div>
+  </div>
+
+  <!-- Main Display -->
+  <div class="relative bg-[#050505] px-4 py-4">
+
+    <!-- subtle grid -->
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(56,189,248,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.02)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none"></div>
+
+    <!-- Control Panel -->
+    <div class="relative z-10 border border-sky-500/25 bg-black/45 p-4 space-y-3">
+      
+      <!-- Title Row -->
+      <div class="flex items-center justify-between">
+        <div class="font-mono text-sm text-white tracking-tight">
+          WebTunnel v4
+        </div>
+        <div class="text-[9px] font-mono uppercase tracking-widest text-sky-400/50">
+          Navier–Stokes
+        </div>
+      </div>
+
+      <div class="h-px bg-white/10"></div>
+
+      <!-- Command Row -->
+      <div class="flex items-center justify-between gap-4">
+        <div class="text-[10px] font-mono uppercase tracking-widest text-sky-400/50">
+          Status: Awaiting Command
+        </div>
+
+        <!-- PRIMARY COMMAND -->
+        <a
+          href="demos/windtunnel.html"
+          class="inline-flex items-center gap-2 px-5 py-2
+                 border border-sky-400/70
+                 bg-sky-500/20
+                 text-sky-100
+                 hover:bg-sky-500/30
+                 hover:border-sky-300
+                 transition-colors
+                 font-mono text-[11px] uppercase tracking-widest"
+        >
+          Open Wind Tunnel
+          <i class="fas fa-chevron-right text-[10px]"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Status -->
+  <div class="bg-black/60 border-t border-white/5 px-4 py-1.5 flex justify-between items-center text-[9px] font-mono text-sky-600/80">
+    <div class="flex gap-3">
+      <span class="text-blue-400/80">&gt; CORE_LIBS OK</span>
+      <span class="hidden sm:inline">&gt; MODEL LOADED</span>
+      <span class="hidden md:inline text-sky-400/70">&gt; WAITING_FOR_INPUT</span>
+    </div>
+    <span class="opacity-50 tracking-widest">ID: 884-29-A</span>
+  </div>
+
+</div>
+
+
                 <div class="space-y-14 mb-14">
                 <div>
                     <h3 id="section-overview" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
                     <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
                         <p>
-                            WebTunnel is a two-dimensional incompressible flow demo. Use it to see how an obstacle, inlet speed, and viscosity affect a wake. The solver prioritizes interactive exploration of flow patterns on a coarse grid.
+                            WebTunnel is a zero-dependency browser solver for the incompressible Navier–Stokes equations.
+                            It keeps the physics honest while staying fast enough for interactive canvas playback.
                         </p>
                     </div>
                 </div>
@@ -153,7 +217,7 @@
                                         <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">01 | Governing Equations</h4>
                                         <span class="font-mono text-[10px] text-sky-400 uppercase shrink-0">Physics</span>
                                     </div>
-                                    <p class="text-gray-400 text-sm leading-relaxed">A staggered grid stores pressure at cell centers and normal velocity on cell faces. Solid faces have zero normal flow, with a prescribed inlet speed and a zero-gauge-pressure outlet.</p>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Eulerian fluid model with mass conservation and momentum, no plugins.</p>
                                 </div>
                             </div>
                         </div>
@@ -165,7 +229,7 @@
                                         <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | Numerical Solvers</h4>
                                         <span class="font-mono text-[10px] text-sky-400 uppercase shrink-0">Math</span>
                                     </div>
-                                    <p class="text-gray-400 text-sm leading-relaxed"><span class="tech-highlight">Midpoint semi-Lagrangian advection</span> transports velocity and dye. Explicit viscosity runs within a stability cap, and a warm-started pressure solve reduces divergence.</p>
+                                    <p class="text-gray-400 text-sm leading-relaxed"><span class="tech-highlight">Semi-Lagrangian advection</span> for stable transport and <span class="tech-highlight">Gauss–Seidel</span> for pressure projection and diffusion.</p>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +253,7 @@
                                         <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">04 | Visualization</h4>
                                         <span class="font-mono text-[10px] text-sky-400 uppercase shrink-0">Render</span>
                                     </div>
-                                    <p class="text-gray-400 text-sm leading-relaxed">Canvas views show smoke, speed, gauge pressure, signed vorticity, and tracer paths. Reynolds number uses the inlet speed, obstacle length, and viscosity.</p>
+                                    <p class="text-gray-400 text-sm leading-relaxed">Custom pipeline maps velocity and density fields onto HTML5 Canvas in real time.</p>
                                 </div>
                             </div>
                         </div>
@@ -218,15 +282,15 @@
                             <div class="space-y-2">
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
                                     <span>[GRID] Resolution</span>
-                                    <span class="text-sky-400">128 × 72</span>
+                                    <span class="text-sky-400">200 x 200</span>
                                 </div>
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
                                     <span>[DT] Time Step</span>
-                                    <span class="text-sky-400">Fixed (1/60 s)</span>
+                                    <span class="text-sky-400">Fixed (16ms)</span>
                                 </div>
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-sky-500">
-                                    <span>[ITER] Pressure sweeps</span>
-                                    <span class="text-sky-400">32</span>
+                                    <span>[ITER] G-S Steps</span>
+                                    <span class="text-sky-400">15</span>
                                 </div>
                                 <div class="flex justify-between p-2 bg-white/5 border-l-2 border-purple-400">
                                     <span>[MEM] Heap Alloc</span>
@@ -239,29 +303,29 @@
                             <h4 class="text-sky-400 mb-2 text-center uppercase tracking-wider">Physics Step (dt)</h4>
                             
                             <div class="w-full p-2 border border-white/20 bg-[#0f0f10] text-center">
-                                <span class="text-sky-300 font-bold">1. DIFFUSE</span><br>
-                                <span class="text-[9px] text-gray-500">VISCOSITY WITH A STABILITY CAP</span>
+                                <span class="text-sky-300 font-bold">1. ADVECT</span><br>
+                                <span class="text-[9px] text-gray-500">SEMI-LAGRANGIAN BACKTRACE</span>
                             </div>
                             
                             <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
 
                             <div class="w-full p-2 border border-white/20 bg-[#0f0f10] text-center">
-                                <span class="text-sky-300 font-bold">2. ADVECT</span><br>
-                                <span class="text-[9px] text-gray-500">MIDPOINT BACKTRACE</span>
+                                <span class="text-sky-300 font-bold">2. DIFFUSE</span><br>
+                                <span class="text-[9px] text-gray-500">VISCOUS FORCES (G-S SOLVER)</span>
                             </div>
 
                             <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
 
                             <div class="w-full p-2 border border-white/40 bg-[#0f0f10] text-center relative shadow-[0_0_10px_rgba(56,189,248,0.1)]">
                                 <span class="text-white font-bold">3. PROJECT</span><br>
-                                <span class="text-[9px] text-gray-400">REDUCE DISCRETE DIVERGENCE</span>
+                                <span class="text-[9px] text-gray-400">MASS CONSERVATION (DIVERGENCE FREE)</span>
                             </div>
 
                             <i class="fas fa-arrow-down text-center text-gray-700 text-[10px]"></i>
 
                             <div class="w-full p-2 border border-purple-500/30 bg-[#0f0f10] text-center">
-                                <span class="text-purple-400 font-bold">4. TRANSPORT DYE + RENDER</span><br>
-                                <span class="text-[9px] text-gray-500">TRACER AND FIELD VISUALIZATION</span>
+                                <span class="text-purple-400 font-bold">4. RENDER</span><br>
+                                <span class="text-[9px] text-gray-500">DENSITY MAPPING</span>
                             </div>
                         </div>
                     </div>
@@ -271,7 +335,7 @@
                 <div class="mt-12">
                     <div class="bg-black border border-white/10 p-1">
                         <div class="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
-                            <h3 id="section-docs" class="font-bold text-white font-mono text-xs uppercase tracking-widest">Original Solver Report</h3>
+                            <h3 id="section-docs" class="font-bold text-white font-mono text-xs uppercase tracking-widest">Technical Documentation</h3>
                             <div class="flex gap-4">
                                 <a href="docs/WebTunnel_Solver_Report.pdf" target="_blank" class="flex items-center gap-2 group transition-colors">
                                     <span class="text-[10px] text-gray-500 font-mono group-hover:text-white transition-colors">OPEN NEW TAB</span>
@@ -285,7 +349,7 @@
                         </div>
                         
                         <div class="w-full h-[600px] bg-[#151515] relative">
-                             <iframe src="docs/WebTunnel_Solver_Report.pdf" class="w-full h-full border-none" loading="lazy" title="Original WebTunnel solver report">
+                             <iframe src="docs/WebTunnel_Solver_Report.pdf" class="w-full h-full border-none" title="Project Report PDF">
                                 <div class="flex flex-col items-center justify-center h-full text-gray-400 gap-4">
                                     <p class="text-sm font-mono">Unable to display PDF file directly.</p>
                                     <a href="docs/WebTunnel_Solver_Report.pdf" class="px-4 py-2 bg-sky-500/10 border border-sky-500/30 text-sky-400 font-mono text-xs hover:bg-sky-500/20 transition-all rounded-sm">
@@ -295,7 +359,7 @@
                              </iframe>
                         </div>
                         <div class="text-[10px] font-mono text-gray-600 text-center py-2 border-t border-white/5 bg-[#0a0a0a]">
-                            EARLIER IMPLEMENTATION · PDF
+                            OFFICIAL REPORT // PDF FORMAT
                         </div>
                     </div>
                 </div>
@@ -308,12 +372,12 @@
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">JavaScript</span>
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Navier-Stokes</span>
                         <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Linear Algebra</span>
-                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">Canvas 2D</span>
+                        <span class="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-mono border border-white/10 uppercase">WebGL / Canvas</span>
                     </div>
                 </div>
                 <div class="p-8 bg-sky-500/5 border border-sky-500/20">
                     <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-sky-400">Takeaway</h4>
-                    <p class="text-sm text-sky-100/80 leading-relaxed">An educational solver with live diagnostics. RMS divergence shows how closely the projected field conserves volume on the grid. The demo is designed for comparing flow patterns.</p>
+                    <p class="text-sm text-sky-100/80 leading-relaxed">Zero-dependency in-browser Navier–Stokes solver at interactive frame rates: physics, numerics, and memory layout in one stack.</p>
                 </div>
             </div>
         </div>

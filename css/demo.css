@@ -8,18 +8,6 @@
   --demo-mono: 'JetBrains Mono', Consolas, monospace;
 }
 
-.demo-launch {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.25rem;
-  border: 1px solid var(--demo-line);
-  background: var(--demo-panel);
-}
-.demo-launch h2 { margin: 0 0 .3rem; color: var(--demo-text); font-size: 1.1rem; font-weight: 700; }
-.demo-launch p { margin: 0; color: var(--demo-muted); font-size: .9rem; line-height: 1.5; }
 .demo-action, .demo-back {
   display: inline-flex;
   align-items: center;
@@ -40,44 +28,6 @@
   outline: 2px solid var(--demo-accent);
   outline-offset: 3px;
 }
-
-.personal-project-name {
-  margin: 0;
-  color: var(--demo-text);
-  font-size: clamp(2.75rem, 7vw, 5rem);
-  font-weight: 700;
-  letter-spacing: -.055em;
-  line-height: 1;
-}
-.personal-project-descriptor {
-  margin: .5rem 0 .85rem;
-  color: #d4d4d8;
-  font-size: clamp(1.05rem, 2vw, 1.45rem);
-  line-height: 1.35;
-}
-.project-brief {
-  margin-bottom: 2.5rem;
-  padding: clamp(1rem, 3vw, 1.5rem);
-  border: 1px solid var(--demo-line);
-  background: var(--demo-panel);
-}
-.project-brief-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem; }
-.project-brief h2 { margin: 0; color: var(--demo-text); font-size: 1.15rem; font-weight: 700; }
-.project-brief dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem 1.4rem; margin: 1rem 0 0; }
-.project-brief dt { font: 600 .75rem/1.5 var(--demo-mono); color: var(--demo-accent); }
-.project-brief dd { margin: .25rem 0 0; color: #d4d4d8; font-size: .88rem; line-height: 1.55; }
-.sentinel-evidence { border: 1px solid var(--demo-line); background: var(--demo-bg); }
-.sentinel-evidence img { display: block; width: 100%; max-height: 25rem; object-fit: contain; }
-.sentinel-evidence figcaption { color: var(--demo-muted); font-size: .85rem; padding: .65rem .85rem; }
-.orbit-control { display: flex; align-items: center; flex-wrap: wrap; gap: .8rem; }
-.orbit-control select { border: 1px solid var(--demo-line); background: #151518; padding: .35rem .5rem; color: var(--demo-text); }
-.orbit-control select:focus-visible { outline: 2px solid var(--demo-accent); outline-offset: 2px; }
-#orbit-canvas { display: block; width: 100%; height: auto; border: 1px solid var(--demo-line); margin: 1rem 0; }
-#section-orbit, #section-hil { scroll-margin-top: 8rem; }
-.orbit-results { width: 100%; border-collapse: collapse; text-align: left; font-size: .8rem; }
-.orbit-results :is(th, td) { border-bottom: 1px solid var(--demo-line); padding: .45rem .3rem; }
-.orbit-results .orbit-euler { color: #fbbf24; }
-.orbit-results .orbit-rk4 { color: #93c5fd; }
 
 .tunnel *, .tunnel *::before, .tunnel *::after { box-sizing: border-box; }
 .tunnel {
@@ -166,9 +116,5 @@
   .tunnel-layout, .telemetry-layout { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 30rem) {
-  .demo-launch .demo-action { width: 100%; }
   .tunnel-toolbar { justify-content: start; }
-}
-@media (max-width: 44rem) {
-  .project-brief dl { grid-template-columns: 1fr; }
 }

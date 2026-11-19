@@ -5,7 +5,7 @@
   <link rel="shortcut icon" href="assets/brand/favicon.png?v=live3">
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hyperion | 6-DOF Flight Dynamics Engine | Enrique Garcia</title>
+    <title>Hyperion 6-DOF | Enrique Garcia</title>
   <link rel="stylesheet" href="css/tailwind.css?v=tw1">
   <link rel="stylesheet" href="css/hub-accents.css?v=hub2">
 
@@ -59,7 +59,6 @@
     </style>
   <link rel="stylesheet" href="css/site-theme.css?v=read3">
   <link rel="stylesheet" href="css/section-nav.css?v=snav3">
-  <link rel="stylesheet" href="css/demo.css?v=1">
 </head>
 <body class="hub-personal antialiased bg-[#0f0f10] min-h-screen">
 
@@ -110,25 +109,12 @@
                 >
             </div>
             <div>
-                <h1 class="personal-project-name">Hyperion</h1>
-                <p class="personal-project-descriptor">6-DOF Flight Dynamics Engine</p>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Hyperion 6-DOF Engine</h1>
                 <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">
                     Personal Project | Flight Software Infrastructure
                 </p>
             </div>
         </div>
-
-        <section class="project-brief" aria-label="Project at a glance">
-            <div class="project-brief-head">
-                <h2>Simulation infrastructure</h2>
-                <a class="demo-action" href="#section-orbit">Compare Integrators <span aria-hidden="true">→</span></a>
-            </div>
-            <dl>
-                <div><dt>What I built</dt><dd>A C++20 rigid-body simulator with a separate telemetry stream and a custom RK4 integrator.</dd></div>
-                <div><dt>What to look for</dt><dd>The report and sample packets describe the engine. The browser experiment isolates one numerical tradeoff in a simple orbit.</dd></div>
-                <div><dt>Scope</dt><dd>The experiment is a separate 2D model. Its results do not validate the engine or its configured 10 kHz update rate.</dd></div>
-            </dl>
-        </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
             
@@ -330,29 +316,6 @@
                     </div>
                 </div>
 
-                <section id="section-orbit" class="bg-black border border-white/10 p-6" aria-labelledby="orbit-title">
-                    <h2 id="orbit-title" class="text-lg font-bold text-white mb-2">Orbit Integrator Comparison</h2>
-                    <p class="text-sm text-gray-300 mb-4">Start from the same circular orbit and advance four periods with two numerical methods. Try fewer steps per orbit to see how the paths and energy estimates change.</p>
-                    <div class="orbit-control">
-                        <label for="orbit-steps" class="text-sm">Steps per orbit</label>
-                        <select id="orbit-steps">
-                            <option value="16">16</option>
-                            <option value="32" selected>32</option>
-                            <option value="64">64</option>
-                            <option value="128">128</option>
-                        </select>
-                    </div>
-                    <canvas id="orbit-canvas" width="720" height="360" aria-label="Calculated orbit paths; the dashed line is the exact circular orbit">The orbit results are listed below.</canvas>
-                    <table class="orbit-results">
-                        <thead><tr><th scope="col">Integrator</th><th scope="col">Peak energy drift</th><th scope="col">Return error</th></tr></thead>
-                        <tbody>
-                            <tr><th scope="row" class="orbit-euler">Symplectic Euler</th><td id="orbit-energy-0">Pending</td><td id="orbit-return-0">Pending</td></tr>
-                            <tr><th scope="row" class="orbit-rk4">Runge–Kutta 4</th><td id="orbit-energy-1">Pending</td><td id="orbit-return-1">Pending</td></tr>
-                        </tbody>
-                    </table>
-                    <p class="text-xs text-gray-400 mt-3">Energy drift is the maximum absolute change relative to the initial energy. Return error is final distance from the start in units of the starting radius. This browser experiment uses a planar two-body model.</p>
-                </section>
-
                 <!-- STANDARDIZED PDF PREVIEW -->
                 <div class="mb-16">
                     <div class="bg-black border border-white/10 p-1">
@@ -414,6 +377,5 @@
       <script src="js/nav-persist.js?v=soft4"></script>
   <script src="js/live-favicon.js?v=live3"></script>
   <script src="js/section-nav.js?v=snav2"></script>
-  <script type="module" src="js/orbit-comparison.js?v=1"></script>
 </body>
 </html>

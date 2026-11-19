@@ -5,7 +5,7 @@
   <link rel="shortcut icon" href="assets/brand/favicon.png?v=live3">
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Softfall | Rocket Landing Simulator | Enrique Garcia</title>
+    <title>Lander Control Sim | Enrique Garcia</title>
   <link rel="stylesheet" href="css/tailwind.css?v=tw1">
   <link rel="stylesheet" href="css/hub-accents.css?v=hub2">
 
@@ -50,7 +50,6 @@
     </style>
   <link rel="stylesheet" href="css/site-theme.css?v=read3">
   <link rel="stylesheet" href="css/section-nav.css?v=snav3">
-  <link rel="stylesheet" href="css/demo.css?v=1">
 </head>
 <body class="hub-personal antialiased bg-[#0f0f10] min-h-screen">
 
@@ -89,23 +88,10 @@
             <img src="assets/images/gnc.png" alt="Lander control simulation icon" class="h-full w-full object-contain p-2" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-rocket text-4xl text-white\'></i>'">
         </div>
         <div>
-            <h1 class="personal-project-name">Softfall</h1>
-                <p class="personal-project-descriptor">Rocket Landing Simulator</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Lander Control Playground</h1>
             <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Personal Project | Interactive Simulation</p>
         </div>
     </div>
-
-        <section class="project-brief" aria-label="Project at a glance">
-            <div class="project-brief-head">
-                <h2>Interactive controls</h2>
-                <a class="demo-action" href="demos/playground.html">Open Lander Simulator <span aria-hidden="true">→</span></a>
-            </div>
-            <dl>
-                <div><dt>What I built</dt><dd>A browser simulator for vertical flight with tunable PID and a powered-descent mode.</dd></div>
-                <div><dt>What to look for</dt><dd>Change gains, gravity, and other inputs, then compare touchdown behavior and thrust in the sandbox.</dd></div>
-                <div><dt>Scope</dt><dd>Motion is confined to one vertical axis. The presets illustrate control behavior with simplified vehicle parameters.</dd></div>
-            </dl>
-        </section>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
         
@@ -116,7 +102,7 @@
                 <div>
                     <h3 id="section-overview" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Overview</h3>
                     <p class="text-gray-300 leading-relaxed text-sm font-light">
-                        A one-dimensional simulation of vertical flight. The preview runs automatically so you can watch the controller respond to gravity and wind.
+                        Interactive 1D lander sim: a PID loop fights gravity and wind to land soft. The panel on the right runs in autopilot so you can watch the control logic settle.
                     </p>
                 </div>
                 <div class="space-y-3">
@@ -144,6 +130,27 @@
                 </div>
             </div>
 
+            <div class="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm">
+                
+                <div class="mb-8">
+                    <h4 class="text-[10px] text-gray-500 mb-3 uppercase tracking-widest font-bold">System Status</h4>
+                    <div class="flex items-center gap-2 text-blue-400 font-mono text-sm">
+                        <i class="fas fa-check-circle"></i> PREVIEW ONLINE
+                    </div>
+                </div>
+
+                <div class="space-y-5 border-t border-white/10 pt-6 mb-8">
+                   <p class="text-xs text-gray-400">
+                       To manually tune the PID gains (Kp, Ki, Kd) and test wind resistance, please enter the playground.
+                   </p>
+                </div>
+
+                <!-- LINK TO PLAYGROUND -->
+                <a href="demos/playground.html" class="w-full py-4 border border-blue-600 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all">
+                    Open Lander Simulator <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
             <div>
                 <h3 id="section-core-tech" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-4">Core Tech</h3>
                 <div class="flex flex-wrap gap-2">
@@ -162,7 +169,7 @@
                 <div class="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-[#0a0a0a] absolute top-0 w-full z-10">
                     <div class="flex gap-2 items-center">
                         <span class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
-                        <h3 id="section-telemetry" class="font-bold text-white font-mono text-xs uppercase tracking-widest">Simulation Preview</h3>
+                        <h3 id="section-telemetry" class="font-bold text-white font-mono text-xs uppercase tracking-widest">Live Telemetry</h3>
                     </div>
                     <!-- MODE INDICATOR -->
                     <div class="font-mono text-[10px] text-gray-500">MODE: <span class="text-yellow-500">AUTOPILOT</span></div>
