@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
-  <link rel="stylesheet" href="css/site-theme.css?v=read3">
+  <link rel="stylesheet" href="css/site-theme.css?v=read4">
 
     <style>
         html { background-color: #0f0f10; }
@@ -29,6 +29,8 @@
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .gt-gold-text { color: var(--eg-gt-gold-text); }
+        .gt-gold-dot { background-color: var(--eg-gt-gold); }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0f0f10; }
@@ -74,14 +76,14 @@
             font-weight: 700;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: #C9B87A;
+            color: var(--eg-gt-gold-text);
             margin: 0 0 0.55rem;
         }
         .about-kicker::before {
             content: '';
             width: 18px;
             height: 2px;
-            background: #B3A369;
+            background: var(--eg-gt-gold);
             flex-shrink: 0;
         }
         .about-section-title {
@@ -112,8 +114,8 @@
 
         .tab-button.active {
             color: #e5e7eb;
-            border-color: rgba(179,163,105,0.45);
-            background: rgba(179,163,105,0.08);
+            border-color: rgba(179,144,81,0.45);
+            background: rgba(179,144,81,0.08);
         }
         .tab-button:hover:not(.active) { color: #d1d5db; }
 
@@ -123,13 +125,13 @@
         .focus-card { background: #0a0a0a; }
 
         .accordion-btn.active {
-            border-color: rgba(179,163,105,0.35);
-            background: rgba(179,163,105,0.06);
+            border-color: rgba(179,144,81,0.35);
+            background: rgba(179,144,81,0.06);
             color: #e5e7eb;
         }
         .accordion-btn.active .acc-icon {
             transform: rotate(45deg);
-            color: #C9B87A;
+            color: var(--eg-gt-gold-text);
         }
         .accordion-content { display: none; }
         .accordion-content.active { display: block; }
@@ -150,7 +152,7 @@
             font-weight: 700;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: #C9B87A;
+            color: var(--eg-gt-gold-text);
         }
         .snapshot-row {
             display: grid;
@@ -172,7 +174,7 @@
             color: #f3f4f6;
             line-height: 1.45;
         }
-        .snapshot-value--accent { color: #C9B87A; }
+        .snapshot-value--accent { color: var(--eg-gt-gold-text); }
         .snapshot-note {
             margin-top: 14px;
             padding-top: 14px;
@@ -187,8 +189,8 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 10px;
             color: #bfb37c;
-            background: rgba(179,163,105,0.08);
-            border: 1px solid rgba(179,163,105,0.2);
+            background: rgba(179,144,81,0.08);
+            border: 1px solid rgba(179,144,81,0.2);
             padding: 2px 7px;
             margin: 2px 3px 2px 0;
         }
@@ -201,7 +203,7 @@
         }
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, rgba(179,163,105,0.5), rgba(179,163,105,0.9));
+            background: linear-gradient(90deg, rgba(179,144,81,0.5), rgba(179,144,81,0.9));
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 1.2s cubic-bezier(0.4,0,0.2,1);
@@ -257,16 +259,16 @@
             left: 16px;
             right: 16px;
             height: 1px;
-            background: #B3A369;
+            background: var(--eg-gt-gold);
             transform: scaleX(0);
             transition: transform 0.2s ease;
             transform-origin: left;
         }
         .section-nav-btn:hover { color: #d1d5db; }
         .section-nav-btn.is-active,
-        .section-nav-btn.active { color: #e5e7eb; }
+        .section-nav-btn.active { color: var(--eg-gt-gold-text); background-color: rgba(179, 144, 81, 0.12); }
         .section-nav-btn.is-active::after,
-        .section-nav-btn.active::after { transform: scaleX(1); }
+        .section-nav-btn.active::after { transform: scaleX(1); background: var(--eg-gt-gold); }
 
         .workflow-rail {
             display: grid;
@@ -297,13 +299,13 @@
             </a>
             <div class="flex items-center gap-3 text-xs font-mono text-gray-500 uppercase tracking-widest">
                 <span class="hidden md:inline">About</span>
-                <span class="w-1 h-1 rounded-full bg-[#C9B87A] animate-pulse" aria-hidden="true"></span>
+                <span class="w-1 h-1 rounded-full gt-gold-dot animate-pulse" aria-hidden="true"></span>
             </div>
         </div>
     </nav>
 
     <!-- SECTION NAV | Interests pattern; Tech Gold underline -->
-    <div class="section-nav">
+    <div class="section-nav" data-page-sections>
         <div class="max-w-7xl mx-auto px-6 overflow-x-auto eg-h-rail">
             <nav class="flex items-center gap-0" aria-label="About sections">
                 <a href="#overview" data-nav="overview" class="section-nav-btn is-active">Overview</a>
@@ -335,7 +337,7 @@
 
                     <div class="min-w-0">
                         <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">About</h1>
-                        <p class="text-[#C9B87A] font-mono text-sm uppercase tracking-widest">
+                        <p class="gt-gold-text font-mono text-sm uppercase tracking-widest">
                             Systems | Engineering | Steady Work
                         </p>
                         <div class="mt-6 body-copy font-light max-w-2xl">
@@ -452,7 +454,7 @@
                     and embedded control on one bench.
                 </p>
                 <a href="towed-sensor-winch.html"
-                   class="font-mono text-[10px] uppercase tracking-widest text-[#C9B87A] hover:text-white transition-colors inline-flex items-center gap-2 shrink-0">
+                   class="font-mono text-[10px] uppercase tracking-widest gt-gold-text hover:text-white transition-colors inline-flex items-center gap-2 shrink-0">
                     Project brief <i class="fas fa-arrow-right text-[9px]" aria-hidden="true"></i>
                 </a>
             </div>
@@ -626,7 +628,7 @@
             <div class="info-card p-5">
                 <h2 class="about-kicker about-kicker--compact">Focus Domains</h2>
                 <div class="space-y-2 text-sm text-gray-300">
-                    <div class="stack-item text-[#C9B87A]/90">Dynamics &amp; Controls</div>
+                    <div class="stack-item gt-gold-text">Dynamics &amp; Controls</div>
                     <div class="stack-item">State Estimation</div>
                     <div class="stack-item">Vehicle Integration</div>
                     <div class="stack-item">Flight Test</div>
@@ -695,19 +697,19 @@
             </header>
             <ul class="space-y-3 text-[15px] leading-relaxed">
                 <li class="aim-item flex gap-3 text-gray-200">
-                    <span class="aim-bullet text-[#C9B87A] shrink-0 transition-colors duration-200">•</span>
+                    <span class="aim-bullet gt-gold-text shrink-0 transition-colors duration-200">•</span>
                     <span>Take a Summer 2027 internship in aerospace or autonomous systems, then join teams that turn hard goals into testable steps.</span>
                 </li>
                 <li class="aim-item flex gap-3 text-gray-200">
-                    <span class="aim-bullet text-[#C9B87A] shrink-0 transition-colors duration-200">•</span>
+                    <span class="aim-bullet gt-gold-text shrink-0 transition-colors duration-200">•</span>
                     <span>Build tools and workflows that make integration easier for the whole team.</span>
                 </li>
                 <li class="aim-item flex gap-3 text-gray-200">
-                    <span class="aim-bullet text-[#C9B87A] shrink-0 transition-colors duration-200">•</span>
+                    <span class="aim-bullet gt-gold-text shrink-0 transition-colors duration-200">•</span>
                     <span>Stay close to hardware, telemetry, and test so design choices match real behavior.</span>
                 </li>
                 <li class="aim-item flex gap-3 text-gray-200">
-                    <span class="aim-bullet text-[#C9B87A] shrink-0 transition-colors duration-200">•</span>
+                    <span class="aim-bullet gt-gold-text shrink-0 transition-colors duration-200">•</span>
                     <span>Grow into a systems engineer who simplifies complexity and decides well with incomplete data.</span>
                 </li>
             </ul>
@@ -757,39 +759,9 @@
             }
         }
 
-        (function initAboutSubnav() {
-            const links = [...document.querySelectorAll('.section-nav-btn[data-nav]')];
-            const sections = links
-                .map(a => document.getElementById(a.dataset.nav))
-                .filter(Boolean);
-            if (!links.length || !sections.length) return;
-
-            const setActive = (id) => {
-                links.forEach(a => a.classList.toggle('is-active', a.dataset.nav === id));
-            };
-
-            const spy = new IntersectionObserver((entries) => {
-                const visible = entries
-                    .filter(e => e.isIntersecting)
-                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-                if (visible) setActive(visible.target.id);
-            }, { rootMargin: '-30% 0px -55% 0px', threshold: [0.1, 0.35, 0.6] });
-
-            sections.forEach(s => spy.observe(s));
-            setActive(sections[0].id);
-
-            links.forEach(a => {
-                a.addEventListener('click', (e) => {
-                    const target = document.getElementById(a.dataset.nav);
-                    if (!target) return;
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    setActive(a.dataset.nav);
-                });
-            });
-        })();
     </script>
 
+  <script src="js/section-nav.js?v=snav3"></script>
   <script src="js/nav-persist.js?v=soft4"></script>
   <script src="js/live-favicon.js?v=live3"></script>
 </body>

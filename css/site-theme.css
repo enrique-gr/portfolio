@@ -14,6 +14,13 @@
   --eg-accent: #8eb6e8;          /* cooler steel signal (was bright Tailwind blue) */
   --eg-accent-core: #6b9fd4;
   --eg-accent-bright: #a8c5e8;
+  --eg-gt-navy: #051e39;
+  --eg-gt-navy-text: #86aed3;
+  --eg-gt-navy-bright: #b7d4ed;
+  --eg-gt-navy-edge: #4e7ba5;
+  --eg-gt-gold: #b39051;
+  --eg-gt-gold-text: #debd88;
+  --eg-gt-gold-bright: #f9f6e5;
   --eg-accent-soft: rgba(107, 159, 212, 0.12);
   --eg-accent-mid: rgba(107, 159, 212, 0.28);
   --eg-accent-glow: rgba(107, 159, 212, 0.28);

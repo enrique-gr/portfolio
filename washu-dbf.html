@@ -228,13 +228,13 @@
     </nav>
 
     <!-- SECTION NAV -->
-    <div class="section-nav">
+    <div class="section-nav" data-page-sections>
       <div class="max-w-7xl mx-auto px-6 overflow-x-auto eg-h-rail">
-        <div class="flex items-center gap-0">
-          <button class="section-nav-btn active" onclick="scrollToSection('section-contributions', this)">Contributions</button>
-          <button class="section-nav-btn" onclick="scrollToSection('section-flighttest', this)">Flight Test</button>
-          <button class="section-nav-btn" onclick="scrollToSection('section-deliverables', this)">Competition Deliverables</button>
-        </div>
+        <nav class="flex items-center gap-0" aria-label="Page sections">
+          <a class="section-nav-btn active" href="#section-contributions">Contributions</a>
+          <a class="section-nav-btn" href="#section-flighttest">Flight Test</a>
+          <a class="section-nav-btn" href="#section-deliverables">Competition Deliverables</a>
+        </nav>
       </div>
     </div>
 
@@ -576,38 +576,6 @@
     </div>
   </div>
   <script>
-function scrollToSection(id, btn) {
-      document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const el = document.getElementById(id);
-      if (!el) return;
-      const offset = 80 + 45 + 24;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-
-    const dbfSections = [
-      { id: 'section-contributions', btn: 0 },
-      { id: 'section-flighttest', btn: 1 },
-      { id: 'section-deliverables', btn: 2 },
-    ];
-    const navBtns = document.querySelectorAll('.section-nav-btn');
-    const scrollObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const match = dbfSections.find(s => s.id === entry.target.id);
-          if (match) {
-            navBtns.forEach(b => b.classList.remove('active'));
-            navBtns[match.btn].classList.add('active');
-          }
-        }
-      });
-    }, { rootMargin: '-30% 0px -60% 0px' });
-    dbfSections.forEach(s => {
-      const el = document.getElementById(s.id);
-      if (el) scrollObserver.observe(el);
-    });
-
     const modalBackdrop = document.getElementById('modalBackdrop');
     const modalShell    = document.getElementById('modalShell');
     const modalBody     = document.getElementById('modalBody');
@@ -663,5 +631,6 @@ function scrollToSection(id, btn) {
 </script>
   <script src="js/nav-persist.js?v=soft4"></script>
   <script src="js/live-favicon.js?v=live3"></script>
+  <script src="js/section-nav.js?v=snav3"></script>
 </body>
 </html>

@@ -249,15 +249,15 @@
         </nav>
 
         <!-- SECTION NAV -->
-        <div class="section-nav">
+        <div class="section-nav" data-page-sections>
             <div class="max-w-7xl mx-auto px-6 overflow-x-auto eg-h-rail">
-                <div class="flex items-center gap-0">
-                    <button class="section-nav-btn active" onclick="scrollToSection('section-methodology', this)">Mission Brief</button>
-                    <button class="section-nav-btn" onclick="scrollToSection('section-cycles', this)">Competition Cycles</button>
-                    <button class="section-nav-btn" onclick="scrollToSection('section-current', this)">Current Mission</button>
-                    <button class="section-nav-btn" onclick="scrollToSection('section-media', this)">Test Evidence</button>
-                    <button class="section-nav-btn" onclick="scrollToSection('section-prior', this)">Mission Record</button>
-                </div>
+                <nav class="flex items-center gap-0" aria-label="Page sections">
+                    <a class="section-nav-btn active" href="#section-methodology">Mission Brief</a>
+                    <a class="section-nav-btn" href="#section-cycles">Competition Cycles</a>
+                    <a class="section-nav-btn" href="#section-current">Current Mission</a>
+                    <a class="section-nav-btn" href="#section-media">Test Evidence</a>
+                    <a class="section-nav-btn" href="#section-prior">Mission Record</a>
+                </nav>
             </div>
         </div>
 
@@ -717,40 +717,6 @@
         </div>
     </div>
   <script>
-function scrollToSection(id, btn) {
-        document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const el = document.getElementById(id);
-        if (!el) return;
-        const offset = 80 + 45 + 24;
-        const top = el.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
-    }
-
-    const vtolSections = [
-        { id: 'section-methodology', btn: 0 },
-        { id: 'section-cycles', btn: 1 },
-        { id: 'section-current', btn: 2 },
-        { id: 'section-media', btn: 3 },
-        { id: 'section-prior', btn: 4 },
-    ];
-    const navBtns = document.querySelectorAll('.section-nav-btn');
-    const scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const match = vtolSections.find(s => s.id === entry.target.id);
-                if (match) {
-                    navBtns.forEach(b => b.classList.remove('active'));
-                    navBtns[match.btn].classList.add('active');
-                }
-            }
-        });
-    }, { rootMargin: '-30% 0px -60% 0px' });
-    vtolSections.forEach(s => {
-        const el = document.getElementById(s.id);
-        if (el) scrollObserver.observe(el);
-    });
-
     var modalBackdrop = document.getElementById('modalBackdrop');
     var modalShell    = document.getElementById('modalShell');
 
@@ -793,5 +759,6 @@ function scrollToSection(id, btn) {
 </script>
   <script src="js/nav-persist.js?v=soft4"></script>
   <script src="js/live-favicon.js?v=live3"></script>
+  <script src="js/section-nav.js?v=snav3"></script>
 </body>
 </html>

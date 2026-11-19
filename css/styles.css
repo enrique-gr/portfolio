@@ -18,7 +18,7 @@
     14. Utilities
 ============================================================================= */
 
-@import url("site-theme.css?v=read3");
+@import url("site-theme.css?v=read4");
 
 /* ---------------------------------------------------------------------------
    0. Base & Typography
@@ -1209,7 +1209,7 @@ pre, code {
 }
 
 :root {
-  /* Target amber ≠ Superman #FCD700 and ≠ GT gold (#C9B87A / #B3A369) */
+  /* Target amber is separate from Superman yellow and About gold. */
   --mission-past: #9aa3b2;
   --mission-active: #3bcf98;
   --mission-target: #e89b12;
@@ -1601,32 +1601,33 @@ pre, code {
   background: #FFFFFF;
 }
 
-.nav-link--about {
-  color: #C9B87A;
+.nav-link--about,
+.mobile-nav .mobile-nav-link--about {
+  color: var(--eg-gt-gold-text);
 }
 .nav-link--about::after {
-  background: #B3A369;
-  height: 2px;
-  opacity: 1;
+  background: var(--eg-gt-gold);
 }
-.nav-link--about:hover { color: #E4D7A5; }
+.nav-link--about:is(:hover, :focus-visible),
+.mobile-nav .mobile-nav-link--about:is(:hover, :focus-visible) {
+  color: var(--eg-gt-gold-bright);
+}
 
-.nav-link--interests {
-  color: #6A9BC4; /* readable lift of GT Navy #003057 */
+.nav-link--interests,
+.mobile-nav .mobile-nav-link--interests {
+  color: var(--eg-gt-navy-text);
 }
 .nav-link--interests::after {
-  background: #003057;
-  height: 2px;
-  opacity: 1;
+  background: linear-gradient(90deg, var(--eg-gt-navy), var(--eg-gt-navy-edge));
 }
-.nav-link--interests:hover { color: #9BB8D3; }
+.nav-link--interests:is(:hover, :focus-visible),
+.mobile-nav .mobile-nav-link--interests:is(:hover, :focus-visible) {
+  color: var(--eg-gt-navy-bright);
+}
 
-.mobile-nav-link--about { color: #C9B87A; }
-.mobile-nav-link--about:hover,
-.mobile-nav-link--about:focus-visible { color: #E4D7A5; }
-.mobile-nav-link--interests { color: #6A9BC4; }
-.mobile-nav-link--interests:hover,
-.mobile-nav-link--interests:focus-visible { color: #9BB8D3; }
+:is(.nav-link--about, .nav-link--interests):is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
 
 .nav-link--mission {
   gap: 0.45rem;

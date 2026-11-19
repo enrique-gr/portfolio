@@ -1,68 +1,132 @@
-/**
- * Shared section-nav: smooth jump + scroll spy.
- * Matches About / Interests / VTOL / DBF behavior.
- */
-(function initSectionNav() {
-  const btns = Array.from(document.querySelectorAll(".section-nav-btn[data-target]"));
-  if (!btns.length) return;
+(function initPageSectionNav() {
+  const nav = document.querySelector("[data-page-sections]");
+  if (!nav) return;
 
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const offset = () => {
-    const topNav = document.querySelector("nav.fixed, #site-nav");
-    const secNav = document.querySelector(".section-nav");
-    const topH = topNav ? topNav.getBoundingClientRect().height : 80;
-    const secH = secNav ? secNav.getBoundingClientRect().height : 45;
-    return topH + secH + 24;
-  };
+  const rail = nav.querySelector(".eg-h-rail");
+  const header = document.querySelector("nav.fixed");
+  const entries = Array.from(nav.querySelectorAll('a[href^="#"]'))
+    .map(link => ({ link, section: document.getElementById(link.hash.slice(1)) }))
+    .filter(entry => entry.section);
+  if (!entries.length) return;
 
-  const setActive = (id) => {
-    btns.forEach((b) => {
-      const on = b.getAttribute("data-target") === id;
-      b.classList.toggle("active", on);
-      b.classList.toggle("is-active", on);
-    });
-  };
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const scrollKeys = new Set(["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "]);
+  let active;
+  let pending;
+  let settleTimer;
+  let syncFrame;
 
-  const scrollToId = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY - offset();
-    window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
-    setActive(id);
-  };
+  function offset() {
+    return Math.max(header ? header.getBoundingClientRect().bottom : 0,
+                    nav.getBoundingClientRect().bottom) + 18;
+  }
 
-  btns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const id = btn.getAttribute("data-target");
-      if (id) scrollToId(id);
-    });
-  });
-
-  // Expose for any legacy onclick="scrollToSection(...)"
-  window.scrollToSection = function scrollToSection(id, btn) {
-    if (btn) {
-      btns.forEach((b) => {
-        b.classList.remove("active", "is-active");
-      });
-      btn.classList.add("active", "is-active");
+  function sectionTop(section) {
+    // Layout offsets ignore the transform used by About's entrance animation.
+    let top = 0;
+    for (let node = section; node; node = node.offsetParent) {
+      top += node.offsetTop + (node.offsetParent?.clientTop || 0);
     }
-    scrollToId(id);
+    return top;
+  }
+
+  function maxScroll() {
+    return Math.max(0, document.scrollingElement.scrollHeight - window.innerHeight);
+  }
+
+  function setActive(entry) {
+    if (entry === active) return;
+    active = entry;
+    for (const item of entries) {
+      const selected = item === entry;
+      item.link.classList.toggle("active", selected);
+      item.link.classList.toggle("is-active", selected);
+      if (selected) item.link.setAttribute("aria-current", "location");
+      else item.link.removeAttribute("aria-current");
+    }
+
+    // Reveal the tab on narrow screens without scrolling the page a second time.
+    if (!rail) return;
+    const viewport = rail.getBoundingClientRect();
+    const tab = entry.link.getBoundingClientRect();
+    if (tab.left < viewport.left + 8) rail.scrollLeft += tab.left - viewport.left - 8;
+    else if (tab.right > viewport.right - 8) rail.scrollLeft += tab.right - viewport.right + 8;
+  }
+
+  function queueSync() {
+    if (syncFrame) return;
+    syncFrame = requestAnimationFrame(() => {
+      syncFrame = 0;
+      if (pending) return;
+      const bottom = maxScroll();
+      // Font and media layout can move the bottom by a few pixels after scrolling.
+      if (bottom > 0 && window.scrollY >= bottom - 12) {
+        setActive(entries[entries.length - 1]);
+        return;
+      }
+      const line = window.scrollY + offset() + 2;
+      let visible = entries[0];
+      for (const entry of entries) {
+        if (sectionTop(entry.section) > line) break;
+        visible = entry;
+      }
+      setActive(visible);
+    });
+  }
+
+  function settleWhenIdle() {
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(() => {
+      const destination = pending;
+      pending = null;
+      if (destination && Math.abs(window.scrollY - destinationTop(destination)) > 2) queueSync();
+    }, 180);
+  }
+
+  function destinationTop(entry) {
+    return Math.max(0, Math.min(maxScroll(), sectionTop(entry.section) - offset()));
+  }
+
+  function jump(entry, animate) {
+    pending = entry;
+    setActive(entry);
+    window.scrollTo({ top: destinationTop(entry), behavior: animate && !reducedMotion.matches ? "smooth" : "instant" });
+    settleWhenIdle();
+  }
+
+  function interruptJump() {
+    if (!pending) return;
+    clearTimeout(settleTimer);
+    pending = null;
+    queueSync();
+  }
+
+  for (const entry of entries) {
+    entry.link.addEventListener("click", event => {
+      if (event.defaultPrevented || event.button !== 0 ||
+          event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      jump(entry, true);
+    });
+  }
+
+  window.addEventListener("scroll", () => {
+    if (pending) settleWhenIdle();
+    else queueSync();
+  }, { passive: true });
+  window.addEventListener("wheel", interruptJump, { passive: true });
+  window.addEventListener("touchmove", interruptJump, { passive: true });
+  window.addEventListener("keydown", event => {
+    if (scrollKeys.has(event.key) && !event.target.closest?.("input, textarea, select, button, [contenteditable]")) {
+      interruptJump();
+    }
+  });
+  window.addEventListener("resize", queueSync);
+  const followHash = () => {
+    const entry = entries.find(item => item.link.hash === window.location.hash);
+    if (entry) jump(entry, false);
+    else queueSync();
   };
-
-  const targets = btns
-    .map((b) => document.getElementById(b.getAttribute("data-target")))
-    .filter(Boolean);
-
-  if (!targets.length || typeof IntersectionObserver === "undefined") return;
-
-  const spy = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setActive(entry.target.id);
-      });
-    },
-    { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
-  );
-  targets.forEach((el) => spy.observe(el));
+  window.addEventListener("hashchange", followHash);
+  followHash();
 })();
