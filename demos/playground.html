@@ -5,7 +5,8 @@
   <link rel="shortcut icon" href="../assets/brand/favicon.png?v=live3">
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GNC Flight Software | Enrique Garcia</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Softfall | Enrique Garcia</title>
   <link rel="stylesheet" href="../css/tailwind.css?v=tw1">
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -63,72 +64,19 @@
             box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
         }
 
-        /* Mission Control Return Button */
-        .mission-return-btn {
-            background: rgba(255, 183, 0, 0.1); /* Amber tint */
-            border: 1px solid #f59e0b; /* Amber-500 */
-            color: #f59e0b;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            padding: 6px 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-right: 16px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            outline: none;
-            text-decoration: none;
-            border-radius: 2px;
-            height: 32px;
-        }
-
-        .mission-return-btn:hover {
-            background: #f59e0b;
-            color: #0b0d12;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
-            transform: translateX(-2px);
-        }
     </style>
   <link rel="stylesheet" href="../css/site-theme.css?v=read3">
+  <link rel="stylesheet" href="../css/demo.css?v=1">
 </head>
-<body class="antialiased bg-[#0b0d12] h-screen flex flex-col overflow-hidden selection:bg-emerald-500/30">
+<body class="lander-demo antialiased bg-[#0b0d12] h-screen flex flex-col overflow-hidden selection:bg-emerald-500/30">
 
-<!-- Navigation -->
-<nav class="border-b border-white/10 bg-black/50 backdrop-blur-md h-14 flex items-center px-4 md:px-6 shrink-0 z-50 justify-between">
-    <div class="flex items-center">
-        <!-- 
-            UPDATED RETURN MECHANISM:
-            1. Links to ../lander.html (Up one level to Project Overview Page)
-            2. onclick triggers smoothExit() animation
-        -->
-        <a href="../lander.html" onclick="smoothExit(event, this.href)" class="mission-return-btn">
-            <i class="fas fa-chevron-left"></i> RETURN
-        </a>
-        
-        <!-- Separator -->
-        <div class="h-6 w-px bg-white/10 mr-4 hidden md:block"></div>
-
-        <div class="flex flex-col">
-            <span class="font-mono text-xs font-bold uppercase tracking-wider text-white">GNC Control Playground <span class="text-emerald-500"></span></span>
-            <span class="text-[9px] text-gray-500 uppercase tracking-widest">Physics Simulation Environment</span>
-        </div>
+<header class="demo-console-header">
+    <a href="../lander.html" class="demo-back"><span aria-hidden="true">←</span> Back to Project</a>
+    <div>
+        <h1>Softfall</h1>
+        <p>Tune the controller and observe the simulated descent.</p>
     </div>
-    <div class="flex items-center gap-4">
-        <div class="hidden md:flex flex-col items-end mr-4">
-            <span class="text-[9px] text-gray-500 uppercase">System Time</span>
-            <span id="sys-time" class="font-mono text-xs text-white">00:00:00.00</span>
-        </div>
-        <div class="font-mono text-[10px] md:text-xs text-emerald-500 uppercase tracking-widest flex items-center gap-2">
-            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]"></span> 
-            <span class="hidden md:inline">Telemetry Active</span>
-            <span class="md:hidden">LIVE</span>
-        </div>
-    </div>
-</nav>
+</header>
 
 <!-- Main Layout -->
 <div class="flex flex-1 overflow-hidden relative">
@@ -139,7 +87,7 @@
         <!-- Header -->
         <div class="flex justify-between items-end border-b border-white/5 pb-4">
             <div>
-                <h1 class="font-mono text-lg font-bold text-white mb-1">CONFIGURATION</h1>
+                <h2 class="font-mono text-lg font-bold text-white mb-1">Configuration</h2>
                 <p class="text-[10px] text-gray-500 font-mono uppercase tracking-wider">Mission Parameters</p>
             </div>
             <button onclick="resetSim()" class="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-3 py-1 text-[10px] font-mono uppercase transition-colors">
@@ -245,8 +193,8 @@
     </div>
 
     <!-- Toggle Button for Mobile -->
-    <button onclick="toggleSidebar()" class="absolute top-4 right-4 z-30 md:hidden bg-gray-800 text-white p-2 rounded border border-gray-700 shadow-lg">
-        <i class="fas fa-bars"></i>
+    <button id="sidebar-toggle" type="button" onclick="toggleSidebar()" aria-controls="sidebar" aria-expanded="false" class="absolute top-4 right-4 z-30 md:hidden demo-back">
+        Controls
     </button>
 
     <!-- Simulation Viewport -->
@@ -280,7 +228,7 @@
         <!-- Canvas -->
         <div class="relative flex-1 w-full h-full min-h-0">
             <canvas id="simCanvas" class="w-full h-full block"></canvas>
-            <div class="absolute inset-0 crt-overlay"></div>
+
         </div>
 
         <!-- Bottom Plot Panel -->
@@ -392,6 +340,7 @@
     let time = 0;
     const dt = 1/60;
     let lastTimestamp = 0;
+    let accumulator = 0;
     let historyT = [], historyErr = [], historyThr = [];
     let particles = [];
     let running = true;
@@ -399,11 +348,26 @@
     // --- UI FUNCTIONS ---
 
     let sidebarOpen = false;
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const mobileLayout = matchMedia('(max-width: 767px)');
+    function syncSidebar() {
+        sidebar.inert = mobileLayout.matches && !sidebarOpen;
+        sidebar.classList.toggle('-translate-x-full', !sidebarOpen);
+        sidebarToggle.setAttribute('aria-expanded', String(sidebarOpen));
+    }
     function toggleSidebar() {
         sidebarOpen = !sidebarOpen;
-        const el = document.getElementById('sidebar');
-        el.classList.toggle('-translate-x-full', !sidebarOpen);
+        syncSidebar();
     }
+    mobileLayout.addEventListener('change', syncSidebar);
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && sidebarOpen && mobileLayout.matches) {
+            toggleSidebar();
+            sidebarToggle.focus();
+        }
+    });
+    syncSidebar();
 
     function loadPreset(key) {
         if (key === 'custom') return;
@@ -796,20 +760,24 @@
     document.getElementById('slider-ki').oninput = (e) => { pid.ki = parseFloat(e.target.value); document.getElementById('val-ki').innerText = pid.ki; };
 
     function loop(timestamp) {
-        if (!lastTimestamp) lastTimestamp = timestamp;
-        const elapsed = timestamp - lastTimestamp;
-        
-        if (elapsed < 100) {
-             updatePhysics();
-             updateParticles();
-        }
+        const elapsed = lastTimestamp ? (timestamp - lastTimestamp) / 1000 : dt;
         lastTimestamp = timestamp;
-
+        accumulator = Math.min(4 * dt, accumulator + elapsed);
+        while (accumulator + 1e-9 >= dt) {
+            updatePhysics();
+            updateParticles();
+            accumulator -= dt;
+        }
         draw();
         updateUI();
         requestAnimationFrame(loop);
     }
-    
+
+    document.addEventListener('visibilitychange', () => {
+        lastTimestamp = 0;
+        accumulator = 0;
+    });
+
     function updateUI() {
         document.getElementById('hud-alt').innerText = state.y.toFixed(1) + " m";
         document.getElementById('hud-vel').innerText = state.v.toFixed(1) + " m/s";
@@ -829,6 +797,7 @@
 
     // Init Plotly
     setInterval(() => {
+        if (document.hidden || !window.Plotly) return;
         const plotConfig = { displayModeBar: false, staticPlot: true, responsive: true };
         const layout = { 
             paper_bgcolor:'transparent', plot_bgcolor:'transparent', 

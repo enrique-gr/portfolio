@@ -121,59 +121,64 @@ const PROJECTS = {
 
   /* ---------- Personal Projects ---------- */
   "sentinel-cv": {
-    title: "Sentinel Computer Vision",
+    title: "Sentinel",
+    descriptor: "Camera Tracking Rig",
     category: "personal",
     logoUrl: "assets/images/sentinel.png",
-    role: "Algorithm Engineer",
+    role: "Vision & Mechatronics",
     dates: "Winter 2025",
     tags: ["C++", "OpenCV", "Kalman Filter"],
-    summary: "Real-time computer vision pipeline for autonomous target tracking and intercept prediction.",
+    summary: "Bench prototype integrating camera input, state estimation, and two-axis tracking.",
     externalLink: "sentinel.html",
-    fileSize: "3.1 MB"
+    artifact: "Bench prototype"
   },
   "ekf-nav": {
-    title: "Multi-Sensor Flight Nav",
+    title: "Meridian",
+    descriptor: "Flight State Estimator",
     category: "personal",
     logoUrl: "assets/images/sensor_fusion.png",
-    role: "Independent Dev",
+    role: "Embedded Estimation",
     tags: ["C++", "Embedded", "EKF"],
-    summary: "Real-time 12-state Extended Kalman Filter fusing IMU, GPS, and vision data.",
+    summary: "Embedded EKF for asynchronous IMU, GPS, and barometer data, with a separate sample telemetry replay.",
     externalLink: "ekf-nav.html",
-    fileSize: "2.4 MB"
+    artifact: "Embedded estimator"
   },
   "webtunnel-cfd": {
-    title: "WebTunnel CFD",
+    title: "WebTunnel",
+    descriptor: "Interactive Wind Tunnel",
     category: "personal",
     logoUrl: "assets/images/cfd_v2.png",
-    role: "Independent Dev",
+    role: "Numerical Simulation",
     tags: ["JS", "Navier-Stokes", "Physics"],
-    summary: "Zero-dependency real-time fluid simulation running in the browser.",
+    summary: "Explore airfoils and wakes in a browser flow solver with live pressure and divergence diagnostics.",
     externalLink: "webtunnel-cfd.html",
-    fileSize: "1.8 MB"
+    artifact: "Interactive demo"
   },
   "hyperion-engine": {
-    title: "Hyperion 6-DOF",
+    title: "Hyperion",
+    descriptor: "6-DOF Flight Dynamics Engine",
     category: "personal",
     logoUrl: "assets/images/hyperion.png",
-    role: "Systems Architect",
+    role: "Simulation Architecture",
     tags: ["C++20", "Multithreading"],
-    summary: "High-frequency (10kHz) rigid body physics engine for flight software validation.",
+    summary: "C++20 rigid-body dynamics and UDP telemetry, with an interactive comparison of integration error.",
     externalLink: "hyperion.html",
-    fileSize: "14 MB"
+    artifact: "Simulation engine"
   },
   "gnc-sim": {
-    title: "Lander Control Sim",
+    title: "Softfall",
+    descriptor: "Rocket Landing Simulator",
     category: "personal",
     logoUrl: "assets/images/gnc.png",
-    role: "Sim Engineer",
+    role: "Controls & Simulation",
     tags: ["Control Theory", "PID"],
-    summary: "Interactive rocket landing simulator with real-time PID tuning for thrust and descent control.",
+    summary: "Tune PID gains and compare hover and powered descent in a vertical flight simulator.",
     externalLink: "lander.html",
-    fileSize: "3.2 MB"
+    artifact: "Interactive demo"
   },
   /* ---------- Coursework ---------- */
   "towed-sensor-winch": {
-    title: "Towed-Sensor Winch",
+    title: "Towed Sensor Deployment Winch",
     category: "coursework",
     logoUrl: "assets/images/me_winch_bench.jpg",
     photo: true,
@@ -182,47 +187,47 @@ const PROJECTS = {
     tags: ["Mechatronics", "Embedded", "3D Print"],
     summary: "Motorized winch that deploys a towed sensor on dual steel cables, switches light modes through the tow path, and reels back to dock. Initial prototype tested; final print in progress.",
     externalLink: "towed-sensor-winch.html",
-    fileSize: "Active"
+    artifact: "Active prototype"
   },
   "cad-foosball": {
-    title: "Regulation Foosball",
+    title: "Foosball Table CAD Design",
     category: "coursework",
     logoUrl: "assets/images/foosball.png",
     role: "Mechanical Design",
     tags: ["SolidWorks", "DFM"],
     summary: "Bottom-up CAD design of a playable table with 200+ part assembly.",
     externalLink: "cad-foosball.html",
-    fileSize: "128 MB"
+    artifact: "CAD design"
   },
   "cruise-control": {
-    title: "Adaptive Cruise Control",
+    title: "Adaptive Cruise Control Simulation",
     category: "coursework",
     logoUrl: "assets/images/acc.png",
     role: "Control Systems",
     tags: ["MATLAB", "Simulink"],
     summary: "Simulated longitudinal vehicle control using PID loops and radar logic.",
     externalLink: "cruise-control.html",
-    fileSize: "8 MB"
+    artifact: "Controls simulation"
   },
   "ambulance-system": {
-    title: "RF Priority System",
+    title: "Ambulance Traffic Signal Preemption",
     category: "coursework",
     logoUrl: "assets/images/amb.png",
     role: "Embedded Systems",
     tags: ["Arduino", "RF Comms"],
-    summary: "Wireless traffic preemption system for emergency vehicles.",
+    summary: "Prototype that sends an RF request to prioritize an emergency vehicle at a model intersection.",
     externalLink: "ambulance-system.html",
-    fileSize: "150 KB"
+    artifact: "Hardware demo"
   },
   "solid-mechanics": {
-    title: "Landing Gear FEA",
+    title: "Nose Landing Gear Structural Analysis",
     category: "coursework",
     logoUrl: "assets/images/solids.png",
     role: "Solid Mechanics",
     tags: ["ANSYS", "FEA"],
-    summary: "Designing a nose landing gear built to withstand 3g impacts through focused structural modeling.",
+    summary: "FEA study of a nose landing gear under a modeled 3g landing load.",
     externalLink: "solid-mechanics.html",
-    fileSize: "450 MB"
+    artifact: "Structural analysis"
   },
   "who-is-responsible": {
     title: "Who Is Responsible When an AI Kills?",
@@ -232,14 +237,14 @@ const PROJECTS = {
     tags: ["Autonomous Systems", "AI Ethics", "Defense Policy"],
     summary: "Magazine-style technical writing on the accountability gap in autonomous weapons and Collaborative Combat Aircraft (CCA), with a call for engineers in the policy loop. Nominated for the 2026 McKelvey Technical Writing awards.",
     externalLink: "who-is-responsible.html",
-    fileSize: "14 pp."
+    artifact: "Published article"
   }
 };
 
 /** Work Log ticker items (builds, lab work, writing) */
 const HW_ITEMS = [
   { type: "Research",   title: "MIDE UAS Research Internship",     sub: "Experimental UAS | Flight Data | Systems Bring-Up", src: "assets/images/hw_mide_flight.jpg",     date: "2026-08", status: "complete",  link: "mide.html" },
-  { type: "Mechatronics", title: "Towed-Sensor Winch Bench",       sub: "MEMS 4110 | Deploy | Retract | Light Modes",        src: "assets/images/me_winch_assembly.jpg",  date: "2026-11", status: "active",    link: "towed-sensor-winch.html" },
+  { type: "Mechatronics", title: "Towed Sensor Winch Bench",       sub: "MEMS 4110 | Deploy | Retract | Light Modes",        src: "assets/images/me_winch_assembly.jpg",  date: "2026-11", status: "active",    link: "towed-sensor-winch.html" },
   { type: "Avionics",   title: "VTOL Hexacopter Integration",      sub: "Frame Assembly | Power Layout | Bench Prep",         src: "assets/images/hw_vtol_assembly.jpg",   date: "2026-02", status: "verified",  link: "washu-vtol.html" },
   { type: "Research",   title: "MIRO Sensor Fusion Internship",    sub: "IMU + EMG | Calibration | Validation",               src: "assets/images/hw_miro_wearable.jpg",   date: "2025-08", status: "complete",  link: "miro-lab.html" },
   { type: "Flight Test", title: "Competition UAV Test Plane",      sub: "First Iteration | AIAA DBF + SAE Aero Micro",        src: "assets/images/hw_dbf_testplane.jpg",   date: "2026-10", status: "verified",  link: "washu-dbf.html" },
@@ -615,9 +620,8 @@ function switchTab(tabName) {
 
         <!-- Card header bar -->
         <div class="flex justify-between items-center px-4 py-2 bg-white/5 border-b border-white/10">
-          <span class="font-mono text-[9px] text-gray-500 uppercase tracking-widest">FILE: ${id.split("-")[0].toUpperCase()}</span>
+          <span class="font-mono text-[9px] text-gray-500 uppercase tracking-widest">${p.artifact}</span>
           <div class="flex items-center gap-2">
-            <span class="archive-meta text-[9px] font-mono text-gray-600 transition-colors">${p.fileSize || "1.0 MB"}</span>
             <span class="archive-dot w-1.5 h-1.5 bg-gray-700 rounded-full transition-colors"></span>
           </div>
         </div>
@@ -632,8 +636,8 @@ function switchTab(tabName) {
 
         <!-- Card body: selectable copy -->
         <div class="p-6 flex flex-col flex-grow bg-[#0a0a0a]">
-          <h4 class="archive-title text-lg font-bold text-white mb-1 transition-colors tracking-tight">${p.title}</h4>
-          <p class="archive-role text-[10px] font-mono mb-4 uppercase tracking-wider font-bold">${p.role}</p>
+          <h4 class="archive-title ${p.descriptor ? "text-2xl" : "text-lg"} font-bold text-white mb-1 transition-colors tracking-tight">${p.title}</h4>
+          <p class="archive-role text-[10px] font-mono mb-4 uppercase tracking-wider font-bold">${p.descriptor || p.role}</p>
           <p class="text-sm text-gray-400 font-light leading-relaxed mb-6 flex-grow border-l border-white/10 pl-3">${p.summary}</p>
           <div class="flex flex-wrap items-center justify-between gap-3 mt-auto">
             <div class="flex flex-wrap gap-2">${tagsHtml}</div>

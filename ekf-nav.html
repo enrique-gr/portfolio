@@ -5,7 +5,7 @@
   <link rel="shortcut icon" href="assets/brand/favicon.png?v=live3">
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flight Nav EKF | Enrique Garcia</title>
+    <title>Meridian | Flight State Estimator | Enrique Garcia</title>
   <link rel="stylesheet" href="css/tailwind.css?v=tw1">
   <link rel="stylesheet" href="css/hub-accents.css?v=hub2">
 
@@ -41,6 +41,7 @@
     </style>
   <link rel="stylesheet" href="css/site-theme.css?v=read3">
   <link rel="stylesheet" href="css/section-nav.css?v=snav3">
+  <link rel="stylesheet" href="css/demo.css?v=1">
 </head>
 <body class="hub-personal antialiased bg-[#0f0f10] min-h-screen">
 
@@ -83,20 +84,32 @@
                 <img src="assets/images/sensor_fusion.png" alt="Sensor Fusion Icon" class="h-full w-full object-contain p-2" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMiAyTDIgN2wxMCA1IDEwLTVyLTF6bTAgOWwxMCA1LTEwIDUtMTAtNWwxeiIvPjwvc3ZnPg==';">
             </div>
             <div>
-                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">Flight Nav EKF</h1>
+                <h1 class="personal-project-name">Meridian</h1>
+                <p class="personal-project-descriptor">Flight State Estimator</p>
                 <p class="text-blue-400 font-mono text-sm uppercase tracking-widest">Personal Project | Embedded State Estimation</p>
             </div>
         </div>
 
+        <section class="project-brief" aria-label="Project at a glance">
+            <div class="project-brief-head">
+                <h2>Embedded estimation</h2>
+                <a class="demo-action" href="demos/telemetry.html">Open Telemetry Demo <span aria-hidden="true">→</span></a>
+            </div>
+            <dl>
+                <div><dt>What I built</dt><dd>An embedded extended Kalman filter built around IMU, GPS, and barometer measurements.</dd></div>
+                <div><dt>What to look for</dt><dd>The report describes the estimator. A separate sample replay shows how flight telemetry can be presented and inspected.</dd></div>
+                <div><dt>Scope</dt><dd>The replay is synthetic. It does not measure estimator accuracy or hardware timing.</dd></div>
+            </dl>
+        </section>
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
             
             <div class="lg:col-span-2 space-y-14">
-
                 <div>
                     <h3 id="section-overview" class="text-xs font-bold text-gray-500 font-mono uppercase tracking-widest mb-6">Overview</h3>
                     <div class="text-gray-300 leading-relaxed text-lg font-light space-y-4">
                         <p>
-                            A real-time <span class="tech-highlight">12-state Extended Kalman Filter</span> on a Teensy 4.1 for UAV state estimation.
+                            A real-time <span class="tech-highlight">Extended Kalman Filter</span> on a Teensy 4.1 for UAV state estimation.
                             Asynchronous IMU, GPS, and barometer streams are fused so attitude and position stay usable when raw sensors drift.
                         </p>
                     </div>
@@ -122,10 +135,10 @@
                                 <div class="w-8 h-8 bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-vector-square text-blue-400 text-xs"></i></div>
                                 <div class="flex-1">
                                     <div class="flex items-center justify-between mb-1 gap-3">
-                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | 12-State Vector</h4>
+                                        <h4 class="font-bold text-white text-sm font-mono uppercase tracking-wider">02 | State Representation</h4>
                                         <span class="font-mono text-[10px] text-blue-400 uppercase shrink-0">State</span>
                                     </div>
-                                    <p class="text-gray-400 text-sm leading-relaxed">Estimates position, velocity, quaternion attitude, and gyro bias to absorb sensor error over time.</p>
+                                    <p class="text-gray-400 text-sm leading-relaxed">The nominal estimate stores position, velocity, a unit quaternion for attitude, and gyro bias. The quaternion has four stored components and three rotational degrees of freedom.</p>
                                 </div>
                             </div>
                         </div>
@@ -233,7 +246,7 @@
                     <div class="bg-[#151515] border border-white/10 rounded-sm overflow-hidden">
                         <div class="px-4 py-2 bg-white/5 border-b border-white/5 flex justify-between items-center">
                             <span class="text-[10px] font-mono text-gray-400">ekf_types.h</span>
-                            <span class="text-[10px] font-mono text-blue-400">12-State Struct</span>
+                            <span class="text-[10px] font-mono text-blue-400">Nominal State Struct</span>
                         </div>
                         <pre class="p-4 text-xs font-mono leading-relaxed overflow-x-auto text-gray-300"><span class="code-kwd">struct</span> <span class="code-type">EKF_State</span> {
     <span class="code-type">Vector3f</span> pos;      <span class="code-comment">// Position (NED)</span>
@@ -334,7 +347,7 @@
                 <div class="p-8 bg-blue-500/5 border border-blue-500/20">
                     <h4 class="font-bold mb-3 text-xs font-mono uppercase tracking-widest text-blue-400">Takeaway</h4>
                     <p class="text-sm text-blue-100/80 leading-relaxed mb-4">
-                        Embedded 12-state EKF that fuses IMU, GPS, and baro for usable attitude and position instead of drifting raw integration.
+                        Embedded EKF that fuses IMU, GPS, and baro for usable attitude and position instead of drifting raw integration.
                     </p>
                     <div class="text-xs font-mono text-gray-400 border-t border-blue-500/20 pt-4 mt-4">
                         APPLICATIONS:<br>

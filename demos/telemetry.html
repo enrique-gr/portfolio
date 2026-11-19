@@ -5,12 +5,13 @@
   <link rel="shortcut icon" href="../assets/brand/favicon.png?v=live3">
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flight Data Record #042 | Enrique Garcia</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Meridian | Sample Telemetry | Enrique Garcia</title>
 
     <!-- Tailwind / Plotly / Model Viewer -->
   <link rel="stylesheet" href="../css/tailwind.css?v=tw1">
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
     <!-- Icons / Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -97,57 +98,32 @@
         }
     </style>
   <link rel="stylesheet" href="../css/site-theme.css?v=read3">
+  <link rel="stylesheet" href="../css/demo.css?v=1">
 </head>
-<body class="p-2 gap-2">
+<body class="telemetry-demo">
 
-    <header class="h-12 border border-white/10 bg-black/80 backdrop-blur-sm flex items-center justify-between px-4 shrink-0">
-        <div class="flex items-center gap-4">
-            <!-- SMOOTH RETURN TO EKF PROJECT PAGE -->
-            <a href="../ekf-nav.html" onclick="smoothExit(event, this.href)" class="text-gray-500 hover:text-white transition-colors flex items-center gap-2 group cursor-pointer">
-                <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform text-xs"></i>
-                <span class="text-[10px] font-bold tracking-widest uppercase">Abort / Return</span>
-            </a>
-            <div class="w-px h-6 bg-white/10"></div>
-            <div class="flex flex-col">
-                <span class="text-xs text-gray-400">
-                    Mission: <span class="text-white">HOVER_STABILITY_TEST_04</span>
-                </span>
-                <span class="text-[10px] text-gray-600">ID: 8f3a2c // T-0 Start: 14:02:22 UTC</span>
-            </div>
-        </div>
-        <div class="flex gap-6 text-[10px]">
-            <div class="flex flex-col items-end">
-                <span class="text-gray-500 uppercase tracking-widest">EKF State</span>
-                <span class="text-emerald-400 animate-pulse font-semibold">Converged</span>
-            </div>
-            <div class="flex flex-col items-end">
-                <span class="text-gray-500 uppercase tracking-widest">Battery</span>
-                <span class="text-white">16.4V (4S)</span>
-            </div>
-            <div class="flex flex-col items-end">
-                <span class="text-gray-500 uppercase tracking-widest">Link Quality</span>
-                <span class="text-white">-42 dBm</span>
-            </div>
+    <header class="demo-console-header">
+        <a href="../ekf-nav.html" class="demo-back"><span aria-hidden="true">←</span> Back to Project</a>
+        <div>
+            <h1>Meridian</h1>
+            <p>A synthetic hover sequence with attitude, altitude, and sample sensor readings.</p>
         </div>
     </header>
 
-    <div class="flex-1 grid grid-cols-12 grid-rows-6 gap-2 min-h-0">
-
+    <main class="telemetry-layout">
         <!-- Attitude Visualizer -->
-        <div class="panel col-span-12 md:col-span-4 row-span-4 crt">
+        <div class="panel telemetry-attitude">
             <div class="panel-header">
                 <span><i class="fas fa-cube mr-2 text-xs"></i>Attitude Visualizer</span>
-                <span class="text-blue-400 text-[9px] tracking-widest uppercase">Live Render</span>
+                <span class="text-blue-400 text-[9px] tracking-widest uppercase">Simulated attitude</span>
             </div>
             <div class="flex-1 relative bg-gradient-to-b from-[#111] to-[#050505]">
-                <!-- Using placeholder model to ensure stability -->
-                <!-- Replace 'assets/images/drone.glb' with your actual file path -->
 <model-viewer 
     id="drone-model"
     src="../assets/models/drone.glb" 
     camera-controls 
     disable-zoom
-    auto-rotate="false"
+    alt="Drone illustrating the sample attitude"
     shadow-intensity="1" 
     camera-orbit="0deg 90deg 1.5m"
     exposure="1.2"
@@ -163,12 +139,12 @@
         </div>
 
         <!-- Telemetry Charts -->
-        <div class="panel col-span-12 md:col-span-8 row-span-4">
+        <div class="panel telemetry-charts">
             <div class="panel-header">
                 <span><i class="fas fa-chart-area mr-2 text-xs"></i>Sensor Fusion Telemetry</span>
                 <div class="flex gap-2 items-center text-[9px]">
                     <span class="text-gray-500 uppercase tracking-widest">Rate</span>
-                    <span class="text-white">100 Hz</span>
+                    <span class="text-white">10 Hz</span>
                 </div>
             </div>
             <div class="flex-1 grid grid-rows-2 gap-px bg-[#1e293b]">
@@ -178,33 +154,33 @@
         </div>
 
         <!-- System Events -->
-        <div class="panel col-span-12 md:col-span-4 row-span-2">
+        <div class="panel telemetry-events">
             <div class="panel-header">
                 <span><i class="fas fa-terminal mr-2 text-xs"></i>System Events</span>
-                <span class="text-emerald-400 text-[9px] tracking-widest uppercase">SSH: Active</span>
+                <span class="text-emerald-400 text-[9px] tracking-widest uppercase">Sample events</span>
             </div>
             <div id="terminal-log" class="flex-1 p-3 text-[10px] text-gray-400 overflow-y-auto space-y-1 bg-[#050505]">
             </div>
         </div>
 
         <!-- Playback Control -->
-        <div class="panel col-span-12 md:col-span-8 row-span-2">
+        <div class="panel telemetry-playback">
             <div class="panel-header">
                 <span><i class="fas fa-sliders-h mr-2 text-xs"></i>Playback Control</span>
-                <span class="text-gray-600 text-[9px] tracking-widest uppercase">Recorded Flight #042</span>
+                <span class="text-gray-600 text-[9px] tracking-widest uppercase">Synthetic hover</span>
             </div>
             
             <div class="h-full flex flex-col justify-center gap-6 px-4 pb-4 pt-6">
                 <div>
                     <div class="flex justify-between text-[10px] text-gray-500 mb-2">
                         <span>T+ <span id="current-time" class="text-white">0.00</span>s</span>
-                        <span>Duration: <span class="text-white">20.00s</span></span>
+                        <span>Last sample: <span class="text-white">19.90 s</span></span>
                     </div>
-                    <input type="range" id="scrubber" min="0" max="199" value="0" class="w-full">
+                    <input type="range" id="scrubber" aria-label="Playback frame" min="0" max="199" value="0" class="w-full">
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <button id="play-btn" class="h-8 w-8 rounded-sm border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white flex items-center justify-center transition-colors">
+                    <button type="button" id="play-btn" aria-label="Play sample telemetry" class="h-8 w-8 rounded-sm border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white flex items-center justify-center transition-colors">
                         <i class="fas fa-play text-xs"></i>
                     </button>
                     
@@ -212,22 +188,22 @@
 
                     <div class="flex gap-8 text-[10px]">
                         <div>
-                            <div class="text-gray-500 uppercase tracking-widest">Est. X-Pos</div>
+                            <div class="text-gray-500 uppercase tracking-widest">Sample X</div>
                             <div class="text-white text-lg font-bold" id="metric-x">0.00m</div>
                         </div>
                         <div>
-                            <div class="text-gray-500 uppercase tracking-widest">Est. Y-Pos</div>
+                            <div class="text-gray-500 uppercase tracking-widest">Sample Y</div>
                             <div class="text-white text-lg font-bold" id="metric-y">0.00m</div>
                         </div>
                         <div>
-                            <div class="text-gray-500 uppercase tracking-widest">Innovation</div>
-                            <div class="text-emerald-400 text-lg font-bold" id="metric-inn">0.02</div>
+                            <div class="text-gray-500 uppercase tracking-widest">Sample altitude</div>
+                            <div class="text-emerald-400 text-lg font-bold" id="metric-alt">0.00 m</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
 <script>
     // --- 1. DATA GENERATION ---
@@ -237,29 +213,22 @@
     const altData = timeData.map(t => {
         if (t < 2) return 0;
         if (t < 5) return (t - 2) * 0.5;
-        if (t < 15) return 1.5 + Math.sin(t * 2) * 0.05 + (Math.random() - 0.5) * 0.1;
+        if (t < 15) return 1.5 + Math.sin(t * 2) * 0.05 + 0.035 * Math.sin(19 * t);
         if (t < 18) return 1.5 - (t - 15) * 0.5;
         return 0;
     });
 
     const imuNoise = timeData.map(t => {
         const amp = (t > 2 && t < 5) || (t > 15 && t < 18) ? 2.5 : 0.8;
-        return (Math.random() - 0.5) * amp;
+        return 0.5 * Math.sin(18.2 * t) * amp;
     });
 
-    const quaternions = timeData.map(t => {
+    const attitude = timeData.map(t => {
         const pitch = Math.sin(t) * 0.05;
         const roll = Math.cos(t * 1.5) * 0.05;
         const yaw = t * 0.02;
         
-        const c1 = Math.cos(roll / 2), c2 = Math.cos(pitch / 2), c3 = Math.cos(yaw / 2);
-        const s1 = Math.sin(roll / 2), s2 = Math.sin(pitch / 2), s3 = Math.sin(yaw / 2);
-        return [
-            c1 * c2 * c3 - s1 * s2 * s3,
-            s1 * c2 * c3 + c1 * s2 * s3,
-            c1 * s2 * c3 - s1 * c2 * s3,
-            c1 * c2 * s3 + s1 * s2 * c3
-        ];
+        return { roll, pitch, yaw };
     });
 
     const logEvents = [
@@ -349,24 +318,26 @@
         document.getElementById('metric-x').innerText = (Math.sin(t) * 0.5).toFixed(2) + 'm';
         document.getElementById('metric-y').innerText = (Math.cos(t) * 0.5).toFixed(2) + 'm';
 
-        const q = quaternions[f];
-        modelViewer.orientation = `${q[0] * 20}deg ${q[1] * 20}deg ${q[2] * 20}deg`;
-
-        document.getElementById('hud-pitch').innerText = (q[0] * 50).toFixed(1) + '°';
-        document.getElementById('hud-roll').innerText = (q[1] * 50).toFixed(1) + '°';
-        document.getElementById('hud-yaw').innerText = (t * 20).toFixed(1) + '°';
-
-        const event = logEvents.find(e => Math.abs(e.t - t) < 0.05);
-        if (event) {
-            const entry = document.createElement('div');
-            entry.innerHTML = `<span class="text-blue-400">[${event.t.toFixed(2)}]</span> ${event.msg}`;
-            logContainer.appendChild(entry);
-            logContainer.scrollTop = logContainer.scrollHeight;
+        document.getElementById('metric-alt').textContent = altData[f].toFixed(2) + ' m';
+        const angles = attitude[f];
+        const degrees = (radians) => radians * 180 / Math.PI;
+        modelViewer.orientation = degrees(angles.roll) + "deg " + degrees(angles.pitch) + "deg " + degrees(angles.yaw) + "deg";
+        for (const [axis, radians] of Object.entries(angles)) {
+            document.getElementById('hud-' + axis).textContent = degrees(radians).toFixed(1) + '°';
         }
+
+        logContainer.replaceChildren();
+        for (const event of logEvents) {
+            if (event.t > t + 1e-8) break;
+            const entry = document.createElement('div');
+            entry.textContent = "[" + event.t.toFixed(2) + "] " + event.msg;
+            logContainer.appendChild(entry);
+        }
+        logContainer.scrollTop = logContainer.scrollHeight;
     }
 
     setInterval(() => {
-        if (isPlaying) {
+        if (isPlaying && !document.hidden) {
             frame++;
             if (frame >= frames) frame = 0;
             updateVisuals(frame);
@@ -375,6 +346,7 @@
 
     document.getElementById('play-btn').addEventListener('click', () => {
         isPlaying = !isPlaying;
+        document.getElementById('play-btn').setAttribute('aria-label', isPlaying ? 'Pause sample telemetry' : 'Play sample telemetry');
         document.getElementById('play-btn').innerHTML = isPlaying
             ? '<i class="fas fa-pause text-xs"></i>'
             : '<i class="fas fa-play text-xs"></i>';
@@ -384,6 +356,7 @@
         isPlaying = false;
         frame = parseInt(e.target.value, 10);
         updateVisuals(frame);
+        document.getElementById('play-btn').setAttribute('aria-label', 'Play sample telemetry');
         document.getElementById('play-btn').innerHTML = '<i class="fas fa-play text-xs"></i>';
     });
 
